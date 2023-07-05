@@ -1,0 +1,43 @@
+button {
+  border: none;
+  background: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button.add-btn {
+  background: linear-gradient(180deg, #02659bf8 0, #337fa8f8 53%, #02659bf8);
+}
+button.add-btn:hover {
+  background: linear-gradient(180deg, #1da1e7f8 0, #337fa8f8 53%, #1da1e7f8);
+}
+button.edit-btn {
+  background-color: #198754;
+  border-color: #198754;
+}
+button.edit-btn:hover {
+  background-color: rgb(14, 175, 14);
+}
+button.delete-btn {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+button.delete-btn:hover {
+  background-color: #e01126;
+  border-color: #dc3545;
+}
+button.cancel-btn {
+  border: 1px solid rgba(0, 0, 0, 0.26);
+  color: black;
+}
+button.cancel-btn:hover {
+  background-color: #e5e5e5;
+}
+.add-new-btn {
+  padding: 5px 0;
+}
+button:disabled:hover {
+  background: linear-gradient(180deg, #02659bf8 0, #337fa8f8 53%, #02659bf8);
+  cursor: initial;
+}

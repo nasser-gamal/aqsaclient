@@ -1,0 +1,85 @@
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.623);
+  padding-bottom: 20px;
+  overflow: auto;
+  z-index: 999;
+}
+
+.modal.center {
+  align-items: center;
+}
+.modal.show-modal {
+  display: flex;
+}
+.modal .modal-content {
+  width: 500px;
+  max-width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 30%) 0px 19px 38px, rgb(0 0 0 / 22%) 0px 15px 12px;
+  transition: 0.3s;
+  margin: 20px auto;
+}
+.modal .modal-container {
+  height: fit-content;
+}
+@media (max-width: 767px) {
+  .modal .modal-container {
+    width: 95% !important;
+  }
+}
+
+.modal .modal-content {
+  animation: top 0.2s ease-in-out;
+  z-index: 999999999;
+}
+@keyframes top {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal .modal-content .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #00000024;
+  padding: 10px;
+}
+.modal .modal-content .modal-header .modal-title {
+  justify-self: center;
+}
+.modal .modal-content .modal-close {
+  display: flex;
+  justify-content: flex-end;
+}
+.modal .modal-content .modal-close svg {
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.5s;
+}
+.modal .modal-content .modal-close svg:hover {
+  color: rgb(131, 20, 20);
+}
+.modal .modal-content .modal-body {
+  padding: 10px 20px;
+}
+.modal::-webkit-scrollbar {
+  width: 0;
+}

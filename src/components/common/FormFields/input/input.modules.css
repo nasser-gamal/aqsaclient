@@ -1,0 +1,44 @@
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.164);
+  border-radius: 5px;
+  font-size: 16px;
+  /* font-weight: 700; */
+  margin: 8px 0;
+  outline: none;
+}
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 2px 2px #0882bb85;
+}
+input:focus::placeholder,
+textarea::placeholder {
+  transition: 0.3s;
+  opacity: 0;
+}
+textarea {
+  height: 80px;
+  resize: none;
+}
+label {
+  font-size: 15px;
+}
+.opional-input span {
+  font-size: 14px;
+  color: #000000bf;
+}
+
+input {
+  position: relative;
+}
+.form-input svg {
+  position: absolute;
+  top: 67%;
+  left: 24px;
+  transform: translateY(-50%);
+  color: black;
+  font-size: 25px;
+  cursor: pointer;
+}

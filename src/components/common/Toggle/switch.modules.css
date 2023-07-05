@@ -1,0 +1,28 @@
+.toggle-account {
+  width: 60px;
+  height: 25px;
+  position: relative;
+  margin: auto;
+  background-color: rgb(16, 131, 51);
+  border-radius: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.192);
+  cursor: pointer;
+}
+.toggle-account span {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  transition: 0.3s;
+  background-color: white;
+}
+.toggle-account.in-active {
+  background-color: rgb(136, 133, 133);
+  background-color: rgb(163, 31, 31);
+}
+.toggle-account.in-active span {
+  transform: translate(-35px, -50%);
+}

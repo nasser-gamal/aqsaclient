@@ -1,0 +1,27 @@
+.table {
+  overflow: auto;
+}
+table {
+  width: 100%;
+  text-align: center;
+  /* border-collapse: separate;
+  border-spacing: 0 10px; */
+}
+table thead tr {
+  color: white;
+  background-color: #002d44;
+}
+table thead tr th {
+  font-weight: normal;
+  padding: 5px 0;
+  min-width:80px;
+  border: 1px solid rgba(0, 0, 0, 0.164);
+}
+table tbody tr , table tbody tr td {
+  padding: 5px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.164);
+}
+table tr  {
+  font-size: 14px;
+
+}

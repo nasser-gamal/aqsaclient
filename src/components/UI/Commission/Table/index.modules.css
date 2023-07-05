@@ -1,0 +1,25 @@
+.commission-tables .table:not(.user-info .table) {
+  margin-bottom: 30px;
+}
+.user-info .table {
+  margin-top: 30px;
+}
+.commission-tables .table:not(.user-info .table) tr:last-child {
+  background-color: rgb(13, 110, 73);
+  color: white;
+}
+.commission-tables .table tr td.service {
+  background-color: #0096881c;
+}
+.commission-tables .table tr td.amount-total {
+  background-color: #d9d9b96c;
+}
+.commission-tables .table tr td.percentage {
+  background-color: #c7c7c733;
+}
+.commission-tables .table tr td.commission {
+  background-color: #3f51b51f;
+}
+.commission-tables .table tr td.segment {
+  background-color: #d1a00e30;
+}

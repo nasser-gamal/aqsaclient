@@ -1,0 +1,86 @@
+.login {
+  width: 100%;
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  background-image: url('../../assets/pexels-photo-6812431.bf2bb6086b9353b28212.webp');
+  display: flex;
+}
+
+.login::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+@media (min-width: 568px) {
+  .login {
+    /* padding: 100px 0 50px; */
+  }
+}
+@media (max-width: 567px) {
+  .login {
+    background-image: none;
+    background: #0c2e40;
+    align-items: center;
+  }
+}
+
+@media (min-width: 568px) {
+  .login::before {
+    background-color: #0000007a;
+  }
+}
+.login .login-content {
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  padding: 10px 20px 20px;
+  margin: auto;
+  border-radius: 10px;
+  background-color: #00000063;
+  color: white;
+  /* margin-top: 80px; */
+}
+.login .aqsa-logo {
+  text-align: center;
+}
+.login .aqsa-logo img {
+  width: 300px;
+  height: 100px;
+  position: relative;
+}
+@media (max-width: 567px) {
+  .login .login-content {
+    background-color: #0c2e40;
+    width: 100%;
+    margin: 0;
+  }
+}
+/* .login .login-content h2 {
+  text-align: center;
+  padding: 10px 0;
+}
+@media (max-width: 576px) {
+  .login .login-content h2 {
+    display: none;
+  }
+} */
+.login .login-content form {
+  padding: 10px 0;
+}
+.login .login-content .input-form {
+  margin: 10px 0;
+}
+.login .login-content input {
+  padding: 10px !important;
+}
+.login .login-content button {
+  width: 120px;
+  height: 40px;
+  font-size: 18px;
+  margin: auto;
+}

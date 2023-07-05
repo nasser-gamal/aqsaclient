@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+  /* background-image: url(../public/images/295612356_5218827131569129_5000473231599019167_n.jpg); */
+}
+.container {
+  padding: 0 20px;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+ul li {
+  list-style: none;
+}
+img {
+  max-width: 100%;
+}
+table {
+  border-collapse: collapse;
+}
+
+.aqsa {
+  padding: 0 10px 25px 10px;
+  transition: 0.4s;
+  margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+  .aqsa.full {
+    padding-right: 250px;
+  }
+  .aqsa.half {
+    padding-right: 25px;
+  }
+}
+/* @media (max-width: 767px) {
+  .aqsa {
+    padding-bottom: 100px;
+  }
+} */
+
+
+/* Components  */
+
+.d-flex {
+  display: flex;
+}
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.text-white {
+  color: white;
+}
+.text-center {
+  text-align: center;
+}
+
+
+.table-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.aqsa-logo img {
+  width: 160px;
+  height: 60px;
+  object-fit: cover;
+}

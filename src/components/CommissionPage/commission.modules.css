@@ -1,0 +1,12 @@
+.search-date .input-form,.search-date .form-input {
+  width: 100%;
+}
+
+@media (min-width: 767px) {
+  .search-date .input-form ,.search-date .form-input{
+    width: 300px;
+  }
+  .search-date .d-flex {
+    gap: 30px;
+  }
+}
