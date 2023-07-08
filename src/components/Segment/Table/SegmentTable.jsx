@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+// import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import EditButton from '../../UI/TableButtons/EditButton';
 import Table from '../../common/Table/Table';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
@@ -58,12 +58,12 @@ export default function SegmentTable({ segments, isLoading }) {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "حذف",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
   ];
 
 
@@ -77,7 +77,7 @@ export default function SegmentTable({ segments, isLoading }) {
               <td>{segment.service.name}</td>
               <td>{segment.start}</td>
               <td>{segment.end || "-"}</td>
-              <td>{(segment.percentage * 100).toFixed(0) + "%"}</td>
+              <td>{(segment.percentage) + "%"}</td>
               <td>{segment.note || "-"}</td>
               <td>
                 <DateAndTime createdAt={segment.createdAt} />
@@ -92,7 +92,7 @@ export default function SegmentTable({ segments, isLoading }) {
                   }}
                 />
               </td>
-              <td>
+              {/* <td>
                 <DeleteButton
                   deleteProps={{
                     name: 'DeleteConfirm',
@@ -101,7 +101,7 @@ export default function SegmentTable({ segments, isLoading }) {
                     childrenProps: { id: segment.id, message: 'هل أنت متأكد أنك تريد حذف هذه الشريحة ؟' }
                   }}
                 />
-              </td>
+              </td> */}
             </tr>
           })
         }

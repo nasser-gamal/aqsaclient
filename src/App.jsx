@@ -23,8 +23,6 @@ function App() {
       <ResponseMsg />
       {/* <OverLayBg /> */}
       <ModalManager />
-      {/* <Navbar /> */}
-      {/* <Sidebar /> */}
       <Router />
     </>
   )

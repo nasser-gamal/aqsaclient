@@ -27,9 +27,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updatePassword: builder.mutation({
       query: ({ userId, password }) => ({
-        url: `${apiEndpoints.user.UPDATE_PASSWORD}/${userId}`,
+        url: `${apiEndpoints.user.UPDATE_USER_PASSWORD}/${userId}`,
         method: 'PUT',
-        body: password,
+        body: { password },
       }),
       invalidatesTags: ['users'],
     }),
@@ -41,9 +41,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['users'],
     }),
     deleteUser: builder.mutation({
-      query: (userId) => ({
-        url: `${apiEndpoints.user.DELETE_USER}/${userId}`,
+      query: ({ id, password }) => ({
+        url: `${apiEndpoints.user.DELETE_USER}/${id}`,
         method: 'DELETE',
+        body: { password },
       }),
       invalidatesTags: ['users'],
     }),
@@ -54,6 +55,7 @@ export const {
   useFindAllUsersQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
+  useUpdatePasswordMutation,
   useUpdateUserStatusMutation,
   useDeleteUserMutation,
 } = userApiSlice;

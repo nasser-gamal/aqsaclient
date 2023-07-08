@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+/* eslint-disable react/prop-types */
 
 
 import { GrClose } from 'react-icons/gr';
@@ -39,10 +39,3 @@ export default function Modal({ isOpen, title, closeModalHandler, children }) {
   )
 }
 
-Modal.propTypes = {
-  isOpen: PropTypes.bool,
-  title: PropTypes.string,
-  position: PropTypes.string,
-  children: PropTypes.object,
-  closeModalHandler: PropTypes.func
-}

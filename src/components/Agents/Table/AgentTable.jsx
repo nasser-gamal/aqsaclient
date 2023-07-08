@@ -4,11 +4,11 @@ import Table from '../../common/Table/Table';
 import SwitchActive from '../../common/Toggle/SwitchActive';
 
 import EditButton from '../../UI/TableButtons/EditButton';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+// import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import UpdatePasswordButton from '../../UI/TableButtons/UpdatePasswordButton';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 
-import { useDeleteAgentMutation, useUpdateAgentStatusMutation } from '../../../app/features/user/agentApi';
+import { useUpdateAgentStatusMutation } from '../../../app/features/user/agentApi';
 
 export default function AgentTable({ users, isLoading }) {
 
@@ -82,12 +82,12 @@ export default function AgentTable({ users, isLoading }) {
       order: "",
       sort: "",
     },
-    {
-      title: "الرقم السري",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "الرقم السري",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
   ];
 
 
@@ -106,7 +106,6 @@ export default function AgentTable({ users, isLoading }) {
   
 
 
-  const [deleteAgent, { isLoading: agentLoading }] = useDeleteAgentMutation();
 
   return (
     <Table tableHead={tableHead} isLoading={isLoading}>
@@ -139,7 +138,7 @@ export default function AgentTable({ users, isLoading }) {
                     childrenProps: { user: user }
                   }} />
               </td>
-              <td>
+              {/* <td>
                 <DeleteButton
                   deleteProps={{
                     name: 'DeleteConfirm',
@@ -152,7 +151,7 @@ export default function AgentTable({ users, isLoading }) {
                       isLoading: agentLoading
                     }
                   }} />
-              </td>
+              </td> */}
               <td>
                 <UpdatePasswordButton name={'UpdateAgentPassword'} id={user.id} />
               </td>

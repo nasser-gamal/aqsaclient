@@ -28,7 +28,6 @@ export default function LoginForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value)
     setForm({ ...form, [name]: value });
   };
 
@@ -57,7 +56,6 @@ export default function LoginForm() {
       } else {
         const userData = await login(form).unwrap();
         dispatch(setCredentials({ ...userData }));
-        console.log('userData', userData);
         if (userData.user.role.name == 'agent') {
           navigate("/agent/commissions");
         } else {

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+// import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import EditButton from '../../UI/TableButtons/EditButton';
 import Table from '../../common/Table/Table';
 
@@ -34,12 +34,12 @@ export default function CategoryTable({ categories, isLoading }) {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "حذف",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
   ]
 
   return (
@@ -67,7 +67,7 @@ export default function CategoryTable({ categories, isLoading }) {
                   }}
                 />
               </td>
-              <td>
+              {/* <td>
                 <DeleteButton
                   deleteProps={{
                     name: 'DeleteConfirm',
@@ -76,7 +76,7 @@ export default function CategoryTable({ categories, isLoading }) {
                     childrenProps: { id: category.id, message: 'هل أنت متأكد أنك تريد حذف هذه الخدمة ؟' }
                   }}
                 />
-              </td>
+              </td> */}
             </tr>
           })
         }

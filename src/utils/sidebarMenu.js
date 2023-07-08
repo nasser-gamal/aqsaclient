@@ -21,6 +21,7 @@ export const adminMenu = [
         linkURL: '/agents',
       },
     ],
+    roles: ['superAdmin'],
   },
   // {
   //   id: 2,
@@ -114,6 +115,12 @@ export const adminMenu = [
         title: 'عرض العمولة',
         imgSrc: list,
         linkURL: '/commissions',
+      },
+      {
+        id: 3,
+        title: 'تعديل العمولة',
+        imgSrc: list,
+        linkURL: '/commission/edit',
       },
     ],
   },

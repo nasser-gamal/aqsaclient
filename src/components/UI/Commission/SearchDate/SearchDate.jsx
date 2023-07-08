@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-import CustomButton from '../../common/Button/CustomButton';
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
+import CustomButton from '../../../common/Button/CustomButton';
+import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 import { useState } from 'react';
 import { months } from './months';
-import CustomInput from '../../common/FormFields/input/CustomInput';
+import CustomInput from '../../../common/FormFields/input/CustomInput';
+
+import './searchDate.modules.css';
 
 export default function SearchDate({ query, setQuery, setSkip }) {
 
@@ -13,7 +15,6 @@ export default function SearchDate({ query, setQuery, setSkip }) {
 
   const onClick = () => {
     setSkip(false);
-    console.log(query);
   }
 
 

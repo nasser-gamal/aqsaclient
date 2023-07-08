@@ -25,7 +25,6 @@ export default function AddEditUser() {
     phoneNumber: childrenProps?.user.phoneNumber || "",
     address: childrenProps?.user.address || "",
   });
-  console.log(childrenProps)
 
   const onChange = (e) => {
     const { name, value } = e.target;

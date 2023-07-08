@@ -21,6 +21,7 @@ export default function SidebarMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const { listId } = useSelector(state => state.sidebar);
+  const { user } = useSelector(state => state.user);
 
   useEffect(() => {
     if (id) {
@@ -63,6 +64,9 @@ export default function SidebarMenu() {
   return (
     <div className='right-serv'>
       {adminMenu.map(menu => {
+        if (menu.roles && !menu.roles.includes(user.role.name)) {
+          return null; // Skip rendering this menu item
+        }
         return (<div key={menu.id}>
           <SidebarTitle
             title={menu.title}

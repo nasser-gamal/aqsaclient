@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
-import { useUpdatePasswordMutation } from '../../../app/features/user/agentApi';
+import { useUpdatePasswordMutation } from '../../../app/features/user/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
 import { closeModal } from '../../../app/features/modal/modalSlice';
+import { validatePassword } from '../../../utils/validation';
 
 
 export default function UpdateAgentPassword() {
@@ -30,14 +31,19 @@ export default function UpdateAgentPassword() {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await
-        updatePassword(
-          { agentId: childrenProps.id, password }
-        ).unwrap();
-      notify('success', response.message);
-      setTimeout(() => {
-        dispatch(closeModal())
-      }, 1000)
+      const error = validatePassword(password);
+      if (error) {
+        notify('error', error)
+      } else {
+        const response = await
+          updatePassword(
+            { userId: childrenProps.id, password }
+          ).unwrap();
+        notify('success', response.message);
+        setTimeout(() => {
+          dispatch(closeModal())
+        }, 1000)
+      }
     } catch (err) {
       notify('error', err.data.message)
     }

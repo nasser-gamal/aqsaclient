@@ -19,6 +19,7 @@ const apiEndpoints = {
     UPDATE_USER: '/user/update',
     UPDATE_USER_STATUS: '/user/update-status',
     DELETE_USER: '/user/delete',
+    UPDATE_USER_PASSWORD: '/user/update-password',
   },
 
   category: {

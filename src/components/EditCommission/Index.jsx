@@ -1,12 +1,9 @@
-import { useState } from 'react'
-import CommissionTable from '../UI/Commission/Table/CommissionTable'
+import  { useState } from 'react'
+import SearchDate from '../UI/Commission/SearchDate/SearchDate'
 import { useFindAllCommissionsQuery } from '../../app/features/commissions/commissionApi';
-
-import SearchDate from '../UI/Commission/SearchDate/SearchDate';
-
+import EditCommissionTable from './Table/EditCommissionTable';
 
 export default function Index() {
-
 
   const [query, setQuery] = useState({
     month: "",
@@ -18,6 +15,7 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
   const { data, isLoading, isFetching } = useFindAllCommissionsQuery({ ...query }, { skip });
 
+
   return (
     <>
       <SearchDate
@@ -26,10 +24,8 @@ export default function Index() {
         setQuery={setQuery}
         setSkip={setSkip}
       />
-      <CommissionTable
+      <EditCommissionTable
         data={data}
-        month={query.month}
-        user={data && data?.commissions[0]?.agent}
         isLoading={isLoading}
         isFetching={isFetching}
       />

@@ -55,7 +55,7 @@ export default function AgentCommissisonTable({ data }) {
                 {commission.segment.title}
               </td>
               <td className='percentage'>
-                {(commission.segment.percentage * 100).toFixed(0) + "%"}
+                {(commission.segment.percentage) + "%"}
               </td>
               <td className='commission'>
                 {commission.commission}

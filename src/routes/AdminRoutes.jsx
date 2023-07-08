@@ -8,7 +8,7 @@ export default function AdminRoute() {
 
   const { user } = useSelector((state) => state.user);
   
-  return user &&  user?.role.name !== 'superAdmin' ? (
+  return user &&  user?.role.name == 'superAdmin' ? (
     <>
       <Navbar />
       <Sidebar />

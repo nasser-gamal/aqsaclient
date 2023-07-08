@@ -1,5 +1,4 @@
 export const validateLogin = (formData) => {
-  console.log('formData', formData);
   let phoneRegex = /^01/;
   let error;
   if (!formData.phoneNumber) {
@@ -41,7 +40,6 @@ export const validateUser = (formData) => {
 };
 
 export const validateAgent = (formData) => {
-  console.log('formData', formData);
   let phoneRegex = /^01/;
   const errors = [];
 
@@ -119,6 +117,15 @@ export const validateCommission = (formData) => {
   }
   if (!formData.count) {
     error = 'ادخل عدد العمليات';
+  }
+
+  return error;
+};
+
+export const validatePassword = (password) => {
+  let error;
+  if (!password) {
+    error = 'ادخل الرقم السري';
   }
 
   return error;

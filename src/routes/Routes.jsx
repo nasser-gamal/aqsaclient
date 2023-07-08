@@ -20,25 +20,15 @@ import PrivateRoute from "./PrivateRoute";
 import ForceRedirect from "./ForceRedirect";
 import AgentRoute from "./AgentRoutes";
 import AgentCommissionPage from "../pages/AgentCommission/AgentCommissionPage";
+import AdminRoute from "./AdminRoutes";
+import EditCommissionPage from "../pages/EditCommission/EditCommissionPage";
 
 
 const Router = () => {
 
   return (
     <Routes>
-      <Route element={<AgentRoute />}>
-        <Route
-          path="/agent/commissions"
-          element={<AgentCommissionPage />}
-        />
-      </Route>
-      <Route element={<PrivateRoute />}>
-        <Route
-          path="/"
-          element={
-            <HomePage />
-          }
-        />
+      <Route element={<AdminRoute />}>
         <Route
           path="/users"
           element={
@@ -51,6 +41,14 @@ const Router = () => {
             <AgentsPage />
           }
         />
+      </Route>
+      <Route element={<PrivateRoute />}>
+        <Route
+          path="/"
+          element={
+            <HomePage />
+          }
+        />
         <Route
           path="/services"
           element={
@@ -58,6 +56,22 @@ const Router = () => {
           }
         />
         <Route
+          path="/segments"
+          element={<SegmentPage />}
+        />
+        <Route
+          path="/commissions"
+          element={<CommissionPage />}
+        />
+        <Route
+          path="/commission/new"
+          element={<NewCommissionPage />}
+        />
+        <Route
+          path="/commission/edit"
+          element={<EditCommissionPage />}
+        />
+        {/* <Route
           path="/banks"
           element={
             <BankPage />
@@ -80,20 +94,9 @@ const Router = () => {
         <Route
           path="/transfers"
           element={<TransferPage />}
-        />
-        <Route
-          path="/segments"
-          element={<SegmentPage />}
-        />
-        <Route
-          path="/commissions"
-          element={<CommissionPage />}
-        />
-        <Route
-          path="/commission/new"
-          element={<NewCommissionPage />}
-        />
-        <Route
+        /> */}
+
+        {/* <Route
           path="/employReport"
           element={<EmployReportPage />}
         />
@@ -104,6 +107,12 @@ const Router = () => {
         <Route
           path="/dayReport"
           element={<DayReportPage />}
+        /> */}
+      </Route>
+      <Route element={<AgentRoute />}>
+        <Route
+          path="/agent/commissions"
+          element={<AgentCommissionPage />}
         />
       </Route>
       <Route element={<ForceRedirect />}>

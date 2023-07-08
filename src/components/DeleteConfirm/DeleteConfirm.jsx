@@ -9,11 +9,10 @@ import {notify} from '../../utils/notify';
 export default function DeleteConfirm() {
   const [password, setPassword] = useState();
   const { childrenProps } = useSelector(state => state.modal);
-
+ 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(password);
       const error = validateConfirmPassword(password);
       if (error) {
         notify('error', error);
@@ -22,7 +21,6 @@ export default function DeleteConfirm() {
         notify('success', response.message);
       }
     } catch (err) {
-      console.log(err);
       notify('error', err.data.message);
     }
   }

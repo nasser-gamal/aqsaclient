@@ -19,12 +19,12 @@ export default function Users() {
     }
   }, [dispatch, isLoading]);
 
-  
+
   return (
     <>
       <AddButton name={'AddEditUser'} modalTitle={'إضافة مستخدم'} />
       <UserTable users={data?.users} isLoading={isLoading} />
-      {/* <AddEditUser /> */}
+
     </>
   )
 }

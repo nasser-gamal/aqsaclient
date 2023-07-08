@@ -2,18 +2,15 @@
 import { useDispatch } from 'react-redux';
 import Table from '../../common/Table/Table';
 import SwitchActive from '../../common/Toggle/SwitchActive';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+// import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import EditButton from '../../UI/TableButtons/EditButton';
 import UpdatePasswordButton from '../../UI/TableButtons/UpdatePasswordButton';
 
 
-import { useUpdateUserStatusMutation } from '../../../app/features/user/userApi';
+import {  useUpdateUserStatusMutation } from '../../../app/features/user/userApi';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import { openModal } from '../../../app/features/modal/modalSlice';
-
-import { CgMoreR } from 'react-icons/cg';
 
 export default function UserTable({ users, isLoading }) {
 
@@ -74,12 +71,12 @@ export default function UserTable({ users, isLoading }) {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "حذف",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
       title: "الرقم السري",
       className: "",
@@ -161,7 +158,7 @@ export default function UserTable({ users, isLoading }) {
                     childrenProps: { user: user }
                   }} />
               </td>
-              <td>
+              {/* <td>
                 <DeleteButton
                   deleteProps={{
                     name: 'DeleteConfirm',
@@ -170,11 +167,11 @@ export default function UserTable({ users, isLoading }) {
                     childrenProps: {
                       id: user.id,
                       message: 'هل أنت متأكد أنك تريد حذف هذا الموظف ؟',
-                      // deleteRequest: deleteAgent,
-                      // isLoading: agentLoading
+                      deleteRequest: deleteUser,
+                      isLoading: deleteLoading
                     }
                   }} />
-              </td>
+              </td> */}
               <td>
                 <UpdatePasswordButton
                   name={'UpdateUserPassword'}

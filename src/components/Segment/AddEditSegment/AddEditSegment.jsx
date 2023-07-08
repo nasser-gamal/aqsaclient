@@ -45,10 +45,8 @@ export default function AddEditSegment() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form)
     try {
       const error = validateSegment(form);
-      console.log('error', error)
       if (error) {
         notify('error', error);
       } else {
@@ -62,7 +60,6 @@ export default function AddEditSegment() {
         }, 1000)
       }
     } catch (error) {
-      console.log(error)
       notify('error', error.data.message);
     }
   }

@@ -15,6 +15,7 @@ export default function Index() {
 
   const [form, setForm] = useState({
     commissions: [],
+    agentId: "",
   });
 
 
@@ -67,8 +68,8 @@ export default function Index() {
       }}>
         <CustomButton
           classes={'add-btn'}
-          width={'100px'}
-          height={'35px'}
+          width={'80px'}
+          height={'30px'}
           fontSize={'18px'}
           onClick={onClick}
         >

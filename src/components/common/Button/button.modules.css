@@ -38,6 +38,11 @@ button.cancel-btn:hover {
   padding: 5px 0;
 }
 button:disabled:hover {
-  background: linear-gradient(180deg, #02659bf8 0, #337fa8f8 53%, #02659bf8);
   cursor: initial;
+}
+button.add-btn:disabled:hover {
+  background: linear-gradient(180deg, #02659bf8 0, #337fa8f8 53%, #02659bf8);
+}
+button.edit-btn:disabled:hover {
+  background-color: #198754;
 }

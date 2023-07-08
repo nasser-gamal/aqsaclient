@@ -12,7 +12,6 @@ export default function SearchDate({ query, setQuery, setSkip }) {
 
   const onClick = () => {
     setSkip(false);
-    console.log(query);
   }
 
 

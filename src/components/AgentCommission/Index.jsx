@@ -22,7 +22,6 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
   const { data, isLoading, isFetching } = useFindAllCommissionsQuery({ ...query }, { skip });
-  console.log(data)
 
 
   return (

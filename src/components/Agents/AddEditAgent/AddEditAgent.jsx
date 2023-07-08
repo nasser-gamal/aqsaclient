@@ -29,7 +29,6 @@ export default function AddEditAgent() {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value)
     setForm({ ...form, [name]: value });
   };
 
@@ -49,10 +48,8 @@ export default function AddEditAgent() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form)
     try {
       const error = validateAgent(form);
-      console.log('error', error)
       if (error) {
         notify('error', error);
       } else {
@@ -66,7 +63,6 @@ export default function AddEditAgent() {
         }, 1000)
       }
     } catch (error) {
-      console.log(error)
       notify('error', error.data.message);
     }
   }

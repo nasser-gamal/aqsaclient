@@ -25,7 +25,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['agents'],
     }),
-    updatePassword: builder.mutation({
+    updateAgentPassword: builder.mutation({
       query: ({ agentId, password }) => ({
         url: `${apiEndpoints.agent.UPDATE_AGENT_PASSWORD}/${agentId}`,
         method: 'PUT',
@@ -54,7 +54,7 @@ export const {
   useFindAllAgentsQuery,
   useCreateAgentMutation,
   useUpdateAgentMutation,
-  useUpdatePasswordMutation,
+  useUpdateAgentPasswordMutation,
   useUpdateAgentStatusMutation,
   useDeleteAgentMutation,
 } = agentApiSlice;
