@@ -62,6 +62,7 @@ export default function AddEditUser() {
         }, 1000)
       }
     } catch (error) {
+      console.log(error)
       notify('error', error.data.message);
     }
   }
