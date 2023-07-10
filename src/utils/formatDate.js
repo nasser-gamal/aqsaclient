@@ -9,13 +9,12 @@ export const formattedDate = (dateValue) => {
 };
 
 export const formattedTime = (value) => {
-  const time = value;
-  const [hours, minutes] = time.split(':').map(Number);
+  const dateTime = new Date(value);
+  const hours = dateTime.getHours();
+  const minutes = dateTime.getMinutes();
   const amPm = hours < 12 ? 'ص' : 'م';
-  const formattedHours = hours % 12 || 12;
-  var formattedTime = `${hours}:${minutes
-    .toString()
-    .padStart(2, '0')} ${amPm}`;
+  const formattedHours = (hours % 12) || 12;
+  const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${amPm}`;
   return formattedTime;
 };
 
