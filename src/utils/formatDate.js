@@ -13,7 +13,7 @@ export const formattedTime = (value) => {
   const [hours, minutes] = time.split(':').map(Number);
   const amPm = hours < 12 ? 'ص' : 'م';
   const formattedHours = hours % 12 || 12;
-  var formattedTime = `${formattedHours}:${minutes
+  var formattedTime = `${hours}:${minutes
     .toString()
     .padStart(2, '0')} ${amPm}`;
   return formattedTime;
