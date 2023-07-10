@@ -10,11 +10,12 @@ export const formattedDate = (dateValue) => {
 
 export const formattedTime = (value) => {
   const dateTime = new Date(value);
-  const hours = dateTime.getHours();
-  const minutes = dateTime.getMinutes();
-  const amPm = hours < 12 ? 'ص' : 'م';
+  const hours = dateTime.getUTCHours();
+  const minutes = dateTime.getUTCMinutes();
+  const amPm = hours < 12 ? 'AM' : 'PM';
   const formattedHours = (hours % 12) || 12;
   const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${amPm}`;
   return formattedTime;
 };
+
 
