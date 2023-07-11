@@ -5,8 +5,9 @@ import CustomInput from '../../common/FormFields/input/CustomInput';
 import Table from '../../common/Table/Table';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
+import Spinner from '../../UI/Loader/Spinner';
 
-export default function CommissionTable({ form, setForm, onChange  }) {
+export default function CommissionTable({ form, setForm, onChange }) {
   const dispatch = useDispatch()
   const { data, isLoading } = useFindAllCategoriesQuery();
 
@@ -32,13 +33,13 @@ export default function CommissionTable({ form, setForm, onChange  }) {
   ];
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [isLoading, dispatch]);
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     dispatch(showLoader())
+  //   } else {
+  //     dispatch(hideLoader())
+  //   }
+  // }, [isLoading, dispatch]);
 
 
   useEffect(() => {
@@ -50,6 +51,11 @@ export default function CommissionTable({ form, setForm, onChange  }) {
       setForm({ ...form, commissions })
     }
   }, [data?.categories])
+
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <Table tableHead={tableHead} isLoading={isLoading}>
