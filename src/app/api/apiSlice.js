@@ -7,6 +7,9 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }),
   endpoints: (builder) => ({}),
 });
