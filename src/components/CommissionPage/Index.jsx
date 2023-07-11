@@ -17,7 +17,6 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
   const { data, isLoading, isFetching } = useFindAllCommissionsQuery({ ...query }, { skip });
-
   return (
     <>
       <SearchDate
@@ -29,7 +28,7 @@ export default function Index() {
       <CommissionTable
         data={data}
         month={query.month}
-        user={data && data?.commissions[0]?.agent}
+        user={data?.userCommission}
         isLoading={isLoading}
         isFetching={isFetching}
       />

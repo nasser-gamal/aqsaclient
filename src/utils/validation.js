@@ -106,19 +106,12 @@ export const validateSegment = (formData) => {
 
 export const validateCommission = (formData) => {
   let error;
+  if (!formData.month) {
+    error = 'اختر الشهر';
+  }
   if (!formData.agentId) {
     error = 'اختر العميل';
   }
-  if (!formData.serviceId) {
-    error = 'اختر الخدمة';
-  }
-  if (!formData.amountTotal) {
-    error = 'ادخل القيمة';
-  }
-  if (!formData.count) {
-    error = 'ادخل عدد العمليات';
-  }
-
   return error;
 };
 

@@ -84,7 +84,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
     const commission = form.commissions[index];
     if (commission.amountTotal && commission.count) {
       try {
-        const response = await updateCommission({ commissionId: commission.id, form: commission }).unwrap();
+        const response = await updateCommission({ commissionId, form: commission }).unwrap();
         notify('success', response.message);
       } catch (err) {
         notify('error', err.data.message);
@@ -96,11 +96,12 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
   if (isLoading || isFetching) {
     return <Spinner />
   }
+ 
 
   return (
     <>
       {
-        data?.commissions && data?.commissions.length > 1 && <div style={{ marginTop: '20px' }}>
+        data?.commissions && data?.commissions.length > 0 && <div style={{ marginTop: '20px' }}>
           <Table tableHead={tableHead} isLoading={isLoading}>
             <tbody>
               {
@@ -133,7 +134,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
                         width='65px'
                         height='30px'
                         fontSize="17px"
-                        onClick={() => onClick(commission.id, index)}
+                        onClick={() => onClick(data?.userCommission.id, index)}
                         disabled={!form?.commissions[index]?.amountTotal || !form?.commissions[index]?.count}
                       >
                         تعديل
@@ -147,7 +148,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
         </div>
       }
       {
-        data?.commissions && data?.commissions.length < 1 && <div style={{
+        data?.commissions && data?.commissions.length < 1 || !data && <div style={{
           textAlign: "center",
           marginTop: '30px',
           fontSize: '19px',

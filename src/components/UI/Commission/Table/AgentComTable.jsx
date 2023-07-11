@@ -41,7 +41,6 @@ export default function AgentCommissisonTable({ data }) {
   return (
     <Table tableHead={tableHead}>
       <tbody>
-
         {
           data?.commissions.map(commission => {
             return <tr key={commission.id}>

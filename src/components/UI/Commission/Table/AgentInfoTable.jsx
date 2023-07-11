@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Table from '../../../common/Table/Table';
 
-export default function AgentInfoTable({ user, month }) {
+export default function AgentInfoTable({ user }) {
 
   const tableHead = [
     {
@@ -47,29 +47,28 @@ export default function AgentInfoTable({ user, month }) {
 
 
 
-
   return (
     <div className="user-info">
       <Table tableHead={tableHead}>
         <tbody>
           <tr>
             <td>
-              {user.accountNumber}
+              {user.agent.accountNumber}
             </td>
             <td>
-              {user.userName}
+              {user.agent.userName}
             </td>
             <td>
-              {user.nationalId}
+              {user.agent.nationalId}
             </td>
             <td>
-              {user.phoneNumber}
+              {user.agent.phoneNumber}
             </td>
             <td>
-              عمولة شهر {month}
+              عمولة شهر {user.month}
             </td>
             <td>
-              {user.address}
+              {user.agent.address}
             </td>
           </tr>
         </tbody>

@@ -43,8 +43,8 @@ export default function Agents({ form, setForm }) {
   return (
     <div style={{
       width: "400px",
-      maxWidth: "100%",
-      margin: "auto",
+      // maxWidth: "100%",
+      // margin: "auto",
     }}>
       <CustomSelect
         // searchInput={true}
@@ -70,6 +70,7 @@ export default function Agents({ form, setForm }) {
           })
         }
       </CustomSelect>
+      
     </div>
   )
 }

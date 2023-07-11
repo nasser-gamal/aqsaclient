@@ -9,13 +9,17 @@ import { useCreateCommissionMutation } from "../../app/features/commissions/comm
 import { useDispatch } from "react-redux";
 
 import { notify } from "../../utils/notify";
+import Date from "./Form/Date";
+import { validateCommission } from "../../utils/validation";
 
 export default function Index() {
   const dispatch = useDispatch()
 
   const [form, setForm] = useState({
-    commissions: [],
     agentId: "",
+    month: '',
+    year: 2023,
+    commissions: [],
   });
 
 
@@ -41,27 +45,42 @@ export default function Index() {
 
   const onClick = async () => {
     try {
-      const response = await createCommission(form).unwrap()
-      notify('success', response.message);
-      resetForm()
-    } catch (error) {
-      notify('error', error.data.message);
+      const error = validateCommission(form);
+      if (error) {
+        notify('error', error);
+      } else {
+        const response = await createCommission(form).unwrap()
+        notify('success', response.message);
+        resetForm()
+      }
+    } catch (err) {
+      notify('error', err.data.message);
     }
   }
 
 
   const resetForm = () => {
+    const commissons = [...form.commissions];
+    const resetCommissions = commissons.map((commission) => {
+      commission.amountTotal = 0;
+      commission.count = 0;
+      return commission;
+    })
     setForm({
-      serviceId: "",
-      agentId: "",
-      count: "",
-      amountTotal: "",
+      agentId: '',
+      month: '',
+      commissions: resetCommissions
     })
   }
 
   return (
     <>
-      <Agents form={form} setForm={setForm} />
+      <div className="d-flex" style={{
+        gap: '20px'
+      }}>
+        <Date form={form} setForm={setForm} />
+        <Agents form={form} setForm={setForm} />
+      </div>
       <CommissionTable form={form} setForm={setForm} onChange={onChange} />
       <div className="text-center" style={{
         marginTop: '20px '

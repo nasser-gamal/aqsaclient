@@ -3,6 +3,7 @@
   margin: 8px 0;
 }
 .drop-down-menu-heading {
+  height: 40px;
   padding: 7px 12px;
   cursor: pointer;
   display: flex;

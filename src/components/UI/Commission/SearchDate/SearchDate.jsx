@@ -34,7 +34,9 @@ export default function SearchDate({ query, setQuery, setSkip }) {
           label={'اختر الشهر'}
           isClicked={isClicked}
           setIsClicked={setIsClicked}
-          onClick={() => setIsClicked(!isClicked)}
+          onClick={() => {
+            setSkip(true)
+            setIsClicked(!isClicked)}}
         >
           {
             months.map(month => {
