@@ -51,7 +51,7 @@ export default function Index() {
       } else {
         const response = await createCommission(form).unwrap()
         notify('success', response.message);
-        resetForm()
+        // resetForm()
       }
     } catch (err) {
       notify('error', err.data.message);

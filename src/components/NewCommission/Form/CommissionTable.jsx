@@ -65,7 +65,7 @@ export default function CommissionTable({ form, setForm, onChange  }) {
                   type='text'
                   name='amountTotal'
                   placeholder={'ادخل القيمة'}
-                  // value={form?.commissions[index]?.amountTotal}
+                  value={form?.commissions[index]?.amountTotal}
                   onChange={(e) => onChange(e, index)}
                 />
               </td>
@@ -74,7 +74,7 @@ export default function CommissionTable({ form, setForm, onChange  }) {
                   type='text'
                   name='count'
                   placeholder={'عدد العمليات'}
-                  // value={form?.commissions[index]?.count}
+                  value={form?.commissions[index]?.count}
                   onChange={(e) => onChange(e, index)}
                 />
               </td>
