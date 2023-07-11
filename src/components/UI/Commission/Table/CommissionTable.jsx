@@ -6,21 +6,25 @@ import Spinner from '../../../UI/Loader/Spinner'
 
 import './index.modules.css';
 
-export default function CommissionTable({ data, user, isLoading, isFetching, month }) {
+export default function CommissionTable({ data, user, isLoading, isFetching }) {
+
+
   if (isLoading || isFetching) {
     return <Spinner />
   }
+
+
 
   return (
     <>
       {data && data?.commissions.length > 0 &&
         <div className='commission-tables'>
-          <AgentInfoTable user={user} month={month}/>
+          <AgentInfoTable user={user} />
           <AgentCommissisonTable data={data} />
         </div>
       }
       {
-        data && data?.commissions.length < 1 || !data && <div
+        data?.commissions.length < 1 && <div
           style={{
             textAlign: 'center',
             marginTop: '30px',

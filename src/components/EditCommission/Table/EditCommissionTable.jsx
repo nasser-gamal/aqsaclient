@@ -82,7 +82,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
 
   const onClick = async (commissionId, index) => {
     const commission = form.commissions[index];
-    if (commission.amountTotal && commission.count) {
+    if (commission.amountTotal >= 0 || commission.count >= 0) {
       try {
         const response = await updateCommission({ commissionId, form: commission }).unwrap();
         notify('success', response.message);
@@ -115,7 +115,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
                         type='text'
                         name='amountTotal'
                         placeholder={'ادخل القيمة'}
-                        value={form?.commissions[index]?.amountTotal || ""}
+                        value={form?.commissions[index]?.amountTotal || 0}
                         onChange={(e) => onChange(e, index)}
                       />
                     </td>
@@ -124,7 +124,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
                         type='text'
                         name='count'
                         placeholder={'عدد العمليات'}
-                        value={form?.commissions[index]?.count || ""}
+                        value={form?.commissions[index]?.count || 0}
                         onChange={(e) => onChange(e, index)}
                       />
                     </td>
@@ -135,7 +135,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
                         height='30px'
                         fontSize="17px"
                         onClick={() => onClick(data?.userCommission.id, index)}
-                        disabled={!form?.commissions[index]?.amountTotal || !form?.commissions[index]?.count}
+                        disabled={form?.commissions[index]?.amountTotal < 0 || !form?.commissions[index]?.count < 0}
                       >
                         تعديل
                       </CustomButton>
@@ -148,7 +148,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
         </div>
       }
       {
-        data?.commissions && data?.commissions.length < 1 || !data && <div style={{
+        data?.commissions.length < 1  && <div style={{
           textAlign: "center",
           marginTop: '30px',
           fontSize: '19px',

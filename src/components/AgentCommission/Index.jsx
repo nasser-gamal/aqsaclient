@@ -7,11 +7,9 @@ import SearchDate from './SearchDate/SearchDate';
 import { useFindAllCommissionsQuery } from '../../app/features/commissions/commissionApi';
 
 import './agent.modules.css';
-import { useSelector } from 'react-redux';
 
 export default function Index() {
 
-  const { user } = useSelector(state => state.user)
 
   const [query, setQuery] = useState({
     agentId: 4,
@@ -21,7 +19,10 @@ export default function Index() {
   });
 
   const [skip, setSkip] = useState(true);
-  const { data, isLoading, isFetching } = useFindAllCommissionsQuery({ ...query }, { skip });
+  const { data, isLoading, isFetching, isError } = useFindAllCommissionsQuery({ ...query }, { skip});
+
+
+
 
 
   return (
@@ -34,10 +35,10 @@ export default function Index() {
       />
       <CommissionTable
         data={data}
-        month={query.month}
-        user={data && data?.commissions[0]?.agent}
+        user={data && data?.userCommission}
         isLoading={isLoading}
         isFetching={isFetching}
+        isError={isError}
       />
     </>
   )
