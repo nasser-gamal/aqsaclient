@@ -11,8 +11,11 @@ import { useDispatch } from "react-redux";
 import { notify } from "../../utils/notify";
 import Date from "./Form/Date";
 import { validateCommission } from "../../utils/validation";
+import { useFindAllCategoriesQuery } from "../../app/features/category/categoryApi";
 
 export default function Index() {
+  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery();
+
   const dispatch = useDispatch()
 
   const [form, setForm] = useState({
@@ -51,7 +54,7 @@ export default function Index() {
       } else {
         const response = await createCommission(form).unwrap()
         notify('success', response.message);
-        // resetForm()
+        resetForm()
       }
     } catch (err) {
       notify('error', err.data.message);
@@ -60,17 +63,11 @@ export default function Index() {
 
 
   const resetForm = () => {
-    const commissons = [...form.commissions];
-    const resetCommissions = commissons.map((commission) => {
-      commission.amountTotal = 0;
-      commission.count = 0;
-      return commission;
+    const commissions = [];
+    data?.categories.map((category) => {
+      return commissions.push({ serviceId: category.id, amountTotal: 0, count: 0 })
     })
-    setForm({
-      agentId: '',
-      month: '',
-      commissions: resetCommissions
-    })
+    setForm({ ...form, commissions })
   }
 
   return (
@@ -81,7 +78,7 @@ export default function Index() {
         <Date form={form} setForm={setForm} />
         <Agents form={form} setForm={setForm} />
       </div>
-      <CommissionTable form={form} setForm={setForm} onChange={onChange} />
+      <CommissionTable data={data} isLoading={categoryLoading} form={form} setForm={setForm} onChange={onChange} />
       <div className="text-center" style={{
         marginTop: '20px '
       }}>

@@ -1,15 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
-import { useFindAllCategoriesQuery } from '../../../app/features/category/categoryApi';
 import CustomInput from '../../common/FormFields/input/CustomInput';
 import Table from '../../common/Table/Table';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import Spinner from '../../UI/Loader/Spinner';
 
-export default function CommissionTable({ form, setForm, onChange }) {
-  const dispatch = useDispatch()
-  const { data, isLoading } = useFindAllCategoriesQuery();
+export default function CommissionTable({data, isLoading, form, setForm, onChange }) {
 
   const tableHead = [
     {
@@ -33,13 +28,6 @@ export default function CommissionTable({ form, setForm, onChange }) {
   ];
 
 
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     dispatch(showLoader())
-  //   } else {
-  //     dispatch(hideLoader())
-  //   }
-  // }, [isLoading, dispatch]);
 
 
   useEffect(() => {
@@ -71,7 +59,7 @@ export default function CommissionTable({ form, setForm, onChange }) {
                   type='text'
                   name='amountTotal'
                   placeholder={'ادخل القيمة'}
-                  value={form?.commissions[index]?.amountTotal}
+                  value={form?.commissions[index]?.amountTotal || 0}
                   onChange={(e) => onChange(e, index)}
                 />
               </td>
@@ -80,7 +68,7 @@ export default function CommissionTable({ form, setForm, onChange }) {
                   type='text'
                   name='count'
                   placeholder={'عدد العمليات'}
-                  value={form?.commissions[index]?.count}
+                  value={form?.commissions[index]?.count || 0}
                   onChange={(e) => onChange(e, index)}
                 />
               </td>
