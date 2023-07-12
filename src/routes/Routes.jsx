@@ -22,6 +22,7 @@ import AgentRoute from "./AgentRoutes";
 import AgentCommissionPage from "../pages/AgentCommission/AgentCommissionPage";
 import AdminRoute from "./AdminRoutes";
 import EditCommissionPage from "../pages/EditCommission/EditCommissionPage";
+import AgentSegmentsPage from "../pages/AgentSegments/AgentSegmentsPage";
 
 
 const Router = () => {
@@ -110,6 +111,10 @@ const Router = () => {
         /> */}
       </Route>
       <Route element={<AgentRoute />}>
+        <Route
+          path="/agent/segments"
+          element={<AgentSegmentsPage />}
+        />
         <Route
           path="/agent/commissions"
           element={<AgentCommissionPage />}

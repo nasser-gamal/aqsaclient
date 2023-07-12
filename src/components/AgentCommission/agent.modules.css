@@ -5,6 +5,14 @@
   padding: 0 20px;
   z-index: 99;
 }
+.agent-nav .agent-nav-links ul {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.agent-nav .agent-nav-links ul li a.active {
+  color: #ffeb3b;
+}
 .agent-nav .log-out {
   cursor: pointer;
 }
