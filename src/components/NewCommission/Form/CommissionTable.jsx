@@ -44,7 +44,6 @@ export default function CommissionTable({data, isLoading, form, setForm, onChang
   if (isLoading) {
     return <Spinner />
   }
-  console.log(data)
 
   return (
     <Table tableHead={tableHead} isLoading={isLoading}>
