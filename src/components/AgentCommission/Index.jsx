@@ -13,7 +13,7 @@ export default function Index() {
   const {user} = useSelector(state => state.user)
 
   const [query, setQuery] = useState({
-    agentId: user.role.id,
+    agentId: user.id,
     year: 2023,
     month: '',
     searchValue: ''
