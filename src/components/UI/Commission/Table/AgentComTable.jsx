@@ -37,7 +37,6 @@ export default function AgentCommissisonTable({ data }) {
   ];
 
 
-
   return (
     <Table tableHead={tableHead}>
       <tbody>

@@ -20,7 +20,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     updateAgent: builder.mutation({
       query: ({ agentId, form }) => ({
         url: `${apiEndpoints.agent.UPDATE_AGENT}/${agentId}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: form,
       }),
       invalidatesTags: ['agents'],
@@ -28,7 +28,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     updateAgentPassword: builder.mutation({
       query: ({ agentId, password }) => ({
         url: `${apiEndpoints.agent.UPDATE_AGENT_PASSWORD}/${agentId}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: { password },
       }),
       invalidatesTags: ['agents'],
@@ -36,7 +36,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     updateAgentStatus: builder.mutation({
       query: (agentId) => ({
         url: `${apiEndpoints.agent.UPDATE_AGENT_STATUS}/${agentId}`,
-        method: 'PUT',
+        method: 'PATCH',
       }),
       invalidatesTags: ['agents'],
     }),

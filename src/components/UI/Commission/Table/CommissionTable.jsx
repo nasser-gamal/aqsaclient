@@ -13,7 +13,6 @@ export default function CommissionTable({ data, user, isLoading, isFetching }) {
     return <Spinner />
   }
 
-console.log(data)
 
   return (
     <>
