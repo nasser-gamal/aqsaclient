@@ -96,7 +96,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
   if (isLoading || isFetching) {
     return <Spinner />
   }
- 
+
 
   return (
     <>
@@ -134,7 +134,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
                         width='65px'
                         height='30px'
                         fontSize="17px"
-                        onClick={() => onClick(data?.userCommission.id, index)}
+                        onClick={() => onClick(commission.id, index)}
                         disabled={form?.commissions[index]?.amountTotal < 0 || !form?.commissions[index]?.count < 0}
                       >
                         تعديل
@@ -148,7 +148,7 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
         </div>
       }
       {
-        data?.commissions.length < 1  && <div style={{
+        data?.commissions.length < 1 && <div style={{
           textAlign: "center",
           marginTop: '30px',
           fontSize: '19px',
