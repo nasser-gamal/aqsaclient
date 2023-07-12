@@ -6,7 +6,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    credentials: 'include',
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json',
     },

@@ -7,12 +7,13 @@ import SearchDate from './SearchDate/SearchDate';
 import { useFindAllCommissionsQuery } from '../../app/features/commissions/commissionApi';
 
 import './agent.modules.css';
+import { useSelector } from 'react-redux';
 
 export default function Index() {
-
+  const {user} = useSelector(state => state.user)
 
   const [query, setQuery] = useState({
-    agentId: 4,
+    agentId: user.role.id,
     year: 2023,
     month: '',
     searchValue: ''
