@@ -10,3 +10,6 @@
     gap: 30px;
   }
 }
+.agent-commission .search-date .input-form  {
+  width: 100% !important;
+}
