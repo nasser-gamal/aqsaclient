@@ -7,7 +7,6 @@ import { useCreateSegmentMutation, useUpdateSegmentMutation } from '../../../app
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { validateSegment } from '../../../utils/validation';
 import { notify } from '../../../utils/notify';
-import { closeModal } from '../../../app/features/modal/modalSlice';
 
 export default function AddEditSegment() {
 
