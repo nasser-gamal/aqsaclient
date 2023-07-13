@@ -77,7 +77,7 @@ export default function AddEditSegment() {
         type='text'
         label='من'
         name={'start'}
-        value={form.start}
+        value={form.start || 0}
         onChange={(e) => onChange(e)}
       />
       <CustomInput
@@ -91,7 +91,7 @@ export default function AddEditSegment() {
         type='text'
         label='النسبة'
         name={'percentage'}
-        value={form.percentage}
+        value={form.percentage || 0}
         onChange={(e) => onChange(e)}
       />
       <CustomInput
