@@ -12,7 +12,6 @@ import { MdAccountCircle } from "react-icons/md";
 
 export default function AgentNav() {
   const { user } = useSelector(state => state.user);
-  console.log(user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
