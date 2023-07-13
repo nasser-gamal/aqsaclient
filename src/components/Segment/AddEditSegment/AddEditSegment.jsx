@@ -55,9 +55,7 @@ export default function AddEditSegment() {
           : await createSegment(form).unwrap();
         notify('success', response.message);
 
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+     
       }
     } catch (error) {
       notify('error', error.data.message);
