@@ -1,17 +1,34 @@
 import Logo from '../../../layout/Navbar/Logo'
-import Profile from '../../../layout/Navbar/Profile'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { logOut } from '../../../app/features/user/userSlice';
 import { useLogoutMutation } from '../../../app/features/auth/authApi';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
+import { MdAccountCircle } from "react-icons/md";
+
 
 export default function AgentNav() {
+  const { user } = useSelector(state => state.user);
+  console.log(user)
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const [showAcc, setShowAcc] = useState();
+  const menuRef = useRef(null);
+
+
+
+  // handle ClickOutSide 
+  useEffect(() => {
+    document.addEventListener("mousedown", (e) => {
+      if (!menuRef.current?.contains(e.target)) {
+        setShowAcc(false);
+      }
+    });
+  }, []);
 
   const [logout, { isLoading }] = useLogoutMutation();
 
@@ -39,7 +56,6 @@ export default function AgentNav() {
   return (
     <div className='agent-nav d-flex flex-between'>
       <Logo />
-      <Profile />
       <div className='agent-nav-links'>
         <ul>
           <li>
@@ -48,8 +64,17 @@ export default function AgentNav() {
           <li>
             <NavLink to='/agent/segments' className={'text-white'}>الشرائح</NavLink>
           </li>
-          <li>
-            <span className='text-white log-out' onClick={signOut}>تسجيل خروج</span>
+        </ul>
+      </div>
+      <div className="account acc" ref={menuRef}>
+        <span className='d-flex' onClick={() => setShowAcc(!showAcc)}>
+          <MdAccountCircle />
+        </span>
+        <ul className={showAcc ? "account-info show" : "account-info"}>
+          <li>{user.accountName}</li>
+          <li>رقم الحساب : {user.accountNumber}</li>
+          <li className='log-out' onClick={signOut}>
+            <span className='text-white' >تسجيل خروج</span>
           </li>
         </ul>
       </div>

@@ -4,18 +4,61 @@
   background-color: #002d44;
   padding: 0 20px;
   z-index: 99;
+  flex-wrap: wrap;
 }
+
 .agent-nav .agent-nav-links ul {
   display: flex;
   align-items: center;
   gap: 50px;
 }
+
 .agent-nav .agent-nav-links ul li a.active {
   color: #ffeb3b;
 }
 .agent-nav .log-out {
   cursor: pointer;
 }
+
+.agent-nav .account {
+  color: white;
+  position: relative;
+  /* margin-left: 20px; */
+}
+.agent-nav .account svg {
+  font-size: 30px;
+  cursor: pointer;
+}
+.agent-nav .account ul {
+  width: 220px;
+  position: absolute;
+  right: -178px;
+  top: calc(100% + 20px);
+  background-color: #0c2e40;
+  border-radius: 8px;
+  display: none;
+}
+.agent-nav .account ul.show {
+  display: block;
+}
+
+.agent-nav .account ul li,
+.agent-nav .account ul li a {
+  padding: 8px 20px;
+  font-size: 14px;
+}
+.agent-nav .account ul li:not(:first-child),
+.agent-nav .account ul li a {
+  margin: 0;
+  color: white;
+}
+.agent-nav .account ul li {
+  border-bottom: 1px solid #02070a48;
+}
+.agent-nav .account ul li.list-link:hover {
+  background-color: #02659b5d;
+}
+
 .agent-commission .table:not(.user-info .table) {
   margin-bottom: 30px;
 }
@@ -42,4 +85,18 @@
   width: 400px;
   max-width: 100%;
   margin: 30px auto;
+}
+
+/* Media Query  */
+@media (max-width: 567px) {
+  .agent-nav {
+    padding-bottom: 10px;
+  }
+  .agent-nav .aqsa-logo {
+    width: 100%;
+    text-align: center;
+  }
+  .agent-nav .account ul {
+    top: calc(100% + 12px);
+  }
 }
