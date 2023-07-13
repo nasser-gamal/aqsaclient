@@ -73,7 +73,7 @@ export default function AgentNav() {
         <ul className={showAcc ? "account-info show" : "account-info"}>
           <li>{user.accountName}</li>
           <li>رقم الحساب : {user.accountNumber}</li>
-          <li className='log-out' onClick={signOut}>
+          <li className='log-out text-center' onClick={signOut}>
             <span className='text-white' >تسجيل خروج</span>
           </li>
         </ul>
