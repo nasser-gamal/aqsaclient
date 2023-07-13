@@ -94,10 +94,13 @@ export const validateSegment = (formData) => {
   if (!formData.serviceId) {
     error = 'اختر الخدمة';
   }
-  if (!formData.start) {
+  if (formData.start < 0) {
     error = 'ادخل بداية الشريحة';
   }
-  if (!formData.percentage) {
+  if (!formData.end) {
+    error = 'ادخل نهاية الشريحة';
+  }
+  if (formData.percentage < 0) {
     error = 'ادخل النسبة';
   }
 

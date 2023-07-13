@@ -13,8 +13,7 @@ export default function DropDown({ form, setForm }) {
 
   const { data, isLoading: categoriesLoading } = useFindAllCategoriesQuery();
 
-
-  const [categories, setCategories] = useState([])
+  const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {
     if (categoriesLoading) {
@@ -25,20 +24,21 @@ export default function DropDown({ form, setForm }) {
   }, [categoriesLoading, dispatch]);
 
 
-  useEffect(() => {
-    setCategories(data?.categories)
-  }, [data]);
-
 
   const filterSelectOptions = (e) => {
-    const value = e.target.value;
-    const filteredOptions = categories.filter(category => {
-      return category.name.includes(value);
-    });
-    setCategories(filteredOptions)
+    const { value } = e.target;
+    setSearchValue(value)
   }
 
 
+
+  useEffect(() => {
+    const service = data?.categories?.filter(category => category.id == form.serviceId);
+    if (service && service.length > 0) {
+      setDropHeading(service[0]?.name);
+      setForm({ ...form, serviceId: service[0]?.id });
+    }
+  }, [data?.categories, data])
 
   return (
     <CustomSelect
@@ -51,7 +51,10 @@ export default function DropDown({ form, setForm }) {
       onClick={() => setIsClicked(!isClicked)}
     >
       {
-        categories?.map(category => {
+        data?.categories?.filter(category => {
+          const value = searchValue;
+          return value ? category.name.startsWith(value.toLowerCase()) : category;
+        }).map(category => {
           return <li
             key={category.id}
             onClick={() => {
