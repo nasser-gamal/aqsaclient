@@ -42,6 +42,7 @@ export default function CategoryTable({ categories, isLoading }) {
     // },
   ]
 
+
   return (
     <Table tableHead={tableHead} isLoading={isLoading}>
       <tbody>
