@@ -10,7 +10,7 @@ export const formattedDate = (dateValue) => {
 
 export const formattedTime = (value) => {
   const dateTime = new Date(value);
-  const hours = dateTime.getHours();
+  const hours = dateTime.getHours() - 1;
   const minutes = dateTime.getMinutes();
   const amPm = hours < 12 ? 'ص' : 'م';
   const formattedHours = (hours % 12) || 12;
