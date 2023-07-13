@@ -16,7 +16,7 @@ export default function AddEditSegment() {
 
   const [form, setForm] = useState({
     title: childrenProps?.segment.title || "",
-    serviceId: childrenProps?.segment.serviceId || "",
+    serviceId: childrenProps?.segment.service.id || "",
     start: childrenProps?.segment.start || "",
     end: childrenProps?.segment.end || "",
     percentage: childrenProps?.segment.percentage || "",
@@ -55,9 +55,7 @@ export default function AddEditSegment() {
           : await createSegment(form).unwrap();
         notify('success', response.message);
 
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+     
       }
     } catch (error) {
       notify('error', error.data.message);
