@@ -1,13 +1,13 @@
 
 import Table from '../../common/Table/Table';
-
-
 import EditButton from '../../UI/TableButtons/EditButton';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+import { useFindAllBankAccountsQuery } from '../../../app/features/bankAccount/bankAccountApi';
+import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import Spinner from '../../UI/Loader/Spinner';
 
 export default function BankAccountTable() {
 
-
+  const { data, isLoading } = useFindAllBankAccountsQuery();
   const tableHead = [
     {
       title: "اسم الحساب",
@@ -51,47 +51,42 @@ export default function BankAccountTable() {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
-  ]
+  ];
+
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
 
   return (
     <Table tableHead={tableHead}>
       <tbody>
-        <tr>
-          <td>حساب1</td>
-          <td>حساب1</td>
-          <td>البنك الاهلي</td>
-          <td>1000,22</td>
-          <td>1000,22</td>
-          <td>
-            10/2/11
-          </td>
-          <td>
-            <EditButton
-              editProps={{
-                name: 'AddEditBankAccount',
-                modalTitle: 'تعديل الحساب',
-                status: 'تعديل',
-                childrenProps: { id: 1 }
-              }}
-            />
-          </td>
-          <td>
-            <DeleteButton
-              deleteProps={{
-                name: 'DeleteConfirm',
-                modalTitle: 'حذف حساب',
-                status: 'حذف',
-                childrenProps: { id: 1, message: 'هل أنت متأكد أنك تريد حذف هذا الحساب ؟' }
-              }}
-            />
-          </td>
-        </tr>
+
+        {
+          data?.bankAccounts.map(bankAccount => {
+            return <tr key={bankAccount.id}>
+              <td>{bankAccount.accountName}</td>
+              <td>{bankAccount.bankNumber}</td>
+              <td>{bankAccount.bank.bankName}</td>
+              <td>{bankAccount.balance}</td>
+              <td>{bankAccount.note || "-"}</td>
+              <td>
+                <DateAndTime createdAt={bankAccount.createdAt} />
+              </td>
+              <td>
+                <EditButton
+                  editProps={{
+                    name: 'AddEditBankAccount',
+                    modalTitle: 'تعديل الحساب',
+                    status: 'تعديل',
+                    childrenProps: { bankAccount }
+                  }}
+                />
+              </td>
+            </tr>
+          })
+        }
       </tbody>
     </Table>
   )

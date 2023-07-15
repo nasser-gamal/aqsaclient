@@ -23,53 +23,54 @@ export const adminMenu = [
     ],
     roles: ['superAdmin'],
   },
-  // {
-  //   id: 2,
-  //   title: 'الحسابات',
-  //   isLink: false,
-  //   imgSrc: menu,
-  //   subMenu: [
-  //     {
-  //       id: 1,
-  //       title: 'البنوك',
-  //       imgSrc: list,
-  //       linkURL: '/banks',
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'الحسابات',
-  //       imgSrc: list,
-  //       linkURL: '/bankAccounts',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: 3,
-  //   title: 'العمليات',
-  //   isLink: false,
-  //   imgSrc: menu,
-  //   subMenu: [
-  //     {
-  //       id: 1,
-  //       title: 'ايداع',
-  //       imgSrc: list,
-  //       linkURL: '/deposit',
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'سحب',
-  //       imgSrc: list,
-  //       linkURL: '/withdraws',
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'تسوية - تحويل',
-  //       imgSrc: list,
-  //       linkURL: '/transfers',
-  //     },
-  //   ],
-  // },
-
+  {
+    id: 2,
+    title: 'الحسابات',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'البنوك',
+        imgSrc: list,
+        linkURL: '/banks',
+      },
+      {
+        id: 2,
+        title: 'الحسابات',
+        imgSrc: list,
+        linkURL: '/bankAccounts',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
+  {
+    id: 3,
+    title: 'العمليات',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'ايداع',
+        imgSrc: list,
+        linkURL: '/deposit',
+      },
+      // {
+      //   id: 2,
+      //   title: 'سحب',
+      //   imgSrc: list,
+      //   linkURL: '/withdraws',
+      // },
+      // {
+      //   id: 3,
+      //   title: 'تسوية - تحويل',
+      //   imgSrc: list,
+      //   linkURL: '/transfers',
+      // },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
   {
     id: 5,
     title: 'الخدمات',
@@ -83,6 +84,8 @@ export const adminMenu = [
         linkURL: '/services',
       },
     ],
+    roles: ['superAdmin', 'admin'],
+
   },
   {
     id: 6,
@@ -97,6 +100,8 @@ export const adminMenu = [
         linkURL: '/segments',
       },
     ],
+    roles: ['superAdmin', 'admin'],
+
   },
   {
     id: 7,
@@ -123,6 +128,8 @@ export const adminMenu = [
         linkURL: '/commission/edit',
       },
     ],
+    roles: ['superAdmin', 'admin'],
+
   },
   // {
   //   id: 4,

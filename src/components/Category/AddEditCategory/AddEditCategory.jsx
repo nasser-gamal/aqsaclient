@@ -38,6 +38,7 @@ export default function AddEditCategory() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      
       const error = validateCategory(form);
       if (error) {
         notify('error', error);

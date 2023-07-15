@@ -72,7 +72,7 @@ const Router = () => {
           path="/commission/edit"
           element={<EditCommissionPage />}
         />
-        {/* <Route
+        <Route
           path="/banks"
           element={
             <BankPage />
@@ -95,9 +95,9 @@ const Router = () => {
         <Route
           path="/transfers"
           element={<TransferPage />}
-        /> */}
+        />
 
-        {/* <Route
+        <Route
           path="/employReport"
           element={<EmployReportPage />}
         />
@@ -108,7 +108,7 @@ const Router = () => {
         <Route
           path="/dayReport"
           element={<DayReportPage />}
-        /> */}
+        />
       </Route>
       <Route element={<AgentRoute />}>
         <Route

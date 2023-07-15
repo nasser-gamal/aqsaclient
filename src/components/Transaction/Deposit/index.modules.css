@@ -1,0 +1,19 @@
+.deposite-form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.deposite-form .input-form {
+  width: 100%;
+}
+.deposite-form .form-input.half-width {
+  width: 49%;
+}
+.balance ul {
+  border-bottom: 1px solid #0000002e;
+  display: flex;
+  justify-content: space-around;
+  padding: 5px 0;
+  background: #9e9e9e40;
+  border-radius: 10px;
+}

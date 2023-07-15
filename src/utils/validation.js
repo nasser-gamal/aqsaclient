@@ -127,3 +127,49 @@ export const validatePassword = (password) => {
   return error;
 };
 
+export const validateBank = (formData) => {
+  let error;
+  if (!formData.bankName) {
+    error = 'اختر الشهر';
+  }
+  return error;
+};
+
+export const validateBankAccount = (formData) => {
+  let error;
+  if (!formData.bankId) {
+    error = 'اختر البنك';
+  }
+  if (!formData.accountName) {
+    error = 'ادخل اسم الحساب';
+  }
+  if (!formData.bankNumber) {
+    error = 'ادخل رقم الحساب';
+  }
+  if (!formData.balance) {
+    error = 'ادخل القيمة';
+  }
+  return error;
+};
+
+
+
+export const validateDeposite = (formData) => {
+  let error;
+  if (!formData.bankAccountId) {
+    error = 'اختر الحساب';
+  }
+  if (!formData.number) {
+    error = 'ادخل  الرقم';
+  }
+  if (!formData.amount) {
+    error = 'ادخل القيمة';
+  }
+  if (!formData.providerFees) {
+    error = 'ادخل رسوم المزود';
+  }
+  if (!formData.providerRevenue) {
+    error = 'ادخل عائد المزود';
+  }
+  return error;
+};

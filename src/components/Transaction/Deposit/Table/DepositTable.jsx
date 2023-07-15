@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 
-import DeleteButton from '../../../UI/TableButtons/DeleteButton';
 import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
+import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 
-export default function DepositTable() {
+export default function DepositTable({ data, isLoading }) {
 
 
   const tableHead = [
@@ -69,17 +70,23 @@ export default function DepositTable() {
       sort: "",
     },
     {
-      title: "المخصوم من المراكز",
+      title: "الحالة",
       className: "",
       order: "",
       sort: "",
     },
-    {
-      title: " عائد المراكز",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "المخصوم من المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: " عائد المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
       title: "صافي الربح",
       className: "",
@@ -98,53 +105,66 @@ export default function DepositTable() {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
   ]
 
   return (
     <Table tableHead={tableHead}>
       <tbody>
-        <tr>
-          <td>10/2/22</td>
-          <td>ملحوظة</td>
-          <td>البنك الاهلي</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1212/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>
-            <EditButton
-              editProps={{
-                name: 'AddEditDeposit',
-                modalTitle: 'تعديل العملية',
-                status: 'تعديل',
-                childrenProps: { id: 1 }
-              }}
-            />
-          </td>
-          <td>
-            <DeleteButton
-              deleteProps={{
-                name: 'DeleteConfirm',
-                modalTitle: 'حذف عملية',
-                status: 'حذف',
-                childrenProps: { id: 1, message: 'هل أنت متأكد أنك تريد حذف هذا الحساب ؟' }
-              }}
-            />
-          </td>
-        </tr>
+        {
+          data?.transactions.map(transaction => {
+            return <tr key={transaction.id}>
+              <td>
+                <DateAndTime createdAt={transaction.createdAt} />
+              </td>
+              <td>
+                {transaction.type}
+              </td>
+              <td>
+                {transaction.bankAccount.accountName}
+              </td>
+              <td>
+                {transaction.balanceBefore}
+              </td>
+              <td>
+                {transaction.balanceAfter}
+              </td>
+              <td>
+                {transaction.number}
+              </td>
+              <td>
+                {transaction.amount}
+              </td>
+              <td>
+                {transaction.providerFees}
+              </td>
+              <td>
+                {transaction.amountTotal}
+              </td>
+              <td>
+                {transaction.providerRevenue}
+              </td>
+              <td>
+                {transaction.status}
+              </td>
+              <td>
+                {transaction.profit}
+              </td>
+              <td>
+                {transaction.note || "-"}
+              </td>
+              <td>
+                <EditButton
+                  editProps={{
+                    name: 'AddEditDeposit',
+                    modalTitle: 'تعديل العملية',
+                    status: 'تعديل',
+                    childrenProps: { transaction }
+                  }}
+                />
+              </td>
+            </tr>
+          })
+        }
       </tbody>
     </Table>
   )

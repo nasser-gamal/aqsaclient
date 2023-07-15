@@ -43,6 +43,24 @@ const apiEndpoints = {
     UPDATE_COMMISSION: '/commission/update',
     DELETE_COMMISSION: '/commission/delete',
   },
+
+  bank: {
+    CREATE_BANK: '/banks/create',
+    GET_BANKS: '/banks/getAll',
+    UPDATE_BANK: '/banks/update',
+  },
+
+  bankAccount: {
+    CREATE_BANKACCOUNT: '/bank-accounts/create',
+    GET_BANKACCOUNTS: '/bank-accounts/getAll',
+    UPDATE_BANKACCOUNT: '/bank-accounts/update',
+  },
+
+  deposite: {
+    CREATE_DEPOSITE: '/transaction/deposite/create',
+    GET_DEPOSITES: '/transaction/deposite/getAll',
+    UPDATE_DEPOSITE: '/transaction/deposite/update',
+  },
 };
 
 export default apiEndpoints;
