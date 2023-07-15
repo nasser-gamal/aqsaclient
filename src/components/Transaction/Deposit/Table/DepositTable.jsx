@@ -4,6 +4,7 @@ import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import Spinner from '../../../UI/Loader/Spinner';
 
 export default function DepositTable({ data, isLoading }) {
 
@@ -106,6 +107,11 @@ export default function DepositTable({ data, isLoading }) {
       sort: "",
     },
   ]
+
+  
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <Table tableHead={tableHead}>
