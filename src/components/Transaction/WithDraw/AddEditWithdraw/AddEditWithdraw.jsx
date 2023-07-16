@@ -27,7 +27,7 @@ export default function AddEditWithdraw() {
     amount: childrenProps?.transaction?.amount || "",
     agentDeduction: childrenProps?.transaction?.agentDeduction || 0,
     agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
-    providerPercentage: childrenProps?.transaction?.providerPercentage || "",
+    providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     providerFees: childrenProps?.transaction?.providerFees || 0,
     note: childrenProps?.transaction?.note || "",
   });
@@ -87,16 +87,10 @@ export default function AddEditWithdraw() {
 
 
 
-  const calcBalanceAfter = () => {
-    const provider = form.isPercentage ? form.providerPercentage * form.amount : form.providerPercentage;
-    return provider;
-  }
-
-
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <div className='deposite-form'>
+        <div className='withdraw-form'>
           <DropDown
             balance={balance}
             setBalance={setBalance}
@@ -105,7 +99,15 @@ export default function AddEditWithdraw() {
             disabled={childrenProps?.transaction ? true : false}
           />
           <CustomInput
-            width={'49%'}
+            width={'30%'}
+            type='datetime-local'
+            name='date'
+            value={form.date}
+            label='التاريخ'
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'30%'}
             type='text'
             name='number'
             value={form.number}
@@ -113,28 +115,39 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'49%'}
+            width={'30%'}
             type='text'
             name='amount'
             value={form.amount}
             label='قيمة الفاتورة'
             onChange={(e) => {
-              setBalance({
-                ...balance,
-                after: (+balance.before -
-                  ((+e.target.value + +form.providerFees) - +calcBalanceAfter())).toFixed(2)
-              })
               onChange(e)
             }}
           />
+          <CustomInput
+            width={'30%'}
+            type='text'
+            name='providerFees'
+            value={form.providerFees}
+            label='رسوم المزود'
+            onChange={(e) => {
+              onChange(e)
+            }}
+          />
+          <CustomInput
+            width={'30%'}
+            type='text'
+            value={(+form.amount + +form.providerFees).toFixed(2) || 0}
+            label='الاجمالي'
+            disabled={true}
+          />
           <div className='input-checkbox d-flex ' style={{
             gap: '10px',
-            width: '100%',
-            justifyContent: "flex-end"
+            width: '30%',
           }}>
             <div className='d-flex' style={{
               gap: '10px',
-              width: '50%'
+              alignItems: "center"
             }}>
               <input
                 style={{
@@ -147,6 +160,7 @@ export default function AddEditWithdraw() {
                 name='isPercentage'
                 value={form.isPercentage}
                 onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
+                checked={form.isPercentage}
               />
               <label htmlFor="isPercentage">
                 نسبة
@@ -154,37 +168,24 @@ export default function AddEditWithdraw() {
             </div>
           </div>
           <CustomInput
-            width={'49%'}
-            type='text'
-            name='providerFees'
-            value={form.providerFees}
-            label='رسوم المزود'
-            onChange={(e) => {
-              setBalance({
-                ...balance,
-                after: (+balance.before -
-                  ((+e.target.value + +form.amount) - +calcBalanceAfter())).toFixed(2)
-              })
-              onChange(e)
-            }}
-          />
-
-          <CustomInput
-            width={'49%'}
+            width={'30%'}
             type='text'
             name='providerPercentage'
             value={form.providerPercentage}
             label='عائد مزود الخدمة'
             onChange={(e) => {
-              setBalance({
-                ...balance,
-                // after: form.isPercentage ? +form.providerPercentage * form.amount : form.providerPercentage
-              })
               onChange(e)
             }}
           />
           <CustomInput
-            width={'49%'}
+            width={'30%'}
+            type='text'
+            value={((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)).toFixed(2) || 0}
+            label='اجمالي المخصوم من المزود'
+            disabled={true}
+          />
+          <CustomInput
+            width={'30%'}
             type='text'
             name='agentDeduction'
             label='المخصوم من المركز'
@@ -192,7 +193,7 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'49%'}
+            width={'30%'}
             type='text'
             name='agentRevenue'
             label='عائد المركز'
@@ -200,13 +201,13 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'100%'}
-            type='datetime-local'
-            name='date'
-            value={form.date}
-            label='التاريخ'
-            onChange={(e) => onChange(e)}
+            width={'30%'}
+            type='text'
+            label='اجمالي المخصوم من المركز'
+            value={(+form.agentDeduction - +form.agentRevenue).toFixed(2)}
+            disabled={true}
           />
+
           <CustomInput
             width={'100%'}
             type='textarea'
@@ -222,10 +223,10 @@ export default function AddEditWithdraw() {
               رصيد قبل
               <span> {balance.before}</span>
             </li>
-            {balance.after && <li>
+            <li>
               رصيد بعد
-              <span> {balance.after}</span>
-            </li>}
+              <span> {(balance.before - ((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage))).toFixed(2)}</span>
+            </li>
           </ul>
         </div>}
         <FormButtons />

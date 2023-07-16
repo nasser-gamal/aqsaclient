@@ -7,7 +7,7 @@ import './modal.modules.css';
 import Portal from '../../../utils/Portal';
 
 
-export default function Modal({ isOpen, title, closeModalHandler, children }) {
+export default function Modal({ isOpen, title, childrenProps, closeModalHandler, children }) {
   return (
     <Portal>
       <div
@@ -17,6 +17,9 @@ export default function Modal({ isOpen, title, closeModalHandler, children }) {
       >
         <div className="modal-container">
           <div className="modal-content"
+            style={{
+              width: childrenProps?.width
+            }}
           >
             <div className="modal-header">
               <h4>

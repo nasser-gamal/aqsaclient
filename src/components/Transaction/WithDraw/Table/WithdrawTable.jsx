@@ -8,7 +8,6 @@ import Spinner from '../../../UI/Loader/Spinner';
 
 export default function DepositTable({ data, isLoading }) {
 
-  console.log(data)
   const tableHead = [
     {
       title: "التاريخ",
@@ -197,10 +196,10 @@ export default function DepositTable({ data, isLoading }) {
               <td>
                 <EditButton
                   editProps={{
-                    name: 'AddEditDeposit',
-                    modalTitle: 'تعديل العملية',
+                    name: 'AddEditWithdraw',
+                    modalTitle: 'تعديل عملية سحب',
                     status: 'تعديل',
-                    childrenProps: { transaction }
+                    childrenProps: { transaction, width: '700px' }
                   }}
                 />
               </td>

@@ -152,8 +152,6 @@ export const validateBankAccount = (formData) => {
   return error;
 };
 
-
-
 export const validateDeposite = (formData) => {
   let error;
   if (!formData.bankAccountId) {
@@ -165,15 +163,14 @@ export const validateDeposite = (formData) => {
   if (!formData.amount) {
     error = 'ادخل القيمة';
   }
-  if (!formData.providerFees) {
+  if (formData.providerFees < 0) {
     error = 'ادخل رسوم المزود';
   }
-  if (!formData.providerRevenue) {
+  if (formData.providerRevenue < 0) {
     error = 'ادخل عائد المزود';
   }
   return error;
 };
-
 
 export const validateWithDraw = (formData) => {
   let error;
@@ -186,7 +183,28 @@ export const validateWithDraw = (formData) => {
   if (!formData.amount) {
     error = 'ادخل القيمة';
   }
-  if (!formData.providerPercentage) {
+  if (formData.providerPercentage < 0) {
+    error = 'ادخل عائد المزود';
+  }
+
+  return error;
+};
+
+export const validateTransfer = (formData) => {
+  let error;
+  if (!formData.senderId) {
+    error = 'اختر الحساب المحول منه';
+  }
+  if (!formData.recipientId) {
+    error = 'ادخل  الحساب المحول إليه';
+  }
+  if (formData.senderId == formData.recipientId) {
+    error = 'لا يمكن التحويل ل نفس الحساب';
+  }
+  if (!formData.amountTotal) {
+    error = 'ادخل القيمة';
+  }
+  if (formData.providerPercentage < 0) {
     error = 'ادخل عائد المزود';
   }
 

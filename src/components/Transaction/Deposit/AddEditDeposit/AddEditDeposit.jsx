@@ -147,10 +147,6 @@ export default function AddEditDeposit() {
             label='ملحوظة'
             onChange={(e) => onChange(e)}
           />
-          {/* <CustomInput width={'49%'} type='text' name='bankAccount' label='الاجمالي' disabled={true} /> */}
-          {/* <CustomInput width={'49%'} type='text' name='bankAccount' label='المخصوم من المركز' /> */}
-          {/* <CustomInput width={'49%'} type='text' name='bankAccount' label='عائد المركز' /> */}
-          {/* <CustomInput width={'49%'} type='text' name='bankAccount' label='صافي الربح' /> */}
         </div>
         {balance.before && <div className="balance">
           <ul>

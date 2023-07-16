@@ -1,81 +1,112 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomInput from '../../../common/FormFields/input/CustomInput';
-import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
+import ReciverSelect from './ReciverSelect';
+
+
+import { useFindAllBankAccountsQuery } from '../../../../app/features/bankAccount/bankAccountApi';
+import { showLoader, hideLoader } from '../../../../app/features/loader/loaderSlice';
+import SenderSelect from './SenderSelect';
+import { notify } from '../../../../utils/notify';
+import { useCreateTransferMutation, useUpdateTransferMutation } from '../../../../app/features/transaction/transferApi';
+import { validateTransfer } from '../../../../utils/validation';
+import { closeModal } from '../../../../app/features/modal/modalSlice';
 
 export default function AddEditDeposit() {
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الحساب');
+  const { childrenProps } = useSelector(state => state.modal);
+  const dispatch = useDispatch()
+
+
+  const [form, setForm] = useState({
+    senderId: childrenProps?.transfer.senderId || "",
+    amountTotal: childrenProps?.transfer.amountTotal || "",
+    recipientId: childrenProps?.transfer.recipientId || "",
+    note: childrenProps?.transfer.note || ""
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value })
+  };
+
+
+
+  const [createSegment, { isLoading: createLoading }] = useCreateTransferMutation();
+  const [updateSegment, { isLoading: updateLoading }] = useUpdateTransferMutation();
+
+
+  useEffect(() => {
+    if (createLoading || updateLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, createLoading, updateLoading]);
+
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const error = validateTransfer(form);
+      if (error) {
+        notify('error', error);
+      } else {
+        const response = childrenProps?.transfer
+          ? await updateSegment({ transactionId: childrenProps?.transfer.id, form }).unwrap()
+          : await createSegment(form).unwrap();
+        notify('success', response.message);
+        dispatch(closeModal())
+      }
+    } catch (error) {
+      notify('error', error.data.message);
+    }
+  }
+
+
+
+  const { data, isLoading } = useFindAllBankAccountsQuery();
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, isLoading])
 
   return (
     <div>
-      {/* <div className="balance">
-        <ul>
-          <li>
-            رصيد قبل
-            <span>12000</span>
-          </li>
-          <li>
-            رصيد بعد
-            <span>13000</span>
-          </li>
-        </ul>
-      </div> */}
-      <form>
+      <form onSubmit={onSubmit}>
         <div >
-          <CustomSelect
-            dropHeading={dropHeading}
-            label={'المحول منه'}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
-            onClick={() => setIsClicked(!isClicked)}
-          >
-            <li
-              onClick={() => {
-                setDropHeading("البنك الاهلي");
-                setIsClicked(!isClicked);
-              }}
-            >
-              البنك الاهلي
-            </li>
-            <li
-              onClick={() => {
-                setDropHeading("بنك مصر");
-                setIsClicked(!isClicked);
-              }}
-            >
-              بنك مصر
-            </li>
-          </CustomSelect>
-          <CustomSelect
-            dropHeading={dropHeading}
-            label={'المحول إليه'}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
-            onClick={() => setIsClicked(!isClicked)}
-          >
-            <li
-              onClick={() => {
-                setDropHeading("البنك الاهلي");
-                setIsClicked(!isClicked);
-              }}
-            >
-              البنك الاهلي
-            </li>
-            <li
-              onClick={() => {
-                setDropHeading("بنك مصر");
-                setIsClicked(!isClicked);
-              }}
-            >
-              بنك مصر
-            </li>
-          </CustomSelect>
-          <CustomInput type='text' name='bankAccount' label='القيمة' />
-          <CustomInput type='textarea' name='note' label='ملحوظة' />
+          <SenderSelect
+            bankAccounts={data?.bankAccounts}
+            form={form}
+            setForm={setForm}
+          />
+          <ReciverSelect
+            bankAccounts={data?.bankAccounts}
+            form={form}
+            setForm={setForm}
+          />
+          <CustomInput
+            type='text'
+            name='amountTotal'
+            label='القيمة'
+            value={form.amountTotal}
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            type='textarea'
+            name='note'
+            label='ملحوظة'
+            value={form.note}
+            onChange={(e) => onChange(e)}
+          />
         </div>
         <FormButtons />
       </form>
+
     </div>
   )
 }

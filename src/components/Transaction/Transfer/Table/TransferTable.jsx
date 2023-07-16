@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 
-import DeleteButton from '../../../UI/TableButtons/DeleteButton';
 import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
+import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 
 
-export default function TransferTable() {
+export default function TransferTable({ transfers }) {
 
 
   const tableHead = [
@@ -12,12 +13,6 @@ export default function TransferTable() {
       title: "التاريخ",
       className: "created-at",
       order: "createdAt",
-      sort: "ASC",
-    },
-    {
-      title: "نوع العملية",
-      className: "",
-      order: "",
       sort: "ASC",
     },
     {
@@ -33,31 +28,31 @@ export default function TransferTable() {
       sort: "ASC",
     },
     {
+      title: "الرصيد قبل",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "الرصيد بعد",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "المحول إليه",
       className: "",
       order: "",
       sort: "ASC",
     },
     {
-      title: " المحول منه قبل",
+      title: "الرصيد قبل",
       className: "",
       order: "",
       sort: "",
     },
     {
-      title: " المحول منه بعد",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: " المحول إليه قبل",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: " المحول إليه بعد",
+      title: "الرصيد بعد",
       className: "",
       order: "",
       sort: "",
@@ -74,49 +69,54 @@ export default function TransferTable() {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
   ]
 
   return (
     <Table tableHead={tableHead}>
       <tbody>
-        <tr>
-          <td>10/2/22</td>
-          <td>تسوية</td>
-          <td>البنك الاهلي</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>
-            <EditButton
-              editProps={{
-                name: 'AddEditTransfer',
-                modalTitle: 'تعديل العملية',
-                status: 'تعديل',
-                childrenProps: { id: 1 }
-              }}
-            />
-          </td>
-          <td>
-            <DeleteButton
-              deleteProps={{
-                name: 'DeleteConfirm',
-                modalTitle: 'حذف عملية',
-                status: 'حذف',
-                childrenProps: { id: 1, message: 'هل أنت متأكد أنك تريد حذف هذا الحساب ؟' }
-              }}
-            />
-          </td>
-        </tr>
+        {
+          transfers?.map(transfer => {
+            return <tr key={transfer.id}>
+              <td>
+                <DateAndTime createdAt={transfer.createdAt} />
+              </td>
+              <td>
+                {transfer.amountTotal}
+              </td>
+              <td>
+                {transfer.sender.accountName}
+              </td>
+              <td>
+                {transfer.balanceSenderBefore}
+              </td>
+              <td>
+                {transfer.balanceSenderAfter}
+              </td>
+              <td>
+                {transfer.recipient.accountName}
+              </td>
+              <td>
+                {transfer.balanceRecipientBefore}
+              </td>
+              <td>
+                {transfer.balanceRecipientAfter}
+              </td>
+              <td>
+                {transfer.note || "-"}
+              </td>
+              <td>
+                <EditButton
+                  editProps={{
+                    name: 'AddEditTransfer',
+                    modalTitle: 'تعديل العملية',
+                    status: 'تعديل',
+                    childrenProps: { transfer }
+                  }}
+                />
+              </td>
+            </tr>
+          })
+        }
       </tbody>
     </Table>
   )

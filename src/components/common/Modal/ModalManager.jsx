@@ -59,6 +59,7 @@ export default function ModalManager() {
       componentName={componentName}
       closeModalHandler={closeModalHandler}
       title={modalTitle}
+      childrenProps={childrenProps}
     >
       {renderComponent}
     </Modal>

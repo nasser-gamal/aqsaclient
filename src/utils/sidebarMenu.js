@@ -62,12 +62,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/withdraws',
       },
-      // {
-      //   id: 3,
-      //   title: 'تسوية - تحويل',
-      //   imgSrc: list,
-      //   linkURL: '/transfers',
-      // },
+      {
+        id: 3,
+        title: 'تسوية - تحويل',
+        imgSrc: list,
+        linkURL: '/transfers',
+      },
     ],
     roles: ['superAdmin', 'admin'],
   },

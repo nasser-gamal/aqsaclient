@@ -67,6 +67,16 @@ const apiEndpoints = {
     GET_WITHDRAWS: '/transaction/withdraw/getAll',
     UPDATE_WITHDRAW: '/transaction/withdraw/update',
   },
+
+  transfer: {
+    CREATE_TRANSFER: '/transaction/transfer/create',
+    GET_TRANSFERS: '/transaction/transfer/getAll',
+    UPDATE_TRANSFER: '/transaction/transfer/update',
+  },
+
+  treasury: {
+    GET_TREASURY: '/treasury/get',
+  },
 };
 
 export default apiEndpoints;
