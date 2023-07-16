@@ -15,19 +15,19 @@ export default function AddEditDeposit() {
   const dispatch = useDispatch();
 
   const [balance, setBalance] = useState({
-    before: "",
-    after: ""
+    before: childrenProps?.transaction?.balanceBefore || "",
+    after: childrenProps?.transaction?.balanceAfter || ""
   });
 
 
   const [form, setForm] = useState({
-    date: DateTimeInput(),
-    bankAccountId: "",
-    number: "",
-    amount: "",
-    providerFees: "",
-    providerRevenue: "",
-    note: "",
+    date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
+    bankAccountId: childrenProps?.transaction?.bankAccountId || "",
+    number: childrenProps?.transaction?.number || "",
+    amount: childrenProps?.transaction?.amount || "",
+    providerFees: childrenProps?.transaction?.providerFees || "",
+    providerRevenue: childrenProps?.transaction?.providerRevenue || "",
+    note: childrenProps?.transaction?.note || "",
   });
 
 
@@ -71,8 +71,8 @@ export default function AddEditDeposit() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.bank
-          ? await updateDeposite({ bankId: childrenProps?.bank.id, form }).unwrap()
+        const response = childrenProps?.transaction
+          ? await updateDeposite({ transactionId: childrenProps?.transaction.id, form }).unwrap()
           : await createDeposite(form).unwrap();
         notify('success', response.message);
 
@@ -82,19 +82,18 @@ export default function AddEditDeposit() {
       notify('error', error.data.message);
     }
   }
-  console.log(DateTimeInput())
 
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <div className='deposite-form'>
-        
           <DropDown
             balance={balance}
             setBalance={setBalance}
             form={form}
             setForm={setForm}
+            disabled={childrenProps?.transaction ? true : false}
           />
           <CustomInput
             width={'49%'}
@@ -132,7 +131,7 @@ export default function AddEditDeposit() {
             label='عائد مزود الخدمة'
             onChange={(e) => onChange(e)}
           />
-            <CustomInput
+          <CustomInput
             width={'100%'}
             type='datetime-local'
             name='date'

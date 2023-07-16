@@ -15,6 +15,7 @@ export default function CustomSelect({
   searchInput,
   onChange,
   children,
+  disabled
 }) {
 
   const selectRef = useRef(null);
@@ -33,7 +34,7 @@ export default function CustomSelect({
     <div className="input-form">
       {label && <label>{label}</label>}
       <div className="drop-down-menu" ref={selectRef}>
-        <div className="drop-down-menu-content ">
+        <div className={disabled ? "drop-down-menu-content disabled" : "drop-down-menu-content"}>
           <div
             className={
               isClicked

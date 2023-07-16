@@ -13,6 +13,12 @@
   border-radius: 5px;
   font-size: 14px;
 }
+
+.disabled .drop-down-menu-heading {
+  background: #cbcbcb8f;
+  border-color: #cbcbcb8f;
+  cursor: not-allowed;
+}
 .drop-down-menu-heading.clicked {
   box-shadow: 0px 0px 2px 2px #6bcbf6;
   border-color: #6bcbf6;

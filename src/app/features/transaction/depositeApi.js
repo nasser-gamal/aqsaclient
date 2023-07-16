@@ -18,8 +18,8 @@ export const depositeApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['deposite'],
     }),
     updateDeposite: builder.mutation({
-      query: ({ transacionId, form }) => ({
-        url: `${apiEndpoints.deposite.UPDATE_DEPOSITE}/${transacionId}`,
+      query: ({ transactionId, form }) => ({
+        url: `${apiEndpoints.deposite.UPDATE_DEPOSITE}/${transactionId}`,
         method: 'PUT',
         body: form,
       }),

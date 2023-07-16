@@ -6,7 +6,7 @@ import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { useFindAllBankAccountsQuery } from '../../../../app/features/bankAccount/bankAccountApi';
 
-export default function DropDown({ form, setForm, setBalance }) {
+export default function DropDown({ form, setForm, setBalance, disabled }) {
   const dispatch = useDispatch()
 
   const [isClicked, setIsClicked] = useState(false);
@@ -31,14 +31,14 @@ export default function DropDown({ form, setForm, setBalance }) {
   }
 
 
+  useEffect(() => {
+    const bankAccount = data?.bankAccounts?.filter(category => category.id == form.bankAccountId);
+    if (bankAccount && bankAccount.length > 0) {
+      setDropHeading(bankAccount[0]?.accountName);
+      setForm({ ...form, bankAccountId: bankAccount[0]?.id });
+    }
+  }, [data?.bankAccounts, data]);
 
-  // useEffect(() => {
-  //   const service = data?.categories?.filter(category => category.id == form.serviceId);
-  //   if (service && service.length > 0) {
-  //     setDropHeading(service[0]?.name);
-  //     setForm({ ...form, serviceId: service[0]?.id });
-  //   }
-  // }, [data?.categories, data])
 
   return (
     <CustomSelect
@@ -48,7 +48,12 @@ export default function DropDown({ form, setForm, setBalance }) {
       label={'اختر الخدمة'}
       isClicked={isClicked}
       setIsClicked={setIsClicked}
-      onClick={() => setIsClicked(!isClicked)}
+      onClick={() => {
+        if (!disabled) {
+          setIsClicked(!isClicked)
+        }
+      }}
+      disabled={disabled}
     >
       {
         data?.bankAccounts.filter(bankAccount => {
