@@ -21,6 +21,7 @@ export default function AddEditDeposit() {
 
 
   const [form, setForm] = useState({
+    date: DateTimeInput(),
     bankAccountId: "",
     number: "",
     amount: "",
@@ -29,6 +30,20 @@ export default function AddEditDeposit() {
     note: "",
   });
 
+
+  function DateTimeInput() {
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = `${now.getMonth() + 1}`.padStart(2, '0');
+      const day = `${now.getDate()}`.padStart(2, '0');
+      const hours = `${now.getHours()}`.padStart(2, '0');
+      const minutes = `${now.getMinutes()}`.padStart(2, '0');
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+    return getCurrentDateTime();
+  }
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -67,13 +82,14 @@ export default function AddEditDeposit() {
       notify('error', error.data.message);
     }
   }
-
+  console.log(DateTimeInput())
 
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <div className='deposite-form'>
+        
           <DropDown
             balance={balance}
             setBalance={setBalance}
@@ -114,6 +130,14 @@ export default function AddEditDeposit() {
             name='providerRevenue'
             value={form.providerRevenue}
             label='عائد مزود الخدمة'
+            onChange={(e) => onChange(e)}
+          />
+            <CustomInput
+            width={'100%'}
+            type='datetime-local'
+            name='date'
+            value={form.date}
+            label='التاريخ'
             onChange={(e) => onChange(e)}
           />
           <CustomInput
