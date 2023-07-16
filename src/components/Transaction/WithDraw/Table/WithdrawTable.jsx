@@ -8,7 +8,7 @@ import Spinner from '../../../UI/Loader/Spinner';
 
 export default function DepositTable({ data, isLoading }) {
 
-
+  console.log(data)
   const tableHead = [
     {
       title: "التاريخ",
@@ -71,6 +71,30 @@ export default function DepositTable({ data, isLoading }) {
       sort: "",
     },
     {
+      title: "المخصوم من المزود",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "المخصوم من المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: " عائد المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "اجمالي المخصوم من المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "الحالة",
       className: "",
       order: "",
@@ -108,7 +132,7 @@ export default function DepositTable({ data, isLoading }) {
     },
   ]
 
-  
+
   if (isLoading) {
     return <Spinner />
   }
@@ -148,6 +172,18 @@ export default function DepositTable({ data, isLoading }) {
               </td>
               <td>
                 {transaction.providerRevenue}
+              </td>
+              <td>
+                {transaction.providerDeduction}
+              </td>
+              <td>
+                {transaction.agentDeduction}
+              </td>
+              <td>
+                {transaction.agentRevenue}
+              </td>
+              <td>
+                {transaction.agentTotalDeduction}
               </td>
               <td>
                 {transaction.status}

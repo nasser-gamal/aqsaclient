@@ -21,6 +21,7 @@ export default function AddEditWithdraw() {
 
   const [form, setForm] = useState({
     date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
+    isPercentage: childrenProps?.transaction?.isPercentage || false,
     bankAccountId: childrenProps?.transaction?.bankAccountId || "",
     number: childrenProps?.transaction?.number || "",
     amount: childrenProps?.transaction?.amount || "",
@@ -82,6 +83,13 @@ export default function AddEditWithdraw() {
     } catch (error) {
       notify('error', error.data.message);
     }
+  };
+
+
+
+  const calcBalanceAfter = () => {
+    const provider = form.isPercentage ? form.providerPercentage * form.amount : form.providerPercentage;
+    return provider;
   }
 
 
@@ -111,10 +119,40 @@ export default function AddEditWithdraw() {
             value={form.amount}
             label='قيمة الفاتورة'
             onChange={(e) => {
-              setBalance({ ...balance, after: (+balance.before - (+e.target.value + +form.providerFees)).toFixed(2) })
+              setBalance({
+                ...balance,
+                after: (+balance.before -
+                  ((+e.target.value + +form.providerFees) - +calcBalanceAfter())).toFixed(2)
+              })
               onChange(e)
             }}
           />
+          <div className='input-checkbox d-flex ' style={{
+            gap: '10px',
+            width: '100%',
+            justifyContent: "flex-end"
+          }}>
+            <div className='d-flex' style={{
+              gap: '10px',
+              width: '50%'
+            }}>
+              <input
+                style={{
+                  fontSize: '30px',
+                  width: 'fit-content',
+                  transform: 'scale(1.2)',
+                }}
+                id='isPercentage'
+                type="checkbox"
+                name='isPercentage'
+                value={form.isPercentage}
+                onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
+              />
+              <label htmlFor="isPercentage">
+                نسبة
+              </label>
+            </div>
+          </div>
           <CustomInput
             width={'49%'}
             type='text'
@@ -122,17 +160,28 @@ export default function AddEditWithdraw() {
             value={form.providerFees}
             label='رسوم المزود'
             onChange={(e) => {
-              setBalance({ ...balance, after: (+balance.before - (+e.target.value + +form.amount)).toFixed(2) })
+              setBalance({
+                ...balance,
+                after: (+balance.before -
+                  ((+e.target.value + +form.amount) - +calcBalanceAfter())).toFixed(2)
+              })
               onChange(e)
             }}
           />
+
           <CustomInput
             width={'49%'}
             type='text'
             name='providerPercentage'
             value={form.providerPercentage}
             label='عائد مزود الخدمة'
-            onChange={(e) => onChange(e)}
+            onChange={(e) => {
+              setBalance({
+                ...balance,
+                // after: form.isPercentage ? +form.providerPercentage * form.amount : form.providerPercentage
+              })
+              onChange(e)
+            }}
           />
           <CustomInput
             width={'49%'}
