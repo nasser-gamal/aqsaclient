@@ -1,11 +1,11 @@
 import Container from '../../../layout/Container/Container';
-import Deposit from '../../../components/Transaction/Deposit/Index';
+import WithDraw from '../../../components/Transaction/WithDraw/Index';
 
 
 export default function WithdrawPage() {
   return (
     <Container>
-      <Deposit />
+      <WithDraw />
     </Container>
   )
 }

@@ -173,3 +173,22 @@ export const validateDeposite = (formData) => {
   }
   return error;
 };
+
+
+export const validateWithDraw = (formData) => {
+  let error;
+  if (!formData.bankAccountId) {
+    error = 'اختر الحساب';
+  }
+  if (!formData.number) {
+    error = 'ادخل  الرقم';
+  }
+  if (!formData.amount) {
+    error = 'ادخل القيمة';
+  }
+  if (!formData.providerPercentage) {
+    error = 'ادخل عائد المزود';
+  }
+
+  return error;
+};

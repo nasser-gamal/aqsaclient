@@ -56,12 +56,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/deposit',
       },
-      // {
-      //   id: 2,
-      //   title: 'سحب',
-      //   imgSrc: list,
-      //   linkURL: '/withdraws',
-      // },
+      {
+        id: 2,
+        title: 'سحب',
+        imgSrc: list,
+        linkURL: '/withdraws',
+      },
       // {
       //   id: 3,
       //   title: 'تسوية - تحويل',

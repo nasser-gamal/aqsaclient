@@ -61,6 +61,12 @@ const apiEndpoints = {
     GET_DEPOSITES: '/transaction/deposite/getAll',
     UPDATE_DEPOSITE: '/transaction/deposite/update',
   },
+
+  withdraw: {
+    CREATE_WITHDRAW: '/transaction/withdraw/create',
+    GET_WITHDRAWS: '/transaction/withdraw/getAll',
+    UPDATE_WITHDRAW: '/transaction/withdraw/update',
+  },
 };
 
 export default apiEndpoints;

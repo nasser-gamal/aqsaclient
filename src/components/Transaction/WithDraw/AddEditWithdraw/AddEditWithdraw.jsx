@@ -1,62 +1,184 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomInput from '../../../common/FormFields/input/CustomInput';
-import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
+import DropDown from './DropDown';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCreatewithDrawMutation, useUpdateWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
+import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
+import { closeModal } from '../../../../app/features/modal/modalSlice';
+import { validateWithDraw } from '../../../../utils/validation';
+import { notify } from '../../../../utils/notify';
+
 
 export default function AddEditWithdraw() {
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الحساب');
+  const { childrenProps } = useSelector(state => state.modal);
+  const dispatch = useDispatch();
+
+  const [balance, setBalance] = useState({
+    before: childrenProps?.transaction?.balanceBefore || "",
+    after: childrenProps?.transaction?.balanceAfter || ""
+  });
+
+  const [form, setForm] = useState({
+    date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
+    bankAccountId: childrenProps?.transaction?.bankAccountId || "",
+    number: childrenProps?.transaction?.number || "",
+    amount: childrenProps?.transaction?.amount || "",
+    agentDeduction: childrenProps?.transaction?.agentDeduction || 0,
+    agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
+    providerPercentage: childrenProps?.transaction?.providerPercentage || "",
+    providerFees: childrenProps?.transaction?.providerFees || 0,
+    note: childrenProps?.transaction?.note || "",
+  });
+
+
+  function DateTimeInput() {
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = `${now.getMonth() + 1}`.padStart(2, '0');
+      const day = `${now.getDate()}`.padStart(2, '0');
+      const hours = `${now.getHours()}`.padStart(2, '0');
+      const minutes = `${now.getMinutes()}`.padStart(2, '0');
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+    return getCurrentDateTime();
+  }
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const [createWithDraw, { isLoading: createLoading }] = useCreatewithDrawMutation()
+  const [updateWithDraw, { isLoading: updateLoading }] = useUpdateWithDrawMutation()
+
+
+  useEffect(() => {
+    if (createLoading || updateLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, createLoading, updateLoading]);
+
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+
+      const error = validateWithDraw(form);
+      if (error) {
+        notify('error', error);
+      } else {
+        const response = childrenProps?.transaction
+          ? await updateWithDraw({ transactionId: childrenProps?.transaction.id, form }).unwrap()
+          : await createWithDraw(form).unwrap();
+        notify('success', response.message);
+
+        dispatch(closeModal())
+      }
+    } catch (error) {
+      notify('error', error.data.message);
+    }
+  }
+
 
   return (
     <div>
-      {/* <div className="balance">
-        <ul>
-          <li>
-            رصيد قبل
-            <span>12000</span>
-          </li>
-          <li>
-            رصيد بعد
-            <span>13000</span>
-          </li>
-        </ul>
-      </div> */}
-      <form>
-        <div >
-          <CustomSelect
-          dropHeading={dropHeading}
-          label={'اختر الحساب'}
-          isClicked={isClicked}
-          setIsClicked={setIsClicked}
-          onClick={() => setIsClicked(!isClicked)}
-          >
-            <li
-              onClick={() => {
-                setDropHeading("البنك الاهلي");
-                setIsClicked(!isClicked);
-              }}
-            >
-              البنك الاهلي 
-            </li>
-            <li
-              onClick={() => {
-                setDropHeading("بنك مصر");
-                setIsClicked(!isClicked);
-              }}
-            >
-               بنك مصر
-            </li>
-          </CustomSelect>
-          <CustomInput type='text' name='number' label='الرقم' />
-          <CustomInput type='text' name='bankAccount' label='قيمة الفاتورة' />
-          <CustomInput type='text' name='bankAccount' label='رسوم المزود' />
-          <CustomInput type='text' name='bankAccount' label='الاجمالي' disabled={true} />
-          <CustomInput type='text' name='bankAccount' label='عائد مزود الخدمة' />
-          <CustomInput type='text' name='bankAccount' label='المخصوم من المركز' />
-          <CustomInput type='text' name='bankAccount' label='عائد المركز' />
-          <CustomInput type='text' name='bankAccount' label='صافي الربح' />
-          <CustomInput type='textarea' name='note' label='ملحوظة' />
+      <form onSubmit={onSubmit}>
+        <div className='deposite-form'>
+          <DropDown
+            balance={balance}
+            setBalance={setBalance}
+            form={form}
+            setForm={setForm}
+            disabled={childrenProps?.transaction ? true : false}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='number'
+            value={form.number}
+            label='الرقم'
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='amount'
+            value={form.amount}
+            label='قيمة الفاتورة'
+            onChange={(e) => {
+              setBalance({ ...balance, after: (+balance.before - (+e.target.value + +form.providerFees)).toFixed(2) })
+              onChange(e)
+            }}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='providerFees'
+            value={form.providerFees}
+            label='رسوم المزود'
+            onChange={(e) => {
+              setBalance({ ...balance, after: (+balance.before - (+e.target.value + +form.amount)).toFixed(2) })
+              onChange(e)
+            }}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='providerPercentage'
+            value={form.providerPercentage}
+            label='عائد مزود الخدمة'
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='agentDeduction'
+            label='المخصوم من المركز'
+            value={form.agentDeduction}
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'49%'}
+            type='text'
+            name='agentRevenue'
+            label='عائد المركز'
+            value={form.agentRevenue}
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'100%'}
+            type='datetime-local'
+            name='date'
+            value={form.date}
+            label='التاريخ'
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'100%'}
+            type='textarea'
+            name='note'
+            value={form.note}
+            label='ملحوظة'
+            onChange={(e) => onChange(e)}
+          />
         </div>
+        {balance.before && <div className="balance">
+          <ul>
+            <li>
+              رصيد قبل
+              <span> {balance.before}</span>
+            </li>
+            {balance.after && <li>
+              رصيد بعد
+              <span> {balance.after}</span>
+            </li>}
+          </ul>
+        </div>}
         <FormButtons />
       </form>
     </div>
