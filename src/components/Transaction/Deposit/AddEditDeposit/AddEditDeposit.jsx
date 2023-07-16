@@ -25,8 +25,8 @@ export default function AddEditDeposit() {
     bankAccountId: childrenProps?.transaction?.bankAccountId || "",
     number: childrenProps?.transaction?.number || "",
     amount: childrenProps?.transaction?.amount || "",
-    providerFees: childrenProps?.transaction?.providerFees || "",
-    providerRevenue: childrenProps?.transaction?.providerRevenue || "",
+    providerFees: childrenProps?.transaction?.providerFees || 0,
+    providerRevenue: childrenProps?.transaction?.providerRevenue || 0,
     note: childrenProps?.transaction?.note || "",
   });
 
