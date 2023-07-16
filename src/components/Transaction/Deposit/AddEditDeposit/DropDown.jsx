@@ -53,7 +53,7 @@ export default function DropDown({ form, setForm, setBalance }) {
       {
         data?.bankAccounts.filter(bankAccount => {
           const value = searchValue;
-          return value ? bankAccount.accountName.startsWith(value.toLowerCase()) : bankAccount;
+          return value ? bankAccount.accountName.includes(value.toLowerCase()) : bankAccount;
         }).map(bankAccount => {
           return <li
             key={bankAccount.id}

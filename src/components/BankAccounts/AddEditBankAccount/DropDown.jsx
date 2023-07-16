@@ -52,7 +52,7 @@ export default function DropDown({ form, setForm }) {
       {
         data?.banks?.filter(bank => {
           // const value = searchValue;
-          // return value ? bank.name.startsWith(value.toLowerCase()) : bank;
+          // return value ? bank.name.includes(value.toLowerCase()) : bank;
           return bank
         }).map(bank => {
           return <li

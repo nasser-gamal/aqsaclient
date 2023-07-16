@@ -53,7 +53,7 @@ export default function DropDown({ form, setForm }) {
       {
         data?.categories?.filter(category => {
           const value = searchValue;
-          return value ? category.name.startsWith(value.toLowerCase()) : category;
+          return value ? category.name.includes(value.toLowerCase()) : category;
         }).map(category => {
           return <li
             key={category.id}
