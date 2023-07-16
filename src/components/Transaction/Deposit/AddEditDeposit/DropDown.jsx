@@ -45,7 +45,7 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
       searchInput={true}
       onChange={(e) => filterSelectOptions(e)}
       dropHeading={dropHeading}
-      label={'اختر الخدمة'}
+      label={'اختر الحساب'}
       isClicked={isClicked}
       setIsClicked={setIsClicked}
       onClick={() => {
