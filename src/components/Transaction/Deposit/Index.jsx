@@ -9,7 +9,6 @@ export default function Index() {
   const { data, isLoading } = useFindAllDepositesQuery();
 
 
-
   return (
     <>
       <AddButton

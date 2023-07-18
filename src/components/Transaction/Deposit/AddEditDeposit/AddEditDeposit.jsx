@@ -21,12 +21,13 @@ export default function AddEditDeposit() {
 
 
   const [form, setForm] = useState({
+    isPercentage: childrenProps?.transaction?.isPercentage || false,
     date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
     bankAccountId: childrenProps?.transaction?.bankAccountId || "",
     number: childrenProps?.transaction?.number || "",
     amount: childrenProps?.transaction?.amount || "",
     providerFees: childrenProps?.transaction?.providerFees || 0,
-    providerRevenue: childrenProps?.transaction?.providerRevenue || 0,
+    providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     note: childrenProps?.transaction?.note || "",
   });
 
@@ -66,8 +67,6 @@ export default function AddEditDeposit() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(form)
-
       const error = validateDeposite(form);
       if (error) {
         notify('error', error);
@@ -116,6 +115,32 @@ export default function AddEditDeposit() {
             }}
             onBlur={(e) => setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })}
           />
+          <div className='input-checkbox d-flex ' style={{
+            gap: '10px',
+            width: '100%',
+          }}>
+            <div className='d-flex' style={{
+              gap: '10px',
+              alignItems: "center"
+            }}>
+              <input
+                style={{
+                  fontSize: '30px',
+                  width: 'fit-content',
+                  transform: 'scale(1.2)',
+                }}
+                id='isPercentage'
+                type="checkbox"
+                name='isPercentage'
+                value={form.isPercentage}
+                onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
+                checked={form.isPercentage}
+              />
+              <label htmlFor="isPercentage">
+                نسبة
+              </label>
+            </div>
+          </div>
           <CustomInput
             width={'49%'}
             type='text'
@@ -127,8 +152,8 @@ export default function AddEditDeposit() {
           <CustomInput
             width={'49%'}
             type='text'
-            name='providerRevenue'
-            value={form.providerRevenue}
+            name='providerPercentage'
+            value={form.providerPercentage}
             label='عائد مزود الخدمة'
             onChange={(e) => onChange(e)}
           />
@@ -157,7 +182,9 @@ export default function AddEditDeposit() {
             </li>
             {balance.after && <li>
               رصيد بعد
-              <span> {balance.after}</span>
+              <span> {
+                <span> {(balance.before - ((+form.amount + +form.providerFees))).toFixed(2)}</span>
+              }</span>
             </li>}
           </ul>
         </div>}
