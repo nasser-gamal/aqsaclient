@@ -3,7 +3,7 @@ import CustomInput from '../../../common/FormFields/input/CustomInput';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
 import DropDown from './DropDown';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCreatewithDrawMutation, useUpdateWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
+import { useCreateWithDrawMutation, useUpdateWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { closeModal } from '../../../../app/features/modal/modalSlice';
 import { validateWithDraw } from '../../../../utils/validation';
@@ -29,6 +29,7 @@ export default function AddEditWithdraw() {
     agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
     providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     providerFees: childrenProps?.transaction?.providerFees || 0,
+    isTotalRevenue: (childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter == childrenProps?.transaction?.amountTotal) ? true : false,
     note: childrenProps?.transaction?.note || "",
   });
 
@@ -52,7 +53,7 @@ export default function AddEditWithdraw() {
     setForm({ ...form, [name]: value });
   };
 
-  const [createWithDraw, { isLoading: createLoading }] = useCreatewithDrawMutation()
+  const [createWithDraw, { isLoading: createLoading }] = useCreateWithDrawMutation()
   const [updateWithDraw, { isLoading: updateLoading }] = useUpdateWithDrawMutation()
 
 
@@ -68,7 +69,7 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-
+      console.log(form)
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
@@ -207,7 +208,52 @@ export default function AddEditWithdraw() {
             value={(+form.agentDeduction - +form.agentRevenue).toFixed(2)}
             disabled={true}
           />
-
+          <div style={{
+            padding: '10px 0'
+          }}>
+            <div className='d-flex' style={{
+              gap: '10px',
+              alignItems: "center"
+            }}>
+              <input
+                style={{
+                  fontSize: '30px',
+                  width: 'fit-content',
+                  transform: 'scale(1.2)',
+                }}
+                id='total'
+                type="radio"
+                name='total'
+                value={false}
+                onChange={() => setForm({ ...form, isTotalRevenue: true })}
+                checked={form.isTotalRevenue === true}
+              />
+              <label htmlFor="total">
+                الاجمالي
+              </label>
+            </div>
+            <div className='d-flex' style={{
+              gap: '10px',
+              alignItems: "center"
+            }}>
+              <input
+                style={{
+                  fontSize: '30px',
+                  width: 'fit-content',
+                  transform: 'scale(1.2)',
+                }}
+                id='revenue'
+                type="radio"
+                name='revenue'
+                value={true}
+                onChange={() => setForm({ ...form, isTotalRevenue: false })}
+                checked={form.isTotalRevenue === false}
+              />
+              <label htmlFor="revenue">
+                المخصوم من مزود الخدمة
+              </label>
+            </div>
+          </div>
           <CustomInput
             width={'100%'}
             type='textarea'
@@ -225,7 +271,7 @@ export default function AddEditWithdraw() {
             </li>
             <li>
               رصيد بعد
-              <span> {(balance.before - ((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage))).toFixed(2)}</span>
+              <span> {(balance.before - (form.isTotalRevenue ? (+form.amount + +form.providerFees) : ((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)))).toFixed(2)}</span>
             </li>
           </ul>
         </div>}

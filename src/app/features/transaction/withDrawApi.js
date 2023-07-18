@@ -9,13 +9,13 @@ export const withDrawApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['withdraw'],
     }),
-    createwithDraw: builder.mutation({
+    createWithDraw: builder.mutation({
       query: (form) => ({
         url: apiEndpoints.withdraw.CREATE_WITHDRAW,
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['withdraw'],
+      invalidatesTags: ['withdraw', 'bankAccounts'],
     }),
     updateWithDraw: builder.mutation({
       query: ({ transactionId, form }) => ({
@@ -23,13 +23,13 @@ export const withDrawApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['withdraw'],
+      invalidatesTags: ['withdraw', 'bankAccounts'],
     }),
   }),
 });
 
 export const {
   useFindAllWithDrawQuery,
-  useCreatewithDrawMutation,
+  useCreateWithDrawMutation,
   useUpdateWithDrawMutation,
 } = withDrawApiSlice;

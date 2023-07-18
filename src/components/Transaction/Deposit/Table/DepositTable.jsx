@@ -7,7 +7,7 @@ import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../../UI/Loader/Spinner';
 
 export default function DepositTable({ data, isLoading }) {
-
+  console.log(data)
 
   const tableHead = [
     {

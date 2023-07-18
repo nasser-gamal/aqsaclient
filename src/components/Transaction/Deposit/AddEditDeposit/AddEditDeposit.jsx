@@ -66,6 +66,7 @@ export default function AddEditDeposit() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(form)
 
       const error = validateDeposite(form);
       if (error) {

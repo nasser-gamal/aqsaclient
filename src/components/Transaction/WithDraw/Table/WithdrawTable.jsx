@@ -149,7 +149,7 @@ export default function DepositTable({ data, isLoading }) {
                 {transaction.type}
               </td>
               <td>
-                {transaction.bankAccount.accountName}
+                {transaction.bankAccount?.accountName}
               </td>
               <td>
                 {transaction.balanceBefore}

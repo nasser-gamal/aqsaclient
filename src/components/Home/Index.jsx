@@ -1,22 +1,9 @@
-import { useEffect } from 'react';
-import { useFindTreasuryQuery } from '../../app/features/treasury/treasuryApi';
 import './home.modules.css';
 
 import Section from './Section';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 
 export default function Index() {
-  const dispatch = useDispatch();
-  const { data: treasury, isLoading } = useFindTreasuryQuery();
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading])
 
   return (
     <div>
@@ -83,7 +70,7 @@ export default function Index() {
           {
             boxTitle: 'الخزينة',
             bodyTitle: 'الارباح',
-            bodyInfo: treasury?.amountTotal
+            bodyInfo: 0
           },
         ]
       } />
