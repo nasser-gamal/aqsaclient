@@ -1,11 +1,18 @@
+/* eslint-disable react/prop-types */
 
-import DeleteButton from '../../../UI/TableButtons/DeleteButton';
 import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
+import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import Spinner from '../../../UI/Loader/Spinner';
+import CustomButton from '../../../common/Button/CustomButton';
+import { useExportExcelMutation } from '../../../../app/features/reports/reportsApi';
+import { useEffect, useState } from 'react';
+import { notify } from '../../../../utils/notify';
+import { useDispatch } from 'react-redux';
+import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 
-export default function BankReportTable() {
-
+export default function BankReportTable({ data, isLoading, form }) {
 
   const tableHead = [
     {
@@ -69,17 +76,23 @@ export default function BankReportTable() {
       sort: "",
     },
     {
-      title: "المخصوم من المراكز",
+      title: "الحالة",
       className: "",
       order: "",
       sort: "",
     },
-    {
-      title: " عائد المراكز",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "المخصوم من المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: " عائد المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
       title: "صافي الربح",
       className: "",
@@ -98,54 +111,104 @@ export default function BankReportTable() {
       order: "",
       sort: "",
     },
-    {
-      title: "حذف",
-      className: "",
-      order: "",
-      sort: "",
-    },
   ]
 
+  const dispatch = useDispatch();
+  const [exportExcel, { isLoading: exportLoading }] = useExportExcelMutation()
+
+
+  const handleClick = async () => {
+    try {
+      const response = await exportExcel({ bankNumber: form.accountNumber, startDate: form.startDate, endDate: form.endDate }).unwrap()
+      notify('success', response.message)
+    } catch (err) {
+      notify('error', err.data.message)
+    }
+  }
+
+  useEffect(() => {
+    if (exportLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, exportLoading])
+
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        <tr>
-          <td>10/2/22</td>
-          <td>ملحوظة</td>
-          <td>البنك الاهلي</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>1212/222</td>
-          <td>1000/222</td>
-          <td>1000/222</td>
-          <td>
-            <EditButton
-              editProps={{
-                name: 'AddEditDeposit',
-                modalTitle: 'تعديل العملية',
-                status: 'تعديل',
-                childrenProps: { id: 1 }
-              }}
-            />
-          </td>
-          <td>
-            <DeleteButton
-              deleteProps={{
-                name: 'DeleteConfirm',
-                modalTitle: 'حذف عملية',
-                status: 'حذف',
-                childrenProps: { id: 1, message: 'هل أنت متأكد أنك تريد حذف هذا الحساب ؟' }
-              }}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </Table>
+    <div>
+      <CustomButton
+        type='button'
+        classes={'add-btn'}
+        width={'80px'}
+        height={'30px'}
+        fontSize={'20px'}
+        onClick={handleClick}
+      >تصدير
+      </CustomButton>
+      <Table tableHead={tableHead}>
+        <tbody>
+          {
+            data?.transactions.map(transaction => {
+              return <tr key={transaction.id}>
+                <td>
+                  <DateAndTime createdAt={transaction.createdAt} />
+                </td>
+                <td>
+                  {transaction.type}
+                </td>
+                <td>
+                  {transaction.bankAccount.accountName}
+                </td>
+                <td>
+                  {transaction.balanceBefore}
+                </td>
+                <td>
+                  {transaction.balanceAfter}
+                </td>
+                <td>
+                  {transaction.number}
+                </td>
+                <td>
+                  {transaction.amount}
+                </td>
+                <td>
+                  {transaction.providerFees}
+                </td>
+                <td>
+                  {transaction.amountTotal}
+                </td>
+                <td>
+                  {transaction.providerRevenue}
+                </td>
+                <td>
+                  {transaction.status}
+                </td>
+                <td>
+                  {transaction.profit}
+                </td>
+                <td>
+                  {transaction.note || "-"}
+                </td>
+                <td>
+                  <EditButton
+                    editProps={{
+                      name: 'AddEditDeposit',
+                      modalTitle: 'تعديل العملية',
+                      status: 'تعديل',
+                      childrenProps: { transaction }
+                    }}
+                  />
+                </td>
+              </tr>
+            })
+          }
+        </tbody>
+      </Table>
+    </div>
   )
 }

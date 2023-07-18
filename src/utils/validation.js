@@ -210,3 +210,17 @@ export const validateTransfer = (formData) => {
 
   return error;
 };
+
+export const validateReport = (formData) => {
+  let error;
+  if (!formData.bankNumber) {
+    error = 'اختر الحساب';
+  }
+  if (!formData.startDate) {
+    error = 'اختر تاريخ البداية';
+  }
+  if (!formData.endDate) {
+    error = 'اختر تاريخ النهاية';
+  }
+  return error;
+};

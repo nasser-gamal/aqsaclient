@@ -77,6 +77,11 @@ const apiEndpoints = {
   treasury: {
     GET_TREASURY: '/treasury/get',
   },
+
+  reports: {
+    DAILY_TRANSACTION: '/reports/transactions/daily',
+    EXPORT_TRANSACTION: '/reports/transactions/export/excel',
+  },
 };
 
 export default apiEndpoints;

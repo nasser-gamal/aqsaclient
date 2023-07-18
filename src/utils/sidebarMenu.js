@@ -143,12 +143,12 @@ export const adminMenu = [
       //   imgSrc: list,
       //   linkURL: '/dayReport',
       // },
-      // {
-      //   id: 3,
-      //   title: 'تقرير الحسابات',
-      //   imgSrc: list,
-      //   linkURL: '/bankAccountReport',
-      // },
+      {
+        id: 3,
+        title: 'تقرير الحسابات',
+        imgSrc: list,
+        linkURL: '/bankAccountReport',
+      },
       // {
       //   id: 2,
       //   title: 'تقرير موظف',
