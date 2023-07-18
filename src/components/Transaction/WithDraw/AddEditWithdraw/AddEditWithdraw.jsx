@@ -69,7 +69,6 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(form)
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
@@ -181,7 +180,7 @@ export default function AddEditWithdraw() {
           <CustomInput
             width={'30%'}
             type='text'
-            value={((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)).toFixed(2) || 0}
+            value={((+form.amount + +form.providerFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage)).toFixed(2) || 0}
             label='اجمالي المخصوم من المزود'
             disabled={true}
           />

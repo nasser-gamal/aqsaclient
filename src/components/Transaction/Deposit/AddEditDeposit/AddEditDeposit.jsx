@@ -183,7 +183,7 @@ export default function AddEditDeposit() {
             {balance.after && <li>
               رصيد بعد
               <span> {
-                <span> {(balance.before - ((+form.amount + +form.providerFees))).toFixed(2)}</span>
+                <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
               }</span>
             </li>}
           </ul>

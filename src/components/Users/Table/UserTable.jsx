@@ -13,7 +13,6 @@ import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 
 export default function UserTable({ users, isLoading }) {
-
   const dispatch = useDispatch();
 
   const tableHead = [
@@ -46,6 +45,12 @@ export default function UserTable({ users, isLoading }) {
       className: "address",
       order: "address",
       sort: "ASC",
+    },
+    {
+      title: "الصلاحية",
+      className: "",
+      order: "",
+      sort: "",
     },
     {
       title: "التاريخ",
@@ -122,6 +127,7 @@ export default function UserTable({ users, isLoading }) {
               <td>{user.phoneNumber}</td>
               <td>{user.email}</td>
               <td>{user.address}</td>
+              <td>{user.role?.nameAr}</td>
               <td>
                 <DateAndTime createdAt={user.createdAt} />
               </td>
