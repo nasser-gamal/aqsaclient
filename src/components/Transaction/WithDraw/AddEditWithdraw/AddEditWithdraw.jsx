@@ -29,6 +29,8 @@ export default function AddEditWithdraw() {
     agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
     providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     providerFees: childrenProps?.transaction?.providerFees || 0,
+    additionalFees: childrenProps?.transaction?.additionalFees || 0,
+    additionalRevenue: childrenProps?.transaction?.additionalRevenue || 0,
     isTotalRevenue: (childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter == childrenProps?.transaction?.amountTotal) ? true : false,
     note: childrenProps?.transaction?.note || "",
   });
@@ -180,7 +182,7 @@ export default function AddEditWithdraw() {
           <CustomInput
             width={'30%'}
             type='text'
-            value={((+form.amount + +form.providerFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage)).toFixed(2) || 0}
+            value={((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage )).toFixed(2) || 0}
             label='اجمالي المخصوم من المزود'
             disabled={true}
           />
@@ -254,6 +256,22 @@ export default function AddEditWithdraw() {
             </div>
           </div>
           <CustomInput
+            width={'30%'}
+            type='text'
+            label='رسوم أخري'
+            name='additionalFees'
+            value={form.additionalFees}
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
+            width={'30%'}
+            type='text'
+            label='عمولة أخري'
+            name='additionalRevenue'
+            value={form.additionalRevenue}
+            onChange={(e) => onChange(e)}
+          />
+          <CustomInput
             width={'100%'}
             type='textarea'
             name='note'
@@ -270,7 +288,7 @@ export default function AddEditWithdraw() {
             </li>
             <li>
               رصيد بعد
-              <span> {(balance.before - (form.isTotalRevenue ? (+form.amount + +form.providerFees) : ((+form.amount + +form.providerFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)))).toFixed(2)}</span>
+              <span> {(balance.before - (form.isTotalRevenue ? (+form.amount + +form.providerFees + +form.additionalFees) : ((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)))).toFixed(2)}</span>
             </li>
           </ul>
         </div>}
