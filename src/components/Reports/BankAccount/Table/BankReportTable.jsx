@@ -12,7 +12,9 @@ import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver'
+import axios from 'axios';
+import apiEndpoints from '../../../../utils/endPoints';
 
 export default function BankReportTable({ data, isLoading, form }) {
 
@@ -71,12 +73,12 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "",
       sort: "",
     },
-    {
-      title: "عائد مزود الخدمة",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "عائد مزود الخدمة",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     // {
     //   title: "المخصوم من المراكز",
     //   className: "",
@@ -89,24 +91,24 @@ export default function BankReportTable({ data, isLoading, form }) {
     //   order: "",
     //   sort: "",
     // },
-    {
-      title: "صافي الربح",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "صافي الربح",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
       title: "ملحوظة",
       className: "",
       order: "",
       sort: "",
     },
-    {
-      title: "تعديل",
-      className: "",
-      order: "",
-      sort: "",
-    },
+    // {
+    //   title: "تعديل",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
   ]
 
   const dispatch = useDispatch();
@@ -115,17 +117,20 @@ export default function BankReportTable({ data, isLoading, form }) {
 
   const handleClick = async () => {
     try {
-      const response = await exportExcel({ bankNumber: form.accountNumber, startDate: form.startDate, endDate: form.endDate }).unwrap()
-      // FileSaver.saveAs(response.blob(), 'user.xlsx')
-      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      // const response = await exportExcel({ bankNumber: form.bankNumber, startDate: form.startDate, endDate: form.endDate }).unwrap()
 
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'user.xlsx');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // const url = window.URL.createObjectURL(new Blob([response.data]));
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.setAttribute('download', 'user.xlsx');
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
+
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.DAILY_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, { responseType: 'blob' });
+      const file = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(file, 'data.xlsx');
+
     } catch (err) {
       console.log(err)
       notify('error', err.data.message)
@@ -188,16 +193,16 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   {transaction.amountTotal}
                 </td>
-                <td>
+                {/* <td>
                   {transaction.providerRevenue}
                 </td>
                 <td>
                   {transaction.profit}
-                </td>
+                </td> */}
                 <td>
                   {transaction.note || "-"}
                 </td>
-                <td>
+                {/* <td>
                   <EditButton
                     editProps={{
                       name: 'AddEditDeposit',
@@ -206,7 +211,7 @@ export default function BankReportTable({ data, isLoading, form }) {
                       childrenProps: { transaction }
                     }}
                   />
-                </td>
+                </td> */}
               </tr>
             })
           }

@@ -13,9 +13,10 @@ export const reportsApi = apiSlice.injectEndpoints({
       query: ({ bankNumber, startDate, endDate }) => ({
         url: `${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}`,
         method: 'POST',
-        responseType: 'arraybuffer' // Set responseType to 'arraybuffer'
+        responseType: 'arraybuffer',
+        headers: { 'Content-Type': 'blob' },
       }),
-      invalidatesTags: ['userTransaction'],
+      // invalidatesTags: ['userTransaction'],
     }),
   }),
 });

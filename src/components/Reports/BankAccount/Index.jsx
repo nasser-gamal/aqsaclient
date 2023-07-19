@@ -18,7 +18,7 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading } = useFindUserTransactionsQuery({
+  const { data, isFetching } = useFindUserTransactionsQuery({
     bankNumber: form.bankNumber,
     startDate: form.startDate,
     endDate: form.endDate
