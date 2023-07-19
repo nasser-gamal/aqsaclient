@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+/* eslint-disable react/prop-types */
 
 import SectionTitle from './SectionTitle'
 import SectionBox from './SectionBox'
@@ -25,15 +24,4 @@ export default function Section(props) {
       </div>
     </div>
   )
-}
-
-{/* <NavLink to='/1' key={index}>
-  <SectionBox boxTitle={box.boxTitle} bodyTitle={box.bodyTitle} bodyInfo={box.bodyInfo} />
-</ NavLink > */}
-
-
-
-Section.propTypes = {
-  title: PropTypes.string.isRequired,
-  boxes: PropTypes.array.isRequired,
 }

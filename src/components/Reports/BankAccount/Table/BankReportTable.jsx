@@ -12,6 +12,8 @@ import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 
+import FileSaver from 'file-saver'
+
 export default function BankReportTable({ data, isLoading, form }) {
 
   const tableHead = [
@@ -75,12 +77,6 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "",
       sort: "",
     },
-    {
-      title: "الحالة",
-      className: "",
-      order: "",
-      sort: "",
-    },
     // {
     //   title: "المخصوم من المراكز",
     //   className: "",
@@ -120,8 +116,18 @@ export default function BankReportTable({ data, isLoading, form }) {
   const handleClick = async () => {
     try {
       const response = await exportExcel({ bankNumber: form.accountNumber, startDate: form.startDate, endDate: form.endDate }).unwrap()
-      notify('success', response.message)
+      // FileSaver.saveAs(response.blob(), 'user.xlsx')
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'user.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (err) {
+      console.log(err)
       notify('error', err.data.message)
     }
   }
@@ -184,9 +190,6 @@ export default function BankReportTable({ data, isLoading, form }) {
                 </td>
                 <td>
                   {transaction.providerRevenue}
-                </td>
-                <td>
-                  {transaction.status}
                 </td>
                 <td>
                   {transaction.profit}

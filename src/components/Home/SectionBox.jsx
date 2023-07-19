@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+/* eslint-disable react/prop-types */
 
 export default function SectionBox(props) {
   const { boxTitle, bodyTitle, bodyInfo } = props
@@ -11,10 +11,4 @@ export default function SectionBox(props) {
       </div>
     </div>
   )
-}
-
-SectionBox.propTypes = {
-  boxTitle: PropTypes.string.isRequired,
-  bodyTitle: PropTypes.string,
-  bodyInfo: PropTypes.string,
 }
