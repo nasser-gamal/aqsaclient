@@ -10,7 +10,7 @@ export default function Date({ form, setForm, setSkip }) {
   }
 
   return (
-    <div>
+    <div className='d-flex input-date' style={{ width: '58%', gap: '10px' }}>
       <CustomInput
         type='date'
         name='startDate'

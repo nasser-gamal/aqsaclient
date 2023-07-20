@@ -6,7 +6,6 @@ import Table from '../../../common/Table/Table';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../../UI/Loader/Spinner';
 import CustomButton from '../../../common/Button/CustomButton';
-import { useExportExcelMutation } from '../../../../app/features/reports/reportsApi';
 import { useEffect, useState } from 'react';
 import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
@@ -17,8 +16,8 @@ import axios from 'axios';
 import apiEndpoints from '../../../../utils/endPoints';
 
 export default function BankReportTable({ data, isLoading, form }) {
-
   const dispatch = useDispatch();
+
 
   const tableHead = [
     {
@@ -27,17 +26,23 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "createdAt",
       sort: "ASC",
     },
+    // {
+    //   title: "نوع العملية",
+    //   className: "",
+    //   order: "",
+    //   sort: "ASC",
+    // },
     {
-      title: "نوع العملية",
+      title: "الحساب",
       className: "",
       order: "",
       sort: "ASC",
     },
     {
-      title: "البنك",
+      title: "الرقم",
       className: "",
       order: "",
-      sort: "ASC",
+      sort: "",
     },
     {
       title: "رصيد قبل",
@@ -46,13 +51,19 @@ export default function BankReportTable({ data, isLoading, form }) {
       sort: "ASC",
     },
     {
-      title: "رصيد بعد",
+      title: "ايداع",
       className: "",
       order: "",
-      sort: "",
+      sort: "ASC",
     },
     {
-      title: "الرقم",
+      title: "سحب",
+      className: "",
+      order: "",
+      sort: "ASC",
+    },
+    {
+      title: "رصيد بعد",
       className: "",
       order: "",
       sort: "",
@@ -82,17 +93,41 @@ export default function BankReportTable({ data, isLoading, form }) {
       sort: "",
     },
     {
-      title: "المخصوم من المراكز",
+      title: "المخصوم من المزود",
       className: "",
       order: "",
       sort: "",
     },
     {
-      title: " عائد المراكز",
+      title: "المخصوم من المركز",
       className: "",
       order: "",
       sort: "",
     },
+    {
+      title: " عائد المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "اجمالي المخصوم من المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    // {
+    //   title: "المخصوم من المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: " عائد المراكز",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
       title: "صافي الربح",
       className: "",
@@ -120,7 +155,7 @@ export default function BankReportTable({ data, isLoading, form }) {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
         headers: { 'Content-Type': 'blob' },
         responseType: 'arraybuffer',
-        withCredentials: true, 
+        withCredentials: true,
       });
       const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       saveAs(file, 'data.xlsx');
@@ -137,7 +172,7 @@ export default function BankReportTable({ data, isLoading, form }) {
   }
 
   return (
-    <div>
+    <div className='report-table'>
       <CustomButton
         type='button'
         classes={'add-btn'}
@@ -150,26 +185,30 @@ export default function BankReportTable({ data, isLoading, form }) {
       <Table tableHead={tableHead}>
         <tbody>
           {
-            data?.transactions.map(transaction => {
+            data?.transactions.transactions.map(transaction => {
               return <tr key={transaction.id}>
-                <td>
+                <td className='date'>
                   <DateAndTime createdAt={transaction.createdAt} />
                 </td>
                 <td>
-                  {transaction.type}
+                  {transaction.bankAccount?.accountName}
                 </td>
                 <td>
-                  {transaction.bankAccount.accountName}
+                  {transaction.number}
                 </td>
                 <td>
                   {transaction.balanceBefore}
                 </td>
                 <td>
-                  {transaction.balanceAfter}
+                  {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
                 </td>
                 <td>
-                  {transaction.number}
+                  {transaction.type === 'سحب' ? transaction.amountTotal : 0}
                 </td>
+                <td>
+                  {transaction.balanceAfter}
+                </td>
+
                 <td>
                   {transaction.amount}
                 </td>
@@ -183,6 +222,18 @@ export default function BankReportTable({ data, isLoading, form }) {
                   {transaction.providerRevenue}
                 </td>
                 <td>
+                  {transaction.providerDeduction}
+                </td>
+                <td>
+                  {transaction.agentDeduction}
+                </td>
+                <td>
+                  {transaction.agentRevenue}
+                </td>
+                <td>
+                  {transaction.agentTotalDeduction}
+                </td>
+                <td>
                   {transaction.profit}
                 </td>
                 <td>
@@ -191,16 +242,35 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   <EditButton
                     editProps={{
-                      name: 'AddEditDeposit',
-                      modalTitle: 'تعديل العملية',
+                      name: 'AddEditWithdraw',
+                      modalTitle: 'تعديل عملية سحب',
                       status: 'تعديل',
-                      childrenProps: { transaction }
+                      childrenProps: { transaction, width: '700px' }
                     }}
                   />
                 </td>
               </tr>
             })
           }
+          <tr className='last-child'>
+            <td colSpan={4}>
+              اجمالي العمليات
+            </td>
+            <td>
+              {data?.totalDepoite}
+            </td>
+            <td>
+              {data?.totalWithdraw}
+            </td>
+            <td colSpan={9}>
+            </td>
+            <td>
+              {data?.totalProfit}
+            </td>
+            <td colSpan={2}>
+
+            </td>
+          </tr>
         </tbody>
       </Table>
     </div>

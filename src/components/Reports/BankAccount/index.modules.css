@@ -1,0 +1,17 @@
+.acc-report .input-form {
+  width: 40%;
+}
+.acc-report .input-date .form-input {
+  width: 58%;
+}
+@media (max-width: 767px) {
+  .acc-report .input-form,
+  .acc-report .input-date {
+    width: 100% !important;
+  }
+}
+
+.report-table table tr.last-child {
+  background: #45829d;
+  color: white;
+}

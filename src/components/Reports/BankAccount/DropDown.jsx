@@ -33,7 +33,6 @@ export default function DropDown({ form, setForm, setSkip }) {
 
 
   return (
-    <div>
       <CustomSelect
         searchInput={true}
         onChange={(e) => filterSelectOptions(e)}
@@ -66,6 +65,5 @@ export default function DropDown({ form, setForm, setSkip }) {
           })
         }
       </CustomSelect>
-    </div>
   )
 }

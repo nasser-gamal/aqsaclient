@@ -85,7 +85,6 @@ export const adminMenu = [
       },
     ],
     roles: ['superAdmin', 'admin'],
-
   },
   {
     id: 6,
@@ -101,7 +100,6 @@ export const adminMenu = [
       },
     ],
     roles: ['superAdmin', 'admin'],
-
   },
   {
     id: 7,
@@ -129,7 +127,6 @@ export const adminMenu = [
       },
     ],
     roles: ['superAdmin', 'admin'],
-
   },
   {
     id: 8,
@@ -137,12 +134,12 @@ export const adminMenu = [
     isLink: false,
     imgSrc: menu,
     subMenu: [
-      // {
-      //   id: 1,
-      //   title: 'تقارير عمليات اليوم',
-      //   imgSrc: list,
-      //   linkURL: '/dayReport',
-      // },
+      {
+        id: 1,
+        title: 'تقارير عمليات اليوم',
+        imgSrc: list,
+        linkURL: '/dayReport',
+      },
       {
         id: 3,
         title: 'تقرير الحسابات',
@@ -155,7 +152,6 @@ export const adminMenu = [
       //   imgSrc: list,
       //   linkURL: '/employReport',
       // },
-    
     ],
     roles: ['superAdmin', 'admin'],
   },
