@@ -127,10 +127,20 @@ export default function BankReportTable({ data, isLoading, form }) {
       // link.click();
       // document.body.removeChild(link);
 
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.DAILY_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, { responseType: 'blob' });
-      const file = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
+        // headers: { 'Content-Type': 'blob' },
+        responseType: 'arraybuffer',
+      });
+      const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       saveAs(file, 'data.xlsx');
-
+      console.log(response)
+      // const link = document.createElement('a');
+      // const fileName = 'file.xlsx';
+      // link.setAttribute('download', fileName);
+      // link.href = URL.createObjectURL(new Blob([response.data]));
+      // document.body.appendChild(link);
+      // link.click();
+      // link.remove();
     } catch (err) {
       console.log(err)
       notify('error', err.data.message)
