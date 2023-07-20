@@ -18,6 +18,8 @@ import apiEndpoints from '../../../../utils/endPoints';
 
 export default function BankReportTable({ data, isLoading, form }) {
 
+  const dispatch = useDispatch();
+
   const tableHead = [
     {
       title: "التاريخ",
@@ -73,87 +75,61 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "",
       sort: "",
     },
-    // {
-    //   title: "عائد مزود الخدمة",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
-    // {
-    //   title: "المخصوم من المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
-    // {
-    //   title: " عائد المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
-    // {
-    //   title: "صافي الربح",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "عائد مزود الخدمة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "المخصوم من المراكز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: " عائد المراكز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "صافي الربح",
+      className: "",
+      order: "",
+      sort: "",
+    },
     {
       title: "ملحوظة",
       className: "",
       order: "",
       sort: "",
     },
-    // {
-    //   title: "تعديل",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "تعديل",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
-
-  const dispatch = useDispatch();
-  const [exportExcel, { isLoading: exportLoading }] = useExportExcelMutation()
 
 
   const handleClick = async () => {
     try {
-      // const response = await exportExcel({ bankNumber: form.bankNumber, startDate: form.startDate, endDate: form.endDate }).unwrap()
-
-      // const url = window.URL.createObjectURL(new Blob([response.data]));
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', 'user.xlsx');
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-
+      dispatch(showLoader())
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
-        // headers: { 'Content-Type': 'blob' },
+        headers: { 'Content-Type': 'blob' },
         responseType: 'arraybuffer',
+        withCredentials: true, 
       });
       const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       saveAs(file, 'data.xlsx');
-      console.log(response)
-      // const link = document.createElement('a');
-      // const fileName = 'file.xlsx';
-      // link.setAttribute('download', fileName);
-      // link.href = URL.createObjectURL(new Blob([response.data]));
-      // document.body.appendChild(link);
-      // link.click();
-      // link.remove();
+      dispatch(hideLoader())
     } catch (err) {
-      console.log(err)
+      dispatch(hideLoader())
       notify('error', err.data.message)
     }
   }
-
-  useEffect(() => {
-    if (exportLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, exportLoading])
 
 
   if (isLoading) {
@@ -203,16 +179,16 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   {transaction.amountTotal}
                 </td>
-                {/* <td>
+                <td>
                   {transaction.providerRevenue}
                 </td>
                 <td>
                   {transaction.profit}
-                </td> */}
+                </td>
                 <td>
                   {transaction.note || "-"}
                 </td>
-                {/* <td>
+                <td>
                   <EditButton
                     editProps={{
                       name: 'AddEditDeposit',
@@ -221,7 +197,7 @@ export default function BankReportTable({ data, isLoading, form }) {
                       childrenProps: { transaction }
                     }}
                   />
-                </td> */}
+                </td>
               </tr>
             })
           }
