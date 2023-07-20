@@ -6,7 +6,6 @@ import Table from '../../../common/Table/Table';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../../UI/Loader/Spinner';
 import CustomButton from '../../../common/Button/CustomButton';
-import { useEffect, useState } from 'react';
 import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
@@ -242,10 +241,10 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   <EditButton
                     editProps={{
-                      name: 'AddEditWithdraw',
+                      name: transaction.type === 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
                       modalTitle: 'تعديل عملية سحب',
                       status: 'تعديل',
-                      childrenProps: { transaction, width: '700px' }
+                      childrenProps: { transaction, width: transaction.type === 'سحب' ? '700px' : '500px' }
                     }}
                   />
                 </td>

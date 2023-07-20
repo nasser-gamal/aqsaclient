@@ -15,7 +15,7 @@ export const depositeApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['deposite', 'bankAccounts'],
+      invalidatesTags: ['deposite', 'bankAccounts', 'userTransaction'],
     }),
     updateDeposite: builder.mutation({
       query: ({ transactionId, form }) => ({
@@ -23,7 +23,7 @@ export const depositeApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['deposite', 'bankAccounts'],
+      invalidatesTags: ['deposite', 'bankAccounts', 'userTransaction'],
     }),
   }),
 });
