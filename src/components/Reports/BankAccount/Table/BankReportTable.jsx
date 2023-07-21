@@ -14,23 +14,26 @@ import { saveAs } from 'file-saver'
 import axios from 'axios';
 import apiEndpoints from '../../../../utils/endPoints';
 
+import moreImg from '../../../../assets/icons/add-button.png'
+import { openModal } from '../../../../app/features/modal/modalSlice';
+
 export default function BankReportTable({ data, isLoading, form }) {
   const dispatch = useDispatch();
 
 
   const tableHead = [
     {
+      title: "رقم الفاتورة",
+      className: "",
+      order: "",
+      sort: "ASC",
+    },
+    {
       title: "التاريخ",
       className: "created-at",
       order: "createdAt",
       sort: "ASC",
     },
-    // {
-    //   title: "نوع العملية",
-    //   className: "",
-    //   order: "",
-    //   sort: "ASC",
-    // },
     {
       title: "الحساب",
       className: "",
@@ -61,12 +64,7 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "",
       sort: "ASC",
     },
-    {
-      title: "رصيد بعد",
-      className: "",
-      order: "",
-      sort: "",
-    },
+
     {
       title: "قيمة الفاتورة",
       className: "",
@@ -86,47 +84,17 @@ export default function BankReportTable({ data, isLoading, form }) {
       sort: "",
     },
     {
+      title: "رصيد بعد",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "عائد مزود الخدمة",
       className: "",
       order: "",
       sort: "",
     },
-    {
-      title: "المخصوم من المزود",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "المخصوم من المركز",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: " عائد المركز",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "اجمالي المخصوم من المركز",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    // {
-    //   title: "المخصوم من المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
-    // {
-    //   title: " عائد المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
     {
       title: "صافي الربح",
       className: "",
@@ -140,7 +108,7 @@ export default function BankReportTable({ data, isLoading, form }) {
       sort: "",
     },
     {
-      title: "تعديل",
+      title: "#",
       className: "",
       order: "",
       sort: "",
@@ -186,6 +154,9 @@ export default function BankReportTable({ data, isLoading, form }) {
           {
             data?.transactions.transactions.map(transaction => {
               return <tr key={transaction.id}>
+                <td>
+                  {transaction.id}
+                </td>
                 <td className='date'>
                   <DateAndTime createdAt={transaction.createdAt} />
                 </td>
@@ -204,9 +175,7 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   {transaction.type === 'سحب' ? transaction.amountTotal : 0}
                 </td>
-                <td>
-                  {transaction.balanceAfter}
-                </td>
+
 
                 <td>
                   {transaction.amount}
@@ -218,19 +187,10 @@ export default function BankReportTable({ data, isLoading, form }) {
                   {transaction.amountTotal}
                 </td>
                 <td>
+                  {transaction.balanceAfter}
+                </td>
+                <td>
                   {transaction.providerRevenue}
-                </td>
-                <td>
-                  {transaction.providerDeduction}
-                </td>
-                <td>
-                  {transaction.agentDeduction}
-                </td>
-                <td>
-                  {transaction.agentRevenue}
-                </td>
-                <td>
-                  {transaction.agentTotalDeduction}
                 </td>
                 <td>
                   {transaction.profit}
@@ -239,20 +199,23 @@ export default function BankReportTable({ data, isLoading, form }) {
                   {transaction.note || "-"}
                 </td>
                 <td>
-                  <EditButton
-                    editProps={{
-                      name: transaction.type === 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
-                      modalTitle: 'تعديل عملية سحب',
-                      status: 'تعديل',
-                      childrenProps: { transaction, width: transaction.type === 'سحب' ? '700px' : '500px' }
-                    }}
+                  <img style={{
+                    'width': '28px',
+                    'cursor': 'pointer',
+                  }} src={moreImg} alt={moreImg}
+                    onClick={() => dispatch(openModal({
+                      name: "TransactionInfo",
+                      modalTitle: 'عرض بيانات العملية',
+                      status: 'عرض',
+                      childrenProps: { transaction, width: '1000px' }
+                    }))}
                   />
                 </td>
               </tr>
             })
           }
           <tr className='last-child'>
-            <td colSpan={4}>
+            <td colSpan={5}>
               اجمالي العمليات
             </td>
             <td>
@@ -261,12 +224,12 @@ export default function BankReportTable({ data, isLoading, form }) {
             <td>
               {data?.totalWithdraw}
             </td>
-            <td colSpan={9}>
+            <td colSpan={5}>
             </td>
             <td>
               {data?.totalProfit}
             </td>
-            <td colSpan={2}>
+            <td colSpan={3}>
 
             </td>
           </tr>

@@ -15,6 +15,7 @@ import AddEditDeposit from '../../Transaction/Deposit/AddEditDeposit/AddEditDepo
 import AddEditWithdraw from '../../Transaction/WithDraw/AddEditWithdraw/AddEditWithdraw';
 import AddEditTransfer from '../../Transaction/Transfer/AddEditTransfer/AddEditTransfer';
 import AddEditBankAccount from '../../BankAccounts/AddEditBankAccount/AddEditBankAccount';
+import TransactionInfo from '../../UI/transactionModal/TransactionInfo';
 import DeleteConfirm from '../../DeleteConfirm/DeleteConfirm';
 
 export default function ModalManager() {
@@ -42,6 +43,7 @@ export default function ModalManager() {
     AddEditDeposit,
     AddEditWithdraw,
     AddEditTransfer,
+    TransactionInfo,
   };
 
   let renderComponent;

@@ -4,24 +4,25 @@ import DaySelect from "./Select/Date";
 import DayTable from "./Table/DayTable";
 import { useFindDailyTransactionsQuery } from "../../../app/features/reports/reportsApi";
 import { notify } from "../../../utils/notify";
+import { DateInput } from "../../../utils/formatDate";
 
 export default function Index() {
 
 
   const [form, setForm] = useState({
-    date: "",
+    startDate: DateInput(),
+    endDate: DateInput(),
   });
 
   const [skip, setSkip] = useState(true);
 
   const { data, isLoading, isFetching } = useFindDailyTransactionsQuery({
-    date: form.date,
+    startDate: form.startDate,
+    endDate: form.endDate,
   }, { skip });
 
-  console.log(data)
   const handleClick = () => {
-    console.log(isFetching)
-    if (!form.date) {
+    if (!form.startDate || !form.endDate) {
       notify('error', 'اختر التاريخ')
     } else {
       setSkip(false)

@@ -7,7 +7,7 @@ import EditButton from '../../UI/TableButtons/EditButton';
 import UpdatePasswordButton from '../../UI/TableButtons/UpdatePasswordButton';
 
 
-import {  useUpdateUserStatusMutation } from '../../../app/features/user/userApi';
+import { useUpdateUserStatusMutation } from '../../../app/features/user/userApi';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
@@ -90,20 +90,19 @@ export default function UserTable({ users, isLoading }) {
     },
 
   ]
-
+  const [updateUserStatus, { isLoading: updateLoading }] = useUpdateUserStatusMutation()
 
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || updateLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isLoading, updateLoading]);
 
 
 
-  const [updateUserStatus] = useUpdateUserStatusMutation()
 
 
   const updateStatus = async (userId) => {

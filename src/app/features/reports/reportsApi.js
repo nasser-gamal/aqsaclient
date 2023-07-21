@@ -10,8 +10,8 @@ export const reportsApi = apiSlice.injectEndpoints({
       providesTags: ['userTransaction'],
     }),
     findDailyTransactions: builder.query({
-      query: ({ date }) => ({
-        url: `${apiEndpoints.reports.DAILY_TRANSACTION}?date=${date}`,
+      query: ({ startDate, endDate }) => ({
+        url: `${apiEndpoints.reports.DAILY_TRANSACTION}?startDate=${startDate}&endDate=${endDate}`,
       }),
       providesTags: ['userTransaction'],
     }),

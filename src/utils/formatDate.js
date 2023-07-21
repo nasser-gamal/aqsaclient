@@ -13,9 +13,20 @@ export const formattedTime = (value) => {
   const hours = dateTime.getHours();
   const minutes = dateTime.getMinutes();
   const amPm = hours < 12 ? 'ص' : 'م';
-  const formattedHours = (hours % 12) || 12;
-  const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${amPm}`;
+  const formattedHours = hours % 12 || 12;
+  const formattedTime = `${formattedHours}:${minutes
+    .toString()
+    .padStart(2, '0')} ${amPm}`;
   return formattedTime;
 };
 
-
+export const DateInput = () => {
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = `${now.getMonth() + 1}`.padStart(2, '0');
+    const day = `${now.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  return getCurrentDateTime();
+};

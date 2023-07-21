@@ -9,13 +9,14 @@ import { validateReport } from "../../../utils/validation";
 import { notify } from '../../../utils/notify';
 
 import './index.modules.css';
+import { DateInput } from "../../../utils/formatDate";
 
 export default function Index() {
 
   const [form, setForm] = useState({
     bankNumber: "",
-    startDate: "",
-    endDate: ""
+    startDate: DateInput(),
+    endDate: DateInput()
   });
 
   const [skip, setSkip] = useState(true);
@@ -25,7 +26,6 @@ export default function Index() {
     startDate: form.startDate,
     endDate: form.endDate
   }, { skip });
-  console.log(data)
 
 
   const handleClick = () => {
