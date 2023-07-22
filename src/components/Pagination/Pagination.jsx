@@ -1,27 +1,29 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
 import './pagination.modules.css';
 
-export default function Pagination() {
+export default function Pagination({ pagination }) {
   // export default function Pagenation({ pagenation }) {
   // const filter = useSelector(state => state.filterRecords)
   // const dispatch = useDispatch()
 
-  // const {
-  //   page: pageNumber,
-  //   itemPerPage,
-  //   totalItems,
-  //   currentPage,
-  //   hasNextPage,
-  //   hasNextThreePage,
-  //   hasNextTwoPage,
-  //   hasPreviousPage,
-  //   nextPage,
-  //   nextThreePage,
-  //   nextTwoPage,
-  //   previousPage,
-  // } = pagenation;
+  const {
+    page: pageNumber,
+    itemPerPage,
+    totalItems,
+    currentPage,
+    hasNextPage,
+    hasNextThreePage,
+    hasNextTwoPage,
+    hasPreviousPage,
+    nextPage,
+    nextThreePage,
+    nextTwoPage,
+    previousPage,
+  } = pagination;
 
+  console.log(pagination)
 
 
   return (

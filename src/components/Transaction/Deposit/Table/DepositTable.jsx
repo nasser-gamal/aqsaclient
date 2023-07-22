@@ -45,18 +45,18 @@ export default function DepositTable({ data, isLoading }) {
       order: "",
       sort: "ASC",
     },
-    {
-      title: "ايداع",
-      className: "",
-      order: "",
-      sort: "ASC",
-    },
-    {
-      title: "سحب",
-      className: "",
-      order: "",
-      sort: "ASC",
-    },
+    // {
+    //   title: "ايداع",
+    //   className: "",
+    //   order: "",
+    //   sort: "ASC",
+    // },
+    // {
+    //   title: "سحب",
+    //   className: "",
+    //   order: "",
+    //   sort: "ASC",
+    // },
 
     {
       title: "قيمة الفاتورة",
@@ -141,12 +141,12 @@ export default function DepositTable({ data, isLoading }) {
               <td>
                 {transaction.balanceBefore}
               </td>
-              <td>
+              {/* <td>
                 {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
               </td>
               <td>
                 {transaction.type === 'سحب' ? transaction.amountTotal : 0}
-              </td>
+              </td> */}
               <td>
                 {transaction.amount}
               </td>

@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const categoryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllCategories: builder.query({
-      query: () => ({
-        url: apiEndpoints.category.GET_CATEGORIES,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.category.GET_CATEGORIES}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['categories'],
     }),

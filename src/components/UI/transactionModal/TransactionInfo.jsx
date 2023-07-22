@@ -31,13 +31,13 @@ export default function TransactionInfo() {
       sort: "",
     },
     {
-      title: "عائد المخصوم من المركز",
+      title: "عائد المركز",
       className: "",
       order: "",
       sort: "ASC",
     },
     {
-      title: "اجمالي المخصوم من المركز",
+      title: "صافي المخصوم من المركز",
       className: "",
       order: "",
       sort: "ASC",
