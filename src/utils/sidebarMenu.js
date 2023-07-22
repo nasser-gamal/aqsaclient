@@ -146,12 +146,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/bankAccountReport',
       },
-      // {
-      //   id: 2,
-      //   title: 'تقرير موظف',
-      //   imgSrc: list,
-      //   linkURL: '/employReport',
-      // },
+      {
+        id: 2,
+        title: 'تقرير موظف',
+        imgSrc: list,
+        linkURL: '/employReport',
+      },
     ],
     roles: ['superAdmin', 'admin'],
   },

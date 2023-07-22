@@ -224,3 +224,17 @@ export const validateReport = (formData) => {
   }
   return error;
 };
+
+export const validateEmployReport = (formData) => {
+  let error;
+  if (!formData.userId) {
+    error = 'اختر الموظف';
+  }
+  if (!formData.startDate) {
+    error = 'اختر تاريخ البداية';
+  }
+  if (!formData.endDate) {
+    error = 'اختر تاريخ النهاية';
+  }
+  return error;
+};

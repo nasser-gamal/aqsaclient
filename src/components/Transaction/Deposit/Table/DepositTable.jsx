@@ -6,9 +6,21 @@ import Table from '../../../common/Table/Table';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../../UI/Loader/Spinner';
 
+
+import moreImg from '../../../../assets/icons/add-button.png'
+import { openModal } from '../../../../app/features/modal/modalSlice';
+import { useDispatch } from 'react-redux';
+
 export default function DepositTable({ data, isLoading }) {
+  const dispatch = useDispatch();
 
   const tableHead = [
+    {
+      title: "رقم الفاتورة",
+      className: "",
+      order: "",
+      sort: "ASC",
+    },
     {
       title: "التاريخ",
       className: "created-at",
@@ -16,16 +28,16 @@ export default function DepositTable({ data, isLoading }) {
       sort: "ASC",
     },
     {
-      title: "نوع العملية",
+      title: "الحساب",
       className: "",
       order: "",
       sort: "ASC",
     },
     {
-      title: "البنك",
+      title: "الرقم",
       className: "",
       order: "",
-      sort: "ASC",
+      sort: "",
     },
     {
       title: "رصيد قبل",
@@ -34,17 +46,18 @@ export default function DepositTable({ data, isLoading }) {
       sort: "ASC",
     },
     {
-      title: "رصيد بعد",
+      title: "ايداع",
       className: "",
       order: "",
-      sort: "",
+      sort: "ASC",
     },
     {
-      title: "الرقم",
+      title: "سحب",
       className: "",
       order: "",
-      sort: "",
+      sort: "ASC",
     },
+
     {
       title: "قيمة الفاتورة",
       className: "",
@@ -64,29 +77,17 @@ export default function DepositTable({ data, isLoading }) {
       sort: "",
     },
     {
-      title: "عائد مزود الخدمة",
+      title: "رصيد بعد",
       className: "",
       order: "",
       sort: "",
     },
     {
-      title: "الحالة",
+      title: "عائد مزود الخدمة",
       className: "",
       order: "",
       sort: "",
     },
-    // {
-    //   title: "المخصوم من المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
-    // {
-    //   title: " عائد المراكز",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
     {
       title: "صافي الربح",
       className: "",
@@ -100,12 +101,19 @@ export default function DepositTable({ data, isLoading }) {
       sort: "",
     },
     {
+      title: "#",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "تعديل",
       className: "",
       order: "",
       sort: "",
     },
   ]
+
 
   
   if (isLoading) {
@@ -119,22 +127,25 @@ export default function DepositTable({ data, isLoading }) {
           data?.transactions.map(transaction => {
             return <tr key={transaction.id}>
               <td>
+                {transaction.id}
+              </td>
+              <td className='date'>
                 <DateAndTime createdAt={transaction.createdAt} />
               </td>
               <td>
-                {transaction.type}
+                {transaction.bankAccount?.accountName}
               </td>
               <td>
-                {transaction.bankAccount.accountName}
+                {transaction.number}
               </td>
               <td>
                 {transaction.balanceBefore}
               </td>
               <td>
-                {transaction.balanceAfter}
+                {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
               </td>
               <td>
-                {transaction.number}
+                {transaction.type === 'سحب' ? transaction.amountTotal : 0}
               </td>
               <td>
                 {transaction.amount}
@@ -146,16 +157,29 @@ export default function DepositTable({ data, isLoading }) {
                 {transaction.amountTotal}
               </td>
               <td>
-                {transaction.providerRevenue}
+                {transaction.balanceAfter}
               </td>
               <td>
-                {transaction.status}
+                {transaction.providerRevenue}
               </td>
               <td>
                 {transaction.profit}
               </td>
               <td>
                 {transaction.note || "-"}
+              </td>
+              <td>
+                <img style={{
+                  'width': '28px',
+                  'cursor': 'pointer',
+                }} src={moreImg} alt={moreImg}
+                  onClick={() => dispatch(openModal({
+                    name: "TransactionInfo",
+                    modalTitle: 'عرض بيانات العملية',
+                    status: 'عرض',
+                    childrenProps: { transaction, width: '1000px' }
+                  }))}
+                />
               </td>
               <td>
                 <EditButton

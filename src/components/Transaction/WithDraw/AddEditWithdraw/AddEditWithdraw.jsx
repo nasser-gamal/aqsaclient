@@ -182,7 +182,7 @@ export default function AddEditWithdraw() {
           <CustomInput
             width={'30%'}
             type='text'
-            value={((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage )).toFixed(2) || 0}
+            value={((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage)).toFixed(2) || 0}
             label='اجمالي المخصوم من المزود'
             disabled={true}
           />
@@ -228,6 +228,8 @@ export default function AddEditWithdraw() {
                 value={false}
                 onChange={() => setForm({ ...form, isTotalRevenue: true })}
                 checked={form.isTotalRevenue === true}
+                disabled={childrenProps?.transaction ? true : false}
+
               />
               <label htmlFor="total">
                 الاجمالي
@@ -249,6 +251,8 @@ export default function AddEditWithdraw() {
                 value={true}
                 onChange={() => setForm({ ...form, isTotalRevenue: false })}
                 checked={form.isTotalRevenue === false}
+                disabled={childrenProps?.transaction ? true : false}
+
               />
               <label htmlFor="revenue">
                 المخصوم من مزود الخدمة

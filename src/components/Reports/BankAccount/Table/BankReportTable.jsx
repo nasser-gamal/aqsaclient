@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
@@ -175,8 +174,6 @@ export default function BankReportTable({ data, isLoading, form }) {
                 <td>
                   {transaction.type === 'سحب' ? transaction.amountTotal : 0}
                 </td>
-
-
                 <td>
                   {transaction.amount}
                 </td>

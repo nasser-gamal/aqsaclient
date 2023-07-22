@@ -15,6 +15,12 @@ export const reportsApi = apiSlice.injectEndpoints({
       }),
       providesTags: ['userTransaction'],
     }),
+    findEmployTransactions: builder.query({
+      query: ({ userId, startDate, endDate }) => ({
+        url: `${apiEndpoints.reports.EMPLOY_TRANSACTION}?userId=${userId}&startDate=${startDate}&endDate=${endDate}`,
+      }),
+      providesTags: ['userTransaction'],
+    }),
     exportExcel: builder.mutation({
       query: ({ bankNumber, startDate, endDate }) => ({
         url: `${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}`,
@@ -30,5 +36,6 @@ export const reportsApi = apiSlice.injectEndpoints({
 export const {
   useFindUserTransactionsQuery,
   useFindDailyTransactionsQuery,
+  useFindEmployTransactionsQuery,
   useExportExcelMutation,
 } = reportsApi;

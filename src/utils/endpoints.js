@@ -80,6 +80,7 @@ const apiEndpoints = {
 
   reports: {
     DAILY_TRANSACTION: '/reports/transactions/daily',
+    EMPLOY_TRANSACTION: '/reports/transactions/employ',
     USER_TRANSACTION: '/reports/transactions/user',
     EXPORT_TRANSACTION: '/reports/transactions/export/excel',
   },
