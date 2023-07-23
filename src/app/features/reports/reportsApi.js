@@ -4,20 +4,36 @@ import { apiSlice } from '../../api/apiSlice';
 export const reportsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findUserTransactions: builder.query({
-      query: ({ bankNumber, startDate, endDate }) => ({
-        url: `${apiEndpoints.reports.USER_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}`,
+      query: ({
+        bankNumber,
+        startDate,
+        endDate,
+        page,
+        limit,
+        order,
+        sort,
+      }) => ({
+        url: `${apiEndpoints.reports.USER_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['userTransaction'],
     }),
     findDailyTransactions: builder.query({
-      query: ({ startDate, endDate }) => ({
-        url: `${apiEndpoints.reports.DAILY_TRANSACTION}?startDate=${startDate}&endDate=${endDate}`,
+      query: ({ startDate, endDate, page, limit, order, sort }) => ({
+        url: `${apiEndpoints.reports.DAILY_TRANSACTION}?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['userTransaction'],
     }),
     findEmployTransactions: builder.query({
-      query: ({ userId, startDate, endDate }) => ({
-        url: `${apiEndpoints.reports.EMPLOY_TRANSACTION}?userId=${userId}&startDate=${startDate}&endDate=${endDate}`,
+      query: ({
+        userId,
+        startDate,
+        endDate,
+        page,
+        limit,
+        order,
+        sort,
+      }) => ({
+        url: `${apiEndpoints.reports.EMPLOY_TRANSACTION}?userId=${userId}&startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['userTransaction'],
     }),

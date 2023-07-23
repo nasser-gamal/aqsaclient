@@ -222,7 +222,7 @@ export default function EmployReportTable({ data, isLoading, form }) {
             <td>
               {data?.totalWithdraw}
             </td>
-            <td colSpan={5}>
+            <td colSpan={6}>
             </td>
             <td>
               {data?.totalProfit}

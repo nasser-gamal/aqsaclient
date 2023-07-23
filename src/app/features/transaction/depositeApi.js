@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const depositeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllDeposites: builder.query({
-      query: () => ({
-        url: apiEndpoints.deposite.GET_DEPOSITES,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.deposite.GET_DEPOSITES}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['deposite'],
     }),

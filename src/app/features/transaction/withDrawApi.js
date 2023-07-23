@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const withDrawApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllWithDraw: builder.query({
-      query: () => ({
-        url: apiEndpoints.withdraw.GET_WITHDRAWS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.withdraw.GET_WITHDRAWS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['withdraw'],
     }),

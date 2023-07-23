@@ -7,6 +7,7 @@ import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 
 import EntrySelect from '../UI/LimitSelect/EntrySelect';
 import Pagination from '../UI/Pagination/Pagination';
+import { resetFilter } from '../../app/features/filter/filterSlice';
 
 export default function Index() {
   const dispatch = useDispatch();
@@ -15,7 +16,6 @@ export default function Index() {
 
   const { data, isLoading, isFetching } = useFindAllCategoriesQuery({ page, limit, order: orderBy, sort });
 
-  console.log(data)
 
   useEffect(() => {
     if (isLoading || isFetching) {
@@ -26,7 +26,13 @@ export default function Index() {
   }, [dispatch, isFetching, isLoading]);
 
 
-  console.log(isFetching)
+
+  useEffect(() => {
+    dispatch(
+      resetFilter()
+    );
+  }, []);
+
   return (
     <>
       <div className='d-flex flex-between'>

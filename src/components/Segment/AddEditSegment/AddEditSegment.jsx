@@ -16,9 +16,9 @@ export default function AddEditSegment() {
   const [form, setForm] = useState({
     title: childrenProps?.segment.title || "",
     serviceId: childrenProps?.segment.service.id || "",
-    start: childrenProps?.segment.start || "",
+    start: childrenProps?.segment.start || 0,
     end: childrenProps?.segment.end || "",
-    percentage: childrenProps?.segment.percentage || "",
+    percentage: childrenProps?.segment.percentage || 0,
     note: childrenProps?.segment.note || ""
   });
 
@@ -76,7 +76,7 @@ export default function AddEditSegment() {
         type='text'
         label='من'
         name={'start'}
-        value={form.start || 0}
+        value={form.start}
         onChange={(e) => onChange(e)}
       />
       <CustomInput
@@ -90,7 +90,7 @@ export default function AddEditSegment() {
         type='text'
         label='النسبة'
         name={'percentage'}
-        value={form.percentage || 0}
+        value={form.percentage}
         onChange={(e) => onChange(e)}
       />
       <CustomInput

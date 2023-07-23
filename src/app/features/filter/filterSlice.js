@@ -13,14 +13,14 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    oldData: (state, action) => {
+    resetFilter: () => {
       return {
-        limit: action.payload.limit,
-        page: action.payload.page,
-        orderBy: action.payload.orderBy,
-        searchBy: action.payload.searchBy,
-        searchValue: action.payload.searchValue,
-        sort: action.payload.sort,
+        limit: 10,
+        page: 1,
+        orderBy: 'createdAt',
+        searchBy: '',
+        searchValue: '',
+        sort: 'DESC',
       };
     },
     navigatePage: (state, action) => {
@@ -51,7 +51,7 @@ const filterSlice = createSlice({
 
 export default filterSlice.reducer;
 export const {
-  oldData,
+  resetFilter,
   navigatePage,
   changeLimit,
   searchInput,

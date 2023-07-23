@@ -91,10 +91,10 @@ export default function Pagination({ pagination }) {
             </Link>
           )}
           <Link
-            onClick={() => handleNavigate(pagination.nextPage)}
-            to={`${path}?page=${pagination.nextPage}${query}`}
+            onClick={() => handleNavigate(pagination?.nextPage)}
+            to={`${path}?page=${pagination?.nextPage}${query}`}
             className={
-              !pagination.hasNextPage ? "page-link next disabled" : "page-link next"
+              !pagination?.hasNextPage ? "page-link next disabled" : "page-link next"
             }
           >
             التالي

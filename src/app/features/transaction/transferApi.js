@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const transferApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllTransfer: builder.query({
-      query: () => ({
-        url: apiEndpoints.transfer.GET_TRANSFERS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.transfer.GET_TRANSFERS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['transfers'],
     }),

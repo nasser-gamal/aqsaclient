@@ -12,7 +12,7 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الحساب');
 
-  const { data, isLoading } = useFindAllBankAccountsQuery();
+  const { data, isLoading } = useFindAllBankAccountsQuery({ page: '', limit: 1000000, order: 'createdAt', sort: 'ASC' });
   const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
 
 
   useEffect(() => {
-    const bankAccount = data?.bankAccounts?.filter(category => category.id == form.bankAccountId);
+    const bankAccount = data?.bankAccounts?.filter(bankAccount => bankAccount.id == form.bankAccountId);
     if (bankAccount && bankAccount.length > 0) {
       setDropHeading(bankAccount[0]?.accountName);
       setForm({ ...form, bankAccountId: bankAccount[0]?.id });

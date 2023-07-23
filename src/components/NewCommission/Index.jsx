@@ -14,7 +14,7 @@ import { validateCommission } from "../../utils/validation";
 import { useFindAllCategoriesQuery } from "../../app/features/category/categoryApi";
 
 export default function Index() {
-  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery();
+  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery({ page: 1, limit: 100000, order: "createdAt", sort: 'ASC' });
 
   const dispatch = useDispatch()
 

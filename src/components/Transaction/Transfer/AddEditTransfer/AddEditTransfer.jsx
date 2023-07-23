@@ -65,7 +65,7 @@ export default function AddEditDeposit() {
 
 
 
-  const { data, isLoading } = useFindAllBankAccountsQuery();
+  const { data, isLoading } = useFindAllBankAccountsQuery({ page: 1, limit: 100000000000, order: 'createdAt', sort: "ASC" });
 
   useEffect(() => {
     if (isLoading) {

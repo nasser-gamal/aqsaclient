@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const bankAccountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllBankAccounts: builder.query({
-      query: () => ({
-        url: apiEndpoints.bankAccount.GET_BANKACCOUNTS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.bankAccount.GET_BANKACCOUNTS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['bankAccounts'],
     }),

@@ -1,7 +1,7 @@
 import Pagination from '../../UI/Pagination/Pagination';
 import DropDown from "./DropDown";
 import BankReportTable from "./Table/BankReportTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFindUserTransactionsQuery } from "../../../app/features/reports/reportsApi";
 import Date from "./Date";
 import CustomButton from "../../common/Button/CustomButton";
@@ -10,8 +10,19 @@ import { notify } from '../../../utils/notify';
 
 import './index.modules.css';
 import { DateInput } from "../../../utils/formatDate";
+import { useDispatch, useSelector } from 'react-redux';
+import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
+import { resetFilter } from '../../../app/features/filter/filterSlice';
+import EntrySelect from '../../UI/LimitSelect/EntrySelect';
+
+
+import { saveAs } from 'file-saver'
+import axios from 'axios';
+import apiEndpoints from '../../../utils/endPoints';
 
 export default function Index() {
+  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
+  const dispatch = useDispatch()
 
   const [form, setForm] = useState({
     bankNumber: "",
@@ -21,10 +32,14 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading } = useFindUserTransactionsQuery({
+  const { data, isLoading, isFetching } = useFindUserTransactionsQuery({
     bankNumber: form.bankNumber,
     startDate: form.startDate,
-    endDate: form.endDate
+    endDate: form.endDate,
+    page,
+    limit,
+    order: orderBy,
+    sort: "ASC"
   }, { skip });
 
 
@@ -34,6 +49,42 @@ export default function Index() {
       notify('error', error)
     } else {
       setSkip(false)
+    }
+  }
+
+
+
+  useEffect(() => {
+    if (isFetching) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, isFetching]);
+
+
+  useEffect(() => {
+    dispatch(
+      resetFilter()
+    );
+  }, []);
+
+
+
+  const exportToExcel = async () => {
+    try {
+      dispatch(showLoader())
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
+        headers: { 'Content-Type': 'blob' },
+        responseType: 'arraybuffer',
+        withCredentials: true,
+      });
+      const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(file, 'data.xlsx');
+      dispatch(hideLoader())
+    } catch (err) {
+      dispatch(hideLoader())
+      notify('error', err.data.message)
     }
   }
 
@@ -59,14 +110,30 @@ export default function Index() {
           </CustomButton>
         </div>
       </div>
-      {data && data?.transactions?.transactions.length > 0 && <BankReportTable form={form} data={data} isLoading={isLoading} />}
+      {data && data?.transactions?.transactions.length > 0 &&
+        <>
+          <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
+            <CustomButton
+              type='button'
+              classes={'add-btn'}
+              width={'80px'}
+              height={'30px'}
+              fontSize={'20px'}
+              onClick={exportToExcel}
+            >تصدير
+            </CustomButton>
+            <EntrySelect />
+          </div>
+          <BankReportTable form={form} data={data} isLoading={isLoading} />
+        </>
+      }
       {data && data?.transactions?.transactions.length < 1 && <div
         style={{
           textAlign: 'center',
           fontsize: '26px',
         }}
       ><span>لا توجد عمليات</span></div>}
-      {/* <Pagination /> */}
+      {data?.transactions?.pagination?.hasPagination && <Pagination pagination={data?.transactions?.pagination} />}
     </>
   )
 }

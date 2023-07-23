@@ -104,7 +104,6 @@ export default function UserTable({ users, isLoading }) {
 
 
 
-
   const updateStatus = async (userId) => {
     try {
       await updateUserStatus(userId).unwrap();

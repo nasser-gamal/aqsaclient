@@ -4,19 +4,12 @@ import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../../UI/Loader/Spinner';
-import CustomButton from '../../../common/Button/CustomButton';
-import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
-
-import { saveAs } from 'file-saver'
-import axios from 'axios';
-import apiEndpoints from '../../../../utils/endPoints';
 
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 
-export default function BankReportTable({ data, isLoading, form }) {
+export default function BankReportTable({ data, isLoading }) {
   const dispatch = useDispatch();
 
 
@@ -31,12 +24,6 @@ export default function BankReportTable({ data, isLoading, form }) {
       title: "التاريخ",
       className: "created-at",
       order: "createdAt",
-      sort: "ASC",
-    },
-    {
-      title: "الحساب",
-      className: "",
-      order: "",
       sort: "ASC",
     },
     {
@@ -116,23 +103,6 @@ export default function BankReportTable({ data, isLoading, form }) {
   ]
 
 
-  const handleClick = async () => {
-    try {
-      dispatch(showLoader())
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
-        headers: { 'Content-Type': 'blob' },
-        responseType: 'arraybuffer',
-        withCredentials: true,
-      });
-      const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      saveAs(file, 'data.xlsx');
-      dispatch(hideLoader())
-    } catch (err) {
-      dispatch(hideLoader())
-      notify('error', err.data.message)
-    }
-  }
-
 
   if (isLoading) {
     return <Spinner />
@@ -140,15 +110,7 @@ export default function BankReportTable({ data, isLoading, form }) {
 
   return (
     <div className='report-table'>
-      <CustomButton
-        type='button'
-        classes={'add-btn'}
-        width={'80px'}
-        height={'30px'}
-        fontSize={'20px'}
-        onClick={handleClick}
-      >تصدير
-      </CustomButton>
+    
       <Table tableHead={tableHead}>
         <tbody>
           {
@@ -159,9 +121,6 @@ export default function BankReportTable({ data, isLoading, form }) {
                 </td>
                 <td className='date'>
                   <DateAndTime createdAt={transaction.createdAt} />
-                </td>
-                <td>
-                  {transaction.bankAccount?.accountName}
                 </td>
                 <td>
                   {transaction.number}
@@ -214,7 +173,7 @@ export default function BankReportTable({ data, isLoading, form }) {
             })
           }
           <tr className='last-child'>
-            <td colSpan={5}>
+            <td colSpan={4}>
               اجمالي العمليات
             </td>
             <td>
@@ -223,7 +182,7 @@ export default function BankReportTable({ data, isLoading, form }) {
             <td>
               {data?.totalWithdraw}
             </td>
-            <td colSpan={5}>
+            <td colSpan={6}>
             </td>
             <td>
               {data?.totalProfit}

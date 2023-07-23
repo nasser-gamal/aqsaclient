@@ -1,13 +1,12 @@
+/* eslint-disable react/prop-types */
 
 import Table from '../../common/Table/Table';
 import EditButton from '../../UI/TableButtons/EditButton';
-import { useFindAllBankAccountsQuery } from '../../../app/features/bankAccount/bankAccountApi';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../UI/Loader/Spinner';
 
-export default function BankAccountTable() {
+export default function BankAccountTable({data, isLoading}) {
 
-  const { data, isLoading } = useFindAllBankAccountsQuery();
   const tableHead = [
     {
       title: "رقم الحساب",

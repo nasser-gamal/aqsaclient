@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const segmentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllSegment: builder.query({
-      query: () => ({
-        url: apiEndpoints.segment.GET_SEGMENTS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.segment.GET_SEGMENTS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['segments'],
     }),
