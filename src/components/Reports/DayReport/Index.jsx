@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Pagination from "../../Pagination/Pagination";
+import Pagination from '../../UI/Pagination/Pagination';
 import DaySelect from "./Select/Date";
 import DayTable from "./Table/DayTable";
 import { useFindDailyTransactionsQuery } from "../../../app/features/reports/reportsApi";

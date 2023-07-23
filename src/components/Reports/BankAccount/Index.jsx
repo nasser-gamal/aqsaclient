@@ -1,4 +1,4 @@
-import Pagination from "../../Pagination/Pagination";
+import Pagination from '../../UI/Pagination/Pagination';
 import DropDown from "./DropDown";
 import BankReportTable from "./Table/BankReportTable";
 import { useState } from "react";

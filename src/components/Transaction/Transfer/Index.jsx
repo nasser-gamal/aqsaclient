@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useFindAllTransferQuery } from '../../../app/features/transaction/transferApi'
-import Pagination from '../../Pagination/Pagination'
+import Pagination from '../../UI/Pagination/Pagination';
 import AddButton from '../../common/Button/AddButton'
 import TransferTable from './Table/TransferTable'
 import { useDispatch } from 'react-redux'

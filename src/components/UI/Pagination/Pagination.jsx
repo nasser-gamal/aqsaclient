@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Link, useLocation } from "react-router-dom";
 
-import './pagination.modules.css';
 import { useDispatch, useSelector } from "react-redux";
-import { navigatePage } from "../../app/features/filter/filterSlice";
+import { navigatePage } from "../../../app/features/filter/filterSlice";
 
+import './pagination.modules.css';
 export default function Pagination({ pagination }) {
 
   const location = useLocation();

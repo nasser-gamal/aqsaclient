@@ -5,14 +5,15 @@ import CategoryTable from './Table/CategoryTable';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 
-import Pagination from '../Pagination/Pagination'
+import EntrySelect from '../UI/LimitSelect/EntrySelect';
+import Pagination from '../UI/Pagination/Pagination';
 
 export default function Index() {
   const dispatch = useDispatch();
 
   const { page, limit, orderBy, sort } = useSelector(state => state.filter);
 
-  const { data, isLoading , isFetching} = useFindAllCategoriesQuery({ page, limit, order: orderBy, sort });
+  const { data, isLoading, isFetching } = useFindAllCategoriesQuery({ page, limit, order: orderBy, sort });
 
   console.log(data)
 
@@ -28,7 +29,10 @@ export default function Index() {
   console.log(isFetching)
   return (
     <>
-      <AddButton name={'AddEditCategory'} modalTitle={'اضافة خدمة جديدة'} />
+      <div className='d-flex flex-between'>
+        <AddButton name={'AddEditCategory'} modalTitle={'اضافة خدمة جديدة'} />
+        <EntrySelect />
+      </div>
       <CategoryTable categories={data?.categories} isLoading={isLoading} />
       {data?.pagination.hasPagination && <Pagination pagination={data?.pagination} />}
     </>

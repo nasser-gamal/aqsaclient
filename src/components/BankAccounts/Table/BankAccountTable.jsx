@@ -10,12 +10,6 @@ export default function BankAccountTable() {
   const { data, isLoading } = useFindAllBankAccountsQuery();
   const tableHead = [
     {
-      title: "اسم الحساب",
-      className: "account-name",
-      order: "accountName",
-      sort: "ASC",
-    },
-    {
       title: "رقم الحساب",
       className: "account-number",
       order: "accountNumber",
@@ -66,7 +60,6 @@ export default function BankAccountTable() {
         {
           data?.bankAccounts.map(bankAccount => {
             return <tr key={bankAccount.id}>
-              <td>{bankAccount.accountName}</td>
               <td>{bankAccount.bankNumber}</td>
               <td>{bankAccount.bank.bankName}</td>
               <td>{bankAccount.balance}</td>

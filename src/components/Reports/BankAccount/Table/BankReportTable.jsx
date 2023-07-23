@@ -89,6 +89,12 @@ export default function BankReportTable({ data, isLoading, form }) {
       sort: "",
     },
     {
+      title: "ملحوظة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "عائد مزود الخدمة",
       className: "",
       order: "",
@@ -100,12 +106,7 @@ export default function BankReportTable({ data, isLoading, form }) {
       order: "",
       sort: "",
     },
-    {
-      title: "ملحوظة",
-      className: "",
-      order: "",
-      sort: "",
-    },
+  
     {
       title: "#",
       className: "",
@@ -187,14 +188,15 @@ export default function BankReportTable({ data, isLoading, form }) {
                   {transaction.balanceAfter}
                 </td>
                 <td>
+                  {transaction.note || "-"}
+                </td>
+                <td>
                   {transaction.providerRevenue}
                 </td>
                 <td>
                   {transaction.profit}
                 </td>
-                <td>
-                  {transaction.note || "-"}
-                </td>
+             
                 <td>
                   <img style={{
                     'width': '28px',

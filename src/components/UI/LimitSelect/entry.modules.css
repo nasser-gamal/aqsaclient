@@ -1,0 +1,10 @@
+.entry select {
+  padding: 8px 0;
+  border-radius: 8px;
+  width: 96px;
+  border: 1px solid #0000003d;
+  outline: none;
+}
+.entry select option {
+  font-size: 15px;
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { DateInput } from "../../../utils/formatDate";
-import Pagination from "../../Pagination/Pagination";
+import Pagination from '../../UI/Pagination/Pagination';
 import EmployReportTable from "./Table/EmployReportTable";
 import { useFindEmployTransactionsQuery } from "../../../app/features/reports/reportsApi";
 import { validateEmployReport } from "../../../utils/validation";

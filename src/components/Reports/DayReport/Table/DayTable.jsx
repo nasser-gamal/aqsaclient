@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
@@ -89,6 +88,12 @@ export default function DayTable({ data, isLoading, form }) {
       sort: "",
     },
     {
+      title: "ملحوظة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "عائد مزود الخدمة",
       className: "",
       order: "",
@@ -100,12 +105,7 @@ export default function DayTable({ data, isLoading, form }) {
       order: "",
       sort: "",
     },
-    {
-      title: "ملحوظة",
-      className: "",
-      order: "",
-      sort: "",
-    },
+
     {
       title: "#",
       className: "",
@@ -174,8 +174,6 @@ export default function DayTable({ data, isLoading, form }) {
                 <td>
                   {transaction.type === 'سحب' ? transaction.amountTotal : 0}
                 </td>
-              
-
                 <td>
                   {transaction.amount}
                 </td>
@@ -189,14 +187,15 @@ export default function DayTable({ data, isLoading, form }) {
                   {transaction.balanceAfter}
                 </td>
                 <td>
+                  {transaction.note || "-"}
+                </td>
+                <td>
                   {transaction.providerRevenue}
                 </td>
                 <td>
                   {transaction.profit}
                 </td>
-                <td>
-                  {transaction.note || "-"}
-                </td>
+              
                 <td>
                   <img style={{
                     'width': '28px',
