@@ -12,21 +12,21 @@ export default function CategoryTable({ categories, isLoading }) {
   const tableHead = [
     {
       title: "اسم الخدمة",
-      className: "account-name",
-      order: "accountName",
-      sort: "ASC",
+      className: "sort",
+      order: "name",
+      sort: "DESC",
     },
     {
       title: "ملحوظة",
-      className: "note",
-      order: "note",
-      sort: "ASC",
-    },
-    {
-      title: "التاريخ",
       className: "",
       order: "",
       sort: "",
+    },
+    {
+      title: "التاريخ",
+      className: "sort",
+      order: "createdAt",
+      sort: "DESC",
     },
     {
       title: "تعديل",
@@ -68,16 +68,6 @@ export default function CategoryTable({ categories, isLoading }) {
                   }}
                 />
               </td>
-              {/* <td>
-                <DeleteButton
-                  deleteProps={{
-                    name: 'DeleteConfirm',
-                    modalTitle: 'حذف خدمة',
-                    status: 'حذف',
-                    childrenProps: { id: category.id, message: 'هل أنت متأكد أنك تريد حذف هذه الخدمة ؟' }
-                  }}
-                />
-              </td> */}
             </tr>
           })
         }

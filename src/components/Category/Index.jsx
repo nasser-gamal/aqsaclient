@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFindAllCategoriesQuery } from '../../app/features/category/categoryApi';
 import AddButton from '../common/Button/AddButton';
 import CategoryTable from './Table/CategoryTable';
@@ -10,23 +10,27 @@ import Pagination from '../Pagination/Pagination'
 export default function Index() {
   const dispatch = useDispatch();
 
-  const { data, isLoading } = useFindAllCategoriesQuery({ page: 1, limit: 1000, order: 'createdAt', sort: 'ASC' });
+  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
+
+  const { data, isLoading , isFetching} = useFindAllCategoriesQuery({ page, limit, order: orderBy, sort });
 
   console.log(data)
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isLoading]);
+  }, [dispatch, isFetching, isLoading]);
 
+
+  console.log(isFetching)
   return (
     <>
       <AddButton name={'AddEditCategory'} modalTitle={'اضافة خدمة جديدة'} />
       <CategoryTable categories={data?.categories} isLoading={isLoading} />
-      {/* <Pagination  pagination={data?.pagination}/> */}
+      {data?.pagination.hasPagination && <Pagination pagination={data?.pagination} />}
     </>
   )
 }

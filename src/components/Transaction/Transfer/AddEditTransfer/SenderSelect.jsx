@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 
-export default function SenderSelect({ bankAccounts, form, setForm }) {
+export default function SenderSelect({ bankAccounts, form, setForm, disabled }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الحساب');
 
@@ -36,9 +36,11 @@ export default function SenderSelect({ bankAccounts, form, setForm }) {
       isClicked={isClicked}
       setIsClicked={setIsClicked}
       onClick={() => {
-        setIsClicked(!isClicked)
-      }
-      }
+        if (!disabled) {
+          setIsClicked(!isClicked)
+        }
+      }}
+      disabled={disabled}
     >
       {
         bankAccounts?.filter(bankAccount => {
@@ -62,6 +64,6 @@ export default function SenderSelect({ bankAccounts, form, setForm }) {
           </li>
         })
       }
-    </CustomSelect>
+    </CustomSelect >
   )
 }

@@ -1,87 +1,44 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import './pagination.modules.css';
+import { useDispatch, useSelector } from "react-redux";
+import { navigatePage } from "../../app/features/filter/filterSlice";
 
 export default function Pagination({ pagination }) {
-  // export default function Pagenation({ pagenation }) {
-  // const filter = useSelector(state => state.filterRecords)
-  // const dispatch = useDispatch()
 
-  const {
-    page: pageNumber,
-    itemPerPage,
-    totalItems,
-    currentPage,
-    hasNextPage,
-    hasNextThreePage,
-    hasNextTwoPage,
-    hasPreviousPage,
-    nextPage,
-    nextThreePage,
-    nextTwoPage,
-    previousPage,
-  } = pagination;
+  const location = useLocation();
+  const path = location.pathname;
+  const dispatch = useDispatch();
 
-  console.log(pagination)
+  const { limit, orderBy, sort } = useSelector(state => state.filter);
 
+  const handleNavigate = (value) => {
+    dispatch(navigatePage(value));
+  };
+
+  const query = `&limit=${limit}&orderBy=${orderBy}&sort=${sort}`
 
   return (
     <div className="page-info mt-3">
       <div className="entry-info">
-        <span>
-          عرض 10 من 100
-          <span className="total-items">100</span>
-        </span>
+        {/* <span>
+          عرض {pagination?.pageNumber}   {pagination?.itemPerPage}  من 
+          <span className="total-items"> {pagination?.totalItems}</span>
+        </span> */}
       </div>
       <div className="pagena">
         <div className="pagination">
           <Link
-            // onClick={() => handleNavigate(previousPage)}
-            // to={`${path}?page=${previousPage}${query}`}
+            onClick={() => handleNavigate(pagination?.previousPage)}
+            to={`${path}?page=${pagination?.previousPage}${query}`}
             className={
               "page-link previous"
             }
           >
             السابق
           </Link>
-          <Link
-            // onClick={() => handleNavigate(previousPage)}
-            // to={`${path}?page=${previousPage}${query}`}
-            className={
-              "page-link link"
-            }
-          >
-            1
-          </Link>
-          <Link
-            // onClick={() => handleNavigate(previousPage)}
-            // to={`${path}?page=${previousPage}${query}`}
-            className={
-              "page-link link"
-            }
-          >
-            2
-          </Link>
-          <Link
-            // onClick={() => handleNavigate(previousPage)}
-            // to={`${path}?page=${previousPage}${query}`}
-            className={
-              "page-link link"
-            }
-          >
-            3
-          </Link>
-          <Link
-            // onClick={() => handleNavigate(previousPage)}
-            // to={`${path}?page=${previousPage}${query}`}
-            className={
-              "page-link next"
-            }
-          >
-            التالي
-          </Link>
-          {/* {currentPage !== 1 && previousPage !== 1 && (
+          {pagination?.currentPage !== 1 && pagination?.previousPage !== 1 && (
             <Link
               onClick={() => handleNavigate(1)}
               to={`${path}?page=1${query}`}
@@ -89,59 +46,59 @@ export default function Pagination({ pagination }) {
             >
               1
             </Link>
-          )} */}
-          {/* {hasPreviousPage && (
+          )}
+          {pagination?.hasPreviousPage && (
             <Link
-              onClick={() => handleNavigate(previousPage)}
-              to={`${path}?page=${previousPage}${query}`}
+              onClick={() => handleNavigate(pagination?.previousPage)}
+              to={`${path}?page=${pagination?.previousPage}${query}`}
               className="page-link link"
             >
-              {previousPage}
+              {pagination?.previousPage}
             </Link>
-          )} */}
-          {/* <Link
-            onClick={() => handleNavigate(currentPage)}
-            to={`${path}?page=${currentPage}${query}`}
+          )}
+          <Link
+            onClick={() => handleNavigate(pagination?.currentPage)}
+            to={`${path}?page=${pagination?.currentPage}${query}`}
             className="page-link active link"
           >
-            {currentPage}
-          </Link> */}
-          {/* {hasNextPage && (
+            {pagination?.currentPage}
+          </Link>
+          {pagination?.hasNextPage && (
             <Link
-              onClick={() => handleNavigate(nextPage)}
-              to={`${path}?page=${nextPage}${query}`}
+              onClick={() => handleNavigate(pagination?.nextPage)}
+              to={`${path}?page=${pagination?.nextPage}${query}`}
               className="page-link link"
             >
-              {nextPage}
+              {pagination?.nextPage}
             </Link>
-          )} */}
-          {/* {hasNextTwoPage && (
+          )}
+          {pagination?.hasNextTwoPage && (
             <Link
-              onClick={() => handleNavigate(nextTwoPage)}
-              to={`${path}?page=${nextTwoPage}${query}`}
+              onClick={() => handleNavigate(pagination?.nextTwoPage)}
+              to={`${path}?page=${pagination?.nextTwoPage}${query}`}
               className="page-link link"
             >
-              {nextTwoPage}
+              {pagination?.nextTwoPage}
             </Link>
-          )} */}
-          {/* {hasNextThreePage && (
+          )}
+          {pagination?.hasNextThreePage && (
             <Link
-              onClick={() => handleNavigate(nextThreePage)}
-              to={`${path}?page=${nextThreePage}${query}`}
+              onClick={() => handleNavigate(pagination?.nextThreePage)}
+              to={`${path}?page=${pagination?.nextThreePage}${query}`}
               className="page-link link"
             >
-              {nextThreePage}
+              {pagination?.nextThreePage}
             </Link>
-          )} */}
-          {/* <Link
-            onClick={() => handleNavigate(nextPage)}
-            to={`${path}?page=${nextPage}${query}`}
+          )}
+          <Link
+            onClick={() => handleNavigate(pagination.nextPage)}
+            to={`${path}?page=${pagination.nextPage}${query}`}
             className={
-              !hasNextPage ? "page-link next disabled" : "page-link next"
+              !pagination.hasNextPage ? "page-link next disabled" : "page-link next"
             }
           >
-            nextPage
-          </Link> */}
+            التالي
+          </Link>
         </div>
       </div>
     </div>

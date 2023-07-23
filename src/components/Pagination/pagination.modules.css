@@ -36,7 +36,7 @@
 }
 .page-link.active {
   color: white;
-  background: var(--back-ground);
+  background-color: #002d44;
 }
 .page-link:not(.page-link.disabled):hover {
   color: white;

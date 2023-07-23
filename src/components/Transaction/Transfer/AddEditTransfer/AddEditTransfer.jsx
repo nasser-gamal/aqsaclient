@@ -83,11 +83,13 @@ export default function AddEditDeposit() {
             bankAccounts={data?.bankAccounts}
             form={form}
             setForm={setForm}
+            disabled={childrenProps?.transfer ? true : false}
           />
           <ReciverSelect
             bankAccounts={data?.bankAccounts}
             form={form}
             setForm={setForm}
+            disabled={childrenProps?.transfer ? true : false}
           />
           <CustomInput
             type='text'

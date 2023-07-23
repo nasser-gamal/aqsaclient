@@ -4,8 +4,8 @@
 table {
   width: 100%;
   text-align: center;
-  /* border-collapse: separate;
-  border-spacing: 0 10px; */
+  /* /* border-collapse: separate; */
+  /* border-spacing: 0 10px; */ 
 }
 table thead tr {
   color: white;
@@ -14,14 +14,34 @@ table thead tr {
 table thead tr th {
   font-weight: normal;
   padding: 5px 0;
-  min-width:80px;
+  min-width: 80px;
   border: 1px solid rgba(0, 0, 0, 0.164);
+  /* position: relative; */
 }
-table tbody tr , table tbody tr td {
+table tbody tr,
+table tbody tr td {
   padding: 5px 8px;
   border: 1px solid rgba(0, 0, 0, 0.164);
 }
-table tr  {
+table tr {
   font-size: 14px;
-
 }
+table thead th.sort {
+  cursor: pointer;
+}
+table thead th.sort::before,
+table thead th.sort::after {
+  position: absolute;
+  bottom: 6px;
+  display: block;
+  /* color: white; */
+}
+table thead th.sort::before {
+  content: '↑';
+  right: 1em;
+}
+table thead th.sort::after {
+  right: 0.5em;
+  content: '↓';
+}
+/* End Table  */
