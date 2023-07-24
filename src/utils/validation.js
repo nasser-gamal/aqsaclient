@@ -213,7 +213,7 @@ export const validateTransfer = (formData) => {
 
 export const validateReport = (formData) => {
   let error;
-  if (!formData.bankNumber) {
+  if (!formData.bankAccountId) {
     error = 'اختر الحساب';
   }
   if (!formData.startDate) {
