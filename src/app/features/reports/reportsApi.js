@@ -5,7 +5,7 @@ export const reportsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findUserTransactions: builder.query({
       query: ({
-        bankNumber,
+        bankAccountId,
         startDate,
         endDate,
         page,
@@ -13,7 +13,7 @@ export const reportsApi = apiSlice.injectEndpoints({
         order,
         sort,
       }) => ({
-        url: `${apiEndpoints.reports.USER_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+        url: `${apiEndpoints.reports.USER_TRANSACTION}?bankAccountId=${bankAccountId}&startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['userTransaction'],
     }),
@@ -38,8 +38,8 @@ export const reportsApi = apiSlice.injectEndpoints({
       providesTags: ['userTransaction'],
     }),
     exportExcel: builder.mutation({
-      query: ({ bankNumber, startDate, endDate }) => ({
-        url: `${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${bankNumber}&startDate=${startDate}&endDate=${endDate}`,
+      query: ({ bankAccountId, startDate, endDate }) => ({
+        url: `${apiEndpoints.reports.EXPORT_TRANSACTION}?bankAccountId=${bankAccountId}&startDate=${startDate}&endDate=${endDate}`,
         method: 'POST',
         headers: { 'Content-Type': 'blob' },
         responseType: 'arraybuffer',

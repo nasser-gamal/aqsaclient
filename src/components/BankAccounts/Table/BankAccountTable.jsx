@@ -5,13 +5,20 @@ import EditButton from '../../UI/TableButtons/EditButton';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 import Spinner from '../../UI/Loader/Spinner';
 
-export default function BankAccountTable({data, isLoading}) {
+export default function BankAccountTable({ data, isLoading }) {
 
   const tableHead = [
     {
       title: "رقم الحساب",
       className: "account-number",
       order: "accountNumber",
+      sort: "ASC",
+    },
+   
+    {
+      title: "اسم الحساب",
+      className: "bank",
+      order: "bank",
       sort: "ASC",
     },
     {
@@ -60,6 +67,7 @@ export default function BankAccountTable({data, isLoading}) {
           data?.bankAccounts.map(bankAccount => {
             return <tr key={bankAccount.id}>
               <td>{bankAccount.bankNumber}</td>
+              <td>{bankAccount.accountName}</td>
               <td>{bankAccount.bank.bankName}</td>
               <td>{bankAccount.balance}</td>
               <td>{bankAccount.note || "-"}</td>

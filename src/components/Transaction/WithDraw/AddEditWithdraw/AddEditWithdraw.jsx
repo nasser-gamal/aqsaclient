@@ -31,7 +31,7 @@ export default function AddEditWithdraw() {
     providerFees: childrenProps?.transaction?.providerFees || 0,
     additionalFees: childrenProps?.transaction?.additionalFees || 0,
     additionalRevenue: childrenProps?.transaction?.additionalRevenue || 0,
-    isTotalRevenue: !(childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter == childrenProps?.transaction?.amountTotal) ? true : false,
+    isTotalRevenue: ((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter) === childrenProps?.transaction?.amountTotal) ? true : (!childrenProps?.transaction ? true : false),
     note: childrenProps?.transaction?.note || "",
   });
 

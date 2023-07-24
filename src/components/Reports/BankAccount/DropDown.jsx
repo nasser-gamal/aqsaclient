@@ -55,7 +55,7 @@ export default function DropDown({ form, setForm, setSkip }) {
             onClick={() => {
               setDropHeading(bankAccount.accountName);
               setIsClicked(!isClicked);
-              setForm({ ...form, bankNumber: bankAccount.bankNumber })
+              setForm({ ...form, bankAccountId: bankAccount.bankAccountId })
             }}
           >
             {

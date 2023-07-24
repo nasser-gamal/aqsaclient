@@ -21,11 +21,11 @@ import axios from 'axios';
 import apiEndpoints from '../../../utils/endPoints';
 
 export default function Index() {
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
+  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
   const [form, setForm] = useState({
-    bankNumber: "",
+    bankAccountId: "",
     startDate: DateInput(),
     endDate: DateInput()
   });
@@ -33,7 +33,7 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
 
   const { data, isLoading, isFetching } = useFindUserTransactionsQuery({
-    bankNumber: form.bankNumber,
+    bankAccountId: form.bankAccountId,
     startDate: form.startDate,
     endDate: form.endDate,
     page,
@@ -74,7 +74,7 @@ export default function Index() {
   const exportToExcel = async () => {
     try {
       dispatch(showLoader())
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankAccountId=${form.bankAccountId}&startDate=${form.startDate}&endDate=${form.endDate}`, {
         headers: { 'Content-Type': 'blob' },
         responseType: 'arraybuffer',
         withCredentials: true,
