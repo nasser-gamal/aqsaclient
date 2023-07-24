@@ -1,57 +1,49 @@
 import './home.modules.css';
 
 import Section from './Section';
+import depositeImg from '../../assets/icons/deposit.png';
+import withdrawImg from '../../assets/icons/withdraw.png';
+import transferImg from '../../assets/icons/transfer.png';
+
 
 export default function Index() {
 
 
   return (
     <div>
-      <Section title={'الحسابات'} boxes={
+      <Section title={'العمليات'} boxes={
         [
           {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
+            boxTitle: 'ايداع',
+            img: depositeImg,
+            info: {
+              name: 'AddEditDeposit',
+              modalTitle: 'اضافة عملية ايداع جديدة',
+              status: 'اضافة',
+            }
           },
           {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
+            boxTitle: 'سحب',
+            img: withdrawImg,
+            info: {
+              name: 'AddEditWithdraw',
+              modalTitle: 'اضافة عملية سحب جديدة',
+              status: 'اضافة',
+              childrenProps: { width: '700px' }
+            }
           },
           {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
-          },
-          {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
-          },
-          {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
-          },
-          {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
-          },
-          {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
-          },
-          {
-            boxTitle: 'البنك الاهلي',
-            bodyTitle: 'الرصيد الحالي',
-            bodyInfo: '1200'
+            boxTitle: 'تسوية',
+            img: transferImg,
+            info: {
+              name: 'AddEditTransfer',
+              modalTitle: 'اضافة عملية تسوية جديدة',
+              status: 'اضافة',
+            }
           },
         ]
       } />
-      <Section title={'الموظفين'} boxes={
+      {/* <Section title={'الموظفين'} boxes={
         [
           {
             boxTitle: 'احمد جمعة',
@@ -73,7 +65,7 @@ export default function Index() {
             bodyInfo: 0
           },
         ]
-      } />
+      } /> */}
     </div>
   )
 }

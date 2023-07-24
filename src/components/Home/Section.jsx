@@ -16,8 +16,8 @@ export default function Section(props) {
             return <SectionBox
               key={index}
               boxTitle={box.boxTitle}
-              bodyTitle={box.bodyTitle}
-              bodyInfo={box.bodyInfo}
+              img={box.img}
+              info={box.info}
             />
           })
         }

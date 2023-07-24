@@ -1,13 +1,21 @@
 /* eslint-disable react/prop-types */
 
-export default function SectionBox(props) {
-  const { boxTitle, bodyTitle, bodyInfo } = props
+import { useDispatch } from "react-redux"
+import { openModal } from "../../app/features/modal/modalSlice";
+
+export default function SectionBox({ boxTitle, img, info }) {
+  const dispatch = useDispatch();
+
+
   return (
-    <div className="box">
-      <h4 className='box-title'>{boxTitle}</h4>
+    <div className="box" onClick={() => {
+      dispatch(openModal({
+        ...info
+      }))
+    }}>
       <div className='box-body  text-center'>
-        <h5>{bodyTitle}</h5>
-        <span>{bodyInfo}</span>
+        <img src={img} alt={img} />
+        <h4 className='box-title'>{boxTitle}</h4>
       </div>
     </div>
   )
