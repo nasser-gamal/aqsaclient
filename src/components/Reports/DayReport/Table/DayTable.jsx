@@ -3,7 +3,6 @@
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import Spinner from '../../../UI/Loader/Spinner';
 import CustomButton from '../../../common/Button/CustomButton';
 import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
@@ -15,7 +14,7 @@ import apiEndpoints from '../../../../utils/endPoints';
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 
-export default function DayTable({ data, isLoading, form }) {
+export default function DayTable({ data, form }) {
   const dispatch = useDispatch();
 
 
@@ -133,9 +132,6 @@ export default function DayTable({ data, isLoading, form }) {
   }
 
 
-  if (isLoading) {
-    return <Spinner />
-  }
 
   return (
     <div className='report-table'>

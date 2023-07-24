@@ -3,13 +3,12 @@
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import Spinner from '../../../UI/Loader/Spinner';
 import { useDispatch } from 'react-redux';
 
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 
-export default function BankReportTable({ data, isLoading }) {
+export default function BankReportTable({ data }) {
   const dispatch = useDispatch();
 
 
@@ -104,9 +103,6 @@ export default function BankReportTable({ data, isLoading }) {
 
 
 
-  if (isLoading) {
-    return <Spinner />
-  }
 
   return (
     <div className='report-table'>

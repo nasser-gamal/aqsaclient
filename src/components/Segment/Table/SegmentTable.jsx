@@ -6,7 +6,7 @@ import Table from '../../common/Table/Table';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 
 
-export default function SegmentTable({ segments, isLoading }) {
+export default function SegmentTable({ segments }) {
 
 
   const tableHead = [
@@ -68,7 +68,7 @@ export default function SegmentTable({ segments, isLoading }) {
 
 
   return (
-    <Table tableHead={tableHead} isLoading={isLoading}>
+    <Table tableHead={tableHead} >
       <tbody>
         {
           segments?.map((segment) => {

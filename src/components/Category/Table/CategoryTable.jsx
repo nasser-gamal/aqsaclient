@@ -6,7 +6,7 @@ import EditButton from '../../UI/TableButtons/EditButton';
 import Table from '../../common/Table/Table';
 
 
-export default function CategoryTable({ categories, isLoading }) {
+export default function CategoryTable({ categories }) {
 
 
   const tableHead = [
@@ -44,7 +44,7 @@ export default function CategoryTable({ categories, isLoading }) {
 
 
   return (
-    <Table tableHead={tableHead} isLoading={isLoading}>
+    <Table tableHead={tableHead} >
       <tbody>
         {
           categories?.map(category => {

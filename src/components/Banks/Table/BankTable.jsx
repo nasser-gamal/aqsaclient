@@ -2,12 +2,15 @@
 import { useFindAllBanksQuery } from '../../../app/features/bank/bankApi';
 import EditButton from '../../UI/TableButtons/EditButton';
 import Table from '../../common/Table/Table';
-import Spinner from '../../UI/Loader/Spinner';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 
 export default function BankTable() {
 
-  const { data, isLoading } = useFindAllBanksQuery();
+  const dispatch = useDispatch();
+  const { data, isFetching } = useFindAllBanksQuery();
 
   const tableHead = [
     {
@@ -43,9 +46,15 @@ export default function BankTable() {
   ]
 
 
-  if (isLoading) {
-    return <Spinner />
-  }
+
+  useEffect(() => {
+    if (isFetching) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, isFetching]);
+
 
   return (
     <Table tableHead={tableHead}>

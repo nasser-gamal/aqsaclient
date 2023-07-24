@@ -3,9 +3,8 @@
 import Table from '../../common/Table/Table';
 import EditButton from '../../UI/TableButtons/EditButton';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import Spinner from '../../UI/Loader/Spinner';
 
-export default function BankAccountTable({ data, isLoading }) {
+export default function BankAccountTable({ data }) {
 
   const tableHead = [
     {
@@ -52,11 +51,6 @@ export default function BankAccountTable({ data, isLoading }) {
       sort: "",
     },
   ];
-
-
-  if (isLoading) {
-    return <Spinner />
-  }
 
 
   return (

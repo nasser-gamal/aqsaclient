@@ -4,14 +4,13 @@ import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import Spinner from '../../../UI/Loader/Spinner';
 
 
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 import { useDispatch } from 'react-redux';
 
-export default function DepositTable({ data, isLoading }) {
+export default function DepositTable({ data }) {
   const dispatch = useDispatch();
 
   const tableHead = [
@@ -114,11 +113,6 @@ export default function DepositTable({ data, isLoading }) {
     },
   ]
 
-
-  
-  if (isLoading) {
-    return <Spinner />
-  }
 
   return (
     <Table tableHead={tableHead}>
