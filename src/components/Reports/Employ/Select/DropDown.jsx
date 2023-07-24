@@ -12,16 +12,16 @@ export default function DropDown({ form, setForm, setSkip }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الموظف');
 
-  const { data, isLoading } = useFindAllUsersQuery();
+  const { data, isFetching } = useFindAllUsersQuery();
   const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {
-    if (isLoading) {
+    if (isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [isLoading, dispatch]);
+  }, [isFetching, dispatch]);
 
 
 
