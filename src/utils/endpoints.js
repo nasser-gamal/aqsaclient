@@ -82,7 +82,9 @@ const apiEndpoints = {
     DAILY_TRANSACTION: '/reports/transactions/daily',
     EMPLOY_TRANSACTION: '/reports/transactions/employ',
     USER_TRANSACTION: '/reports/transactions/user',
-    EXPORT_TRANSACTION: '/reports/transactions/export/excel',
+    EXPORT_DAILY_TRANSACTION: '/reports/transactions/daily/excel',
+    EXPORT_BANK_TRANSACTION: '/reports/transactions/bankAccount/excel',
+    EXPORT_EMPLOY_TRANSACTION: '/reports/transactions/employ/excel',
   },
 };
 

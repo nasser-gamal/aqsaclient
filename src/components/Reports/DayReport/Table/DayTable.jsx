@@ -114,36 +114,8 @@ export default function DayTable({ data, form }) {
   ]
 
 
-  const handleClick = async () => {
-    try {
-      dispatch(showLoader())
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
-        headers: { 'Content-Type': 'blob' },
-        responseType: 'arraybuffer',
-        withCredentials: true,
-      });
-      const file = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      saveAs(file, 'data.xlsx');
-      dispatch(hideLoader())
-    } catch (err) {
-      dispatch(hideLoader())
-      notify('error', err.data.message)
-    }
-  }
-
-
-
   return (
     <div className='report-table'>
-      {/* <CustomButton
-        type='button'
-        classes={'add-btn'}
-        width={'80px'}
-        height={'30px'}
-        fontSize={'20px'}
-        onClick={handleClick}
-      >تصدير
-      </CustomButton> */}
       <Table tableHead={tableHead}>
         <tbody>
           {

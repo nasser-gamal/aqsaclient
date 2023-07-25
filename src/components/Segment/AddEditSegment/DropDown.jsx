@@ -11,7 +11,7 @@ export default function DropDown({ form, setForm }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الخدمة');
 
-  const { data, isLoading: categoriesLoading } = useFindAllCategoriesQuery({ page: 1, limit: 100000, order: "createdAt", sort: 'ASC' });
+  const { data, isLoading: categoriesLoading } = useFindAllCategoriesQuery({ page: '', limit: '', order: "createdAt", sort: 'ASC' });
 
   const [searchValue, setSearchValue] = useState()
 

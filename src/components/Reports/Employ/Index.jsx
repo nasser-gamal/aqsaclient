@@ -72,7 +72,7 @@ export default function Index() {
   const exportToExcel = async () => {
     try {
       dispatch(showLoader())
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_TRANSACTION}?bankNumber=${form.bankNumber}&startDate=${form.startDate}&endDate=${form.endDate}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.reports.EXPORT_EMPLOY_TRANSACTION}?userId=${form.userId}&startDate=${form.startDate}&endDate=${form.endDate}`, {
         headers: { 'Content-Type': 'blob' },
         responseType: 'arraybuffer',
         withCredentials: true,
