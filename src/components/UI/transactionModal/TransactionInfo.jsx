@@ -62,7 +62,7 @@ export default function TransactionInfo() {
           <tr>
             <td>{childrenProps?.transaction.additionalFees || 0}</td>
             <td>{childrenProps?.transaction.additionalRevenue || 0}</td>
-            <td>{childrenProps?.transaction.providerRevenue}</td>
+            <td>{childrenProps?.transaction.providerDeduction}</td>
             <td>{childrenProps?.transaction.agentDeduction || 0}</td>
             <td>{childrenProps?.transaction.agentRevenue || 0}</td>
             <td>{childrenProps?.transaction.agentTotalDeduction || 0}</td>
