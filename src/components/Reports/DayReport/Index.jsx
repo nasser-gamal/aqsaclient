@@ -89,16 +89,18 @@ export default function Index() {
               onClick={exportToExcel}
             >تصدير
             </CustomButton>
-            <span>
-              <TbRefresh style={{
-                fontSize: '26px',
-                color: 'black',
-                cursor: 'pointer'
-              }}
-                onClick={() => refetch()}
-              />
-            </span>
-            <EntrySelect />
+            <div className="d-flex flex-center" style={{ gap: '10px' }}>
+              <span className="d-flex">
+                <TbRefresh style={{
+                  fontSize: '26px',
+                  color: 'black',
+                  cursor: 'pointer'
+                }}
+                  onClick={() => refetch()}
+                />
+              </span>
+              <EntrySelect />
+            </div>
           </div>
           <DayTable form={form} data={data} isLoading={isLoading} />
         </>
