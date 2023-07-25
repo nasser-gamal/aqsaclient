@@ -31,14 +31,14 @@ export default function AddEditWithdraw() {
     providerFees: childrenProps?.transaction?.providerFees || 0,
     additionalFees: childrenProps?.transaction?.additionalFees || 0,
     additionalRevenue: childrenProps?.transaction?.additionalRevenue || 0,
-    isTotalRevenue: ((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter).toFixed(2) === childrenProps?.transaction?.amountTotal) ? true : (!childrenProps?.transaction ? true : false),
+    isTotalRevenue: ((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter).toFixed(2) === childrenProps?.transaction?.amountTotal.toFixed(2)) ? true : (!childrenProps?.transaction ? true : false),
     note: childrenProps?.transaction?.note || "",
   });
 
   console.log(childrenProps?.transaction?.balanceBefore)
   console.log(childrenProps?.transaction?.balanceAfter)
-  console.log(childrenProps?.transaction?.amountTotal)
-  console.log(childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter)
+  console.log(childrenProps?.transaction?.amountTotal.toFixed(2))
+  console.log((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter).toFixed(2))
   console.log(childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter === childrenProps?.transaction?.amountTotal)
 
   function DateTimeInput() {
