@@ -35,6 +35,8 @@ export default function AddEditWithdraw() {
     note: childrenProps?.transaction?.note || "",
   });
 
+  console.log(childrenProps?.transaction?.balanceBefore)
+  console.log(childrenProps?.transaction?.balanceAfter)
   console.log(childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter === childrenProps?.transaction?.amountTotal)
 
   function DateTimeInput() {
