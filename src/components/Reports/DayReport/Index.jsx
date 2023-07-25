@@ -13,8 +13,11 @@ import axios from "axios";
 import apiEndpoints from "../../../utils/endPoints";
 import { saveAs } from 'file-saver'
 
+
+import { TbRefresh } from 'react-icons/tb';
+
 export default function Index() {
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
+  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
 
@@ -25,7 +28,7 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching } = useFindDailyTransactionsQuery({
+  const { data, isLoading, isFetching, refetch } = useFindDailyTransactionsQuery({
     startDate: form.startDate,
     endDate: form.endDate,
     page,
@@ -34,7 +37,7 @@ export default function Index() {
     sort: "ASC"
   }, { skip });
 
-  
+
   useEffect(() => {
     if (isFetching) {
       dispatch(showLoader())
@@ -71,7 +74,7 @@ export default function Index() {
   }
 
 
-  
+
   return (
     <>
       <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
@@ -87,6 +90,15 @@ export default function Index() {
               onClick={exportToExcel}
             >تصدير
             </CustomButton>
+            <span>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => refetch()}
+              />
+            </span>
             <EntrySelect />
           </div>
           <DayTable form={form} data={data} isLoading={isLoading} />

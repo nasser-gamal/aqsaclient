@@ -18,10 +18,11 @@ import apiEndpoints from "../../../utils/endPoints";
 import { saveAs } from 'file-saver'
 
 import './employ.modules.css';
+import { TbRefresh } from 'react-icons/tb';
 
 
 export default function Index() {
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
+  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
   const [form, setForm] = useState({
@@ -32,7 +33,7 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching } = useFindEmployTransactionsQuery({
+  const { data, isLoading, isFetching, refetch } = useFindEmployTransactionsQuery({
     userId: form.userId,
     startDate: form.startDate,
     endDate: form.endDate,
@@ -119,6 +120,15 @@ export default function Index() {
               onClick={exportToExcel}
             >تصدير
             </CustomButton>
+            <span>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => refetch()}
+              />
+            </span>
             <EntrySelect />
           </div>
           <EmployReportTable form={form} data={data} isLoading={isLoading} />

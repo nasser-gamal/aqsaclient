@@ -20,6 +20,9 @@ import { saveAs } from 'file-saver'
 import axios from 'axios';
 import apiEndpoints from '../../../utils/endPoints';
 
+import { TbRefresh } from 'react-icons/tb';
+
+
 export default function Index() {
   const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
@@ -32,7 +35,7 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching } = useFindUserTransactionsQuery({
+  const { data, isLoading, isFetching, refetch } = useFindUserTransactionsQuery({
     bankAccountId: form.bankAccountId,
     startDate: form.startDate,
     endDate: form.endDate,
@@ -122,6 +125,15 @@ export default function Index() {
               onClick={exportToExcel}
             >تصدير
             </CustomButton>
+            <span>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => refetch()}
+              />
+            </span>
             <EntrySelect />
           </div>
           <BankReportTable form={form} data={data} isLoading={isLoading} />
