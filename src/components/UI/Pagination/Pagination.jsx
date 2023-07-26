@@ -10,6 +10,7 @@ export default function Pagination({ pagination }) {
   const location = useLocation();
   const path = location.pathname;
   const dispatch = useDispatch();
+  console.log(pagination)
 
   const { limit, orderBy, sort } = useSelector(state => state.filter);
 
@@ -22,10 +23,6 @@ export default function Pagination({ pagination }) {
   return (
     <div className="page-info mt-3">
       <div className="entry-info">
-        {/* <span>
-          عرض {pagination?.pageNumber}   {pagination?.itemPerPage}  من 
-          <span className="total-items"> {pagination?.totalItems}</span>
-        </span> */}
       </div>
       <div className="pagena">
         <div className="pagination">
@@ -33,7 +30,7 @@ export default function Pagination({ pagination }) {
             onClick={() => handleNavigate(pagination?.previousPage)}
             to={`${path}?page=${pagination?.previousPage}${query}`}
             className={
-              "page-link previous"
+              !pagination?.hasPreviousPage ? "page-link previous disabled" : "page-link previous"
             }
           >
             السابق
@@ -90,6 +87,16 @@ export default function Pagination({ pagination }) {
               {pagination?.nextThreePage}
             </Link>
           )}
+          {pagination?.currentPage < 3 && pagination?.lastPage !== pagination?.currentPage && <span style={{
+            padding: '0 5px',
+          }}> . . . . </span>}
+          {pagination?.nextPage !== pagination?.lastPage && pagination?.currentPage !== pagination?.lastPage && <Link
+            onClick={() => handleNavigate(pagination?.lastPage)}
+            to={`${path}?page=${pagination?.lastPage}${query}`}
+            className="page-link link"
+          >
+            {pagination?.lastPage}
+          </Link>}
           <Link
             onClick={() => handleNavigate(pagination?.nextPage)}
             to={`${path}?page=${pagination?.nextPage}${query}`}
