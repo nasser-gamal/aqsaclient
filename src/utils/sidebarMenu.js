@@ -72,6 +72,39 @@ export const adminMenu = [
     roles: ['superAdmin', 'admin'],
   },
   {
+    id: 8,
+    title: 'التقارير',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'تقارير عمليات اليوم',
+        imgSrc: list,
+        linkURL: '/dayReport',
+      },
+      {
+        id: 2,
+        title: 'تقرير الحسابات',
+        imgSrc: list,
+        linkURL: '/bankAccountReport',
+      },
+      {
+        id: 3,
+        title: 'تقرير موظف',
+        imgSrc: list,
+        linkURL: '/employReport',
+      },
+      {
+        id: 4,
+        title: 'تقرير تسوية الحسابات',
+        imgSrc: list,
+        linkURL: '/transferReport',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
+  {
     id: 5,
     title: 'الوكلاء',
     isLink: false,
@@ -110,37 +143,5 @@ export const adminMenu = [
     ],
     roles: ['superAdmin', 'admin'],
   },
-  {
-    id: 8,
-    title: 'التقارير',
-    isLink: false,
-    imgSrc: menu,
-    subMenu: [
-      {
-        id: 1,
-        title: 'تقارير عمليات اليوم',
-        imgSrc: list,
-        linkURL: '/dayReport',
-      },
-      {
-        id: 2,
-        title: 'تقرير الحسابات',
-        imgSrc: list,
-        linkURL: '/bankAccountReport',
-      },
-      {
-        id: 3,
-        title: 'تقرير موظف',
-        imgSrc: list,
-        linkURL: '/employReport',
-      },
-      {
-        id: 4,
-        title: 'تقرير تسوية الحسابات',
-        imgSrc: list,
-        linkURL: '/transferReport',
-      },
-    ],
-    roles: ['superAdmin', 'admin'],
-  },
+
 ];
