@@ -143,5 +143,19 @@ export const adminMenu = [
     ],
     roles: ['superAdmin', 'admin'],
   },
-
+  {
+    id: 6,
+    title: 'الارباح',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'ارباح الفترة',
+        imgSrc: list,
+        linkURL: '/profits',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
 ];

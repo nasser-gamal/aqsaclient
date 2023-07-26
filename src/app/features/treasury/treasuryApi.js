@@ -1,7 +1,7 @@
 import apiEndpoints from '../../../utils/endPoints';
 import { apiSlice } from '../../api/apiSlice';
 
-export const userApiSlice = apiSlice.injectEndpoints({
+export const treasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findTreasury: builder.query({
       query: () => ({
@@ -12,6 +12,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const {
-  useFindTreasuryQuery,
-} = userApiSlice;
+export const { useFindTreasuryQuery } = treasuryApiSlice;

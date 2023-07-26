@@ -24,6 +24,7 @@ import AdminRoute from "./AdminRoutes";
 import EditCommissionPage from "../pages/EditCommission/EditCommissionPage";
 import AgentSegmentsPage from "../pages/AgentSegments/AgentSegmentsPage";
 import TransferReportPage from "../pages/Reports/TransferReport/TransferReportPage";
+import ProfitPage from "../pages/Profit/ProfitPage";
 
 
 const Router = () => {
@@ -113,6 +114,10 @@ const Router = () => {
         <Route
           path="/transferReport"
           element={<TransferReportPage />}
+        />
+        <Route
+          path="/profits"
+          element={<ProfitPage />}
         />
       </Route>
       <Route element={<AgentRoute />}>

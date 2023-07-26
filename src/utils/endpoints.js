@@ -90,6 +90,10 @@ const apiEndpoints = {
     EXPORT_EMPLOY_TRANSACTION: '/reports/transactions/employ/excel',
     EXPORT_TRANSFER_TRANSACTION: '/reports/transfer/daily/excel',
   },
+
+  profits: {
+    GET_DAILY_PROFITS: '/profits/daily',
+  },
 };
 
 export default apiEndpoints;
