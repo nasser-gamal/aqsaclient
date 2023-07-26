@@ -87,7 +87,7 @@ export default function Pagination({ pagination }) {
               {pagination?.nextThreePage}
             </Link>
           )}
-          {pagination?.currentPage < 3 && pagination?.lastPage !== pagination?.currentPage && <span style={{
+          {pagination?.lastPage - pagination?.currentPage > 3 && pagination?.lastPage !== pagination?.currentPage && <span style={{
             padding: '0 5px',
           }}> . . . . </span>}
           {pagination?.nextPage !== pagination?.lastPage && pagination?.currentPage !== pagination?.lastPage && <Link
