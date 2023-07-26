@@ -1,10 +1,14 @@
+import PageHelmet from '../../../components/PageHelmet/PageHelmet'
 import Transfer from '../../../components/Transaction/Transfer/Index'
 import Container from '../../../layout/Container/Container'
 
 export default function TransferPage() {
   return (
-    <Container>
-      <Transfer />
-    </Container>
+    <>
+      <PageHelmet title={'التسوية'} />
+      <Container>
+        <Transfer />
+      </Container>
+    </>
   )
 }

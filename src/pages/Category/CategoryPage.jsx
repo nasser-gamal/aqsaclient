@@ -1,11 +1,16 @@
 import Container from '../../layout/Container/Container';
 import Category from '../../components/Category';
+import PageHelmet from '../../components/PageHelmet/PageHelmet';
 
 export default function CategoryPage() {
   return (
-    <Container>
-      <Category />
-    </Container>
+    <>
+      <PageHelmet title={'الخدمات'} />
+      <Container>
+        <Category />
+      </Container>
+    </>
+
   )
 }
 

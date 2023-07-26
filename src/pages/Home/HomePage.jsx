@@ -1,13 +1,17 @@
 import Container from '../../layout/Container/Container';
 import Home from "../../components/Home/Index";
+import PageHelmet from '../../components/PageHelmet/PageHelmet';
 
 export default function HomePage() {
 
 
   return (
-    <Container>
-      <Home />
-    </Container>
+    <>
+      <PageHelmet title={'الاقصي للدفع الالكتروني'} />
+      <Container>
+        <Home />
+      </Container>
+    </>
   )
 }
 
