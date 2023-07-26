@@ -6,7 +6,9 @@ import { closeModal } from '../../../app/features/modal/modalSlice';
 import AddEditUser from '../../Users/AddEditUser/AddEditUser';
 import UserTransaction from '../../Users/UserTransaction/UserTransaction';
 import UpdateUserPassword from '../../Users/UpdatePassword/UpdateUserPassword';
+import UpdateUserPasswordManual from '../../Users/UpdatePassword/UpdateUserPasswordManual';
 import UpdateAgentPassword from '../../Agents/UpdatePassword/UpdateAgentPassword';
+import UpdateAgentPasswordManual from '../../Agents/UpdatePassword/UpdateAgentPasswordManual';
 import AddEditCategory from '../../Category/AddEditCategory/AddEditCategory';
 import AddEditSegment from '../../Segment/AddEditSegment/AddEditSegment';
 import AddEditAgent from '../../Agents/AddEditAgent/AddEditAgent';
@@ -34,6 +36,8 @@ export default function ModalManager() {
     AddEditUser,
     UpdateUserPassword,
     UpdateAgentPassword,
+    UpdateUserPasswordManual,
+    UpdateAgentPasswordManual,
     AddEditCategory,
     AddEditSegment,
     UserTransaction,

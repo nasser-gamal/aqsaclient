@@ -4,7 +4,6 @@ import Table from '../../common/Table/Table';
 import SwitchActive from '../../common/Toggle/SwitchActive';
 
 import EditButton from '../../UI/TableButtons/EditButton';
-// import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import UpdatePasswordButton from '../../UI/TableButtons/UpdatePasswordButton';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 
@@ -77,17 +76,17 @@ export default function AgentTable({ users, isLoading }) {
       sort: "",
     },
     {
-      title: "حذف",
+      title: "الرقم السري",
       className: "",
       order: "",
       sort: "",
     },
-    // {
-    //   title: "الرقم السري",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "الرقم السري",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ];
 
 
@@ -103,7 +102,7 @@ export default function AgentTable({ users, isLoading }) {
   }
 
 
-  
+
 
 
 
@@ -138,20 +137,12 @@ export default function AgentTable({ users, isLoading }) {
                     childrenProps: { user: user }
                   }} />
               </td>
-              {/* <td>
-                <DeleteButton
-                  deleteProps={{
-                    name: 'DeleteConfirm',
-                    modalTitle: 'حذف وكيل',
-                    status: 'حذف',
-                    childrenProps: {
-                      id: user.id,
-                      message: 'هل أنت متأكد أنك تريد حذف هذا الوكيل ؟',
-                      deleteRequest: deleteAgent,
-                      isLoading: agentLoading
-                    }
-                  }} />
-              </td> */}
+              <td>
+                <UpdatePasswordButton
+                  name={'UpdateAgentPasswordManual'}
+                  id={user.id}
+                />
+              </td>
               <td>
                 <UpdatePasswordButton name={'UpdateAgentPassword'} id={user.id} />
               </td>

@@ -64,26 +64,20 @@ export default function UserTable({ users, isLoading }) {
       order: "isActive",
       sort: "ASC",
     },
-    // {
-    //   title: "عرض",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
     {
       title: "تعديل",
       className: "",
       order: "",
       sort: "",
     },
-    // {
-    //   title: "حذف",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
     {
-      title: "الرقم السري",
+      title: "تغير الرقم السري",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "ارسال الرقم السري",
       className: "",
       order: "",
       sort: "",
@@ -162,20 +156,12 @@ export default function UserTable({ users, isLoading }) {
                     childrenProps: { user: user }
                   }} />
               </td>
-              {/* <td>
-                <DeleteButton
-                  deleteProps={{
-                    name: 'DeleteConfirm',
-                    modalTitle: 'حذف موظف',
-                    status: 'حذف',
-                    childrenProps: {
-                      id: user.id,
-                      message: 'هل أنت متأكد أنك تريد حذف هذا الموظف ؟',
-                      deleteRequest: deleteUser,
-                      isLoading: deleteLoading
-                    }
-                  }} />
-              </td> */}
+              <td>
+                <UpdatePasswordButton
+                  name={'UpdateUserPasswordManual'}
+                  id={user.id}
+                />
+              </td>
               <td>
                 <UpdatePasswordButton
                   name={'UpdateUserPassword'}

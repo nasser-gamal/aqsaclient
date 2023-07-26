@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
-import { useUpdatePasswordMutation } from '../../../app/features/user/userApi';
+import { useUpdatePasswordManualMutation } from '../../../app/features/user/userApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
@@ -9,13 +9,13 @@ import { closeModal } from '../../../app/features/modal/modalSlice';
 import { validatePassword } from '../../../utils/validation';
 
 
-export default function UpdateUserPassword() {
+export default function UpdateAgentPasswordManual() {
   const dispatch = useDispatch();
   const { childrenProps } = useSelector(state => state.modal);
 
   const [password, setPassword] = useState();
 
-  const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
+  const [updatePassword, { isLoading }] = useUpdatePasswordManualMutation();
 
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function UpdateUserPassword() {
         <CustomInput
           type='password'
           name='password'
-          placeholder={'ادخل الرقم السري الخاص بالادمن'}
+          placeholder={'ادخل الرقم السري الجديد للحساب'}
           onChange={(e) => setPassword(e.target.value)}
         />
         <FormButtons />

@@ -11,6 +11,7 @@ const apiEndpoints = {
     UPDATE_AGENT_STATUS: '/agent/update-status',
     DELETE_AGENT: '/agent/delete',
     UPDATE_AGENT_PASSWORD: '/agent/update-password',
+    UPDATE_AGENT_PASSWORD_MANUAL: '/agent/update-password-manual',
   },
 
   user: {
@@ -20,6 +21,7 @@ const apiEndpoints = {
     UPDATE_USER_STATUS: '/user/update-status',
     DELETE_USER: '/user/delete',
     UPDATE_USER_PASSWORD: '/user/update-password',
+    UPDATE_USER_PASSWORD_MANUAL: '/user/update-password-manual',
   },
 
   category: {
@@ -82,9 +84,11 @@ const apiEndpoints = {
     DAILY_TRANSACTION: '/reports/transactions/daily',
     EMPLOY_TRANSACTION: '/reports/transactions/employ',
     USER_TRANSACTION: '/reports/transactions/user',
+    DAILY_TRANSFER: '/reports/transfer/daily',
     EXPORT_DAILY_TRANSACTION: '/reports/transactions/daily/excel',
     EXPORT_BANK_TRANSACTION: '/reports/transactions/bankAccount/excel',
     EXPORT_EMPLOY_TRANSACTION: '/reports/transactions/employ/excel',
+    EXPORT_TRANSFER_TRANSACTION: '/reports/transfer/daily/excel',
   },
 };
 

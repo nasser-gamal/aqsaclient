@@ -3,18 +3,11 @@
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import CustomButton from '../../../common/Button/CustomButton';
-import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
-
-import { saveAs } from 'file-saver'
-import axios from 'axios';
-import apiEndpoints from '../../../../utils/endPoints';
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 
-export default function DayTable({ data, form }) {
+export default function DayTable({ data }) {
   const dispatch = useDispatch();
 
 

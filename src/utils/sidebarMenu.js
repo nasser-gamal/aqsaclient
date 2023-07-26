@@ -73,54 +73,36 @@ export const adminMenu = [
   },
   {
     id: 5,
-    title: 'الخدمات',
+    title: 'الوكلاء',
     isLink: false,
     imgSrc: menu,
     subMenu: [
       {
         id: 1,
-        title: 'عرض الخدمات',
+        title: 'الخدمات',
         imgSrc: list,
         linkURL: '/services',
       },
-    ],
-    roles: ['superAdmin', 'admin'],
-  },
-  {
-    id: 6,
-    title: 'الشرائح',
-    isLink: false,
-    imgSrc: menu,
-    subMenu: [
       {
-        id: 1,
-        title: 'عرض الشرائح',
+        id: 2,
+        title: 'الشرائح',
         imgSrc: list,
         linkURL: '/segments',
       },
-    ],
-    roles: ['superAdmin', 'admin'],
-  },
-  {
-    id: 7,
-    title: 'العمولة',
-    isLink: false,
-    imgSrc: menu,
-    subMenu: [
       {
-        id: 1,
+        id: 3,
         title: 'اضافة عمولة',
         imgSrc: list,
         linkURL: '/commission/new',
       },
       {
-        id: 2,
+        id: 4,
         title: 'عرض العمولة',
         imgSrc: list,
         linkURL: '/commissions',
       },
       {
-        id: 3,
+        id: 5,
         title: 'تعديل العمولة',
         imgSrc: list,
         linkURL: '/commission/edit',

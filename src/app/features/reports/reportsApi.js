@@ -24,27 +24,16 @@ export const reportsApi = apiSlice.injectEndpoints({
       providesTags: ['userTransaction'],
     }),
     findEmployTransactions: builder.query({
-      query: ({
-        userId,
-        startDate,
-        endDate,
-        page,
-        limit,
-        order,
-        sort,
-      }) => ({
+      query: ({ userId, startDate, endDate, page, limit, order, sort }) => ({
         url: `${apiEndpoints.reports.EMPLOY_TRANSACTION}?userId=${userId}&startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['userTransaction'],
     }),
-    exportExcel: builder.mutation({
-      query: ({ bankAccountId, startDate, endDate }) => ({
-        url: `${apiEndpoints.reports.EXPORT_TRANSACTION}?bankAccountId=${bankAccountId}&startDate=${startDate}&endDate=${endDate}`,
-        method: 'POST',
-        headers: { 'Content-Type': 'blob' },
-        responseType: 'arraybuffer',
+    findDailyTransfers: builder.query({
+      query: ({ startDate, endDate, page, limit, order, sort }) => ({
+        url: `${apiEndpoints.reports.DAILY_TRANSFER}?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
-      // invalidatesTags: ['userTransaction'],
+      providesTags: ['userTransaction'],
     }),
   }),
 });
@@ -53,5 +42,5 @@ export const {
   useFindUserTransactionsQuery,
   useFindDailyTransactionsQuery,
   useFindEmployTransactionsQuery,
-  useExportExcelMutation,
+  useFindDailyTransfersQuery,
 } = reportsApi;
