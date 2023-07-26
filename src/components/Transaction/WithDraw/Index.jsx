@@ -5,11 +5,11 @@ import Pagination from '../../UI/Pagination/Pagination';
 import AddButton from '../../common/Button/AddButton'
 import WithdrawTable from './Table/WithdrawTable'
 
-import './index.modules.css';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { resetFilter } from '../../../app/features/filter/filterSlice';
 
+import './index.modules.css';
 export default function Index() {
 
   const dispatch = useDispatch();

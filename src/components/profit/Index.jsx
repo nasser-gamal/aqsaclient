@@ -50,7 +50,6 @@ export default function Index() {
     }
   }
 
-  console.log(data)
 
   const exportToExcel = async () => {
     try {

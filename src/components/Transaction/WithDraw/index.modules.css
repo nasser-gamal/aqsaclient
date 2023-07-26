@@ -14,3 +14,8 @@
   background: #9e9e9e40;
   border-radius: 10px;
 }
+@media (max-width: 567px) {
+  .withdraw-form .input-form , .withdraw-form .form-input {
+    width: 100% !important;
+  }
+}
