@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import Pagination from '../../components/UI/Pagination/Pagination';
 import DaySelect from "./Date/Date";
 import { useFindAllProfitsQuery } from "../../app/features/treasury/profitsApi";
 import { notify } from "../../utils/notify";
 import { DateInput } from "../../utils/formatDate";
-import CustomButton from "../../components/common/Button/CustomButton";
-import EntrySelect from "../../components/UI/LimitSelect/EntrySelect";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../app/features/loader/loaderSlice";
 import axios from "axios";
@@ -68,7 +65,6 @@ export default function Index() {
     }
   }
 
-  console.log(data)
 
   return (
     <>
