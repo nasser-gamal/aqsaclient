@@ -25,6 +25,7 @@ import EditCommissionPage from "../pages/EditCommission/EditCommissionPage";
 import AgentSegmentsPage from "../pages/AgentSegments/AgentSegmentsPage";
 import TransferReportPage from "../pages/Reports/TransferReport/TransferReportPage";
 import ProfitPage from "../pages/Profit/ProfitPage";
+import FeesPage from "../pages/Fees/FeesPage";
 
 
 const Router = () => {
@@ -97,6 +98,10 @@ const Router = () => {
         <Route
           path="/transfers"
           element={<TransferPage />}
+        />
+        <Route
+          path="/fees"
+          element={<FeesPage />}
         />
 
         <Route

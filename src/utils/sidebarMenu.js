@@ -68,6 +68,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/transfers',
       },
+      {
+        id: 4,
+        title: 'مصاريف أخري',
+        imgSrc: list,
+        linkURL: '/fees',
+      },
     ],
     roles: ['superAdmin', 'admin'],
   },

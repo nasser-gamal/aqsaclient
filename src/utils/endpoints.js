@@ -76,6 +76,9 @@ const apiEndpoints = {
     UPDATE_TRANSFER: '/transaction/transfer/update',
   },
 
+  fees: {
+    CREATE_FEE: '/fees/create',
+  },
   treasury: {
     GET_TREASURY: '/treasury/get',
   },

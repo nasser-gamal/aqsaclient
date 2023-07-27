@@ -238,3 +238,14 @@ export const validateEmployReport = (formData) => {
   }
   return error;
 };
+
+export const validateFee = (formData) => {
+  let error;
+  if (!formData.amount) {
+    error = 'ادخل القيمة';
+  }
+  if (isNaN(formData.amount)) {
+    error = 'القيمة يجب أن تكون رقمًا';
+  }
+  return error;
+};
