@@ -33,7 +33,6 @@ export default function Index() {
     sort: "ASC"
   }, { skip });
 
-  console.log(data)
 
   useEffect(() => {
     if (isFetching) {
