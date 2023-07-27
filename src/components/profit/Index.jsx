@@ -68,6 +68,8 @@ export default function Index() {
     }
   }
 
+  console.log(data)
+
   return (
     <>
       <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
@@ -95,7 +97,7 @@ export default function Index() {
               </span>
             </div>
           </div>
-          <ProfitTable form={form} data={data} isLoading={isLoading} />
+          <ProfitTable  data={data} isLoading={isLoading} />
         </>
       }
       {/* {data  && <div

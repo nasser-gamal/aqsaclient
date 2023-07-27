@@ -32,7 +32,7 @@ export default function ProfitTable({ data }) {
       sort: "",
     },
     {
-      title: "صافي الربح",
+      title: "#",
       className: "",
       order: "",
       sort: "",
@@ -46,19 +46,58 @@ export default function ProfitTable({ data }) {
         <tbody>
           <tr >
             <td>
-              {data?.totalDepoite}
+              {data?.transactions?.totalDepoite}
             </td>
             <td>
-              {data?.totalDepoiteCount}
+              {data?.transactions?.totalDepoiteCount}
             </td>
             <td>
-              {data?.totalWithdraw}
+              {data?.transactions?.totalWithdraw}
             </td>
             <td>
-              {data?.totalWithdrawCount}
+              {data?.transactions?.totalWithdrawCount}
             </td>
             <td>
-              {data?.totalProfits}
+              -
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              الربح
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              {data?.transactions?.profits}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              اجمالي العمولة
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              {data?.commissions?.totalCommission}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              صافي الربح
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              {data?.transactions?.totalProfits}
             </td>
           </tr>
         </tbody>
