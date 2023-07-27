@@ -13,13 +13,19 @@ export default function FeesReportTable({ data }) {
       sort: "ASC",
     },
     {
-      title: "القيمة",
+      title: "بواسطة",
       className: "",
       order: "",
       sort: "",
     },
     {
       title: "ملحوظة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "القيمة",
       className: "",
       order: "",
       sort: "",
@@ -38,22 +44,24 @@ export default function FeesReportTable({ data }) {
                   <DateAndTime createdAt={fee.createdAt} />
                 </td>
                 <td>
-                  {fee.amount}
+                  {fee?.creator.userName}
                 </td>
                 <td>
                   {fee.note || "-"}
+                </td>
+                <td>
+                  {fee.amount}
                 </td>
               </tr>
             })
           }
           <tr className='last-child'>
-            <td >
+            <td  colSpan={3}>
               الاجمالي
             </td>
             <td>
               {data?.totalFees}
             </td>
-            <td></td>
           </tr>
         </tbody>
       </Table>
