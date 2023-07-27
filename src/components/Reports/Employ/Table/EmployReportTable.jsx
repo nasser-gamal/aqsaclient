@@ -3,19 +3,13 @@
 import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import CustomButton from '../../../common/Button/CustomButton';
-import { notify } from '../../../../utils/notify';
 import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 
-import { saveAs } from 'file-saver'
-import axios from 'axios';
-import apiEndpoints from '../../../../utils/endPoints';
 
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 
-export default function EmployReportTable({ data, form }) {
+export default function EmployReportTable({ data }) {
   const dispatch = useDispatch();
 
 
@@ -105,7 +99,7 @@ export default function EmployReportTable({ data, form }) {
       order: "",
       sort: "",
     },
-   
+
     {
       title: "#",
       className: "",
@@ -141,7 +135,10 @@ export default function EmployReportTable({ data, form }) {
                   {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
                 </td>
                 <td>
-                  {transaction.type === 'سحب' ? transaction.amountTotal : 0}
+                  {transaction.type === 'سحب' &&
+                    (transaction.balanceBefore - transaction.balanceAfter).toFixed(2) == transaction.amountTotal.toFixed(2) ?
+                    transaction.amountTotal :
+                    transaction.type !== 'سحب' ? 0 : transaction.providerDeduction}
                 </td>
                 <td>
                   {transaction.amount}

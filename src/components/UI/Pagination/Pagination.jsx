@@ -10,7 +10,6 @@ export default function Pagination({ pagination }) {
   const location = useLocation();
   const path = location.pathname;
   const dispatch = useDispatch();
-  console.log(pagination)
 
   const { limit, orderBy, sort } = useSelector(state => state.filter);
 

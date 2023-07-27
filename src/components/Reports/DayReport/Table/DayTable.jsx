@@ -54,7 +54,7 @@ export default function DayTable({ data }) {
       order: "",
       sort: "ASC",
     },
-    
+
     {
       title: "قيمة الفاتورة",
       className: "",
@@ -133,7 +133,10 @@ export default function DayTable({ data }) {
                   {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
                 </td>
                 <td>
-                  {transaction.type === 'سحب' ? transaction.amountTotal : 0}
+                  {transaction.type === 'سحب' &&
+                    (transaction.balanceBefore - transaction.balanceAfter).toFixed(2) == transaction.amountTotal.toFixed(2) ?
+                    transaction.amountTotal :
+                    transaction.type !== 'سحب' ? 0 : transaction.providerDeduction}
                 </td>
                 <td>
                   {transaction.amount}
@@ -156,7 +159,7 @@ export default function DayTable({ data }) {
                 <td>
                   {transaction.profit}
                 </td>
-              
+
                 <td>
                   <img style={{
                     'width': '28px',
