@@ -81,7 +81,7 @@ export default function Index() {
           textAlign: 'center',
           fontsize: '26px',
         }}
-      ><span>لا توجد عمليات</span></div>}
+      ><span>لا توجد مصاريف</span></div>}
       {data?.fees?.pagination?.hasPagination && <Pagination pagination={data?.fees?.pagination} />}
     </>
   )
