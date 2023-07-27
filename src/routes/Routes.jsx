@@ -27,6 +27,7 @@ import TransferReportPage from "../pages/Reports/TransferReport/TransferReportPa
 import ProfitPage from "../pages/Profit/ProfitPage";
 import FeesPage from "../pages/Fees/FeesPage";
 import FeesReportPage from "../pages/Reports/FeesReport/FeesReportPage";
+import CommissionsReportsPage from "../pages/Reports/CommissionsReports/CommissionsReportsPage";
 
 
 const Router = () => {
@@ -123,6 +124,10 @@ const Router = () => {
         <Route
           path="/feesReport"
           element={<FeesReportPage />}
+        />
+        <Route
+          path="/commissionReports"
+          element={<CommissionsReportsPage />}
         />
         <Route
           path="/profits"

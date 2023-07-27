@@ -109,6 +109,12 @@ export const adminMenu = [
       },
       {
         id: 5,
+        title: 'تقرير عمولة الوكلاء',
+        imgSrc: list,
+        linkURL: '/commissionReports',
+      },
+      {
+        id: 6,
         title: 'تقرير مصاريف',
         imgSrc: list,
         linkURL: '/feesReport',
