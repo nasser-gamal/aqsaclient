@@ -25,8 +25,8 @@ export default function CommissionsReportTable({ data }) {
       <Table tableHead={tableHead}>
         <tbody>
           {
-            data?.commissions.map(comission => {
-              return <tr key={comission.id}>
+            data?.commissions.map((comission, index) => {
+              return <tr key={index}>
                 <td>
                   {comission?.agent.userName}
                 </td>
