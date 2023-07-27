@@ -4,7 +4,7 @@ import Table from '../../../components/common/Table/Table';
 
 
 export default function ProfitTable({ data }) {
-
+  console.log(data)
 
   const tableHead = [
     {
@@ -85,6 +85,19 @@ export default function ProfitTable({ data }) {
               fontWeight: 'bold'
             }}>
               {data?.commissions?.totalCommission}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              مصاريف أخري
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              {data?.totalFees}
             </td>
           </tr>
           <tr>

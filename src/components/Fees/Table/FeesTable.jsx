@@ -1,30 +1,19 @@
+/* eslint-disable react/prop-types */
 
-import { useFindAllBanksQuery } from '../../../app/features/bank/bankApi';
 import EditButton from '../../UI/TableButtons/EditButton';
 import Table from '../../common/Table/Table';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import DeleteButton from '../../UI/TableButtons/DeleteButton';
+import { useDeleteFeeMutation } from '../../../app/features/fees/feesApi';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
+import { notify } from '../../../utils/notify';
 
-export default function FeesTable() {
-
+export default function FeesTable({ data }) {
   const dispatch = useDispatch();
-  const { data, isFetching } = useFindAllBanksQuery();
 
   const tableHead = [
-    {
-      title: "اسم البنك",
-      className: "account-name",
-      order: "accountName",
-      sort: "ASC",
-    },
-    {
-      title: "ملحوظة",
-      className: "note",
-      order: "note",
-      sort: "ASC",
-    },
     {
       title: "التاريخ",
       className: "",
@@ -32,50 +21,77 @@ export default function FeesTable() {
       sort: "",
     },
     {
+      title: "القيمة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "ملحوظة",
+      className: "note",
+      order: "note",
+      sort: "ASC",
+    },
+
+    {
       title: "تعديل",
       className: "",
       order: "",
       sort: "",
     },
-    // {
-    //   title: "حذف",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
 
 
+  const [deleteFee, { isLoading }] = useDeleteFeeMutation();
+
 
   useEffect(() => {
-    if (isFetching) {
+    if (isLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isLoading]);
 
+
+  const handleDelete = async (feesId) => {
+    try {
+      const response = await deleteFee(feesId).unwrap();
+      notify('success', response.message);
+    } catch (err) {
+      notify('error', err.data.message);
+    }
+  }
 
   return (
     <Table tableHead={tableHead}>
       <tbody>
         {
-          data?.banks.map(bank => {
-            return <tr key={bank.id}>
-              <td>{bank.bankName}</td>
-              <td>{bank.note || "-"}</td>
+          data?.fees.map(fee => {
+            return <tr key={fee.id}>
               <td>
-                <DateAndTime createdAt={bank.createdAt} />
+                <DateAndTime createdAt={fee.createdAt} />
               </td>
+              <td>{fee.amount}</td>
+              <td>{fee.note || "-"}</td>
               <td>
                 <EditButton
                   editProps={{
-                    name: 'AddEditBank',
+                    name: 'AddEditFees',
                     modalTitle: 'تعديل الحساب',
                     status: 'تعديل',
-                    childrenProps: { bank }
+                    childrenProps: { fee }
                   }}
                 />
+              </td>
+              <td>
+                <DeleteButton onClick={() => handleDelete(fee.id)} />
               </td>
             </tr>
           })

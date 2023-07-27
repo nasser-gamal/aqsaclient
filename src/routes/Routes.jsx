@@ -26,6 +26,7 @@ import AgentSegmentsPage from "../pages/AgentSegments/AgentSegmentsPage";
 import TransferReportPage from "../pages/Reports/TransferReport/TransferReportPage";
 import ProfitPage from "../pages/Profit/ProfitPage";
 import FeesPage from "../pages/Fees/FeesPage";
+import FeesReportPage from "../pages/Reports/FeesReport/FeesReportPage";
 
 
 const Router = () => {
@@ -103,7 +104,6 @@ const Router = () => {
           path="/fees"
           element={<FeesPage />}
         />
-
         <Route
           path="/employReport"
           element={<EmployReportPage />}
@@ -119,6 +119,10 @@ const Router = () => {
         <Route
           path="/transferReport"
           element={<TransferReportPage />}
+        />
+        <Route
+          path="/feesReport"
+          element={<FeesReportPage />}
         />
         <Route
           path="/profits"

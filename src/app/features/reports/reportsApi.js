@@ -35,6 +35,12 @@ export const reportsApi = apiSlice.injectEndpoints({
       }),
       providesTags: ['userTransaction'],
     }),
+    findDailyFees: builder.query({
+      query: ({ startDate, endDate, page, limit, order, sort }) => ({
+        url: `${apiEndpoints.reports.DAILY_FEES}?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      }),
+      providesTags: ['feesReports'],
+    }),
   }),
 });
 
@@ -43,4 +49,5 @@ export const {
   useFindDailyTransactionsQuery,
   useFindEmployTransactionsQuery,
   useFindDailyTransfersQuery,
+  useFindDailyFeesQuery,
 } = reportsApi;

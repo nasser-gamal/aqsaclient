@@ -77,7 +77,10 @@ const apiEndpoints = {
   },
 
   fees: {
+    GET_FEES: '/fees/getAll',
     CREATE_FEE: '/fees/create',
+    UPDATE_FEE: '/fees/update',
+    DELETE_FEE: '/fees/delete',
   },
   treasury: {
     GET_TREASURY: '/treasury/get',
@@ -88,6 +91,7 @@ const apiEndpoints = {
     EMPLOY_TRANSACTION: '/reports/transactions/employ',
     USER_TRANSACTION: '/reports/transactions/user',
     DAILY_TRANSFER: '/reports/transfer/daily',
+    DAILY_FEES: '/reports/fees/daily',
     EXPORT_DAILY_TRANSACTION: '/reports/transactions/daily/excel',
     EXPORT_BANK_TRANSACTION: '/reports/transactions/bankAccount/excel',
     EXPORT_EMPLOY_TRANSACTION: '/reports/transactions/employ/excel',
