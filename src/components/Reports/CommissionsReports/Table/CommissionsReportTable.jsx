@@ -31,7 +31,7 @@ export default function CommissionsReportTable({ data }) {
                   {comission?.agent.userName}
                 </td>
                 <td>
-                  {Number(comission.commissions).toFixed(2)}
+                  {comission.commissions}
                 </td>
               </tr>
             })
