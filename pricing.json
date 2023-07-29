@@ -1,211 +1,211 @@
 {
   "data": [
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Bologne",
       "pricings": [
         {
           "carId": 2,
-          "price": 1461 
+          "price": 1378 
         },
         {
           "carId": 3,
-          "price": 1383
+          "price": 1303
         },
         {
           "carId": 4,
-          "price": 1393
+          "price": 1313 
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Bordighera",
       "pricings": [
         {
           "carId": 2,
-          "price": 458
+          "price": 362
         },
         {
           "carId": 3,
-          "price": 407
+          "price": 317
         },
         {
           "carId": 4,
-          "price": 417
+          "price": 327
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Florence",
       "pricings": [
         {
           "carId": 2,
-          "price": 1348
+          "price": 1265
         },
         {
           "carId": 3,
-          "price": 1274
+          "price": 1194
         },
         {
           "carId": 4,
-          "price": 1284
+          "price": 1204
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Gênes",
       "pricings": [
         {
           "carId": 2,
-          "price": 834 
+          "price": 744 
         },
         {
           "carId": 3,
-          "price": 768
+          "price": 669
         },
         {
           "carId": 4,
-          "price": 778
+          "price": 679 
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Imperia",
       "pricings": [
         {
           "carId": 2,
-          "price": 572
+          "price": 476
         },
         {
           "carId": 3,
-          "price": 513 
+          "price": 423
         },
         {
           "carId": 4,
-          "price": 523 
+          "price": 433
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Milan",
       "pricings": [
         {
           "carId": 2,
-          "price": 1163
+          "price": 1073
         },
         {
           "carId": 3,
-          "price": 1079 
+          "price": 974
         },
         {
           "carId": 4,
-          "price": 1089 
+          "price": 984 
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Rome",
       "pricings": [
         {
           "carId": 2,
-          "price": 2031
+          "price": 1947
         },
         {
           "carId": 3,
-          "price": 1929   
+          "price": 1849
         },
         {
           "carId": 4,
-          "price": 1939
+          "price": 1859
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "San Remo",
       "pricings": [
         {
           "carId": 2,
-          "price": 487  
+          "price": 390
         },
         {
           "carId": 3,
-          "price": 433
+          "price": 343
         },
         {
           "carId": 4,
-          "price": 443 
+          "price": 353
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Savona",
       "pricings": [
         {
           "carId": 2,
-          "price": 719
+          "price": 676
         },
         {
           "carId": 3,
-          "price": 659
+          "price": 609
         },
         {
           "carId": 4,
-          "price": 669
+          "price": 619
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Turin",
       "pricings": [
         {
           "carId": 2,
-          "price": 1060
+          "price": 970
         },
         {
           "carId": 3,
-          "price": 981
+          "price": 878
         },
         {
           "carId": 4,
-          "price": 991
+          "price": 888
         }
       ]
     },
     {
-      "place": 64,
-      "placeFrom": 5,
+      "place": 175,
+      "placeFrom": 14,
       "placeTo": "Vintimille",
       "pricings": [
         {
           "carId": 2,
-          "price": 442
+          "price": 346
         },
         {
           "carId": 3,
-          "price": 392
+          "price": 302 
         },
         {
           "carId": 4,
-          "price": 402
+          "price": 312
         }
       ]
     }
