@@ -8,7 +8,7 @@ export default function Loader() {
     <Portal>
       <div className="loader">
         <div>
-          <img src={loader} alt={loader} />
+          {/* <img src={loader} alt={loader} /> */}
         </div>
       </div>
     </Portal>
