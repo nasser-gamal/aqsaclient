@@ -86,6 +86,13 @@ const apiEndpoints = {
     GET_TREASURY: '/treasury/get',
   },
 
+  applications: {
+    CREATE_APP: '/apps/create',
+    DOWNLOAD_APP: '/apps/download',
+    GET_APPS: '/apps/getAll',
+    UPDATE_APP: '/apps/update',
+  },
+
   reports: {
     DAILY_TRANSACTION: '/reports/transactions/daily',
     EMPLOY_TRANSACTION: '/reports/transactions/employ',

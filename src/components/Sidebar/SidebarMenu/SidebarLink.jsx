@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 export default function SidebarLink({ url, imgSrc, title }) {
 
@@ -9,10 +9,4 @@ export default function SidebarLink({ url, imgSrc, title }) {
       <span> {title}</span>
     </NavLink>
   )
-}
-
-SidebarLink.propTypes = {
-  url: PropTypes.string.isRequired,
-  imgSrc: PropTypes.string,
-  title: PropTypes.string.isRequired,
 }

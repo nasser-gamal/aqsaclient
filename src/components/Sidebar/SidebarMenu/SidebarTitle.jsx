@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+/* eslint-disable react/prop-types */
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md'
 
 export default function SidebarTitle(props) {
@@ -20,9 +20,3 @@ export default function SidebarTitle(props) {
 }
 
 
-SidebarTitle.propTypes = {
-  icon: PropTypes.string,
-  imgSrc: PropTypes.string,
-  active: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-}

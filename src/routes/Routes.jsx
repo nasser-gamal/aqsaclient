@@ -28,6 +28,8 @@ import ProfitPage from "../pages/Profit/ProfitPage";
 import FeesPage from "../pages/Fees/FeesPage";
 import FeesReportPage from "../pages/Reports/FeesReport/FeesReportPage";
 import CommissionsReportsPage from "../pages/Reports/CommissionsReports/CommissionsReportsPage";
+import ApplicationsPage from "../pages/Applications/ApplicationsPage";
+import AppsPage from "../pages/Apps/AppsPage";
 
 
 const Router = () => {
@@ -133,6 +135,10 @@ const Router = () => {
           path="/profits"
           element={<ProfitPage />}
         />
+        <Route
+          path="/apps"
+          element={<AppsPage />}
+        />
       </Route>
       <Route element={<AgentRoute />}>
         <Route
@@ -152,6 +158,12 @@ const Router = () => {
           }
         />
       </Route>
+      <Route
+        path="/applications"
+        element={
+          <ApplicationsPage />
+        }
+      />
     </Routes>
   );
 };

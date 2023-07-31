@@ -249,3 +249,23 @@ export const validateFee = (formData) => {
   }
   return error;
 };
+
+export const validateApp = (formData) => {
+  let error;
+  if (!formData.name) {
+    error = 'ادخل اسم التطبيق';
+  }
+  if (!formData.img) {
+    error = 'اختر صورة التطبيق';
+  }
+  if (formData.isLink === true) {
+    if (!formData.link) {
+      error = 'ادخل رابط التطبيق';
+    }
+  } else {
+    if (!formData.apk) {
+      error = 'حمل التطبيق';
+    }
+  }
+  return error;
+};
