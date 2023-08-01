@@ -83,8 +83,7 @@ export default function AddEditWithdraw() {
         dispatch(closeModal())
       }
     } catch (error) {
-      console.log(error)
-      // notify('error', error.data.message);
+      notify('error', error.data.message);
     }
   };
 
