@@ -176,19 +176,19 @@ export const adminMenu = [
     ],
     roles: ['superAdmin', 'admin'],
   },
-  {
-    id: 7,
-    title: 'التطبيقات',
-    isLink: false,
-    imgSrc: menu,
-    subMenu: [
-      {
-        id: 1,
-        title: 'تطبيقات الاقصي',
-        imgSrc: list,
-        linkURL: '/apps',
-      },
-    ],
-    roles: ['superAdmin', 'admin'],
-  },
+  // {
+  //   id: 7,
+  //   title: 'التطبيقات',
+  //   isLink: false,
+  //   imgSrc: menu,
+  //   subMenu: [
+  //     {
+  //       id: 1,
+  //       title: 'تطبيقات الاقصي',
+  //       imgSrc: list,
+  //       linkURL: '/apps',
+  //     },
+  //   ],
+  //   roles: ['superAdmin', 'admin'],
+  // },
 ];
