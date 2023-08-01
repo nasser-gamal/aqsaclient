@@ -76,7 +76,7 @@ export default function FeesTable({ data }) {
           data?.fees.map(fee => {
             return <tr key={fee.id}>
               <td>
-                <DateAndTime createdAt={fee.createdAt} />
+                <DateAndTime createdAt={fee.date} />
               </td>
               <td>{fee.amount}</td>
               <td>{fee.note || "-"}</td>

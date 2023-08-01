@@ -124,7 +124,7 @@ export default function DepositTable({ data }) {
                 {transaction.id}
               </td>
               <td className='date'>
-                <DateAndTime createdAt={transaction.createdAt} />
+                <DateAndTime createdAt={transaction.date} />
               </td>
               <td>
                 {transaction.bankAccount?.accountName}
@@ -135,12 +135,6 @@ export default function DepositTable({ data }) {
               <td>
                 {transaction.balanceBefore}
               </td>
-              {/* <td>
-                {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
-              </td>
-              <td>
-                {transaction.type === 'سحب' ? transaction.amountTotal : 0}
-              </td> */}
               <td>
                 {transaction.amount}
               </td>

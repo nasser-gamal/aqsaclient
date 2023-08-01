@@ -11,6 +11,7 @@ import { validateFee } from '../../../utils/validation';
 import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateFeeMutation, useUpdateFeeMutation } from '../../../app/features/fees/feesApi';
+import { DateInput } from '../../../utils/formatDate';
 
 export default function AddEditFees() {
   const { childrenProps } = useSelector(state => state.modal);
@@ -18,6 +19,7 @@ export default function AddEditFees() {
 
   const [form, setForm] = useState({
     amount: childrenProps?.fee.amount || "",
+    date: childrenProps?.fee.date.split("T")[0] || DateInput(),
     note: childrenProps?.fee.note || ""
   });
 
@@ -65,6 +67,13 @@ export default function AddEditFees() {
         label='القيمة'
         name={'amount'}
         value={form.amount}
+        onChange={(e) => onChange(e)}
+      />
+      <CustomInput
+        type='date'
+        label='التاريخ'
+        name={'date'}
+        value={form.date}
         onChange={(e) => onChange(e)}
       />
       <CustomInput
