@@ -102,12 +102,14 @@ export default function ProfitTable({ data }) {
           </tr>
           <tr>
             <td colSpan={4} style={{
-              backgroundColor: '#ebebeb',
+              backgroundColor: '#4fb5ab',
+              color: "white"
             }}>
               صافي الربح
             </td>
             <td style={{
-              backgroundColor: '#4caf5042',
+              backgroundColor: '#4fb5ab',
+              color: "white",
               fontWeight: 'bold'
             }}>
               {data?.transactions?.totalProfits}

@@ -41,7 +41,7 @@ export default function FeesReportTable({ data }) {
             data?.fees?.fees.map(fee => {
               return <tr key={fee.id}>
                 <td className='date'>
-                  <DateAndTime createdAt={fee.createdAt} />
+                  <DateAndTime createdAt={fee.date} />
                 </td>
                 <td>
                   {fee?.creator.userName}
