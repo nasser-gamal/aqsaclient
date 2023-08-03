@@ -82,6 +82,25 @@ const apiEndpoints = {
     UPDATE_FEE: '/fees/update',
     DELETE_FEE: '/fees/delete',
   },
+  provider: {
+    GET_PROVIDERS: '/provider/getAll',
+    CREATE_PROVIDER: '/provider/create',
+    UPDATE_PROVIDER: '/provider/update',
+    DELETE_PROVIDER: '/provider/delete',
+  },
+  providerCommission: {
+    GET_PROVIDER_COMMISSIONS: '/provider/commission/getAll',
+    CREATE_PROVIDER_COMMISSION: '/provider/commission/create',
+    UPDATE_PROVIDER_COMMISSION: '/provider/commission/update',
+    DELETE_PROVIDER_COMMISSION: '/provider/commission/delete',
+  },
+
+  agentTreasury: {
+    GET_AGENT_TREASURYS: '/agentTreasury/getAll',
+    CREATE_AGENT_TREASURY: '/agentTreasury/create',
+    UPDATE_AGENT_TREASURY: '/agentTreasury/update',
+    DELETE_AGENT_TREASURY: '/agentTreasury/delete',
+  },
   treasury: {
     GET_TREASURY: '/treasury/get',
   },

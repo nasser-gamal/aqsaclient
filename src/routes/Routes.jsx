@@ -30,6 +30,9 @@ import FeesReportPage from "../pages/Reports/FeesReport/FeesReportPage";
 import CommissionsReportsPage from "../pages/Reports/CommissionsReports/CommissionsReportsPage";
 import ApplicationsPage from "../pages/Applications/ApplicationsPage";
 import AppsPage from "../pages/Apps/AppsPage";
+import ProviderPage from "../pages/Provider/ProviderPage";
+import ProviderCommissionPage from "../pages/providerCommission/providerCommissionPage";
+import AgentTreasuryPage from "../pages/agentTreasury/agentTreasuryPage";
 
 
 const Router = () => {
@@ -130,6 +133,18 @@ const Router = () => {
         <Route
           path="/commissionReports"
           element={<CommissionsReportsPage />}
+        />
+        <Route
+          path="/providers"
+          element={<ProviderPage />}
+        />
+        <Route
+          path="/providers/commissions"
+          element={<ProviderCommissionPage />}
+        />
+        <Route
+          path="/agentTreasury"
+          element={<AgentTreasuryPage />}
         />
         <Route
           path="/profits"

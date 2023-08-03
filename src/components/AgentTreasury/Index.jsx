@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
-import { useFindAllFeesQuery } from '../../app/features/fees/feesApi';
 import AddButton from '../common/Button/AddButton';
-import FeesTable from './Table/FeesTable';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
+import AgentTreasuryTable from './Table/AgentTreasuryTable';
 import Pagination from '../UI/Pagination/Pagination';
+import { useFindAllAgentTreasuryQuery } from '../../app/features/agentTreasury/agentTreasuryApi';
 
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { data, isLoading } = useFindAllFeesQuery();
+  const { data, isLoading } = useFindAllAgentTreasuryQuery();
+  console.log(data)
 
   useEffect(() => {
     if (isLoading) {
@@ -21,9 +22,9 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditFees'} modalTitle={'اضافة مصاريف أخري'} />
-      <FeesTable data={data?.fees} />
-      {data?.provider?.pagination.hasPagination && <Pagination pagination={data?.provider?.pagination} />}
+      <AddButton name={'AddEditAgentTreasury'} modalTitle={'اضافة جديد'} />
+      <AgentTreasuryTable data={data?.agentTreasury} />
+      {data?.pagination.hasPagination && <Pagination pagination={data?.pagination} />}
     </>
   )
 }

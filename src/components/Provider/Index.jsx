@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
-import { useFindAllFeesQuery } from '../../app/features/fees/feesApi';
 import AddButton from '../common/Button/AddButton';
-import FeesTable from './Table/FeesTable';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
+import { useFindAllProvidersQuery } from '../../app/features/provider/providerApi';
+import ProviderTable from './Table/ProviderTable';
 import Pagination from '../UI/Pagination/Pagination';
 
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { data, isLoading } = useFindAllFeesQuery();
+  const { data, isLoading } = useFindAllProvidersQuery();
+
+  console.log(data)
 
   useEffect(() => {
     if (isLoading) {
@@ -21,8 +23,8 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditFees'} modalTitle={'اضافة مصاريف أخري'} />
-      <FeesTable data={data?.fees} />
+      <AddButton name={'AddEditProvider'} modalTitle={'اضافة مزود جديد'} />
+      <ProviderTable data={data?.provider} />
       {data?.provider?.pagination.hasPagination && <Pagination pagination={data?.provider?.pagination} />}
     </>
   )

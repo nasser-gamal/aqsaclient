@@ -78,7 +78,7 @@ export const adminMenu = [
     roles: ['superAdmin', 'admin'],
   },
   {
-    id: 8,
+    id: 4,
     title: 'التقارير',
     isLink: false,
     imgSrc: menu,
@@ -191,4 +191,40 @@ export const adminMenu = [
   //   ],
   //   roles: ['superAdmin', 'admin'],
   // },
+  {
+    id: 8,
+    title: 'المزودين',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'اضافة مزود',
+        imgSrc: list,
+        linkURL: '/providers',
+      },
+      {
+        id: 2,
+        title: 'اضافة عمولة',
+        imgSrc: list,
+        linkURL: '/providers/commissions',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
+  {
+    id: 9,
+    title: 'خزنة التجار',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'خزنة التجار',
+        imgSrc: list,
+        linkURL: '/agentTreasury',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
 ];

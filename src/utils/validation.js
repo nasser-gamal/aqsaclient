@@ -250,6 +250,38 @@ export const validateFee = (formData) => {
   return error;
 };
 
+export const validateProvider = (formData) => {
+  let error;
+  if (!formData.name) {
+    error = 'ادخل اسم المزود';
+  }
+  return error;
+};
+
+export const validateAgentTreasury = (formData) => {
+  let error;
+  if (!formData.amount) {
+    error = 'ادخل القيمة';
+  }
+  if (isNaN(formData.amount)) {
+    error = 'القيمة يجب أن تكون رقمًا';
+  }
+  return error;
+};
+
+export const validateProviderCommission = (formData) => {
+  let error;
+  if (!formData.providerId) {
+    error = 'اختر اسم المزود';
+  }
+  if (!formData.commission) {
+    error = 'ادخل العمولة';
+  } else if (isNaN(formData.commission)) {
+    error = 'العمولة يجب أن تكون قيمة';
+  }
+  return error;
+};
+
 export const validateApp = (formData) => {
   let error;
   if (!formData.name) {
