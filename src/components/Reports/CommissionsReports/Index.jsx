@@ -51,7 +51,6 @@ export default function Index() {
     }
   }
 
-  console.log(data)
 
   return (
     <>

@@ -101,6 +101,21 @@ const apiEndpoints = {
     UPDATE_AGENT_TREASURY: '/agentTreasury/update',
     DELETE_AGENT_TREASURY: '/agentTreasury/delete',
   },
+
+  providerTreasury: {
+    GET_PROVIDER_TREASURYS: '/providerTreasury/getAll',
+    CREATE_PROVIDER_TREASURY: '/providerTreasury/create',
+    UPDATE_PROVIDER_TREASURY: '/providerTreasury/update',
+    DELETE_PROVIDER_TREASURY: '/providerTreasury/delete',
+  },
+
+  addionalTreasury: {
+    GET_ADDIONAL_TREASURYS: '/addionalTreasury/getAll',
+    CREATE_ADDIONAL_TREASURY: '/addionalTreasury/create',
+    UPDATE_ADDIONAL_TREASURY: '/addionalTreasury/update',
+    DELETE_ADDIONAL_TREASURY: '/addionalTreasury/delete',
+  },
+
   treasury: {
     GET_TREASURY: '/treasury/get',
   },
@@ -127,6 +142,10 @@ const apiEndpoints = {
 
   profits: {
     GET_DAILY_PROFITS: '/profits/daily',
+  },
+
+  inventory: {
+    GET_INVENTROY: '/inventory/get',
   },
 };
 

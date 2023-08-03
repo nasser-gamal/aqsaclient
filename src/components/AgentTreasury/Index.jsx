@@ -10,7 +10,6 @@ import { useFindAllAgentTreasuryQuery } from '../../app/features/agentTreasury/a
 export default function Index() {
   const dispatch = useDispatch();
   const { data, isLoading } = useFindAllAgentTreasuryQuery();
-  console.log(data)
 
   useEffect(() => {
     if (isLoading) {

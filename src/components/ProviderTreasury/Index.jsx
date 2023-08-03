@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 import AddButton from '../common/Button/AddButton';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import { useFindAllProvidersQuery } from '../../app/features/provider/providerApi';
-import ProviderTable from './Table/ProviderTable';
 import Pagination from '../UI/Pagination/Pagination';
+import { useFindAllProviderTreasuryQuery } from '../../app/features/providerTreasury/providerTreasuryApi';
+import ProviderTreasuryTable from './Table/ProviderTreasuryTable';
 
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { data, isLoading } = useFindAllProvidersQuery();
-
+  const { data, isLoading } = useFindAllProviderTreasuryQuery();
 
   useEffect(() => {
     if (isLoading) {
@@ -22,9 +21,9 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditProvider'} modalTitle={'اضافة مزود جديد'} />
-      <ProviderTable data={data?.provider} />
-      {data?.provider?.pagination.hasPagination && <Pagination pagination={data?.provider?.pagination} />}
+      <AddButton name={'AddEditProviderTreasury'} modalTitle={'اضافة رصيد مزود'} />
+      <ProviderTreasuryTable data={data?.providerTreasury} />
+      {data?.pagination.hasPagination && <Pagination pagination={data?.pagination} />}
     </>
   )
 }

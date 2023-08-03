@@ -11,7 +11,6 @@ export default function Index() {
   const dispatch = useDispatch();
   const { data, isLoading } = useFindAllProviderCommissionsQuery();
 
-  console.log(data)
 
   useEffect(() => {
     if (isLoading) {

@@ -10,17 +10,17 @@ import { validateTreasury } from '../../../utils/validation';
 
 import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { useCreateAgentTreasuryMutation, useUpdateAgentTreasuryMutation } from '../../../app/features/agentTreasury/agentTreasuryApi';
 import { DateInput } from '../../../utils/formatDate';
+import { useCreateProviderTreasuryMutation, useUpdateProviderTreasuryMutation } from '../../../app/features/providerTreasury/providerTreasuryApi';
 
-export default function AddEditAgentTreasury() {
+export default function AddEditProviderTreasury() {
   const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    amount: childrenProps?.agentTreasury.amount || "",
-    date: childrenProps?.agentTreasury.date.split('T')[0] || DateInput(),
-    note: childrenProps?.agentTreasury.note || ""
+    amount: childrenProps?.providerTreasury.amount || "",
+    date: childrenProps?.providerTreasury.date.split('T')[0] || DateInput(),
+    note: childrenProps?.providerTreasury.note || ""
   });
 
   const onChange = (e) => {
@@ -28,8 +28,8 @@ export default function AddEditAgentTreasury() {
     setForm({ ...form, [name]: value });
   };
 
-  const [createAgentTreasury, { isLoading: createLoading }] = useCreateAgentTreasuryMutation()
-  const [updateAgentTreasury, { isLoading: updateLoading }] = useUpdateAgentTreasuryMutation()
+  const [createProviderTreasury, { isLoading: createLoading }] = useCreateProviderTreasuryMutation()
+  const [updateProviderTreasury, { isLoading: updateLoading }] = useUpdateProviderTreasuryMutation()
 
 
   useEffect(() => {
@@ -48,9 +48,9 @@ export default function AddEditAgentTreasury() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.agentTreasury
-          ? await updateAgentTreasury({ treasuryId: childrenProps?.agentTreasury.id, form }).unwrap()
-          : await createAgentTreasury(form).unwrap();
+        const response = childrenProps?.providerTreasury
+          ? await updateProviderTreasury({ treasuryId: childrenProps?.providerTreasury.id, form }).unwrap()
+          : await createProviderTreasury(form).unwrap();
 
         notify('success', response.message);
         dispatch(closeModal())

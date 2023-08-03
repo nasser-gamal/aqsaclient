@@ -258,7 +258,7 @@ export const validateProvider = (formData) => {
   return error;
 };
 
-export const validateAgentTreasury = (formData) => {
+export const validateTreasury = (formData) => {
   let error;
   if (!formData.amount) {
     error = 'ادخل القيمة';

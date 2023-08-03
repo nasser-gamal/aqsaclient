@@ -18,16 +18,16 @@ export const agentTreasuryApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['agentTreasury'],
     }),
     updateAgentTreasury: builder.mutation({
-      query: ({ agentTreasuryId, form }) => ({
-        url: `${apiEndpoints.agentTreasury.UPDATE_AGENT_TREASURY}/${agentTreasuryId}`,
+      query: ({ treasuryId, form }) => ({
+        url: `${apiEndpoints.agentTreasury.UPDATE_AGENT_TREASURY}/${treasuryId}`,
         method: 'PUT',
         body: form,
       }),
       invalidatesTags: ['agentTreasury'],
     }),
     deleteAgentTreasury: builder.mutation({
-      query: (agentTreasuryId) => ({
-        url: `${apiEndpoints.agentTreasury.DELETE_AGENT_TREASURY}/${agentTreasuryId}`,
+      query: (treasuryId) => ({
+        url: `${apiEndpoints.agentTreasury.DELETE_AGENT_TREASURY}/${treasuryId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['agentTreasury'],

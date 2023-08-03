@@ -1,3 +1,7 @@
+.right-serv {
+  height: 520px;
+  overflow: auto;
+}
 .aqsa-side-bar {
   width: 230px;
   height: calc(100vh - 80px);

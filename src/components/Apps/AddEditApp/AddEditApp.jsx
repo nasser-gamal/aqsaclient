@@ -43,7 +43,6 @@ export default function AddEditApp() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(form)
       const error = validateApp(form);
 
 
@@ -65,7 +64,6 @@ export default function AddEditApp() {
         // dispatch(closeModal())
       }
     } catch (error) {
-      console.log(error)
       notify('error', error.data.message);
     }
   }

@@ -6,21 +6,23 @@ import FormButtons from '../../UI/FormButtons/FormButtons';
 
 
 import { notify } from '../../../utils/notify';
+import { DateInput } from '../../../utils/formatDate';
 import { validateTreasury } from '../../../utils/validation';
 
 import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { useCreateAgentTreasuryMutation, useUpdateAgentTreasuryMutation } from '../../../app/features/agentTreasury/agentTreasuryApi';
-import { DateInput } from '../../../utils/formatDate';
+import { useCreateAddionalTreasuryMutation, useUpdateAddionalTreasuryMutation } from '../../../app/features/addionalTreasury/addionalTreasuryApi';
 
-export default function AddEditAgentTreasury() {
+
+
+export default function AddEditAddionalTreasury() {
   const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    amount: childrenProps?.agentTreasury.amount || "",
-    date: childrenProps?.agentTreasury.date.split('T')[0] || DateInput(),
-    note: childrenProps?.agentTreasury.note || ""
+    amount: childrenProps?.addionalTreasury.amount || "",
+    date: childrenProps?.addionalTreasury.date.split('T')[0] || DateInput(),
+    note: childrenProps?.addionalTreasury.note || ""
   });
 
   const onChange = (e) => {
@@ -28,8 +30,8 @@ export default function AddEditAgentTreasury() {
     setForm({ ...form, [name]: value });
   };
 
-  const [createAgentTreasury, { isLoading: createLoading }] = useCreateAgentTreasuryMutation()
-  const [updateAgentTreasury, { isLoading: updateLoading }] = useUpdateAgentTreasuryMutation()
+  const [createAddionalTreasury, { isLoading: createLoading }] = useCreateAddionalTreasuryMutation()
+  const [updateAddionalTreasury, { isLoading: updateLoading }] = useUpdateAddionalTreasuryMutation()
 
 
   useEffect(() => {
@@ -48,9 +50,9 @@ export default function AddEditAgentTreasury() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.agentTreasury
-          ? await updateAgentTreasury({ treasuryId: childrenProps?.agentTreasury.id, form }).unwrap()
-          : await createAgentTreasury(form).unwrap();
+        const response = childrenProps?.addionalTreasury
+          ? await updateAddionalTreasury({ treasuryId: childrenProps?.addionalTreasury.id, form }).unwrap()
+          : await createAddionalTreasury(form).unwrap();
 
         notify('success', response.message);
         dispatch(closeModal())

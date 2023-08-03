@@ -1,63 +1,64 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../../components/common/Table/Table';
 
 
-export default function ProfitTable({ data }) {
-
-  const tableHead = [
-    {
-      title: "الايداع",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "عدد العمليات",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "السحب",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "عدد العمليات",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "#",
-      className: "",
-      order: "",
-      sort: "",
-    },
-  ]
+export default function InventoryTable({ data }) {
 
 
   return (
     <div className='report-table'>
-      <Table tableHead={tableHead}>
+      <table>
         <tbody>
-          <tr >
-            <td>
-              {data?.transactions?.totalDepoite}
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              أرصدة التجار
             </td>
-            <td>
-              {data?.transactions?.totalDepoiteCount}
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              {data?.totalAgentTreasury}
             </td>
-            <td>
-              {data?.transactions?.totalWithdraw}
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              أرصدة الحسابات
             </td>
-            <td>
-              {data?.transactions?.totalWithdrawCount}
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              (-)   {data?.totalBankAmount}
             </td>
-            <td>
-              -
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              أرصدة المزودين
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              (-)     {data?.totalProviderTreasury}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              أرصدة أخري
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              (-)    {data?.totalAddionalTreasury}
             </td>
           </tr>
           <tr>
@@ -70,47 +71,7 @@ export default function ProfitTable({ data }) {
               backgroundColor: '#4caf5042',
               fontWeight: 'bold'
             }}>
-              {data?.transactions?.profits}
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={4} style={{
-              backgroundColor: '#ebebeb',
-            }}>
-              عمولة المزودين
-            </td>
-            <td style={{
-              backgroundColor: '#4caf5042',
-              fontWeight: 'bold'
-            }}>
-              (+)   {data?.totalProviderCommission}
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={4} style={{
-              backgroundColor: '#ebebeb',
-            }}>
-              عمولة الوكلاء
-            </td>
-            <td style={{
-              backgroundColor: '#4caf5042',
-              fontWeight: 'bold'
-            }}>
-              (-)    {data?.commissions?.totalCommission}
-            </td>
-          </tr>
-
-          <tr>
-            <td colSpan={4} style={{
-              backgroundColor: '#ebebeb',
-            }}>
-              مصاريف أخري
-            </td>
-            <td style={{
-              backgroundColor: '#4caf5042',
-              fontWeight: 'bold'
-            }}>
-              (-) {data?.totalFees}
+              (-)    {data?.totalProfits}
             </td>
           </tr>
           <tr>
@@ -118,18 +79,18 @@ export default function ProfitTable({ data }) {
               backgroundColor: '#4fb5ab',
               color: "white"
             }}>
-              صافي الربح
+              صافي الرصيد المتاح
             </td>
             <td style={{
               backgroundColor: '#4fb5ab',
               color: "white",
               fontWeight: 'bold'
             }}>
-              {data?.transactions?.totalProfits}
+              {data?.totalCurrentBalance}
             </td>
           </tr>
         </tbody>
-      </Table>
+      </table>
     </div>
   )
 }

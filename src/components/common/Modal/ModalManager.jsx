@@ -23,6 +23,8 @@ import AddEditApp from '../../Apps/AddEditApp/AddEditApp';
 import AddEditProvider from '../../Provider/AddEditProvider/AddEditProvider';
 import AddEditProviderCommission from '../../ProviderCommission/AddEditProviderCommission/AddEditProviderCommission';
 import AddEditAgentTreasury from '../../AgentTreasury/AddEditAgentTreasury/AddEditAgentTreasury';
+import AddEditProviderTreasury from '../../ProviderTreasury/AddEditProviderTreasury/AddEditProviderTreasury';
+import AddEditAddionalTreasury from '../../AddionalTreasury/AddEditAddionalTreasury/AddEditAddionalTreasury';
 import DeleteConfirm from '../../DeleteConfirm/DeleteConfirm';
 
 export default function ModalManager() {
@@ -56,6 +58,8 @@ export default function ModalManager() {
     AddEditProvider,
     AddEditProviderCommission,
     AddEditAgentTreasury,
+    AddEditProviderTreasury,
+    AddEditAddionalTreasury,
     TransactionInfo,
     AddEditApp,
   };

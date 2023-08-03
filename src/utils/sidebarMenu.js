@@ -119,6 +119,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/feesReport',
       },
+      {
+        id: 7,
+        title: 'تقارير الارباح',
+        imgSrc: list,
+        linkURL: '/profits',
+      },
     ],
     roles: ['superAdmin', 'admin'],
   },
@@ -161,21 +167,6 @@ export const adminMenu = [
     ],
     roles: ['superAdmin', 'admin'],
   },
-  {
-    id: 6,
-    title: 'الارباح',
-    isLink: false,
-    imgSrc: menu,
-    subMenu: [
-      {
-        id: 1,
-        title: 'ارباح الفترة',
-        imgSrc: list,
-        linkURL: '/profits',
-      },
-    ],
-    roles: ['superAdmin', 'admin'],
-  },
   // {
   //   id: 7,
   //   title: 'التطبيقات',
@@ -214,15 +205,42 @@ export const adminMenu = [
   },
   {
     id: 9,
-    title: 'خزنة التجار',
+    title: 'الأرصدة',
     isLink: false,
     imgSrc: menu,
     subMenu: [
       {
         id: 1,
-        title: 'خزنة التجار',
+        title: 'أرصدة التجار',
         imgSrc: list,
         linkURL: '/agentTreasury',
+      },
+      {
+        id: 2,
+        title: 'أرصدة المزودين',
+        imgSrc: list,
+        linkURL: '/providerTreasury',
+      },
+      {
+        id: 3,
+        title: 'أرصدة أخري',
+        imgSrc: list,
+        linkURL: '/addionalTreasury',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
+  {
+    id: 10,
+    title: 'الجرد',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'عرض الجرد',
+        imgSrc: list,
+        linkURL: '/inventory',
       },
     ],
     roles: ['superAdmin', 'admin'],

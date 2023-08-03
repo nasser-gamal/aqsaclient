@@ -33,6 +33,9 @@ import AppsPage from "../pages/Apps/AppsPage";
 import ProviderPage from "../pages/Provider/ProviderPage";
 import ProviderCommissionPage from "../pages/providerCommission/providerCommissionPage";
 import AgentTreasuryPage from "../pages/agentTreasury/agentTreasuryPage";
+import ProviderTreasuryPage from "../pages/ProviderTreasury/ProviderTreasuryPage";
+import AddionalTreasuryPage from "../pages/addionalTreasury/AddionalTreasuryPage";
+import InventoryPage from "../pages/Inventory/InventoryPage";
 
 
 const Router = () => {
@@ -147,8 +150,20 @@ const Router = () => {
           element={<AgentTreasuryPage />}
         />
         <Route
+          path="/providerTreasury"
+          element={<ProviderTreasuryPage />}
+        />
+        <Route
+          path="/addionalTreasury"
+          element={<AddionalTreasuryPage />}
+        />
+        <Route
           path="/profits"
           element={<ProfitPage />}
+        />
+        <Route
+          path="/inventory"
+          element={<InventoryPage />}
         />
         <Route
           path="/apps"

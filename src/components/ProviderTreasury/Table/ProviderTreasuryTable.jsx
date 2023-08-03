@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
-import { useDeleteAgentTreasuryMutation } from '../../../app/features/agentTreasury/agentTreasuryApi';
+import { useDeleteProviderTreasuryMutation } from '../../../app/features/providerTreasury/providerTreasuryApi';
 
-export default function AgentTreasuryTable({ data }) {
+export default function ProviderTreasuryTable({ data }) {
   const dispatch = useDispatch();
 
   const tableHead = [
@@ -48,7 +48,7 @@ export default function AgentTreasuryTable({ data }) {
   ]
 
 
-  const [deleteAgentTreasury, { isLoading }] = useDeleteAgentTreasuryMutation();
+  const [deleteProviderTreasury, { isLoading }] = useDeleteProviderTreasuryMutation();
 
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function AgentTreasuryTable({ data }) {
 
   const handleDelete = async (treasuryId) => {
     try {
-      const response = await deleteAgentTreasury(treasuryId).unwrap();
+      const response = await deleteProviderTreasury(treasuryId).unwrap();
       notify('success', response.message);
     } catch (err) {
       notify('error', err.data.message);
@@ -73,25 +73,25 @@ export default function AgentTreasuryTable({ data }) {
     <Table tableHead={tableHead}>
       <tbody>
         {
-          data?.map(agentTreasury => {
-            return <tr key={agentTreasury.id}>
+          data?.map(providerTreasury => {
+            return <tr key={providerTreasury.id}>
               <td>
-                <DateAndTime createdAt={agentTreasury.date} />
+                <DateAndTime createdAt={providerTreasury.date} />
               </td>
-              <td>{agentTreasury.amount}</td>
-              <td>{agentTreasury.note || "-"}</td>
+              <td>{providerTreasury.amount}</td>
+              <td>{providerTreasury.note || "-"}</td>
               <td>
                 <EditButton
                   editProps={{
-                    name: 'AddEditAgentTreasury',
-                    modalTitle: 'تعديل ',
+                    name: 'AddEditProviderTreasury',
+                    modalTitle: 'تعديل حساب المزود ',
                     status: 'تعديل',
-                    childrenProps: { agentTreasury }
+                    childrenProps: { providerTreasury }
                   }}
                 />
               </td>
               <td>
-                <DeleteButton onClick={() => handleDelete(agentTreasury.id)} />
+                <DeleteButton onClick={() => handleDelete(providerTreasury.id)} />
               </td>
             </tr>
           })
