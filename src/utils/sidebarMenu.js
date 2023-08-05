@@ -167,23 +167,9 @@ export const adminMenu = [
     ],
     roles: ['superAdmin', 'admin'],
   },
-  // {
-  //   id: 7,
-  //   title: 'التطبيقات',
-  //   isLink: false,
-  //   imgSrc: menu,
-  //   subMenu: [
-  //     {
-  //       id: 1,
-  //       title: 'تطبيقات الاقصي',
-  //       imgSrc: list,
-  //       linkURL: '/apps',
-  //     },
-  //   ],
-  //   roles: ['superAdmin', 'admin'],
-  // },
+
   {
-    id: 8,
+    id: 7,
     title: 'المزودين',
     isLink: false,
     imgSrc: menu,
@@ -204,7 +190,7 @@ export const adminMenu = [
     roles: ['superAdmin', 'admin'],
   },
   {
-    id: 9,
+    id: 8,
     title: 'الأرصدة',
     isLink: false,
     imgSrc: menu,
@@ -231,7 +217,7 @@ export const adminMenu = [
     roles: ['superAdmin', 'admin'],
   },
   {
-    id: 10,
+    id: 9,
     title: 'الجرد',
     isLink: false,
     imgSrc: menu,
@@ -241,6 +227,21 @@ export const adminMenu = [
         title: 'عرض الجرد',
         imgSrc: list,
         linkURL: '/inventory',
+      },
+    ],
+    roles: ['superAdmin', 'admin'],
+  },
+  {
+    id: 10,
+    title: 'التطبيقات',
+    isLink: false,
+    imgSrc: menu,
+    subMenu: [
+      {
+        id: 1,
+        title: 'تطبيقات الاقصي',
+        imgSrc: list,
+        linkURL: '/apps',
       },
     ],
     roles: ['superAdmin', 'admin'],
