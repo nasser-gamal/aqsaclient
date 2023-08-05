@@ -28,7 +28,7 @@ export default function AgentInfoTable({ user }) {
       order: "",
       sort: "",
     },
-  
+
     {
       title: "البيان",
       className: "",
@@ -67,6 +67,9 @@ export default function AgentInfoTable({ user }) {
             <td>
               عمولة شهر {user.month}
             </td>
+            {/* <td>
+              سنة  {user.year}
+            </td> */}
             <td>
               {user.agent.address}
             </td>

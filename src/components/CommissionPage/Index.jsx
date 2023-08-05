@@ -10,7 +10,7 @@ export default function Index() {
 
   const [query, setQuery] = useState({
     month: "",
-    year: 2023,
+    year: new Date().getFullYear(),
     agentId: '',
     searchValue: '',
   });

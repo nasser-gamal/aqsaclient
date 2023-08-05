@@ -9,19 +9,20 @@ import { useCreateCommissionMutation } from "../../app/features/commissions/comm
 import { useDispatch } from "react-redux";
 
 import { notify } from "../../utils/notify";
-import Date from "./Form/Date";
+import Month from "./Form/Month";
 import { validateCommission } from "../../utils/validation";
 import { useFindAllCategoriesQuery } from "../../app/features/category/categoryApi";
+import Year from "./Form/year";
 
 export default function Index() {
-  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery({ page: 1, limit: 100000, order: "createdAt", sort: 'ASC' });
+  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery({ page: '', limit: '', order: "createdAt", sort: 'ASC' });
 
   const dispatch = useDispatch()
 
   const [form, setForm] = useState({
     agentId: "",
     month: '',
-    year: 2023,
+    year: new Date().getFullYear(),
     commissions: [],
   });
 
@@ -73,12 +74,21 @@ export default function Index() {
   return (
     <>
       <div className="d-flex" style={{
-        gap: '20px'
+        gap: '20px',
+        justifyContent: 'center',
+        marginBottom: '10px'
       }}>
-        <Date form={form} setForm={setForm} />
+        <Year form={form} setForm={setForm} />
+        <Month form={form} setForm={setForm} />
         <Agents form={form} setForm={setForm} />
       </div>
-      <CommissionTable data={data} isLoading={categoryLoading} form={form} setForm={setForm} onChange={onChange} />
+      <CommissionTable
+        data={data}
+        isLoading={categoryLoading}
+        form={form}
+        setForm={setForm}
+        onChange={onChange}
+      />
       <div className="text-center" style={{
         marginTop: '20px '
       }}>

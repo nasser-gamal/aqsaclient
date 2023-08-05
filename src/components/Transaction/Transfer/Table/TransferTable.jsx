@@ -3,10 +3,16 @@
 import EditButton from '../../../UI/TableButtons/EditButton';
 import Table from '../../../common/Table/Table';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
+import { notify } from '../../../../utils/notify';
+import DeleteButton from '../../../UI/TableButtons/DeleteButton';
+import { useDeleteTransferMutation } from '../../../../app/features/transaction/transferApi';
 
 
 export default function TransferTable({ transfers }) {
-
+  const dispatch = useDispatch();
 
   const tableHead = [
     {
@@ -69,7 +75,37 @@ export default function TransferTable({ transfers }) {
       order: "",
       sort: "",
     },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
+
+
+
+  const [deleteTransfer, { isLoading }] = useDeleteTransferMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, isLoading]);
+
+
+  const handleDelete = async (transactionId) => {
+    try {
+      const response = await deleteTransfer(transactionId).unwrap();
+      notify('success', response.message)
+    } catch (err) {
+      notify('error', err.data.message)
+    }
+  }
+
+
 
   return (
     <Table tableHead={tableHead}>
@@ -113,6 +149,9 @@ export default function TransferTable({ transfers }) {
                     childrenProps: { transfer }
                   }}
                 />
+              </td>
+              <td>
+                <DeleteButton onClick={() => handleDelete(transfer.id)} />
               </td>
             </tr>
           })

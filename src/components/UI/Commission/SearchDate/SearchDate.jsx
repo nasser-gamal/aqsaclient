@@ -1,56 +1,22 @@
 /* eslint-disable react/prop-types */
 import CustomButton from '../../../common/Button/CustomButton';
-import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
-import { useState } from 'react';
-import { months } from './months';
 import CustomInput from '../../../common/FormFields/input/CustomInput';
 
 import './searchDate.modules.css';
 
+import Date from './Date';
+
 export default function SearchDate({ query, setQuery, setSkip }) {
-
-
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الشهر');
 
   const onClick = () => {
     setSkip(false);
   }
 
 
-  const handleClick = (month) => {
-    setIsClicked(!isClicked);
-    setDropHeading(month.name);
-    setQuery({ ...query, month: month.id })
-    setSkip(true)
-  }
-
-
   return (
     <div className='search-date '>
       <div className='d-flex flex-center flex-wrap' style={{ width: '100%' }}>
-        <CustomSelect
-          dropHeading={dropHeading}
-          label={'اختر الشهر'}
-          isClicked={isClicked}
-          setIsClicked={setIsClicked}
-          onClick={() => {
-            setSkip(true)
-            setIsClicked(!isClicked)}}
-        >
-          {
-            months.map(month => {
-              return <li
-                key={month.id}
-                onClick={() => {
-                  handleClick(month)
-                }}
-              >
-                {month.name}
-              </li>
-            })
-          }
-        </CustomSelect>
+        <Date query={query} setQuery={setQuery} setSkip={setSkip} />
         <CustomInput
           type='text'
           label='بيانات العميل'

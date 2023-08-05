@@ -3,7 +3,7 @@ import { useState } from 'react'
 import CustomSelect from '../../common/FormFields/Select/CustomSelect';
 import { months } from '../../../utils/months';
 
-export default function Date({ form, setForm }) {
+export default function Month({ form, setForm }) {
 
   const [dropHeading, setDropHeading] = useState()
   const [isClicked, setIsClicked] = useState(false);
@@ -18,7 +18,7 @@ export default function Date({ form, setForm }) {
     }}>
       <CustomSelect
         dropHeading={dropHeading}
-        label={'اختر الشهر'}
+        label={'الشهر'}
         isClicked={isClicked}
         setIsClicked={setIsClicked}
         onClick={() => setIsClicked(!isClicked)}

@@ -15,7 +15,7 @@ export const transferApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['transfers', 'bankAccounts'],
+      invalidatesTags: ['transfers'],
     }),
     updateTransfer: builder.mutation({
       query: ({ transactionId, form }) => ({
@@ -23,7 +23,14 @@ export const transferApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['transfers', 'bankAccounts'],
+      invalidatesTags: ['transfers'],
+    }),
+    deleteTransfer: builder.mutation({
+      query: (transactionId) => ({
+        url: `${apiEndpoints.transfer.DELETE_TRANSFER}/${transactionId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['transfers'],
     }),
   }),
 });
@@ -32,4 +39,5 @@ export const {
   useFindAllTransferQuery,
   useCreateTransferMutation,
   useUpdateTransferMutation,
+  useDeleteTransferMutation,
 } = transferApiSlice;

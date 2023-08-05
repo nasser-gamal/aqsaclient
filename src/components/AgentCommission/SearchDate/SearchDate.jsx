@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import CustomButton from '../../common/Button/CustomButton';
 import CustomSelect from '../../common/FormFields/Select/CustomSelect';
+import YearDate from '../../UI/Commission/SearchDate/YearDate';
 import { useState } from 'react';
 import { months } from './months';
 
@@ -24,27 +25,34 @@ export default function SearchDate({ query, setQuery, setSkip }) {
 
 
   return (
-    <div className='search-date '>
-      <CustomSelect
-        dropHeading={dropHeading}
-        label={'اختر الشهر'}
-        isClicked={isClicked}
-        setIsClicked={setIsClicked}
-        onClick={() => setIsClicked(!isClicked)}
-      >
-        {
-          months.map(month => {
-            return <li
-              key={month.id}
-              onClick={() => {
-                handleClick(month)
-              }}
-            >
-              {month.name}
-            </li>
-          })
-        }
-      </CustomSelect>
+    <div className='search-date'>
+      <div className='d-flex'>
+        <YearDate
+          query={query}
+          setQuery={setQuery}
+          setSkip={setSkip}
+        />
+        <CustomSelect
+          dropHeading={dropHeading}
+          label={'الشهر'}
+          isClicked={isClicked}
+          setIsClicked={setIsClicked}
+          onClick={() => setIsClicked(!isClicked)}
+        >
+          {
+            months.map(month => {
+              return <li
+                key={month.id}
+                onClick={() => {
+                  handleClick(month)
+                }}
+              >
+                {month.name}
+              </li>
+            })
+          }
+        </CustomSelect>
+      </div>
       <div className='text-center'>
         <CustomButton
           type='button'

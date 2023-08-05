@@ -15,7 +15,7 @@ export const withDrawApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['withdraw', 'bankAccounts', 'userTransaction'],
+      invalidatesTags: ['withdraw'],
     }),
     updateWithDraw: builder.mutation({
       query: ({ transactionId, form }) => ({
@@ -23,7 +23,14 @@ export const withDrawApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['withdraw', 'bankAccounts', 'userTransaction'],
+      invalidatesTags: ['withdraw'],
+    }),
+    deleteWithDraw: builder.mutation({
+      query: (transactionId) => ({
+        url: `${apiEndpoints.withdraw.DELETE_WITHDRAW}/${transactionId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['withdraw'],
     }),
   }),
 });
@@ -32,4 +39,5 @@ export const {
   useFindAllWithDrawQuery,
   useCreateWithDrawMutation,
   useUpdateWithDrawMutation,
+  useDeleteWithDrawMutation,
 } = withDrawApiSlice;

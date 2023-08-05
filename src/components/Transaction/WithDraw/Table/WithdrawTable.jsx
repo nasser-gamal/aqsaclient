@@ -8,6 +8,11 @@ import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import moreImg from '../../../../assets/icons/add-button.png'
 import { openModal } from '../../../../app/features/modal/modalSlice';
 import { useDispatch } from 'react-redux';
+import DeleteButton from '../../../UI/TableButtons/DeleteButton';
+import { useEffect } from 'react';
+import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
+import { notify } from '../../../../utils/notify';
+import { useDeleteWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
 
 export default function DepositTable({ data }) {
   const dispatch = useDispatch();
@@ -43,19 +48,6 @@ export default function DepositTable({ data }) {
       order: "",
       sort: "ASC",
     },
-    // {
-    //   title: "ايداع",
-    //   className: "",
-    //   order: "",
-    //   sort: "ASC",
-    // },
-    // {
-    //   title: "سحب",
-    //   className: "",
-    //   order: "",
-    //   sort: "ASC",
-    // },
-
     {
       title: "قيمة الفاتورة",
       className: "",
@@ -110,7 +102,36 @@ export default function DepositTable({ data }) {
       order: "",
       sort: "",
     },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
+
+
+
+  const [deleteWithDraw, { isLoading }] = useDeleteWithDrawMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [dispatch, isLoading]);
+
+
+  const handleDelete = async (transactionId) => {
+    try {
+      const response = await deleteWithDraw(transactionId).unwrap();
+      notify('success', response.message)
+    } catch (err) {
+      notify('error', err.data.message)
+    }
+  }
+
 
 
   return (
@@ -177,6 +198,9 @@ export default function DepositTable({ data }) {
                     childrenProps: { transaction, width: '700px' }
                   }}
                 />
+              </td>
+              <td>
+                <DeleteButton onClick={() => handleDelete(transaction.id)} />
               </td>
             </tr>
           })

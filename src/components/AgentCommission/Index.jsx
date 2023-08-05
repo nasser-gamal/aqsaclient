@@ -14,7 +14,7 @@ export default function Index() {
 
   const [query, setQuery] = useState({
     agentId: user.id,
-    year: 2023,
+    year: new Date().getFullYear(),
     month: '',
     searchValue: ''
   });
@@ -23,13 +23,9 @@ export default function Index() {
   const { data, isLoading, isFetching, isError } = useFindAllCommissionsQuery({ ...query }, { skip});
 
 
-
-
-
   return (
     <>
       <SearchDate
-        data={data}
         query={query}
         setQuery={setQuery}
         setSkip={setSkip}
