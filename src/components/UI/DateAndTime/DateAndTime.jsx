@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { formattedDate, formattedTime } from '../../../utils/formatDate'
+import { formattedDate, formattedTime } from '../../../utils/formatDate';
 
 export default function DateAndTime({createdAt}) {
   return (

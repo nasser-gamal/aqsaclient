@@ -1,0 +1,45 @@
+.app-text {
+  margin: 0 auto 40px;
+  font-size: 22px;
+  background: #4caf5014;
+  border-radius: 5px;
+  padding: 10px
+}
+.app-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+.app-box {
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #0096871e;
+}
+.app-box img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.app-box span {
+  display: block;
+}
+.app-box .app-btn {
+  display: block;
+  background: #34a338;
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  margin: 5px 0;
+}
+.app-box span.updated {
+  background: #03a9f4;
+  border-radius: 4px;
+  color: white;
+  width: fit-content;
+  padding: 2px;
+  margin: 10px auto;
+  font-size: 14px;
+}
