@@ -15,7 +15,7 @@ export default function AddEditApp() {
     name: childrenProps?.app.name || "",
     img: childrenProps?.app.img || "",
     apk: childrenProps?.app.apk || "",
-    isLink: childrenProps?.app.isLink || true,
+    isLink: childrenProps?.app.isLink ? true : false,
     link: childrenProps?.app.link || "",
     note: childrenProps?.app.note || ""
   });
@@ -102,6 +102,7 @@ export default function AddEditApp() {
             value={true}
             onChange={() => setForm({ ...form, isLink: true, apk: '' })}
             checked={form.isLink === true}
+            disabled={childrenProps?.app}
           />
           <label htmlFor="link">
             رابط تحميل
@@ -122,7 +123,8 @@ export default function AddEditApp() {
             name='direct'
             value={false}
             onChange={() => setForm({ ...form, isLink: false, link: '' })}
-            checked={form.isLink === false}
+            checked={form.isLink == false}
+            disabled={childrenProps?.app}
           />
           <label htmlFor="direct">
             تحميل مباشر
