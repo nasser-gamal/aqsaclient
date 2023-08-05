@@ -61,7 +61,7 @@ export default function AddEditApp() {
           ? await updateApp({ appId: childrenProps?.app.id, form: formData }).unwrap()
           : await createApp({ form: formData }).unwrap();
         notify('success', response.message);
-        // dispatch(closeModal())
+        dispatch(closeModal())
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -100,7 +100,7 @@ export default function AddEditApp() {
             type="radio"
             name='link'
             value={true}
-            onChange={() => setForm({ ...form, isLink: true })}
+            onChange={() => setForm({ ...form, isLink: true, apk: '' })}
             checked={form.isLink === true}
           />
           <label htmlFor="link">
@@ -121,7 +121,7 @@ export default function AddEditApp() {
             type="radio"
             name='direct'
             value={false}
-            onChange={() => setForm({ ...form, isLink: false })}
+            onChange={() => setForm({ ...form, isLink: false, link: '' })}
             checked={form.isLink === false}
           />
           <label htmlFor="direct">
