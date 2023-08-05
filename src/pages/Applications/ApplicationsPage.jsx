@@ -7,7 +7,7 @@ export default function ApplicationsPage() {
     <>
       <PageHelmet title={'تطبيقات الاقصي'} />
       <div style={{
-        padding: '0 50px 30px'
+        padding: '0 50px 30px',
       }}>
         <Index />
       </div>
