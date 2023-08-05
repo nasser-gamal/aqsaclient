@@ -188,12 +188,12 @@ const Router = () => {
           }
         />
       </Route>
-      {/* <Route
+      <Route
         path="/applications"
         element={
           <ApplicationsPage />
         }
-      /> */}
+      />
     </Routes>
   );
 };
