@@ -125,9 +125,9 @@ const apiEndpoints = {
 
   applications: {
     CREATE_APP: '/apps/create',
-    DOWNLOAD_APP: '/apps/download',
     GET_APPS: '/apps/getAll',
     UPDATE_APP: '/apps/update',
+    DOWNLOAD_APP: '/apps/download',
   },
 
   reports: {
