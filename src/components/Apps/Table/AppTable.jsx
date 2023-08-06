@@ -6,11 +6,12 @@ import DateAndTime from '../../UI/DateAndTime/DateAndTime';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { NavLink } from 'react-router-dom';
 import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import showImg from '../../../assets/icons/picture.png'
+import { useDeleteAppMutation } from '../../../app/features/applications/applicationsApi';
+import { notify } from '../../../utils/notify';
 
-export default function AppTable({ data, isLoading }) {
+export default function AppTable({ data }) {
 
   const dispatch = useDispatch();
 
@@ -68,6 +69,12 @@ export default function AppTable({ data, isLoading }) {
 
 
 
+
+
+
+  const [deleteAgentTreasury, { isLoading }] = useDeleteAppMutation();
+
+
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoader())
@@ -75,6 +82,16 @@ export default function AppTable({ data, isLoading }) {
       dispatch(hideLoader())
     }
   }, [dispatch, isLoading]);
+
+
+  const handleDelete = async (appId) => {
+    try {
+      const response = await deleteAgentTreasury(appId).unwrap();
+      notify('success', response.message);
+    } catch (err) {
+      notify('error', err.data.message);
+    }
+  }
 
 
   return (
@@ -96,9 +113,9 @@ export default function AppTable({ data, isLoading }) {
                 {app.link || '-'}
               </td>
               <td>
-                <NavLink to={`${import.meta.env.VITE_API_BASE_URL}/${app.img}`}>
+                <a target='_blanc' href={`${import.meta.env.VITE_API_BASE_URL}/${app.img}`}>
                   <img style={{ width: '30px', cursor: 'pointer' }} src={showImg} alt={showImg} />
-                </NavLink>
+                </a>
               </td>
               <td>
                 {app.note || "-"}
@@ -114,7 +131,7 @@ export default function AppTable({ data, isLoading }) {
                 />
               </td>
               <td>
-                <DeleteButton />
+                <DeleteButton onClick={() => handleDelete(app.id)} />
               </td>
             </tr>
           })

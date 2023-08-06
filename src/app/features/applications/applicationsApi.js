@@ -25,6 +25,13 @@ export const ApplicationApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['apps'],
     }),
+    deleteApp: builder.mutation({
+      query: (appId) => ({
+        url: `${apiEndpoints.applications.DELETE_APP}/${appId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['apps'],
+    }),
   }),
 });
 
@@ -32,4 +39,5 @@ export const {
   useFindAllAppsQuery,
   useCreateAppMutation,
   useUpdateAppMutation,
+  useDeleteAppMutation
 } = ApplicationApiSlice;

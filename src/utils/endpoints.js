@@ -127,6 +127,7 @@ const apiEndpoints = {
     CREATE_APP: '/apps/create',
     GET_APPS: '/apps/getAll',
     UPDATE_APP: '/apps/update',
+    DELETE_APP: '/apps/delete',
     DOWNLOAD_APP: '/apps/download',
   },
 
