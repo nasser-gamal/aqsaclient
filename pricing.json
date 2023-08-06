@@ -1,136 +1,79 @@
 {
   "data": [
     {
-      "place": 166,
+      "place": 173,
       "placeFrom": 14,
-      "placeTo": "Auron (06660)",
+      "placeTo": "Berne",
       "pricings": [
         {
           "carId": 2,
-          "price": 456
+          "price": 1836
         },
         {
           "carId": 3,
-          "price": 405
+          "price": 1742
         },
         {
           "carId": 4,
-          "price": 415
+          "price": 1752
         }
       ]
     },
     {
-      "place": 166,
+      "place": 173,
       "placeFrom": 14,
-      "placeTo": "Golfe-Juan (06220)",
+      "placeTo": "Genève",
       "pricings": [
         {
           "carId": 2,
-          "price": 181
+          "price": 1440
         },
         {
           "carId": 3,
-          "price": 148
+          "price": 1362
         },
         {
           "carId": 4,
-          "price": 158
+          "price": 1372
         }
       ]
     },
 
     {
-      "place": 166,
+      "place": 173,
       "placeFrom": 14,
-      "placeTo": "Juan-les-Pins (06600)",
+      "placeTo": "Lausanne",
       "pricings": [
         {
           "carId": 2,
-          "price": 184
+          "price": 1595
         },
         {
           "carId": 3,
-          "price": 151
+          "price": 1511
         },
         {
           "carId": 4,
-          "price": 161
+          "price": 1521
         }
       ]
     },
     {
-      "place": 166,
+      "place": 173,
       "placeFrom": 14,
-      "placeTo": "La Bocca (06400)",
+      "placeTo": "Zurich",
       "pricings": [
         {
           "carId": 2,
-          "price": 140
+          "price": 1673
         },
         {
           "carId": 3,
-          "price": 110
+          "price": 1586
         },
         {
           "carId": 4,
-          "price": 120
-        }
-      ]
-    },
-    {
-      "place": 166,
-      "placeFrom": 14,
-      "placeTo": "La Pointe de Contes (06390)",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 273
-        },
-        {
-          "carId": 3,
-          "price": 234
-        },
-        {
-          "carId": 4,
-          "price": 244
-        }
-      ]
-    },
-    {
-      "place": 166,
-      "placeFrom": 14,
-      "placeTo": "Marineland Côte d'Azur (06600)",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 192
-        },
-        {
-          "carId": 3,
-          "price": 159
-        },
-        {
-          "carId": 4,
-          "price": 169
-        }
-      ]
-    },
-    {
-      "place": 166,
-      "placeFrom": 14,
-      "placeTo": "Sophia Antipolis (06560)",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 176
-        },
-        {
-          "carId": 3,
-          "price": 144
-        },
-        {
-          "carId": 4,
-          "price": 154
+          "price": 1596
         }
       ]
     }
