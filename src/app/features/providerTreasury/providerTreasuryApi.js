@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviderTreasury: builder.query({
-      query: () => ({
-        url: apiEndpoints.providerTreasury.GET_PROVIDER_TREASURYS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.providerTreasury.GET_PROVIDER_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['providerTreasury'],
     }),

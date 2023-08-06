@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerCommissionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviderCommissions: builder.query({
-      query: () => ({
-        url: apiEndpoints.providerCommission.GET_PROVIDER_COMMISSIONS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.providerCommission.GET_PROVIDER_COMMISSIONS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['providerCommission'],
     }),

@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const agentTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllAgentTreasury: builder.query({
-      query: () => ({
-        url: apiEndpoints.agentTreasury.GET_AGENT_TREASURYS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.agentTreasury.GET_AGENT_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['agentTreasury'],
     }),

@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviders: builder.query({
-      query: () => ({
-        url: apiEndpoints.provider.GET_PROVIDERS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.provider.GET_PROVIDERS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['provider'],
     }),

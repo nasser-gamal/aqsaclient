@@ -12,7 +12,7 @@ export default function ProviderSelect({ form, setForm }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر المزود');
 
-  const { data, isLoading } = useFindAllProvidersQuery();
+  const { data, isLoading } = useFindAllProvidersQuery({ page: '', limit: '', order: 'createdAt', sort: 'ASC' });
   const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {

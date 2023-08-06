@@ -4,8 +4,8 @@ import { apiSlice } from '../../api/apiSlice';
 export const addionalTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllAddionalTreasury: builder.query({
-      query: () => ({
-        url: apiEndpoints.addionalTreasury.GET_ADDIONAL_TREASURYS,
+      query: ({ page, limit, order, sort }) => ({
+        url: `${apiEndpoints.addionalTreasury.GET_ADDIONAL_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
       }),
       providesTags: ['addionalTreasury'],
     }),
