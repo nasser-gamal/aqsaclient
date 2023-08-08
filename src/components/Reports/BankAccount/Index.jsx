@@ -86,9 +86,8 @@ export default function Index() {
       saveAs(file, 'data.xlsx');
       dispatch(hideLoader())
     } catch (err) {
-      console.log(err)
       dispatch(hideLoader())
-      // notify('error', err.data.message)
+      notify('error', err.data.message)
     }
   }
 
