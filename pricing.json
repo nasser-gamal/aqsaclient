@@ -1,79 +1,21 @@
 {
   "data": [
     {
-      "place": 173,
+      "place": 176,
       "placeFrom": 14,
-      "placeTo": "Berne",
+      "placeTo": "Monaco (98000)",
       "pricings": [
         {
           "carId": 2,
-          "price": 1836
+          "price": 285
         },
         {
           "carId": 3,
-          "price": 1742
+          "price": 240
         },
         {
           "carId": 4,
-          "price": 1752
-        }
-      ]
-    },
-    {
-      "place": 173,
-      "placeFrom": 14,
-      "placeTo": "Genève",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 1440
-        },
-        {
-          "carId": 3,
-          "price": 1362
-        },
-        {
-          "carId": 4,
-          "price": 1372
-        }
-      ]
-    },
-
-    {
-      "place": 173,
-      "placeFrom": 14,
-      "placeTo": "Lausanne",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 1595
-        },
-        {
-          "carId": 3,
-          "price": 1511
-        },
-        {
-          "carId": 4,
-          "price": 1521
-        }
-      ]
-    },
-    {
-      "place": 173,
-      "placeFrom": 14,
-      "placeTo": "Zurich",
-      "pricings": [
-        {
-          "carId": 2,
-          "price": 1673
-        },
-        {
-          "carId": 3,
-          "price": 1586
-        },
-        {
-          "carId": 4,
-          "price": 1596
+          "price": 250
         }
       ]
     }
