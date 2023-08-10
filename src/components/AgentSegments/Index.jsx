@@ -7,7 +7,7 @@ import AgentSegmentsTable from './Table/AgentSegmentTable';
 
 export default function Index() {
 
-  const { data, isLoading } = useFindAllSegmentQuery({ page: 1, limit: 100000, order: 'createdAt', sort: 'ASC' });
+  const { data, isLoading } = useFindAllSegmentQuery({ page: "", limit: "", order: 'createdAt', sort: 'ASC' });
   const dispatch = useDispatch()
 
   useEffect(() => {

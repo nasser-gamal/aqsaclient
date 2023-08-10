@@ -36,6 +36,7 @@ import AgentTreasuryPage from "../pages/agentTreasury/agentTreasuryPage";
 import ProviderTreasuryPage from "../pages/ProviderTreasury/ProviderTreasuryPage";
 import AddionalTreasuryPage from "../pages/addionalTreasury/AddionalTreasuryPage";
 import InventoryPage from "../pages/Inventory/InventoryPage";
+import AgentForUsersPage from "../pages/AgentPage/AgentPage";
 
 
 const Router = () => {
@@ -192,6 +193,12 @@ const Router = () => {
         path="/applications"
         element={
           <ApplicationsPage />
+        }
+      />
+      <Route
+        path="/agent"
+        element={
+          <AgentForUsersPage />
         }
       />
     </Routes>
