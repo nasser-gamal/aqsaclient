@@ -35,7 +35,7 @@ export default function AgentBox({ agents }) {
                     objectFit: 'contain'
                   }} src={phone} alt={phone} />
                 </a>
-                <a href={`https://api.whatsapp.com/send?phone=+20${agent.phoneNumber}&text=ارسل رسالة مباشرة للوكيل`}
+                <a href={`https://api.whatsapp.com/send?phone=+20${agent.phoneNumber}`}
                   target="_blank"
                   style={{ display: 'block', width: 'fit-content' }} rel="noreferrer">
                   <img style={{
