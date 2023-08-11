@@ -17,6 +17,10 @@ export default function AgentBox({ agents }) {
               <span style={{ fontWeight: 'bold' }}>{agent.accountName}</span>
             </div>
             <div >
+              <span>اسم صاحب الحساب  </span>
+              <span style={{ fontWeight: 'bold' }}>{agent.userName}</span>
+            </div>
+            <div >
               <span>العنوان </span>
               <span style={{ fontWeight: 'bold' }}>{agent.address}</span>
             </div>
