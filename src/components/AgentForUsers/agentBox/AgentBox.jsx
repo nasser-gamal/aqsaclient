@@ -13,12 +13,12 @@ export default function AgentBox({ agents }) {
           return <div className="agent-box" key={agent.id}>
             <img src={logo} alt={logo} />
             <div >
-              <span>اسم الوكيل </span>
-              <span>{agent.userName}</span>
+              <span>اسم الحساب </span>
+              <span style={{ fontWeight: 'bold' }}>{agent.accountName}</span>
             </div>
             <div >
               <span>العنوان </span>
-              <span>{agent.address}</span>
+              <span style={{ fontWeight: 'bold' }}>{agent.address}</span>
             </div>
             <div
               style={{ marginTop: '10px' }}>
@@ -46,7 +46,7 @@ export default function AgentBox({ agents }) {
                 <a href={`https://t.me/+20${agent.phoneNumber}`}
                   target="_blank"
                   style={{ display: 'block', width: 'fit-content' }}
-                   rel="noreferrer">
+                  rel="noreferrer">
                   <img style={{
                     height: '30px',
                     objectFit: 'contain'
