@@ -37,6 +37,7 @@ import ProviderTreasuryPage from "../pages/ProviderTreasury/ProviderTreasuryPage
 import AddionalTreasuryPage from "../pages/addionalTreasury/AddionalTreasuryPage";
 import InventoryPage from "../pages/Inventory/InventoryPage";
 import AgentForUsersPage from "../pages/AgentPage/AgentPage";
+import SegmentsPageForAll from "../pages/SegmentForAll/Segments.Page";
 
 
 const Router = () => {
@@ -199,6 +200,12 @@ const Router = () => {
         path="/agent"
         element={
           <AgentForUsersPage />
+        }
+      />
+      <Route
+        path="/segment"
+        element={
+          <SegmentsPageForAll />
         }
       />
     </Routes>
