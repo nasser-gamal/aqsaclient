@@ -38,6 +38,7 @@ import AddionalTreasuryPage from "../pages/addionalTreasury/AddionalTreasuryPage
 import InventoryPage from "../pages/Inventory/InventoryPage";
 import AgentForUsersPage from "../pages/AgentPage/AgentPage";
 import SegmentsPageForAll from "../pages/SegmentForAll/Segments.Page";
+import DuesPage from "../pages/Dues/DuesPage";
 
 
 const Router = () => {
@@ -158,6 +159,10 @@ const Router = () => {
         <Route
           path="/addionalTreasury"
           element={<AddionalTreasuryPage />}
+        />
+        <Route
+          path="/dues"
+          element={<DuesPage />}
         />
         <Route
           path="/profits"

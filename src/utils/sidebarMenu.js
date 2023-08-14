@@ -213,6 +213,12 @@ export const adminMenu = [
         imgSrc: list,
         linkURL: '/addionalTreasury',
       },
+      {
+        id: 4,
+        title: 'المستحقات',
+        imgSrc: list,
+        linkURL: '/dues',
+      },
     ],
     roles: ['superAdmin', 'admin'],
   },

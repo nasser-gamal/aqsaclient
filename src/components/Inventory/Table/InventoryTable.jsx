@@ -71,7 +71,20 @@ export default function InventoryTable({ data }) {
               backgroundColor: '#4caf5042',
               fontWeight: 'bold'
             }}>
-              (-)    {data?.totalProfits}
+              (-) {data?.totalProfits}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+              مستحقات
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              (-) {data?.totalDues}
             </td>
           </tr>
           <tr>
