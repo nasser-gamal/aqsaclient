@@ -81,7 +81,7 @@ export default function ProviderCommissionTable({ data }) {
           data?.providerCommissions.map(providerCommission => {
             return <tr key={providerCommission.id}>
               <td>
-                <DateAndTime createdAt={providerCommission.createdAt} />
+                <DateAndTime createdAt={providerCommission.date} />
               </td>
               <td>{providerCommission.provider.name}</td>
               <td>{providerCommission.commission}</td>
