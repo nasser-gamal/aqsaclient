@@ -46,7 +46,7 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route element={<Page404 />} path="*" />
+      {/* <Route element={<Page404 />} path="*" /> */}
       <Route element={<AdminRoute />}>
         <Route
           path="/users"

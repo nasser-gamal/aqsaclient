@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 import SectionTitle from './SectionTitle'
 import SectionBox from './SectionBox'
