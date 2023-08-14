@@ -3,7 +3,7 @@ import { useFindAllSegmentQuery } from '../../app/features/segment/segmentApi';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import AgentSegmentsTable from './Table/AgentSegmentTable';
-
+import './segment.modules.css';
 
 export default function Index() {
 

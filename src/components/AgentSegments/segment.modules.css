@@ -1,0 +1,6 @@
+.seg table tr:nth-child(even) {
+  background-color: #4dcaf33f;
+}
+.seg table tr:nth-child(odd):not(.seg table thead tr) {
+  background-color: #70ddf825;
+}
