@@ -1,8 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
-
-import Modal from './Modal'
-import { closeModal } from '../../../app/features/modal/modalSlice';
-
 import AddEditUser from '../../Users/AddEditUser/AddEditUser';
 import UserTransaction from '../../Users/UserTransaction/UserTransaction';
 import UpdateUserPassword from '../../Users/UpdatePassword/UpdateUserPassword';
@@ -28,62 +23,29 @@ import AddEditAddionalTreasury from '../../AddionalTreasury/AddEditAddionalTreas
 import DeleteConfirm from '../../DeleteConfirm/DeleteConfirm';
 import AddEditDues from '../../Dues/AddEditDues/AddEditDues';
 
-export default function ModalManager() {
-
-  const dispatch = useDispatch();
-
-  const { isOpen, componentName, modalTitle, childrenProps } = useSelector(
-    (state) => state.modal
-  );
-
-  const closeModalHandler = () => dispatch(closeModal());
-
-  const componentsLookUp =
-  {
-    DeleteConfirm,
-    AddEditUser,
-    UpdateUserPassword,
-    UpdateAgentPassword,
-    UpdateUserPasswordManual,
-    UpdateAgentPasswordManual,
-    AddEditCategory,
-    AddEditSegment,
-    UserTransaction,
-    AddEditAgent,
-    AddEditBankAccount,
-    AddEditBank,
-    AddEditDeposit,
-    AddEditWithdraw,
-    AddEditTransfer,
-    AddEditFees,
-    AddEditProvider,
-    AddEditProviderCommission,
-    AddEditAgentTreasury,
-    AddEditProviderTreasury,
-    AddEditAddionalTreasury,
-    TransactionInfo,
-    AddEditApp,
-    AddEditDues
-  };
-
-  let renderComponent;
-  if (componentName) {
-    const SelectedComponent = componentsLookUp[componentName];
-    if (SelectedComponent) {
-      renderComponent = <SelectedComponent {...childrenProps} />;
-    }
-  }
-
-
-  return (
-    <Modal
-      isOpen={isOpen}
-      componentName={componentName}
-      closeModalHandler={closeModalHandler}
-      title={modalTitle}
-      childrenProps={childrenProps}
-    >
-      {renderComponent}
-    </Modal>
-  )
-}
+export default {
+  AddEditUser,
+  UserTransaction,
+  UpdateUserPassword,
+  UpdateUserPasswordManual,
+  UpdateAgentPassword,
+  UpdateAgentPasswordManual,
+  AddEditCategory,
+  AddEditSegment,
+  AddEditAgent,
+  AddEditBank,
+  AddEditDeposit,
+  AddEditWithdraw,
+  AddEditTransfer,
+  AddEditBankAccount,
+  AddEditFees,
+  TransactionInfo,
+  AddEditApp,
+  AddEditProvider,
+  AddEditProviderCommission,
+  AddEditAgentTreasury,
+  AddEditProviderTreasury,
+  AddEditAddionalTreasury,
+  DeleteConfirm,
+  AddEditDues
+};

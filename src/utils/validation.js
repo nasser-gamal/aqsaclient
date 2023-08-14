@@ -247,6 +247,7 @@ export const validateFee = (formData) => {
   if (isNaN(formData.amount)) {
     error = 'القيمة يجب أن تكون رقمًا';
   }
+  
   return error;
 };
 
@@ -259,6 +260,17 @@ export const validateProvider = (formData) => {
 };
 
 export const validateTreasury = (formData) => {
+  let error;
+  if (!formData.amount) {
+    error = 'ادخل القيمة';
+  }
+  if (isNaN(formData.amount)) {
+    error = 'القيمة يجب أن تكون رقمًا';
+  }
+  return error;
+};
+
+export const validateDues = (formData) => {
   let error;
   if (!formData.amount) {
     error = 'ادخل القيمة';

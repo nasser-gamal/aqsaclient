@@ -8,9 +8,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
-import { useDeleteProviderCommissionMutation } from '../../../app/features/provider/providerCommissions';
+import { useDeleteDuesMutation } from '../../../app/features/dues/duesApi';
 
-export default function ProviderCommissionTable({ data }) {
+export default function DuesTable({ data }) {
   const dispatch = useDispatch();
 
   const tableHead = [
@@ -21,23 +21,18 @@ export default function ProviderCommissionTable({ data }) {
       sort: "",
     },
     {
-      title: "اسم المزود",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "العمولة",
+      title: "القيمة",
       className: "",
       order: "",
       sort: "",
     },
     {
       title: "ملحوظة",
-      className: "",
-      order: "",
-      sort: "",
+      className: "note",
+      order: "note",
+      sort: "ASC",
     },
+
     {
       title: "تعديل",
       className: "",
@@ -53,7 +48,7 @@ export default function ProviderCommissionTable({ data }) {
   ]
 
 
-  const [deleteProviderCommission, { isLoading }] = useDeleteProviderCommissionMutation();
+  const [deleteDues, { isLoading }] = useDeleteDuesMutation();
 
 
   useEffect(() => {
@@ -65,9 +60,9 @@ export default function ProviderCommissionTable({ data }) {
   }, [dispatch, isLoading]);
 
 
-  const handleDelete = async (providerId) => {
+  const handleDelete = async (treasuryId) => {
     try {
-      const response = await deleteProviderCommission(providerId).unwrap();
+      const response = await deleteDues(treasuryId).unwrap();
       notify('success', response.message);
     } catch (err) {
       notify('error', err.data.message);
@@ -78,26 +73,25 @@ export default function ProviderCommissionTable({ data }) {
     <Table tableHead={tableHead}>
       <tbody>
         {
-          data?.providerCommissions.map(providerCommission => {
-            return <tr key={providerCommission.id}>
+          data?.map(due => {
+            return <tr key={due.id}>
               <td>
-                <DateAndTime createdAt={providerCommission.date} />
+                <DateAndTime createdAt={due.date} />
               </td>
-              <td>{providerCommission.provider.name}</td>
-              <td>{providerCommission.commission}</td>
-              <td>{providerCommission.note || "-"}</td>
+              <td>{due.amount}</td>
+              <td>{due.note || "-"}</td>
               <td>
                 <EditButton
                   editProps={{
-                    name: 'AddEditProviderCommission',
-                    modalTitle: 'تعديل الحساب',
+                    name: 'AddEditDues',
+                    modalTitle: 'تعديل ',
                     status: 'تعديل',
-                    childrenProps: { providerCommission }
+                    childrenProps: { due }
                   }}
                 />
               </td>
               <td>
-                <DeleteButton onClick={() => handleDelete(providerCommission.id)} />
+                <DeleteButton onClick={() => handleDelete(due.id)} />
               </td>
             </tr>
           })

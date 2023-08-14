@@ -119,6 +119,13 @@ const apiEndpoints = {
     DELETE_ADDIONAL_TREASURY: '/addionalTreasury/delete',
   },
 
+  dues: {
+    GET_DUES: '/dues/getAll',
+    CREATE_DUE: '/dues/create',
+    UPDATE_DUE: '/dues/update',
+    DELETE_DUE: '/dues/delete',
+  },
+
   treasury: {
     GET_TREASURY: '/treasury/get',
   },

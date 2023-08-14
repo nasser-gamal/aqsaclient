@@ -38,12 +38,15 @@ import AddionalTreasuryPage from "../pages/addionalTreasury/AddionalTreasuryPage
 import InventoryPage from "../pages/Inventory/InventoryPage";
 import AgentForUsersPage from "../pages/AgentPage/AgentPage";
 import SegmentsPageForAll from "../pages/SegmentForAll/Segments.Page";
+import DuesPage from "../pages/Dues/DuesPage";
+import Page404 from "../pages/Page404/Page404";
 
 
 const Router = () => {
 
   return (
     <Routes>
+      <Route element={<Page404 />} path="*" />
       <Route element={<AdminRoute />}>
         <Route
           path="/users"
@@ -158,6 +161,10 @@ const Router = () => {
         <Route
           path="/addionalTreasury"
           element={<AddionalTreasuryPage />}
+        />
+        <Route
+          path="/dues"
+          element={<DuesPage />}
         />
         <Route
           path="/profits"

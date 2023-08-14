@@ -4,7 +4,7 @@ import Logo from '../../assets/logo/Logo_2.png';
 export default function SegmentsPageForAll() {
   return (
     <>
-      <div style={{ margin: '10px 0 40px', padding: "0 20px" }}>
+      <div className='seg' style={{ margin: '10px 0 40px', padding: "0 20px" }}>
         <div className='text-center'>
           <img style={{
             width: '300px',
