@@ -120,7 +120,7 @@ export default function EmployReportTable({ data }) {
                   {transaction.id}
                 </td>
                 <td className='date'>
-                  <DateAndTime createdAt={transaction.createdAt} />
+                  <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
                   {transaction.bankAccount?.accountName}

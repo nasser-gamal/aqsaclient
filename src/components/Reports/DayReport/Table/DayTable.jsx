@@ -118,7 +118,7 @@ export default function DayTable({ data }) {
                   {transaction.id}
                 </td>
                 <td className='date'>
-                  <DateAndTime createdAt={transaction.createdAt} />
+                  <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
                   {transaction.bankAccount?.accountName}

@@ -116,7 +116,7 @@ export default function BankReportTable({ data }) {
                   {transaction.id}
                 </td>
                 <td className='date'>
-                  <DateAndTime createdAt={transaction.createdAt} />
+                  <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
                   {transaction.number}
