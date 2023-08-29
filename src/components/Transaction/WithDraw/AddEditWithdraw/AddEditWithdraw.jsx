@@ -72,7 +72,8 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-
+      console.log(form.agentDeduction)
+      console.log(+form.fees + +form.providerAmount)
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
@@ -199,7 +200,7 @@ export default function AddEditWithdraw() {
                 label='قيمة الفاتورة'
                 onChange={(e) => {
                   const { value } = e.target
-                  setForm({ ...form, providerAmount: value, agentDeduction: (+form.value + +form.fees).toFixed(2) });
+                  setForm({ ...form, providerAmount: value, agentDeduction: (+value + +form.fees).toFixed(2) });
                 }
                 }
               />
