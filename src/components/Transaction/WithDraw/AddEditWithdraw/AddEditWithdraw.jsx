@@ -27,6 +27,8 @@ export default function AddEditWithdraw() {
     amount: childrenProps?.transaction?.amount || "",
     agentDeduction: childrenProps?.transaction?.agentDeduction || 0,
     agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
+    providerAmount: 0,
+    fees: 0,
     providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     providerFees: childrenProps?.transaction?.providerFees || 0,
     additionalFees: childrenProps?.transaction?.additionalFees || 0,
@@ -35,7 +37,6 @@ export default function AddEditWithdraw() {
     note: childrenProps?.transaction?.note || "",
   });
 
- 
   function DateTimeInput() {
     const getCurrentDateTime = () => {
       const now = new Date();
@@ -71,10 +72,12 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
       } else {
+      
         const response = childrenProps?.transaction
           ? await updateWithDraw({ transactionId: childrenProps?.transaction.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
@@ -186,16 +189,46 @@ export default function AddEditWithdraw() {
             label='اجمالي المخصوم من المزود'
             disabled={true}
           />
+          {!childrenProps?.transaction &&
+            <>
+              <CustomInput
+                width={'30%'}
+                type='text'
+                name='providerAmount'
+                value={form.providerAmount}
+                label='قيمة الفاتورة'
+                onChange={(e) => {
+                  const { value } = e.target
+                  setForm({ ...form, providerAmount: value, agentDeduction: (+form.value + +form.fees).toFixed(2) });
+                }
+                }
+              />
+              <CustomInput
+                width={'30%'}
+                type='text'
+                name='fees'
+                value={form.fees}
+                label='تكلفة الخدمة'
+                onChange={(e) => {
+                  const { value } = e.target
+                  setForm({ ...form, fees: value, agentDeduction: (+form.providerAmount + +value).toFixed(2) });
+                }}
+              />
+            </>
+          }
           <CustomInput
             width={'30%'}
             type='text'
             name='agentDeduction'
             label='المخصوم من المركز'
-            value={form.agentDeduction}
-            onChange={(e) => onChange(e)}
+            disabled={!childrenProps?.transaction ? true : false}
+            value={!childrenProps?.transaction ? (+form.providerAmount + +form.fees).toFixed(2) : form.agentDeduction}
+            onChange={(e) =>
+              onChange(e)
+            }
           />
           <CustomInput
-            width={'30%'}
+            width={childrenProps?.transaction ? '30%' : '48%'}
             type='text'
             name='agentRevenue'
             label='عائد المركز'
@@ -203,10 +236,10 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'30%'}
+            width={childrenProps?.transaction ? '30%' : '48%'}
             type='text'
             label='اجمالي المخصوم من المركز'
-            value={(+form.agentDeduction - +form.agentRevenue).toFixed(2)}
+            value={childrenProps?.transaction ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
             disabled={true}
           />
           <div style={{
