@@ -51,7 +51,7 @@ export default function AddEditProviderCommission() {
         notify('error', error);
       } else {
         const response = childrenProps?.providerCommission
-          ? await updateProviderCommission({ providerId: childrenProps?.providerCommission.id, form }).unwrap()
+          ? await updateProviderCommission({ providerCommissionId: childrenProps?.providerCommission.id, form }).unwrap()
           : await createProviderCommission(form).unwrap();
 
         notify('success', response.message);
