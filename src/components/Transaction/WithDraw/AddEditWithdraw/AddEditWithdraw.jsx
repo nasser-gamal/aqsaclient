@@ -72,7 +72,8 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-
+      console.log(form.agentDeduction)
+      console.log(+form.fees + +form.providerAmount)
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
