@@ -199,7 +199,7 @@ export default function AddEditWithdraw() {
                 label='قيمة الفاتورة'
                 onChange={(e) => {
                   const { value } = e.target
-                  setForm({ ...form, providerAmount: value, agentDeduction: (+form.value + +form.fees).toFixed(2) });
+                  setForm({ ...form, providerAmount: value, agentDeduction: (+value + +form.fees).toFixed(2) });
                 }
                 }
               />
