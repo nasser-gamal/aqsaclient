@@ -77,13 +77,26 @@ export default function ProfitTable({ data }) {
             <td colSpan={4} style={{
               backgroundColor: '#ebebeb',
             }}>
-              عمولة المزودين
+              عمولة الفواتير اليومية 
             </td>
             <td style={{
               backgroundColor: '#4caf5042',
               fontWeight: 'bold'
             }}>
               (+)   {data?.totalProviderCommission}
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={4} style={{
+              backgroundColor: '#ebebeb',
+            }}>
+               اجمالي العمولة  
+            </td>
+            <td style={{
+              backgroundColor: '#4caf5042',
+              fontWeight: 'bold'
+            }}>
+              (+)   {data?.transactions?.profits + data?.totalProviderCommission}
             </td>
           </tr>
           <tr>
