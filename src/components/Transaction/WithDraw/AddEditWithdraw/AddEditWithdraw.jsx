@@ -184,7 +184,7 @@ export default function AddEditWithdraw() {
             label='الاجمالي'
             disabled={true}
           />
-          <div style={{
+          <div className='form-input' style={{
             width: '26%'
           }}>
             <div className='input-checkbox d-flex ' style={{
