@@ -98,20 +98,21 @@ export default function AddEditWithdraw() {
     } else {
       amount = +form.amount + +form.providerFees
     }
-    return amount.toFixed(2);
+    return +amount.toFixed(2);
   }
 
 
   const calcProviderDeduction = () => {
     let amount = calcTotalAmount();
+    console.log(amount + +form.additionalFees)
     let totalProviderDeduction = amount + +form.additionalFees
     if (form.isPercentage == true) {
-      totalProviderDeduction -= (+form.providerPercentage / 100) * (amount)
+      totalProviderDeduction -= (+form.providerPercentage / 100) * (amount) 
     } else {
-      totalProviderDeduction -= +form.providerPercentage
+      totalProviderDeduction -= +form.providerPercentage 
     }
 
-    return totalProviderDeduction.toFixed(2);
+    return +totalProviderDeduction.toFixed(2);
   }
 
 
@@ -124,7 +125,7 @@ export default function AddEditWithdraw() {
     } else {
       balanceAfter -= providerDeduction;
     }
-    return balanceAfter.toFixed(2);
+    return +balanceAfter.toFixed(2);
   }
 
 
@@ -165,37 +166,7 @@ export default function AddEditWithdraw() {
               onChange(e)
             }}
           />
-          <div className='input-checkbox d-flex ' style={{
-            gap: '10px',
-            width: '12%',
-          }}>
-            <div className='d-flex' style={{
-              gap: '10px',
-              alignItems: "center"
-            }}>
-              <input
-                style={{
-                  fontSize: '30px',
-                  width: 'fit-content',
-                  transform: 'scale(1.2)',
-                }}
-                id='isFeesPercentage'
-                type="checkbox"
-                name='isFeesPercentage'
-                value={form.isFeesPercentage}
-                onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
-                checked={form.isFeesPercentage}
-              />
-              <label htmlFor="isFeesPercentage">
-                نسبة
-                <span style={{
-                  margin: '0 5px',
-                  fontSize: "18px",
-                  fontWeight: 'bold'
-                }}>%</span>
-              </label>
-            </div>
-          </div>
+
           <CustomInput
             width={'26%'}
             type='text'
@@ -213,37 +184,72 @@ export default function AddEditWithdraw() {
             label='الاجمالي'
             disabled={true}
           />
-          <div className='input-checkbox d-flex ' style={{
-            gap: '10px',
-            width: '26%',
+          <div style={{
+            width: '26%'
           }}>
-            <div className='d-flex' style={{
+            <div className='input-checkbox d-flex ' style={{
               gap: '10px',
-              alignItems: "center"
             }}>
-              <input
-                style={{
-                  fontSize: '30px',
-                  width: 'fit-content',
-                  transform: 'scale(1.2)',
-                }}
-                id='isPercentage'
-                type="checkbox"
-                name='isPercentage'
-                value={form.isPercentage}
-                onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
-                checked={form.isPercentage}
-              />
-              <label htmlFor="isPercentage">
-                نسبة
-                <span style={{
-                  margin: '0 5px',
-                  fontSize: "18px",
-                  fontWeight: 'bold'
-                }}>%</span>
-              </label>
+              <div className='d-flex' style={{
+                gap: '10px',
+                alignItems: "center"
+              }}>
+                <input
+                  style={{
+                    fontSize: '22px',
+                    width: 'fit-content',
+                    transform: 'scale(1.2)',
+                  }}
+                  id='isFeesPercentage'
+                  type="checkbox"
+                  name='isFeesPercentage'
+                  value={form.isFeesPercentage}
+                  onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
+                  checked={form.isFeesPercentage}
+                />
+                <label htmlFor="isFeesPercentage">
+                  نسبة الرسوم
+                  <span style={{
+                    margin: '0 5px',
+                    fontSize: "18px",
+                    fontWeight: 'bold'
+                  }}>%</span>
+                </label>
+              </div>
+            </div>
+            <div className='input-checkbox d-flex ' style={{
+              gap: '10px',
+            }}>
+              <div className='d-flex' style={{
+                gap: '10px',
+                alignItems: "center"
+              }}>
+                <input
+                  style={{
+                    fontSize: '22px',
+                    width: 'fit-content',
+                    transform: 'scale(1.2)',
+                  }}
+                  id='isPercentage'
+                  type="checkbox"
+                  name='isPercentage'
+                  value={form.isPercentage}
+                  onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
+                  checked={form.isPercentage}
+                />
+                <label htmlFor="isPercentage">
+                  نسبة العائد
+                  <span style={{
+                    margin: '0 5px',
+                    fontSize: "18px",
+                    fontWeight: 'bold'
+                  }}>%</span>
+                </label>
+              </div>
             </div>
           </div>
+
+
           <CustomInput
             width={'26%'}
             type='text'
