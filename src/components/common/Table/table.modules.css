@@ -44,4 +44,5 @@ table thead th.sort::after {
   right: 0.5em;
   content: '↓';
 }
+
 /* End Table  */

@@ -32,6 +32,7 @@ export default function AddEditWithdraw() {
     providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
     providerFees: childrenProps?.transaction?.providerFees || 0,
     additionalFees: childrenProps?.transaction?.additionalFees || 0,
+    isFeesPercentage: childrenProps?.transaction?.isFeesPercentage || false,
     additionalRevenue: childrenProps?.transaction?.additionalRevenue || 0,
     isTotalRevenue: ((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter).toFixed(2) == childrenProps?.transaction?.amountTotal.toFixed(2)) ? true : (!childrenProps?.transaction ? true : false),
     note: childrenProps?.transaction?.note || "",
@@ -72,13 +73,11 @@ export default function AddEditWithdraw() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(form.agentDeduction)
-      console.log(+form.fees + +form.providerAmount)
       const error = validateWithDraw(form);
       if (error) {
         notify('error', error);
       } else {
-      
+
         const response = childrenProps?.transaction
           ? await updateWithDraw({ transactionId: childrenProps?.transaction.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
@@ -91,6 +90,42 @@ export default function AddEditWithdraw() {
     }
   };
 
+
+  const calcTotalAmount = () => {
+    let amount;
+    if (form.isFeesPercentage == true) {
+      amount = +form.amount + (+form.amount * (+form.providerFees / 100))
+    } else {
+      amount = +form.amount + +form.providerFees
+    }
+    return amount.toFixed(2);
+  }
+
+
+  const calcProviderDeduction = () => {
+    let amount = calcTotalAmount();
+    let totalProviderDeduction = amount + +form.additionalFees
+    if (form.isPercentage == true) {
+      totalProviderDeduction -= (+form.providerPercentage / 100) * (amount)
+    } else {
+      totalProviderDeduction -= +form.providerPercentage
+    }
+
+    return totalProviderDeduction.toFixed(2);
+  }
+
+
+  const calcBalancAfter = () => {
+    let balanceAfter = balance.before;
+    const totalAmount = calcTotalAmount();
+    const providerDeduction = calcProviderDeduction()
+    if (form.isTotalRevenue) {
+      balanceAfter -= totalAmount + +form.additionalFees;
+    } else {
+      balanceAfter -= providerDeduction;
+    }
+    return balanceAfter.toFixed(2);
+  }
 
 
   return (
@@ -105,7 +140,7 @@ export default function AddEditWithdraw() {
             disabled={childrenProps?.transaction ? true : false}
           />
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='datetime-local'
             name='date'
             value={form.date}
@@ -121,7 +156,7 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             name='amount'
             value={form.amount}
@@ -130,8 +165,39 @@ export default function AddEditWithdraw() {
               onChange(e)
             }}
           />
+          <div className='input-checkbox d-flex ' style={{
+            gap: '10px',
+            width: '12%',
+          }}>
+            <div className='d-flex' style={{
+              gap: '10px',
+              alignItems: "center"
+            }}>
+              <input
+                style={{
+                  fontSize: '30px',
+                  width: 'fit-content',
+                  transform: 'scale(1.2)',
+                }}
+                id='isFeesPercentage'
+                type="checkbox"
+                name='isFeesPercentage'
+                value={form.isFeesPercentage}
+                onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
+                checked={form.isFeesPercentage}
+              />
+              <label htmlFor="isFeesPercentage">
+                نسبة
+                <span style={{
+                  margin: '0 5px',
+                  fontSize: "18px",
+                  fontWeight: 'bold'
+                }}>%</span>
+              </label>
+            </div>
+          </div>
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             name='providerFees'
             value={form.providerFees}
@@ -141,15 +207,15 @@ export default function AddEditWithdraw() {
             }}
           />
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
-            value={(+form.amount + +form.providerFees).toFixed(2) || 0}
+            value={calcTotalAmount() || 0}
             label='الاجمالي'
             disabled={true}
           />
           <div className='input-checkbox d-flex ' style={{
             gap: '10px',
-            width: '30%',
+            width: '26%',
           }}>
             <div className='d-flex' style={{
               gap: '10px',
@@ -170,11 +236,16 @@ export default function AddEditWithdraw() {
               />
               <label htmlFor="isPercentage">
                 نسبة
+                <span style={{
+                  margin: '0 5px',
+                  fontSize: "18px",
+                  fontWeight: 'bold'
+                }}>%</span>
               </label>
             </div>
           </div>
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             name='providerPercentage'
             value={form.providerPercentage}
@@ -184,16 +255,16 @@ export default function AddEditWithdraw() {
             }}
           />
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
-            value={((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? ((+form.providerPercentage / 100) * (+form.amount + +form.providerFees)) : +form.providerPercentage)).toFixed(2) || 0}
+            value={calcProviderDeduction() || 0}
             label='اجمالي المخصوم من المزود'
             disabled={true}
           />
           {!childrenProps?.transaction &&
             <>
               <CustomInput
-                width={'30%'}
+                width={'26%'}
                 type='text'
                 name='providerAmount'
                 value={form.providerAmount}
@@ -205,7 +276,7 @@ export default function AddEditWithdraw() {
                 }
               />
               <CustomInput
-                width={'30%'}
+                width={'26%'}
                 type='text'
                 name='fees'
                 value={form.fees}
@@ -218,7 +289,7 @@ export default function AddEditWithdraw() {
             </>
           }
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             name='agentDeduction'
             label='المخصوم من المركز'
@@ -229,7 +300,7 @@ export default function AddEditWithdraw() {
             }
           />
           <CustomInput
-            width={childrenProps?.transaction ? '30%' : '48%'}
+            width={childrenProps?.transaction ? '26%' : '48%'}
             type='text'
             name='agentRevenue'
             label='عائد المركز'
@@ -237,7 +308,7 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={childrenProps?.transaction ? '30%' : '48%'}
+            width={childrenProps?.transaction ? '26%' : '48%'}
             type='text'
             label='اجمالي المخصوم من المركز'
             value={childrenProps?.transaction ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
@@ -294,7 +365,7 @@ export default function AddEditWithdraw() {
             </div>
           </div>
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             label='رسوم أخري'
             name='additionalFees'
@@ -302,7 +373,7 @@ export default function AddEditWithdraw() {
             onChange={(e) => onChange(e)}
           />
           <CustomInput
-            width={'30%'}
+            width={'26%'}
             type='text'
             label='عمولة أخري'
             name='additionalRevenue'
@@ -326,7 +397,7 @@ export default function AddEditWithdraw() {
             </li>
             <li>
               رصيد بعد
-              <span> {(balance.before - (form.isTotalRevenue ? (+form.amount + +form.providerFees + +form.additionalFees) : ((+form.amount + +form.providerFees + +form.additionalFees) - (form.isPercentage == true ? (+form.providerPercentage / 100) * +form.amount : +form.providerPercentage)))).toFixed(2)}</span>
+              <span> {calcBalancAfter()}</span>
             </li>
           </ul>
         </div>}

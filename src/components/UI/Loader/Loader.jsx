@@ -6,7 +6,7 @@ export default function Loader() {
   return (
     <Portal>
       <div className="loader">
-        <div>
+        <div className='prog'>
         </div>
       </div>
     </Portal>
