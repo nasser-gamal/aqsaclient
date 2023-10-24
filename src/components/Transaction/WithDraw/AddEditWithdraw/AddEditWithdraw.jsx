@@ -178,7 +178,7 @@ export default function AddEditWithdraw() {
             }}
           />
           <CustomInput
-            width={'26%'}
+            width={'26%'} 
             type='text'
             value={calcTotalAmount() || 0}
             label='الاجمالي'
