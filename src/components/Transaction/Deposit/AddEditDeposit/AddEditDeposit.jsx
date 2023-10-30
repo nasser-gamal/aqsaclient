@@ -13,17 +13,17 @@ import { notify } from '../../../../utils/notify';
 export default function AddEditDeposit() {
   const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
-
+  console.log(childrenProps)
   const [balance, setBalance] = useState({
-    before: childrenProps?.transaction?.balanceBefore || "",
-    after: childrenProps?.transaction?.balanceAfter || ""
+    before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
+    after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""
   });
 
 
   const [form, setForm] = useState({
+    bankAccountId: childrenProps?.bankAccountId || childrenProps?.transaction?.bankAccountId || "",
     isPercentage: childrenProps?.transaction?.isPercentage || false,
     date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
-    bankAccountId: childrenProps?.transaction?.bankAccountId || "",
     number: childrenProps?.transaction?.number || "",
     amount: childrenProps?.transaction?.amount || "",
     providerFees: childrenProps?.transaction?.providerFees || 0,
@@ -86,6 +86,18 @@ export default function AddEditDeposit() {
 
   return (
     <div>
+        {childrenProps?.show && <div className="balance" style={{marginBottom: '20px'}}>
+        <ul style={{ background: '#4caf5047'}}>
+            <li>
+              رصيد قبل
+              <span> {balance.before}</span>
+            </li>
+            <li>
+              رصيد بعد
+              <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
+            </li>
+          </ul>
+        </div>}
       <form onSubmit={onSubmit}>
         <div className='deposite-form'>
           <DropDown
@@ -93,7 +105,7 @@ export default function AddEditDeposit() {
             setBalance={setBalance}
             form={form}
             setForm={setForm}
-            disabled={childrenProps?.transaction ? true : false}
+            disabled={childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
           />
           <CustomInput
             width={'49%'}
@@ -102,10 +114,11 @@ export default function AddEditDeposit() {
             value={form.number}
             label='الرقم'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
           />
           <CustomInput
             width={'49%'}
-            type='text'
+            type='number'
             name='amount'
             value={form.amount}
             label='قيمة الفاتورة'
@@ -114,6 +127,8 @@ export default function AddEditDeposit() {
               onChange(e)
             }}
             onBlur={(e) => setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })}
+            disabled={childrenProps?.show}
+
           />
           <div className='input-checkbox d-flex ' style={{
             gap: '10px',
@@ -135,6 +150,8 @@ export default function AddEditDeposit() {
                 value={form.isPercentage}
                 onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
                 checked={form.isPercentage}
+                disabled={childrenProps?.show}
+
               />
               <label htmlFor="isPercentage">
                 نسبة
@@ -143,19 +160,23 @@ export default function AddEditDeposit() {
           </div>
           <CustomInput
             width={'49%'}
-            type='text'
+            type='number'
             name='providerFees'
             value={form.providerFees}
             label='رسوم المزود'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show }
+
           />
           <CustomInput
             width={'49%'}
-            type='text'
+            type='number'
             name='providerPercentage'
             value={form.providerPercentage}
             label='عائد مزود الخدمة'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show }
+
           />
           <CustomInput
             width={'100%'}
@@ -164,6 +185,8 @@ export default function AddEditDeposit() {
             value={form.date}
             label='التاريخ'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show }
+
           />
           <CustomInput
             width={'100%'}
@@ -172,9 +195,11 @@ export default function AddEditDeposit() {
             value={form.note}
             label='ملحوظة'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show }
+
           />
         </div>
-        {balance.before && <div className="balance">
+        {balance.before && !childrenProps?.show &&  <div className="balance">
           <ul>
             <li>
               رصيد قبل
@@ -188,7 +213,7 @@ export default function AddEditDeposit() {
             </li>}
           </ul>
         </div>}
-        <FormButtons />
+       {!childrenProps?.show && <FormButtons />}
       </form>
     </div>
   )

@@ -18,8 +18,16 @@
   padding:  10px;
   cursor: pointer;
 }
+.box.disabled {
+  background-color: rgba(0, 0, 0, 0.062);
+  pointer-events: none;
+  cursor: not-allowed;
+}
 .box:hover {
   background-color: #1795d91a;
+}
+.box.disabled:hover  {
+  background-color: rgba(0, 0, 0, 0.062);
 }
 .box img {
   width: 60px;

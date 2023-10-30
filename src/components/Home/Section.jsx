@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 
 import SectionTitle from './SectionTitle'
 import SectionBox from './SectionBox'
 
-export default function Section(props) {
+export default function Section({ title, boxes , active}) {
 
-  const { title, boxes } = props
 
   return (
     <div className='section'>
@@ -17,6 +17,7 @@ export default function Section(props) {
               boxTitle={box.boxTitle}
               img={box.img}
               info={box.info}
+              active={active}
             />
           })
         }

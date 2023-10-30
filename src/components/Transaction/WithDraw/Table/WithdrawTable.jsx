@@ -182,10 +182,10 @@ export default function DepositTable({ data }) {
                   'cursor': 'pointer',
                 }} src={moreImg} alt={moreImg}
                   onClick={() => dispatch(openModal({
-                    name: "TransactionInfo",
+                    name: "AddEditWithdraw",
                     modalTitle: 'عرض بيانات العملية',
                     status: 'عرض',
-                    childrenProps: { transaction, width: '1000px' }
+                    childrenProps: { transaction, width: '700px', show: true }
                   }))}
                 />
               </td>

@@ -3,12 +3,12 @@
 import { useDispatch } from "react-redux"
 import { openModal } from "../../app/features/modal/modalSlice";
 
-export default function SectionBox({ boxTitle, img, info }) {
+export default function SectionBox({ boxTitle, img, info, active }) {
   const dispatch = useDispatch();
 
 
   return (
-    <div className="box" onClick={() => {
+    <div className={active ? "box" : "box disabled"} onClick={() => {
       dispatch(openModal({
         ...info
       }))

@@ -15,14 +15,14 @@ export default function AddEditWithdraw() {
   const dispatch = useDispatch();
 
   const [balance, setBalance] = useState({
-    before: childrenProps?.transaction?.balanceBefore || "",
-    after: childrenProps?.transaction?.balanceAfter || ""
+    before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
+    after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""
   });
 
   const [form, setForm] = useState({
     date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
     isPercentage: childrenProps?.transaction?.isPercentage || false,
-    bankAccountId: childrenProps?.transaction?.bankAccountId || "",
+    bankAccountId: childrenProps?.bankAccountId || childrenProps?.transaction?.bankAccountId || "",
     number: childrenProps?.transaction?.number || "",
     amount: childrenProps?.transaction?.amount || "",
     agentDeduction: childrenProps?.transaction?.agentDeduction || 0,
@@ -107,9 +107,9 @@ export default function AddEditWithdraw() {
     console.log(amount + +form.additionalFees)
     let totalProviderDeduction = amount + +form.additionalFees
     if (form.isPercentage == true) {
-      totalProviderDeduction -= (+form.providerPercentage / 100) * (amount) 
+      totalProviderDeduction -= (+form.providerPercentage / 100) * (amount)
     } else {
-      totalProviderDeduction -= +form.providerPercentage 
+      totalProviderDeduction -= +form.providerPercentage
     }
 
     return +totalProviderDeduction.toFixed(2);
@@ -131,6 +131,18 @@ export default function AddEditWithdraw() {
 
   return (
     <div>
+      {childrenProps?.show && <div className="balance" style={{ marginBottom: '20px' }}>
+      <ul style={{ background: '#4caf5047'}}>
+          <li>
+            رصيد قبل
+            <span> {balance.before}</span>
+          </li>
+          <li>
+            رصيد بعد
+            <span> {calcBalancAfter()}</span>
+          </li>
+        </ul>
+      </div>}
       <form onSubmit={onSubmit}>
         <div className='withdraw-form'>
           <DropDown
@@ -138,15 +150,18 @@ export default function AddEditWithdraw() {
             setBalance={setBalance}
             form={form}
             setForm={setForm}
-            disabled={childrenProps?.transaction ? true : false}
+            disabled={childrenProps?.show || childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
+
           />
           <CustomInput
-            width={'26%'}
+            width={'30%'}
             type='datetime-local'
             name='date'
             value={form.date}
             label='التاريخ'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
           <CustomInput
             width={'30%'}
@@ -155,37 +170,37 @@ export default function AddEditWithdraw() {
             value={form.number}
             label='الرقم'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
           />
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             name='amount'
             value={form.amount}
             label='قيمة الفاتورة'
-            onChange={(e) => {
-              onChange(e)
-            }}
+            onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
           />
 
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             name='providerFees'
             value={form.providerFees}
             label='رسوم المزود'
-            onChange={(e) => {
-              onChange(e)
-            }}
+            onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
           />
           <CustomInput
-            width={'26%'} 
-            type='text'
+            width={'30%'}
+            type='number'
             value={calcTotalAmount() || 0}
             label='الاجمالي'
             disabled={true}
+
           />
           <div className='form-input' style={{
-            width: '26%'
+            width: '30%'
           }}>
             <div className='input-checkbox d-flex ' style={{
               gap: '10px',
@@ -206,6 +221,8 @@ export default function AddEditWithdraw() {
                   value={form.isFeesPercentage}
                   onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
                   checked={form.isFeesPercentage}
+                  disabled={childrenProps?.show}
+
                 />
                 <label htmlFor="isFeesPercentage">
                   نسبة الرسوم
@@ -236,6 +253,8 @@ export default function AddEditWithdraw() {
                   value={form.isPercentage}
                   onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
                   checked={form.isPercentage}
+                  disabled={childrenProps?.show}
+
                 />
                 <label htmlFor="isPercentage">
                   نسبة العائد
@@ -251,18 +270,18 @@ export default function AddEditWithdraw() {
 
 
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             name='providerPercentage'
             value={form.providerPercentage}
             label='عائد مزود الخدمة'
-            onChange={(e) => {
-              onChange(e)
-            }}
+            onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             value={calcProviderDeduction() || 0}
             label='اجمالي المخصوم من المزود'
             disabled={true}
@@ -270,8 +289,8 @@ export default function AddEditWithdraw() {
           {!childrenProps?.transaction &&
             <>
               <CustomInput
-                width={'26%'}
-                type='text'
+                width={'30%'}
+                type='number'
                 name='providerAmount'
                 value={form.providerAmount}
                 label='قيمة الفاتورة'
@@ -280,10 +299,12 @@ export default function AddEditWithdraw() {
                   setForm({ ...form, providerAmount: value, agentDeduction: (+value + +form.fees).toFixed(2) });
                 }
                 }
+                disabled={childrenProps?.show}
+
               />
               <CustomInput
-                width={'26%'}
-                type='text'
+                width={'30%'}
+                type='number'
                 name='fees'
                 value={form.fees}
                 label='تكلفة الخدمة'
@@ -291,34 +312,40 @@ export default function AddEditWithdraw() {
                   const { value } = e.target
                   setForm({ ...form, fees: value, agentDeduction: (+form.providerAmount + +value).toFixed(2) });
                 }}
+                disabled={childrenProps?.show}
+
               />
             </>
           }
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             name='agentDeduction'
             label='المخصوم من المركز'
-            disabled={!childrenProps?.transaction ? true : false}
+            disabled={childrenProps?.show || !childrenProps?.transaction ? true : false}
             value={!childrenProps?.transaction ? (+form.providerAmount + +form.fees).toFixed(2) : form.agentDeduction}
             onChange={(e) =>
               onChange(e)
             }
+
           />
           <CustomInput
-            width={childrenProps?.transaction ? '26%' : '48%'}
-            type='text'
+            width={childrenProps?.transaction ? '30%' : '48%'}
+            type='number'
             name='agentRevenue'
             label='عائد المركز'
             value={form.agentRevenue}
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
           <CustomInput
-            width={childrenProps?.transaction ? '26%' : '48%'}
-            type='text'
+            width={childrenProps?.transaction ? '30%' : '48%'}
+            type='number'
             label='اجمالي المخصوم من المركز'
             value={childrenProps?.transaction ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
             disabled={true}
+
           />
           <div style={{
             padding: '10px 0'
@@ -339,7 +366,7 @@ export default function AddEditWithdraw() {
                 value={false}
                 onChange={() => setForm({ ...form, isTotalRevenue: true })}
                 checked={form.isTotalRevenue === true}
-                disabled={childrenProps?.transaction ? true : false}
+                disabled={childrenProps?.show || childrenProps?.transaction ? true : false}
 
               />
               <label htmlFor="total">
@@ -362,7 +389,7 @@ export default function AddEditWithdraw() {
                 value={true}
                 onChange={() => setForm({ ...form, isTotalRevenue: false })}
                 checked={form.isTotalRevenue === false}
-                disabled={childrenProps?.transaction ? true : false}
+                disabled={childrenProps?.show || childrenProps?.transaction ? true : false}
 
               />
               <label htmlFor="revenue">
@@ -371,20 +398,24 @@ export default function AddEditWithdraw() {
             </div>
           </div>
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             label='رسوم أخري'
             name='additionalFees'
             value={form.additionalFees}
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
           <CustomInput
-            width={'26%'}
-            type='text'
+            width={'30%'}
+            type='number'
             label='عمولة أخري'
             name='additionalRevenue'
             value={form.additionalRevenue}
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
           <CustomInput
             width={'100%'}
@@ -393,9 +424,11 @@ export default function AddEditWithdraw() {
             value={form.note}
             label='ملحوظة'
             onChange={(e) => onChange(e)}
+            disabled={childrenProps?.show}
+
           />
         </div>
-        {balance.before && <div className="balance">
+        {balance.before && !childrenProps?.show && <div className="balance">
           <ul>
             <li>
               رصيد قبل
@@ -407,7 +440,7 @@ export default function AddEditWithdraw() {
             </li>
           </ul>
         </div>}
-        <FormButtons />
+        {!childrenProps?.show && <FormButtons />}
       </form>
     </div>
   )

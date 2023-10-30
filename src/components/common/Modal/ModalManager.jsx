@@ -27,6 +27,7 @@ import AddEditProviderTreasury from '../../ProviderTreasury/AddEditProviderTreas
 import AddEditAddionalTreasury from '../../AddionalTreasury/AddEditAddionalTreasury/AddEditAddionalTreasury';
 import DeleteConfirm from '../../DeleteConfirm/DeleteConfirm';
 import AddEditDues from '../../Dues/AddEditDues/AddEditDues';
+import ReportPeriod from '../../Home/ReportPeriod/ReportPeriod';
 
 export default function ModalManager() {
 
@@ -63,7 +64,8 @@ export default function ModalManager() {
     AddEditAddionalTreasury,
     TransactionInfo,
     AddEditApp,
-    AddEditDues
+    AddEditDues,
+    ReportPeriod
   };
 
   let renderComponent;

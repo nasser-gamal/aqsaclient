@@ -81,3 +81,9 @@ table {
   height: 60px;
   object-fit: cover;
 }
+
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  appearance: none;
+}

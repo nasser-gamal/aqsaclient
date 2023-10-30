@@ -19,10 +19,10 @@ export default function AddEditDeposit() {
 
 
   const [form, setForm] = useState({
-    senderId: childrenProps?.transfer.senderId || "",
-    amountTotal: childrenProps?.transfer.amountTotal || "",
-    recipientId: childrenProps?.transfer.recipientId || "",
-    note: childrenProps?.transfer.note || ""
+    senderId: childrenProps?.bankAccountId || childrenProps?.transfer?.senderId || "",
+    amountTotal: childrenProps?.transfer?.amountTotal || "",
+    recipientId: childrenProps?.transfer?.recipientId || "",
+    note: childrenProps?.transfer?.note || ""
   });
 
   const onChange = (e) => {
@@ -83,7 +83,7 @@ export default function AddEditDeposit() {
             bankAccounts={data?.bankAccounts}
             form={form}
             setForm={setForm}
-            disabled={childrenProps?.transfer ? true : false}
+            disabled={childrenProps?.bankAccountId || childrenProps?.transfer ? true : false}
           />
           <ReciverSelect
             bankAccounts={data?.bankAccounts}
@@ -92,7 +92,7 @@ export default function AddEditDeposit() {
             disabled={childrenProps?.transfer ? true : false}
           />
           <CustomInput
-            type='text'
+            type='number'
             name='amountTotal'
             label='القيمة'
             value={form.amountTotal}
