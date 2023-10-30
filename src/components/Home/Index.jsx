@@ -13,6 +13,7 @@ export default function Index() {
 
   const [form, setForm] = useState({
     bankAccountId: '',
+    bankAccountName: '',
     startDate: '',
     endDate: ''
   });
@@ -43,7 +44,7 @@ export default function Index() {
               name: 'AddEditDeposit',
               modalTitle: 'اضافة عملية ايداع جديدة',
               status: 'اضافة',
-              childrenProps: { bankAccountId: form.bankAccountId, balanceBefore: balance }
+              childrenProps: { bankAccountId: form.bankAccountId, balanceBefore: balance, bankAccountName: form.bankAccountName }
             }
           },
           {
@@ -53,7 +54,7 @@ export default function Index() {
               name: 'AddEditWithdraw',
               modalTitle: 'اضافة عملية سحب جديدة',
               status: 'اضافة',
-              childrenProps: { width: '700px', bankAccountId: form.bankAccountId, balanceBefore: balance }
+              childrenProps: { width: '700px', bankAccountId: form.bankAccountId, balanceBefore: balance , bankAccountName: form.bankAccountName }
             }
           },
           {
@@ -63,7 +64,7 @@ export default function Index() {
               name: 'AddEditTransfer',
               modalTitle: 'اضافة عملية تسوية جديدة',
               status: 'اضافة',
-              childrenProps: { bankAccountId: form.bankAccountId }
+              childrenProps: { bankAccountId: form.bankAccountId, bankAccountName: form.bankAccountName  }
             }
           },
           // {

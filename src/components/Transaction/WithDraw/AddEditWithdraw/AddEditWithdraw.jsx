@@ -132,7 +132,7 @@ export default function AddEditWithdraw() {
   return (
     <div>
       {childrenProps?.show && <div className="balance" style={{ marginBottom: '20px' }}>
-      <ul style={{ background: '#4caf5047'}}>
+        <ul style={{ background: '#4caf5047' }}>
           <li>
             رصيد قبل
             <span> {balance.before}</span>
@@ -145,14 +145,25 @@ export default function AddEditWithdraw() {
       </div>}
       <form onSubmit={onSubmit}>
         <div className='withdraw-form'>
-          <DropDown
-            balance={balance}
-            setBalance={setBalance}
-            form={form}
-            setForm={setForm}
-            disabled={childrenProps?.show || childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
 
-          />
+          {childrenProps?.bankAccountId ?
+            <CustomInput
+              width={'30%'}
+              type='text'
+              name='bankAccountId'
+              value={childrenProps?.bankAccountName}
+              label='الحساب'
+              onChange={(e) => onChange(e)}
+              disabled={childrenProps?.show || childrenProps?.bankAccountId}
+            /> :
+            <DropDown
+              balance={balance}
+              setBalance={setBalance}
+              form={form}
+              setForm={setForm}
+              disabled={childrenProps?.show || childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
+            />
+            }
           <CustomInput
             width={'30%'}
             type='datetime-local'

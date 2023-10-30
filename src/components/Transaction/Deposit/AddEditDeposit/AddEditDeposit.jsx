@@ -86,27 +86,37 @@ export default function AddEditDeposit() {
 
   return (
     <div>
-        {childrenProps?.show && <div className="balance" style={{marginBottom: '20px'}}>
-        <ul style={{ background: '#4caf5047'}}>
-            <li>
-              رصيد قبل
-              <span> {balance.before}</span>
-            </li>
-            <li>
-              رصيد بعد
-              <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
-            </li>
-          </ul>
-        </div>}
+      {childrenProps?.show && <div className="balance" style={{ marginBottom: '20px' }}>
+        <ul style={{ background: '#4caf5047' }}>
+          <li>
+            رصيد قبل
+            <span> {balance.before}</span>
+          </li>
+          <li>
+            رصيد بعد
+            <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
+          </li>
+        </ul>
+      </div>}
       <form onSubmit={onSubmit}>
         <div className='deposite-form'>
-          <DropDown
-            balance={balance}
-            setBalance={setBalance}
-            form={form}
-            setForm={setForm}
-            disabled={childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
-          />
+          {childrenProps?.bankAccountId ?
+            <CustomInput
+              width={'100%'}
+              type='text'
+              name='bankAccountId'
+              value={childrenProps?.bankAccountName}
+              label='الحساب'
+              onChange={(e) => onChange(e)}
+              disabled={childrenProps?.show || childrenProps?.bankAccountId}
+            /> :
+            <DropDown
+              balance={balance}
+              setBalance={setBalance}
+              form={form}
+              setForm={setForm}
+              disabled={childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
+            />}
           <CustomInput
             width={'49%'}
             type='text'
@@ -165,7 +175,7 @@ export default function AddEditDeposit() {
             value={form.providerFees}
             label='رسوم المزود'
             onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show }
+            disabled={childrenProps?.show}
 
           />
           <CustomInput
@@ -175,7 +185,7 @@ export default function AddEditDeposit() {
             value={form.providerPercentage}
             label='عائد مزود الخدمة'
             onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show }
+            disabled={childrenProps?.show}
 
           />
           <CustomInput
@@ -185,7 +195,7 @@ export default function AddEditDeposit() {
             value={form.date}
             label='التاريخ'
             onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show }
+            disabled={childrenProps?.show}
 
           />
           <CustomInput
@@ -195,11 +205,11 @@ export default function AddEditDeposit() {
             value={form.note}
             label='ملحوظة'
             onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show }
+            disabled={childrenProps?.show}
 
           />
         </div>
-        {balance.before && !childrenProps?.show &&  <div className="balance">
+        {balance.before && !childrenProps?.show && <div className="balance">
           <ul>
             <li>
               رصيد قبل
@@ -213,7 +223,7 @@ export default function AddEditDeposit() {
             </li>}
           </ul>
         </div>}
-       {!childrenProps?.show && <FormButtons />}
+        {!childrenProps?.show && <FormButtons />}
       </form>
     </div>
   )

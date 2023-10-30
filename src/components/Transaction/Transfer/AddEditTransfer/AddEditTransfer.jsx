@@ -79,12 +79,24 @@ export default function AddEditDeposit() {
     <div>
       <form onSubmit={onSubmit}>
         <div >
-          <SenderSelect
-            bankAccounts={data?.bankAccounts}
-            form={form}
-            setForm={setForm}
-            disabled={childrenProps?.bankAccountId || childrenProps?.transfer ? true : false}
-          />
+          {childrenProps?.bankAccountId ?
+            <CustomInput
+              width={'100%'}
+              type='text'
+              name='bankAccountId'
+              value={childrenProps?.bankAccountName}
+              label='الحساب'
+              onChange={(e) => onChange(e)}
+              disabled={childrenProps?.show || childrenProps?.bankAccountId}
+            /> :
+            <SenderSelect
+              bankAccounts={data?.bankAccounts}
+              form={form}
+              setForm={setForm}
+              disabled={childrenProps?.bankAccountId || childrenProps?.transfer ? true : false}
+            />
+          }
+
           <ReciverSelect
             bankAccounts={data?.bankAccounts}
             form={form}
