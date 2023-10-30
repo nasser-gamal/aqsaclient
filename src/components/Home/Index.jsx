@@ -66,16 +66,16 @@ export default function Index() {
               childrenProps: { bankAccountId: form.bankAccountId }
             }
           },
-          {
-            boxTitle: 'تقرير',
-            img: reportImg,
-            info: {
-              name: 'ReportPeriod',
-              modalTitle: 'تقرير الحساب س',
-              status: 'بحث',
-              childrenProps: { form, setForm: handleDate }
-            }
-          },
+          // {
+          //   boxTitle: 'تقرير',
+          //   img: reportImg,
+          //   info: {
+          //     name: 'ReportPeriod',
+          //     modalTitle: 'تقرير الحساب س',
+          //     status: 'بحث',
+          //     childrenProps: { form, setForm: handleDate }
+          //   }
+          // },
         ]
       } />
     </div>
