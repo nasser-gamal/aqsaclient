@@ -120,7 +120,7 @@ export default function TransferTable({ transfers }) {
                 {transfer.amountTotal}
               </td>
               <td>
-                {transfer.sender.accountName}
+                {transfer?.sender?.accountName || 'غير معروف'}
               </td>
               <td>
                 {transfer.balanceSenderBefore}
@@ -129,7 +129,7 @@ export default function TransferTable({ transfers }) {
                 {transfer.balanceSenderAfter}
               </td>
               <td>
-                {transfer.recipient.accountName}
+                {transfer?.recipient?.accountName || 'غير معروف'}
               </td>
               <td>
                 {transfer.balanceRecipientBefore}
