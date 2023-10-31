@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import CustomInput from '../../common/FormFields/input/CustomInput';
 import Table from '../../common/Table/Table';
 import Spinner from '../../UI/Loader/Spinner';
+import axios from 'axios'
+import { useState } from 'react';
 
-export default function CommissionTable({data, isLoading, form, setForm, onChange }) {
+export default function CommissionTable({ data, isLoading, form, setForm, onChange }) {
 
   const tableHead = [
     {
@@ -27,8 +29,23 @@ export default function CommissionTable({data, isLoading, form, setForm, onChang
     },
   ];
 
+  const [datas, setData] = useState()
 
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/category/getAll`, {
+        withCredentials: true,
+      });
+      console.log(response)
+      setData(response)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
+  useEffect(() => {
+    getData()
+  }, [])
 
   useEffect(() => {
     const commissions = [];
