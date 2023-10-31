@@ -123,7 +123,7 @@ export default function EmployReportTable({ data }) {
                   <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
-                  {transaction.bankAccount?.accountName}
+                  {transaction?.bankAccount?.accountName || 'غير معروف'}
                 </td>
                 <td>
                   {transaction.number}

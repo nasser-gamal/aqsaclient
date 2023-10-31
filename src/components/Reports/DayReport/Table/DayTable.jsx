@@ -121,7 +121,7 @@ export default function DayTable({ data }) {
                   <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
-                  {transaction.bankAccount?.accountName}
+                {transaction?.bankAccount?.accountName || 'غير معروف'}
                 </td>
                 <td>
                   {transaction.number}
