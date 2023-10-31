@@ -14,11 +14,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import ReportPeriod from './ReportPeriod/ReportPeriod';
 import Pagination from '../UI/Pagination/Pagination';
+import { TbRefresh } from 'react-icons/tb';
 
 
 export default function Index() {
   const { page, limit, orderBy } = useSelector(state => state.filter);
-  const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
 
 
@@ -130,6 +130,20 @@ export default function Index() {
               إلي
               <span style={{ color: 'red', fontWeight: 'bold', margin: '0 5px', display: 'inline-block' }}>{form.endDate.replaceAll('-', '/')}</span>
             </h4>
+            <div style={{
+              width: '100%',
+              textAlign: 'right'
+            }}>
+              <span>
+                <TbRefresh style={{
+                  fontSize: '26px',
+                  color: 'black',
+                  cursor: 'pointer'
+                }}
+                  onClick={() => refetch()}
+                />
+              </span>
+            </div>
             <BankReportTable data={data} />
             {data && data?.transactions?.transactions.length < 1 && <div
               style={{

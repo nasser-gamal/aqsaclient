@@ -3,7 +3,7 @@ import CustomInput from '../../common/FormFields/input/CustomInput'
 import CustomButton from '../../common/Button/CustomButton';
 
 
-export default function ReportPeriod({ form, setForm, setSkip, setShowForm,refetch   }) {
+export default function ReportPeriod({ form, setForm, setSkip, setShowForm }) {
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -21,22 +21,28 @@ export default function ReportPeriod({ form, setForm, setSkip, setShowForm,refet
 
   return (
     <div style={{ borderTop: '1px solid black', padding: '10px 0', margin: '25px 0 0' }}>
-      <div style={{ width: '500px', maxWidth: '100%', margin: 'auto' }}>
+      <div style={{ width: '600px', maxWidth: '100%', margin: 'auto' }}>
         <form onSubmit={onSubmit}>
-          <CustomInput
-            type='date'
-            name='startDate'
-            value={form.startDate}
-            label={'من'}
-            onChange={(e) => onChange(e)}
-          />
-          <CustomInput
-            type='date'
-            name='endDate'
-            value={form.endDate}
-            label={'إلي'}
-            onChange={(e) => onChange(e)}
-          />
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ width: '50%' }}>
+              <CustomInput
+                type='date'
+                name='startDate'
+                value={form.startDate}
+                label={'من'}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
+            <div style={{ width: '50%' }}>
+              <CustomInput
+                type='date'
+                name='endDate'
+                value={form.endDate}
+                label={'إلي'}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
+          </div>
           <div className='d-flex flex-center form-btns'>
             <CustomButton
               type='submit'
