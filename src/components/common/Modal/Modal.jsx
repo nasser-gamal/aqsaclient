@@ -38,7 +38,6 @@ export default function Modal({ isOpen, title, childrenProps, closeModalHandler,
         </div>
       </div>
     </Portal>
-
   )
 }
 

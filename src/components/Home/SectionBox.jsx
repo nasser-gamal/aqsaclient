@@ -3,15 +3,17 @@
 import { useDispatch } from "react-redux"
 import { openModal } from "../../app/features/modal/modalSlice";
 
-export default function SectionBox({ boxTitle, img, info, active }) {
+export default function SectionBox({ boxTitle, img, info, active, click }) {
   const dispatch = useDispatch();
 
 
   return (
     <div className={active ? "box" : "box disabled"} onClick={() => {
-      dispatch(openModal({
-        ...info
-      }))
+      if (info) {
+        dispatch(openModal({ ...info }))
+      } else {
+        click()
+      }
     }}>
       <div className='box-body  text-center'>
         <img src={img} alt={img} />

@@ -26,8 +26,12 @@ export const modalSlice = createSlice({
       state.childrenProps = null;
       state.status = null;
     },
+    updateFormState: (state, action) => {
+      // Update the form state with the payload data
+      state.childrenProps = action.payload;
+    },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, updateFormState } = modalSlice.actions;
 export default modalSlice.reducer;

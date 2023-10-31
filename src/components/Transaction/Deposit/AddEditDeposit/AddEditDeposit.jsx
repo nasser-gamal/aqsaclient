@@ -13,7 +13,7 @@ import { notify } from '../../../../utils/notify';
 export default function AddEditDeposit() {
   const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
-  console.log(childrenProps)
+  
   const [balance, setBalance] = useState({
     before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
     after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""

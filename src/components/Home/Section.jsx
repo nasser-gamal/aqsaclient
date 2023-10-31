@@ -3,7 +3,7 @@
 import SectionTitle from './SectionTitle'
 import SectionBox from './SectionBox'
 
-export default function Section({ title, boxes , active}) {
+export default function Section({ title, boxes, active }) {
 
 
   return (
@@ -17,6 +17,7 @@ export default function Section({ title, boxes , active}) {
               boxTitle={box.boxTitle}
               img={box.img}
               info={box.info}
+              click={box.click}
               active={active}
             />
           })

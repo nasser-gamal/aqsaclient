@@ -4,7 +4,7 @@ import './nav.modules.css'
 import Logo from "./Logo";
 
 
-import SearchInput from "./SearchInput";
+// import SearchInput from "./SearchInput";
 import Profile from "./Profile";
 import ToggleIcon from "./ToggleIcon";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,7 @@ export default function Navbar() {
         <NavLink to='/' onClick={handleCloseList}>
           <Logo />
         </NavLink>
-        <SearchInput />
+        {/* <SearchInput /> */}
         <Profile />
         <ToggleIcon />
       </div>

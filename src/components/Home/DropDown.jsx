@@ -6,7 +6,7 @@ import CustomSelect from '../common/FormFields/Select/CustomSelect';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
 
-export default function DropDown({ form, setForm, setBalance }) {
+export default function DropDown({ form, setForm, setBalance, setSkip }) {
   const dispatch = useDispatch()
 
   const [isClicked, setIsClicked] = useState(false);
@@ -24,12 +24,10 @@ export default function DropDown({ form, setForm, setBalance }) {
   }, [isLoading, dispatch]);
 
 
-
   const filterSelectOptions = (e) => {
     const { value } = e.target;
     setSearchValue(value)
   }
-
 
 
   return (
@@ -37,12 +35,11 @@ export default function DropDown({ form, setForm, setBalance }) {
       searchInput={true}
       onChange={(e) => filterSelectOptions(e)}
       dropHeading={dropHeading}
-      label={'اختر الحساب'}
       isClicked={isClicked}
       setIsClicked={setIsClicked}
       onClick={() => {
         setIsClicked(!isClicked)
-        // setSkip(true)
+        setSkip(true)
       }}
     >
       {
