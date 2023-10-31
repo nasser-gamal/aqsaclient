@@ -15,11 +15,21 @@ import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import ReportPeriod from './ReportPeriod/ReportPeriod';
 import Pagination from '../UI/Pagination/Pagination';
 import { TbRefresh } from 'react-icons/tb';
+import { useEffect } from 'react';
+import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
 
 
 export default function Index() {
   const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch();
+
+
+  const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery(
+    {
+      page: "", limit: "", order: 'createdAt', sort: 'ASC'
+    }
+  );
+
 
 
   const [form, setForm] = useState({
@@ -35,6 +45,7 @@ export default function Index() {
   const [showForm, setShowForm] = useState(false)
   const [skip, setSkip] = useState(true);
 
+
   const { data, isLoading, isFetching, refetch } = useFindUserTransactionsQuery({
     bankAccountId: form.bankAccountId,
     startDate: form?.startDate,
@@ -46,11 +57,13 @@ export default function Index() {
   }, { skip });
 
 
-  if (isLoading || isFetching) {
-    dispatch(showLoader())
-  } else {
-    dispatch(hideLoader())
-  }
+  useEffect(() => {
+    if (getLoading || getFetching || isLoading || isFetching) {
+      dispatch(showLoader())
+    } else {
+      dispatch(hideLoader())
+    }
+  }, [isLoading, isFetching, dispatch, getLoading, getFetching])
 
   const handleBoxClick = () => {
     setSkip(true)
@@ -65,6 +78,7 @@ export default function Index() {
           maxWidth: '100%'
         }}>
           <DropDown
+            data={bankAccounts}
             form={form}
             setForm={setForm}
             setBalance={setBalance}

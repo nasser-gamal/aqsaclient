@@ -166,10 +166,14 @@ export default function DayTable({ data }) {
                     'cursor': 'pointer',
                   }} src={moreImg} alt={moreImg}
                     onClick={() => dispatch(openModal({
-                      name: "TransactionInfo",
-                      modalTitle: 'عرض بيانات العملية',
+                      name: transaction.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
+                      modalTitle: transaction.type === 'سحب' ? 'عرض بيانات العملية (سحب)' : 'عرض بيانات العملية (ايداع)',
                       status: 'عرض',
-                      childrenProps: { transaction, width: '1000px' }
+                      childrenProps: {
+                        transaction,
+                        show: true,
+                        width: transaction.type === 'سحب' && '700px'
+                      }
                     }))}
                   />
                 </td>

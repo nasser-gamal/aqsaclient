@@ -104,7 +104,6 @@ export default function AddEditWithdraw() {
 
   const calcProviderDeduction = () => {
     let amount = calcTotalAmount();
-    console.log(amount + +form.additionalFees)
     let totalProviderDeduction = amount + +form.additionalFees
     if (form.isPercentage == true) {
       totalProviderDeduction -= (+form.providerPercentage / 100) * (amount)
@@ -129,20 +128,65 @@ export default function AddEditWithdraw() {
   }
 
 
+  const calcProfit = () => {
+    // حساب الرسوم
+    let fees = form.isFeesPercentage ? (+form.providerFees / 100) * +form.amount : form.providerFees;
+
+    // المخصوم م البنك
+    let amountTotal = (+form.amount + +fees).toFixed(2);
+
+    let providerRevenue = +form.isPercentage
+      ? (+form.providerPercentage / 100) * amountTotal
+      : +form.providerPercentage;
+
+    // المخصوم م المزود
+    let totalProviderDeduction = (
+      +amountTotal +
+      +form.additionalFees -
+      +providerRevenue
+    ).toFixed(2);
+
+    // المخصوم م المركز
+    let totalAgentDeduction = (+form.agentDeduction - +form.agentRevenue).toFixed(2);
+
+    // الربح
+    let profit = (
+      totalAgentDeduction -
+      totalProviderDeduction +
+      +form.additionalRevenue
+    ).toFixed(2);
+
+    return profit;
+  }
+
+
   return (
     <div>
-      {childrenProps?.show && <div className="balance" style={{ marginBottom: '20px' }}>
-        <ul style={{ background: '#4caf5047' }}>
-          <li>
-            رصيد قبل
-            <span> {balance.before}</span>
-          </li>
-          <li>
-            رصيد بعد
-            <span> {calcBalancAfter()}</span>
-          </li>
-        </ul>
-      </div>}
+      {childrenProps?.show && <>
+        <div className="balance" style={{ marginBottom: '10px' }}>
+          <ul style={{ background: '#4caf5047' }}>
+            <li>
+              رصيد قبل
+              <span> {balance.before}</span>
+            </li>
+            <li>
+              رصيد بعد
+              <span> {calcBalancAfter()}</span>
+            </li>
+          </ul>
+        </div>
+        <div style={{
+          textAlign: 'center'
+        }}>
+          <h5>
+            بواسطة
+          </h5>
+          <span style={{ color: 'red', fontWeight: 'bold' }}>
+            {childrenProps?.transaction?.creator.userName}
+          </span>
+        </div>
+      </>
+      }
       <form onSubmit={onSubmit}>
         <div className='withdraw-form'>
 
@@ -163,7 +207,7 @@ export default function AddEditWithdraw() {
               setForm={setForm}
               disabled={childrenProps?.show || childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
             />
-            }
+          }
           <CustomInput
             width={'30%'}
             type='datetime-local'
@@ -428,6 +472,15 @@ export default function AddEditWithdraw() {
             disabled={childrenProps?.show}
 
           />
+          <CustomInput
+            width={'100%'}
+            type='text'
+            value={childrenProps?.transaction?.profit || calcProfit()}
+            label='الربح'
+            onChange={(e) => onChange(e)}
+            disabled={true}
+          />
+
           <CustomInput
             width={'100%'}
             type='textarea'

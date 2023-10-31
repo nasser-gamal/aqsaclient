@@ -13,7 +13,7 @@ import { notify } from '../../../../utils/notify';
 export default function AddEditDeposit() {
   const { childrenProps } = useSelector(state => state.modal);
   const dispatch = useDispatch();
-  
+
   const [balance, setBalance] = useState({
     before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
     after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""
@@ -84,28 +84,55 @@ export default function AddEditDeposit() {
   }
 
 
+  const calcProfit = () => {
+    let providerRevenue;
+    if (form.isPercentage) {
+      providerRevenue = (form.providerPercentage / 100) * form.amountTotal
+    } else {
+      providerRevenue = form.providerPercentage
+    }
+    let profit = (+providerRevenue - +form.providerFees).toFixed(2);
+    return profit
+  }
+
+
   return (
     <div>
-      {childrenProps?.show && <div className="balance" style={{ marginBottom: '20px' }}>
-        <ul style={{ background: '#4caf5047' }}>
-          <li>
-            رصيد قبل
-            <span> {balance.before}</span>
-          </li>
-          <li>
-            رصيد بعد
-            <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
-          </li>
-        </ul>
-      </div>}
+      {childrenProps?.show &&
+        <>
+          <div className="balance" style={{ marginBottom: '10px' }}>
+            <ul style={{ background: '#4caf5047' }}>
+              <li>
+                رصيد قبل
+                <span> {balance.before}</span>
+              </li>
+              <li>
+                رصيد بعد
+                <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
+              </li>
+            </ul>
+          </div>
+          <div style={{
+            textAlign: 'center'
+          }}>
+            <h5>
+              بواسطة
+            </h5>
+            <span style={{ color: 'red', fontWeight: 'bold' }}>
+              {childrenProps?.transaction?.creator.userName}
+            </span>
+          </div>
+        </>
+      }
       <form onSubmit={onSubmit}>
         <div className='deposite-form'>
-          {childrenProps?.bankAccountId ?
+
+          {childrenProps?.bankAccountId || childrenProps?.show ?
             <CustomInput
               width={'100%'}
               type='text'
               name='bankAccountId'
-              value={childrenProps?.bankAccountName}
+              value={childrenProps?.bankAccountName || childrenProps?.transaction?.bankAccount?.accountName}
               label='الحساب'
               onChange={(e) => onChange(e)}
               disabled={childrenProps?.show || childrenProps?.bankAccountId}
@@ -200,6 +227,15 @@ export default function AddEditDeposit() {
           />
           <CustomInput
             width={'100%'}
+            type='text'
+            value={childrenProps?.transaction?.profit || calcProfit()}
+            label='الربح'
+            onChange={(e) => onChange(e)}
+            disabled={true}
+          />
+
+          <CustomInput
+            width={'100%'}
             type='textarea'
             name='note'
             value={form.note}
@@ -224,6 +260,10 @@ export default function AddEditDeposit() {
           </ul>
         </div>}
         {!childrenProps?.show && <FormButtons />}
+
+
+
+
       </form>
     </div>
   )

@@ -1,27 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useState } from 'react'
 
 import CustomSelect from '../common/FormFields/Select/CustomSelect';
-import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
 
-export default function DropDown({ form, setForm, setBalance, setSkip }) {
-  const dispatch = useDispatch()
+export default function DropDown({ form, setForm, setBalance, setSkip, data }) {
 
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الحساب');
 
-  const { data, isLoading } = useFindAllBankAccountsQuery({ page: "", limit: "", order: 'createdAt', sort: 'ASC' });
   const [searchValue, setSearchValue] = useState()
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [isLoading, dispatch]);
+
 
 
   const filterSelectOptions = (e) => {
