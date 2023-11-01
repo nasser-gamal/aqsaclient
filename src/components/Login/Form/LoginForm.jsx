@@ -54,16 +54,19 @@ export default function LoginForm() {
       if (error) {
         notify('error', error);
       } else {
-        const userData = await login(form).unwrap();
-        dispatch(setCredentials({ ...userData }));
-        if (userData.user.role.name == 'agent') {
+        const response = await login(form).unwrap();
+        localStorage.setItem('token', response.token)
+        console.log(response)
+        dispatch(setCredentials({ ...response.user }));
+        if (response.user.role.name == 'agent') {
           navigate("/agent/commissions");
         } else {
           navigate("/");
         }
       }
     } catch (error) {
-      notify('error', error.data.message);
+      console.log(error)
+      // notify('error', error.data.message);
     }
   }
 
