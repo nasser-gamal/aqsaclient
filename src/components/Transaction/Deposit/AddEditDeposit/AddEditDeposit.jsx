@@ -226,7 +226,7 @@ export default function AddEditDeposit() {
 
           />
           <CustomInput
-            width={'100%'}
+            width={'49%'}
             type='text'
             value={childrenProps?.transaction?.profit || calcProfit()}
             label='الربح'
@@ -235,8 +235,8 @@ export default function AddEditDeposit() {
           />
 
           <CustomInput
-            width={'100%'}
-            type='textarea'
+            width={'49%'}
+            type='text'
             name='note'
             value={form.note}
             label='ملحوظة'
