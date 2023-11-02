@@ -182,7 +182,7 @@ export default function Index() {
             <p style={{ textAlign: 'center' }}>
               لا يوجد أي عمليات علي الحساب في هذه الفترة
             </p>
-            <CustomButton
+            {/* <CustomButton
               classes={'add-btn'}
               width={'80px'}
               height={'30px'}
@@ -190,7 +190,7 @@ export default function Index() {
               margin={'20px 0'}
               onClick={() => refetch()}>
               تحديث
-            </CustomButton>
+            </CustomButton> */}
           </div>
         }
 
