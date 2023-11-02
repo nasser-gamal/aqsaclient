@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 import CustomSelect from '../common/FormFields/Select/CustomSelect';
 
-export default function DropDown({ form, setForm, setBalance, setSkip, data }) {
+export default function DropDown({ form, setForm, setBalance, setSkip, data, setShowForm }) {
 
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الحساب');
@@ -18,6 +18,15 @@ export default function DropDown({ form, setForm, setBalance, setSkip, data }) {
     setSearchValue(value)
   }
 
+  const onClick = (bankAccount) => {
+    setDropHeading(bankAccount.accountName);
+    setIsClicked(!isClicked);
+    setForm({ ...form, bankAccountId: bankAccount.id, bankAccountName: bankAccount.accountName })
+    setBalance(bankAccount.balance)
+    setSkip(false)
+    setShowForm(true)
+  }
+
 
   return (
     <CustomSelect
@@ -28,7 +37,6 @@ export default function DropDown({ form, setForm, setBalance, setSkip, data }) {
       setIsClicked={setIsClicked}
       onClick={() => {
         setIsClicked(!isClicked)
-        setSkip(true)
       }}
     >
       {
@@ -39,10 +47,7 @@ export default function DropDown({ form, setForm, setBalance, setSkip, data }) {
           return <li
             key={bankAccount.id}
             onClick={() => {
-              setDropHeading(bankAccount.accountName);
-              setIsClicked(!isClicked);
-              setForm({ ...form, bankAccountId: bankAccount.id, bankAccountName: bankAccount.accountName })
-              setBalance(bankAccount.balance)
+              onClick(bankAccount)
             }}
           >
             {

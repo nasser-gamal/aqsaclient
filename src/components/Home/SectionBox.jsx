@@ -9,11 +9,12 @@ export default function SectionBox({ boxTitle, img, info, active, click }) {
 
   return (
     <div className={active ? "box" : "box disabled"} onClick={() => {
-      if (info) {
-        dispatch(openModal({ ...info }))
-      } else {
-        click()
-      }
+      dispatch(openModal({ ...info }))
+      // if (info) {
+      //   dispatch(openModal({ ...info }))
+      // } else {
+      //   click()
+      // }
     }}>
       <div className='box-body  text-center'>
         <img src={img} alt={img} />
