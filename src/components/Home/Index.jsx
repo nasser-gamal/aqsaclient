@@ -4,20 +4,17 @@ import Section from './Section';
 import depositeImg from '../../assets/icons/deposit.png';
 import withdrawImg from '../../assets/icons/withdraw.png';
 import transferImg from '../../assets/icons/transfer.png';
-// import reportImg from '../../assets/icons/report.png';
 import DropDown from './DropDown';
 import { useState } from 'react';
 import { DateInput } from '../../utils/formatDate';
-import BankReportTable from '../Reports/BankAccount/Table/BankReportTable';
+import BankReportTable from './Table';
 import { useFindUserTransactionsQuery } from '../../app/features/reports/reportsApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-// import ReportPeriod from './ReportPeriod/ReportPeriod';
 import Pagination from '../UI/Pagination/Pagination';
-import { TbRefresh } from 'react-icons/tb';
 import { useEffect } from 'react';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
-import CustomButton from '../common/Button/CustomButton';
+import EntrySelect from '../UI/LimitSelect/EntrySelect';
 
 
 export default function Index() {
@@ -147,9 +144,10 @@ export default function Index() {
             </h4>
             <div style={{
               width: '100%',
-              textAlign: 'right'
+              textAlign: 'left'
             }}>
-              <span>
+              <EntrySelect />
+              {/* <span>
                 <TbRefresh style={{
                   fontSize: '26px',
                   color: 'black',
@@ -157,7 +155,7 @@ export default function Index() {
                 }}
                   onClick={() => refetch()}
                 />
-              </span>
+              </span> */}
             </div>
             <BankReportTable data={data} />
             {data && data?.transactions?.transactions.length < 1 && <div
