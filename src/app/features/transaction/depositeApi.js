@@ -32,6 +32,13 @@ export const depositeApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['deposite', 'bankAccounts', 'userTransaction'],
     }),
+    restoreDeposite: builder.mutation({
+      query: (transactionId) => ({
+        url: `${apiEndpoints.deposite.RESTORE_DEPOSITE}/${transactionId}`,
+        method: 'put',
+      }),
+      invalidatesTags: ['deposite', 'bankAccounts', 'userTransaction'],
+    }),
   }),
 });
 
@@ -40,4 +47,5 @@ export const {
   useCreateDepositeMutation,
   useUpdateDepositeMutation,
   useDeleteDepositeMutation,
+  useRestoreDepositeMutation,
 } = depositeApiSlice;

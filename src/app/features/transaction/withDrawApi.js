@@ -32,6 +32,13 @@ export const withDrawApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['withdraw', 'bankAccounts', 'userTransaction'],
     }),
+    restoreWithDraw: builder.mutation({
+      query: (transactionId) => ({
+        url: `${apiEndpoints.withdraw.RESTORE_WITHDRAW}/${transactionId}`,
+        method: 'put',
+      }),
+      invalidatesTags: ['withdraw', 'bankAccounts', 'userTransaction'],
+    }),
   }),
 });
 
@@ -40,4 +47,5 @@ export const {
   useCreateWithDrawMutation,
   useUpdateWithDrawMutation,
   useDeleteWithDrawMutation,
+  useRestoreWithDrawMutation,
 } = withDrawApiSlice;

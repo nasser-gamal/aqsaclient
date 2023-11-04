@@ -492,7 +492,7 @@ export default function AddEditWithdraw() {
 
           />
         </div>
-        {balance.before && !childrenProps?.show && <div className="balance">
+        {balance.before  && !childrenProps?.show && <div className="balance">
           <ul>
             <li>
               رصيد قبل

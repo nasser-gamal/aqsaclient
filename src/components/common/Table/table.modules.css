@@ -44,5 +44,8 @@ table thead th.sort::after {
   right: 0.5em;
   content: '↓';
 }
-
+.row-delete td {
+  text-decoration: line-through;
+  color: red;
+}
 /* End Table  */

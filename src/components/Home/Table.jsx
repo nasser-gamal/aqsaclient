@@ -9,10 +9,12 @@ import moreImg from '../../assets/icons/add-button.png'
 import { openModal } from '../../app/features/modal/modalSlice';
 import EditButton from '../UI/TableButtons/EditButton';
 import DeleteButton from '../UI/TableButtons/DeleteButton';
-import { useDeleteDepositeMutation } from '../../app/features/transaction/depositeApi';
+import { useDeleteDepositeMutation, } from '../../app/features/transaction/depositeApi';
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import { notify } from '../../utils/notify';
+import { useDeleteWithDrawMutation } from '../../app/features/transaction/withDrawApi';
+import ResotreButton from '../UI/RestoreData/ResotreButton';
 
 export default function BankReportTable({ data }) {
   const dispatch = useDispatch();
@@ -108,25 +110,29 @@ export default function BankReportTable({ data }) {
 
 
   const [deleteDeposite, { isLoading }] = useDeleteDepositeMutation();
+  const [deletedWithdraw, { isLoading: deleteLoading }] = useDeleteWithDrawMutation();
+
+
+  const handleDelete = async (type, transactionId) => {
+    try {
+      const response = type == 'deposite' ? await deleteDeposite(transactionId).unwrap()
+        :
+        deletedWithdraw(transactionId).unwrap()
+      notify('success', response.message);
+    } catch (err) {
+      notify('error', err.data.message);
+    }
+  }
+
+
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading || deleteLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isLoading]);
-
-
-
-  const handleDelete = async (transactionId) => {
-    try {
-      const response = await deleteDeposite(transactionId).unwrap();
-      notify('success', response.message)
-    } catch (err) {
-      notify('error', err.data.message)
-    }
-  }
+  }, [deleteLoading, dispatch, isLoading]);
 
 
 
@@ -138,7 +144,7 @@ export default function BankReportTable({ data }) {
         <tbody>
           {
             data?.transactions.transactions.map(transaction => {
-              return <tr key={transaction.id}>
+              return <tr key={transaction.id} className={transaction.isDeleted && 'row-delete'}>
                 {/* <td>
                   {transaction.id}
                 </td> */}
@@ -192,27 +198,39 @@ export default function BankReportTable({ data }) {
                     }))}
                   />
                 </td>
-                <td>
-                  <EditButton
-                    editProps={{
-                      name: transaction.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
-                      modalTitle: 'تعديل العملية',
-                      status: 'تعديل',
-                      childrenProps: {
-                        transaction,
-                        width: transaction.type === 'سحب' && '700px'
-                      }
-                    }}
-                  />
-                </td>
-                <td>
-                  <DeleteButton onClick={() => handleDelete(transaction.id)} />
-                </td>
+                {transaction.isDeleted ? <>
+                  <td colSpan={'2'}>
+                    <ResotreButton
+                      type={transaction.type === 'سحب' ? 'withdraw' : 'deposite'}
+                      transactionId={transaction.id}
+                    />
+                  </td>
+                </> :
+                  <>
+                    <td>
+                      <EditButton
+                        editProps={{
+                          name: transaction.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
+                          modalTitle: 'تعديل العملية',
+                          status: 'تعديل',
+                          childrenProps: {
+                            transaction,
+                            width: transaction.type === 'سحب' && '700px'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <DeleteButton
+                        onClick={() => handleDelete(transaction.type === 'سحب' ? 'withdraw'
+                          : 'deposite', transaction.id)} />
+                    </td></>
+                }
               </tr>
             })
           }
           <tr className='last-child'>
-            <td colSpan={4}>
+            <td colSpan={3}>
               اجمالي العمليات
             </td>
             <td>

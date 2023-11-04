@@ -63,6 +63,8 @@ const apiEndpoints = {
     GET_DEPOSITES: '/transaction/deposite/getAll',
     UPDATE_DEPOSITE: '/transaction/deposite/update',
     DELETE_DEPOSITE: '/transaction/deposite/delete',
+    RESTORE_DEPOSITE: '/transaction/deposite/restore',
+
   },
 
   withdraw: {
@@ -70,6 +72,7 @@ const apiEndpoints = {
     GET_WITHDRAWS: '/transaction/withdraw/getAll',
     UPDATE_WITHDRAW: '/transaction/withdraw/update',
     DELETE_WITHDRAW: '/transaction/withdraw/delete',
+    RESTORE_WITHDRAW: '/transaction/withdraw/restore',
   },
 
   transfer: {
