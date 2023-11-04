@@ -195,10 +195,13 @@ export default function BankReportTable({ data }) {
                 <td>
                   <EditButton
                     editProps={{
-                      name: 'AddEditDeposit',
+                      name: transaction.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
                       modalTitle: 'تعديل العملية',
                       status: 'تعديل',
-                      childrenProps: { transaction }
+                      childrenProps: {
+                        transaction,
+                        width: transaction.type === 'سحب' && '700px'
+                      }
                     }}
                   />
                 </td>
