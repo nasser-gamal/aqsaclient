@@ -1,0 +1,21 @@
+.new-group .users {
+  max-height: 180px;
+  overflow: auto;
+  margin: 5px 0;
+  padding: 5px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.185);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.192);
+}
+.new-group .users  li {
+  padding: 5px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.new-group .users  li:hover ,
+.new-group .users  li.active
+{
+  background-color: #3498db17;
+}

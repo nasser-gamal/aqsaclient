@@ -28,6 +28,7 @@ import AddEditAddionalTreasury from '../../AddionalTreasury/AddEditAddionalTreas
 import DeleteConfirm from '../../DeleteConfirm/DeleteConfirm';
 import AddEditDues from '../../Dues/AddEditDues/AddEditDues';
 import ReportPeriod from '../../Home/ReportPeriod/ReportPeriod';
+import AddNewGroup from '../../chat/NewGroup/AddNewGroup';
 
 export default function ModalManager() {
 
@@ -65,7 +66,7 @@ export default function ModalManager() {
     TransactionInfo,
     AddEditApp,
     AddEditDues,
-    ReportPeriod
+    ReportPeriod, AddNewGroup
   };
 
   let renderComponent;

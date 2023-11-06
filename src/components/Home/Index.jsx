@@ -28,7 +28,7 @@ export default function Index() {
     }
   );
 
- 
+
   const [form, setForm] = useState({
     bankAccountId: '',
     bankAccountName: '',
@@ -43,7 +43,7 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
 
 
-  const { data, isLoading, isFetching, refetch } = useFindUserTransactionsQuery({
+  const { data, isLoading, isFetching } = useFindUserTransactionsQuery({
     bankAccountId: form.bankAccountId,
     startDate: form?.startDate,
     endDate: form?.endDate,
@@ -62,10 +62,7 @@ export default function Index() {
     }
   }, [isLoading, isFetching, dispatch, getLoading, getFetching])
 
-  // const handleBoxClick = () => {
-  //   setSkip(true)
-  //   setShowForm(true)
-  // }
+
 
   return (
     <>
@@ -116,23 +113,8 @@ export default function Index() {
                 childrenProps: { bankAccountId: form.bankAccountId, bankAccountName: form.bankAccountName }
               }
             },
-            // {
-            //   boxTitle: 'تقرير',
-            //   img: reportImg,
-            //   click: handleBoxClick
-            // },
           ]
         } />
-
-        {/* {showForm &&
-          <ReportPeriod
-            form={form}
-            setForm={setForm}
-            setSkip={setSkip}
-            setShowForm={setShowForm}
-            refetch={refetch}
-          />
-        } */}
 
         {showForm && data && data?.transactions?.transactions.length > 0 &&
           <>

@@ -224,7 +224,8 @@ export default function BankReportTable({ data }) {
                       <DeleteButton
                         onClick={() => handleDelete(transaction.type === 'سحب' ? 'withdraw'
                           : 'deposite', transaction.id)} />
-                    </td></>
+                    </td>
+                  </>
                 }
               </tr>
             })

@@ -40,12 +40,19 @@ import AgentForUsersPage from "../pages/AgentPage/AgentPage";
 import SegmentsPageForAll from "../pages/SegmentForAll/Segments.Page";
 import DuesPage from "../pages/Dues/DuesPage";
 import Page404 from "../pages/Page404/Page404";
+import Chat from "../pages/chat/Chat";
 
 
 const Router = () => {
 
   return (
     <Routes>
+       {/* <Route
+          path="/chat"
+          element={
+            <Chat />
+          }
+        /> */}
       <Route element={<Page404 />} path="*" />
       <Route element={<AdminRoute />}>
         <Route
@@ -62,6 +69,7 @@ const Router = () => {
         />
       </Route>
       <Route element={<PrivateRoute />}>
+       
         <Route
           path="/"
           element={

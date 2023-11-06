@@ -14,6 +14,7 @@ import { useDeleteDepositeMutation } from '../../../../app/features/transaction/
 import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { notify } from '../../../../utils/notify';
+import ResotreButton from '../../../UI/RestoreData/ResotreButton';
 
 export default function DepositTable({ data }) {
   const dispatch = useDispatch();
@@ -132,9 +133,6 @@ export default function DepositTable({ data }) {
     }
   }
 
-
-
-
   return (
     <Table tableHead={tableHead}>
       <tbody>
@@ -190,19 +188,30 @@ export default function DepositTable({ data }) {
                   }))}
                 />
               </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditDeposit',
-                    modalTitle: 'تعديل العملية',
-                    status: 'تعديل',
-                    childrenProps: { transaction }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(transaction.id)} />
-              </td>
+              {transaction.isDeleted ? <>
+                <td colSpan={'2'}>
+                  <ResotreButton
+                    type={'deposite'}
+                    transactionId={transaction.id}
+                  />
+                </td>
+              </> :
+                <>
+                  <td>
+                    <EditButton
+                      editProps={{
+                        name: 'AddEditDeposit',
+                        modalTitle: 'تعديل العملية',
+                        status: 'تعديل',
+                        childrenProps: { transaction }
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <DeleteButton onClick={() => handleDelete(transaction.id)} />
+                  </td>
+                </>}
+
             </tr>
           })
         }

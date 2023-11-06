@@ -1,0 +1,47 @@
+.chat-content {
+  padding: 20px 0px 20px 10px;
+  height: calc(100vh - 130px);
+  overflow: auto;
+  /* background-image: url(../../../assets/wallpaper/main-qimg-e19a527f2a8c3b92dff775188b378067-lq.jfif); */
+  /* background-position: center; */
+}
+.chat-content  li  {
+  width: fit-content;
+  margin-bottom: 15px;
+}
+.chat-content  li.left {
+  direction: ltr;
+  float: left;
+  clear:  both;
+}
+.chat-content  li h5 {
+  width: fit-content;
+  background-color: rgb(94 157 199);
+  padding: 3px;
+  margin: 10px;
+  border-radius:6px;
+  color: white;
+  font-size: 13px;
+}
+.chat-content  li  p {
+  background-color: #89db853d;
+  padding: 10px;
+  position: relative;
+  border-radius: 5px;
+  font-size: 13px;
+  max-width: 400px;
+  margin: 0 10px;
+}
+.chat-content  li  p:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  right: 0;
+  border-color: transparent transparent #89db853d transparent;
+  border-style: solid;
+  border-width: 8px;
+}
+.chat-content  li.left p:before {
+  left: 0;
+  right: auto;
+}

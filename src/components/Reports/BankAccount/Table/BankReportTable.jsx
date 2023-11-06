@@ -111,7 +111,7 @@ export default function BankReportTable({ data }) {
         <tbody>
           {
             data?.transactions.transactions.map(transaction => {
-              return <tr key={transaction.id}>
+              return <tr key={transaction.id} className={transaction?.isDeleted && 'row-delete'}>
                 <td>
                   {transaction.id}
                 </td>

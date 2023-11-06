@@ -113,7 +113,7 @@ export default function DayTable({ data }) {
         <tbody>
           {
             data?.transactions.transactions.map(transaction => {
-              return <tr key={transaction.id}>
+              return <tr key={transaction.id} className={transaction?.isDeleted && 'row-delete'}>
                 <td>
                   {transaction.id}
                 </td>
@@ -121,7 +121,7 @@ export default function DayTable({ data }) {
                   <DateAndTime createdAt={transaction.date} />
                 </td>
                 <td>
-                {transaction?.bankAccount?.accountName || 'غير معروف'}
+                  {transaction?.bankAccount?.accountName || 'غير معروف'}
                 </td>
                 <td>
                   {transaction.number}

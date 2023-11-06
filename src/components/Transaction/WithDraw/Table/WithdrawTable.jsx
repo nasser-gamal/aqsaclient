@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { notify } from '../../../../utils/notify';
 import { useDeleteWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
+import ResotreButton from '../../../UI/RestoreData/ResotreButton';
 
 export default function DepositTable({ data }) {
   const dispatch = useDispatch();
@@ -189,19 +190,29 @@ export default function DepositTable({ data }) {
                   }))}
                 />
               </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditWithdraw',
-                    modalTitle: 'تعديل عملية سحب',
-                    status: 'تعديل',
-                    childrenProps: { transaction, width: '700px' }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(transaction.id)} />
-              </td>
+              {transaction.isDeleted ? <>
+                <td colSpan={'2'}>
+                  <ResotreButton
+                    type={'withdraw'}
+                    transactionId={transaction.id}
+                  />
+                </td>
+              </> : <>
+                <td>
+                  <EditButton
+                    editProps={{
+                      name: 'AddEditWithdraw',
+                      modalTitle: 'تعديل عملية سحب',
+                      status: 'تعديل',
+                      childrenProps: { transaction, width: '700px' }
+                    }}
+                  />
+                </td>
+                <td>
+                  <DeleteButton onClick={() => handleDelete(transaction.id)} />
+                </td>
+              </>}
+
             </tr>
           })
         }

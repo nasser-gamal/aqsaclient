@@ -6,6 +6,12 @@ export default function CommissionsReportTable({ data }) {
 
   const tableHead = [
     {
+      title: "المركز",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
       title: "الوكيل",
       className: "",
       order: "",
@@ -28,6 +34,9 @@ export default function CommissionsReportTable({ data }) {
             data?.commissions.map((comission, index) => {
               return <tr key={index}>
                 <td>
+                  {comission?.agent.accountNumber}
+                </td>
+                <td>
                   {comission?.agent.userName}
                 </td>
                 <td>
@@ -37,7 +46,7 @@ export default function CommissionsReportTable({ data }) {
             })
           }
           <tr className='last-child'>
-            <td colSpan={1}>
+            <td colSpan={2}>
               الاجمالي
             </td>
             <td>
