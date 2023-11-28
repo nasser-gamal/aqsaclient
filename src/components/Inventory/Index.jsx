@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DaySelect from "./Date/Date";
 import { useFindInventoryQuery } from "../../app/features/inventory/inventoryApi";
 import { notify } from "../../utils/notify";
-import { DateInput } from "../../utils/formatDate";
+import { getCurrentDateTime } from "../../utils/formatDate";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../app/features/loader/loaderSlice";
 
@@ -15,8 +15,8 @@ export default function Index() {
 
 
   const [form, setForm] = useState({
-    startDate: DateInput(),
-    endDate: DateInput(),
+    startDate: getCurrentDateTime(),
+    endDate: getCurrentDateTime(),
   });
 
   const [skip, setSkip] = useState(true);

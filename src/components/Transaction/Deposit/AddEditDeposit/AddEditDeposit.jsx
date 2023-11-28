@@ -27,7 +27,7 @@ export default function AddEditDeposit({ context, id, innerProps }) {
 
 
   const [form, setForm] = useState({
-    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.data?.id || "",
+    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.bankAccount?.id || "",
     isPercentage: innerProps?.data?.isPercentage || false,
     date: innerProps?.data?.date?.split(".")[0] || DateTimeInput(),
     number: innerProps?.data?.number || "",
@@ -142,16 +142,15 @@ export default function AddEditDeposit({ context, id, innerProps }) {
         }
         <form onSubmit={onSubmit}>
           <div className='deposite-form'>
-            {innerProps?.data || innerProps?.show ?
+            {innerProps?.bankAccount || innerProps?.show ?
               <TextInput m={'10 0'}
                 w={'100%'}
                 type='text'
                 name='bankAccountId'
+                value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
-
-                value={innerProps?.data?.accountName || innerProps?.data?.bankAccount?.accountName}
                 onChange={(e) => onChange(e)}
-                disabled={innerProps?.show || innerProps?.data}
+                disabled={innerProps?.show || innerProps?.bankAccount}
               />
               :
               <DropDown

@@ -6,7 +6,7 @@ import FormButtons from '../../UI/FormButtons/FormButtons';
 
 
 import { notify } from '../../../utils/notify';
-import { DateInput } from '../../../utils/formatDate';
+import { getCurrentDateTime } from '../../../utils/formatDate';
 import { validateDues } from '../../../utils/validation';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
@@ -20,7 +20,7 @@ export default function AddEditDues({ context, id, innerProps }) {
 
   const [form, setForm] = useState({
     amount: innerProps?.data.amount || "",
-    date: innerProps?.data.date.split('T')[0] || DateInput(),
+    date: innerProps?.data.date.split('T')[0] || getCurrentDateTime(),
     note: innerProps?.data.note || ""
   });
 

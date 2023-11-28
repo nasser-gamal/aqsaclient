@@ -7,7 +7,7 @@ import FormButtons from '../../UI/FormButtons/FormButtons';
 
 import { notify } from '../../../utils/notify';
 import { validateTreasury } from '../../../utils/validation';
-import { DateInput } from '../../../utils/formatDate';
+import { getCurrentDateTime } from '../../../utils/formatDate';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateProviderTreasuryMutation, useUpdateProviderTreasuryMutation } from '../../../app/features/providerTreasury/providerTreasuryApi';
@@ -17,7 +17,7 @@ export default function AddEditProviderTreasury({ context, id, innerProps }) {
 
   const [form, setForm] = useState({
     amount: innerProps?.data.amount || "",
-    date: innerProps?.data.date.split('T')[0] || DateInput(),
+    date: innerProps?.data.date.split('T')[0] || getCurrentDateTime(),
     note: innerProps?.data.note || ""
   });
 

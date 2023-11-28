@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
-import { DateInput } from "../../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../../utils/formatDate";
 import Pagination from '../../UI/Pagination/Pagination';
 import EmployReportTable from "./Table/EmployReportTable";
 import { notify } from "../../../utils/notify";
@@ -27,8 +27,8 @@ export default function Index() {
 
   // const [form, setForm] = useState({
   //   userId: "",
-  //   startDate: DateInput(),
-  //   endDate: DateInput()
+  //   startDate: getCurrentDateTime(),
+  //   endDate: getCurrentDateTime()
   // });
 
   const [features, setFeatures] = useState({
@@ -37,8 +37,8 @@ export default function Index() {
     // fields: '',
     // sort: '',
     // keyword: '',
-    'date[gte]': DateInput(),
-    'date[lte]': DateInput()
+    'date[gte]': getCurrentDateTime(),
+    'date[lte]': getTomorrowDateTime()
   })
 
 

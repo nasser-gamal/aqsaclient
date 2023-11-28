@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Pagination from '../../UI/Pagination/Pagination';
 import DaySelect from "./Select/Date";
 import { useGetFeesQuery } from "../../../app/features/fees/feesApi";
-import { DateInput } from "../../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../../utils/formatDate";
 import LimitSelect from "../../UI/LimitSelect/LimitSelect";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
@@ -23,8 +23,8 @@ export default function Index() {
     fields: '',
     sort: '',
     keyword: '',
-    'createdAt[gte]': DateInput(),
-    'createdAt[lte]': DateInput()
+    'createdAt[gte]': getCurrentDateTime(),
+    'createdAt[lte]': getTomorrowDateTime()
   })
 
 

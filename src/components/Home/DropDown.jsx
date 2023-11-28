@@ -27,7 +27,6 @@ export default function DropDown({ form, setForm, setBalance, setSkip, data, set
     <Select
       w={'100%'}
       m={'10 0'}
-
       // mt={'30px'}
       data={options}
       onChange={onChange}

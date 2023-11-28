@@ -5,7 +5,7 @@ import withdrawImg from '../../assets/icons/withdraw.png';
 import transferImg from '../../assets/icons/transfer.png';
 import DropDown from './DropDown';
 import { useState } from 'react';
-import { DateInput } from '../../utils/formatDate';
+import { getCurrentDateTime } from '../../utils/formatDate';
 import BankReportTable from './Table';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
@@ -21,32 +21,23 @@ import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '
 export default function Index() {
   const dispatch = useDispatch();
 
-  const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery(
-    {
-      limit: 10000,
-      sort: '',
-      keyword: '',
-    }
-  );
+  const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery({ limit: 10000, });
 
 
   const [form, setForm] = useState({
     bankAccount: '',
-    startDate: DateInput(),
+    startDate: getCurrentDateTime(),
   });
 
 
-  const nextDay = new Date(DateInput());
+  const nextDay = new Date(getCurrentDateTime());
   nextDay.setDate(nextDay.getDate() + 1);
 
 
   const [features, setFeatures] = useState({
     page: '',
     limit: '',
-    fields: '',
-    sort: '',
-    keyword: '',
-    'date[gte]': DateInput(),
+    'date[gte]': getCurrentDateTime(),
   })
 
 
@@ -58,7 +49,7 @@ export default function Index() {
 
 
   const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features, { skip });
-  const { data: transactionReports, isLoading: reportsLoading, error } = useGetTransactionAggregationsQuery(features, { skip });
+  const { data: transactionReports, isLoading: reportsLoading } = useGetTransactionAggregationsQuery(features, { skip });
 
   useEffect(() => {
     if (getLoading || getFetching || isLoading || reportsLoading || isFetching) {
@@ -89,7 +80,7 @@ export default function Index() {
             setFeatures={setFeatures}
           />
         </div>
-        <Divider my="lg" label="الاقصي للدفع الالكتروني" labelPosition="center" />
+        <Divider color={'#8e94a1'} my="lg" label="الاقصي للدفع الالكتروني" labelPosition="center" />
 
         <Grid justify='center' align='center' m={'25 0 30'}>
           <Grid.Col
@@ -109,7 +100,7 @@ export default function Index() {
                   modal: 'AddEditDeposit',
                   title: 'أضافة ايداع جديد',
                   innerProps: {
-                    data: form.bankAccount,
+                    bankAccount: form.bankAccount,
                   }
                 })
               }
@@ -142,7 +133,7 @@ export default function Index() {
                   modal: 'AddEditWithdraw',
                   title: 'أضافة سحب جديد',
                   innerProps: {
-                    data: form.bankAccount
+                    bankAccount: form.bankAccount
                   }
                 })
               }

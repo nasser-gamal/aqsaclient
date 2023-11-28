@@ -2,11 +2,8 @@
 
 import { Table } from '@mantine/core';
 import CustomTable from '../../../common/CustomTable/CustomTable';
-import { commissionApiSlice } from '../../../../app/features/commissions/commissionApi';
-import { useEffect, useState } from 'react';
 
 export default function CommissionsReportTable({ data }) {
-  const [totalCommissions, setTotalCommission] = useState()
 
   const theads = [
     {

@@ -20,17 +20,23 @@ export const formattedTime = (value) => {
   return formattedTime;
 };
 
-export const DateInput = () => {
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = `${now.getMonth() + 1}`.padStart(2, '0');
-    const day = `${now.getDate()}`.padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-  return getCurrentDateTime();
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
+export const getCurrentDateTime = () => {
+  const now = new Date();
+  return formatDate(now);
+};
+
+export const getTomorrowDateTime = () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return formatDate(tomorrow);
+};
 
 // function DateTimeInput() {
 //   const getCurrentDateTime = () => {

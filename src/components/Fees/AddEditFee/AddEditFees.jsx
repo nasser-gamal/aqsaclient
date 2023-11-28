@@ -10,7 +10,7 @@ import { validateFee } from '../../../utils/validation';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateFeeMutation, useUpdateFeeMutation } from '../../../app/features/fees/feesApi';
-import { DateInput } from '../../../utils/formatDate';
+import { getCurrentDateTime } from '../../../utils/formatDate';
 import { modals } from '@mantine/modals';
 import { TextInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
@@ -20,7 +20,7 @@ export default function AddEditFees({ innerProps }) {
 
   const [form, setForm] = useState({
     amount: innerProps?.data.amount || "",
-    date: innerProps?.data.date.split("T")[0] || DateInput(),
+    date: innerProps?.data.date.split("T")[0] || getCurrentDateTime(),
     note: innerProps?.data.note || ""
   });
 

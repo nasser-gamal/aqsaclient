@@ -6,7 +6,7 @@ import DaySelect from "./Date";
 import { notify } from '../../../utils/notify';
 
 import './index.modules.css';
-import { DateInput } from "../../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../../utils/formatDate";
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import LimitSelect from '../../UI/LimitSelect/LimitSelect';
@@ -27,8 +27,8 @@ export default function Index() {
 
   // const [form, setForm] = useState({
   //   bankAccountId: "",
-  //   startDate: DateInput(),
-  //   endDate: DateInput()
+  //   startDate: getCurrentDateTime(),
+  //   endDate: getCurrentDateTime()
   // });
 
 
@@ -36,8 +36,8 @@ export default function Index() {
     page: '',
     limit: '',
     sort: '',
-    'date[gte]': DateInput(),
-    'date[lte]': DateInput()
+    'date[gte]': getCurrentDateTime(),
+    'date[lte]': getTomorrowDateTime()
   })
 
   const [skip, setSkip] = useState(true);

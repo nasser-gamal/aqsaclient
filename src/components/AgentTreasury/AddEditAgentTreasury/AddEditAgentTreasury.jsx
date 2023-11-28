@@ -10,7 +10,7 @@ import { validateTreasury } from '../../../utils/validation';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateAgentTreasuryMutation, useUpdateAgentTreasuryMutation } from '../../../app/features/agentTreasury/agentTreasuryApi';
-import { DateInput } from '../../../utils/formatDate';
+import { getCurrentDateTime } from '../../../utils/formatDate';
 import { TextInput } from '@mantine/core';
 
 export default function AddEditAgentTreasury({ context, id, innerProps }) {
@@ -18,7 +18,7 @@ export default function AddEditAgentTreasury({ context, id, innerProps }) {
 
   const [form, setForm] = useState({
     amount: innerProps?.data.amount || "",
-    date: innerProps?.data.date.split('T')[0] || DateInput(),
+    date: innerProps?.data.date.split('T')[0] || getCurrentDateTime(),
     note: innerProps?.data.note || ""
   });
 

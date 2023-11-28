@@ -3,7 +3,7 @@ import Pagination from '../../UI/Pagination/Pagination';
 import DaySelect from "./Select/Date";
 import DayTable from "./Table/DayTable";
 import { notify } from "../../../utils/notify";
-import { DateInput } from "../../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../../utils/formatDate";
 import LimitSelect from "../../UI/LimitSelect/LimitSelect";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
@@ -21,8 +21,8 @@ export default function Index() {
   const dispatch = useDispatch()
 
   // const [form, setForm] = useState({
-  //   startDate: DateInput(),
-  //   endDate: DateInput(),
+  //   startDate: getCurrentDateTime(),
+  //   endDate: getCurrentDateTime(),
   // });
 
   const [skip, setSkip] = useState(true);
@@ -34,8 +34,8 @@ export default function Index() {
     fields: '',
     sort: '',
     keyword: '',
-    'date[gte]': DateInput(),
-    'date[lte]': DateInput()
+    'date[gte]': getCurrentDateTime(),
+    'date[lte]': getTomorrowDateTime()
   });
 
 
@@ -86,7 +86,7 @@ export default function Index() {
       {data && data?.data?.length > 0 &&
         <>
           <Flex justify={'space-between'}>
-            <ExportButton/>
+            <ExportButton />
             <Group>
               <TbRefresh style={{
                 fontSize: '26px',

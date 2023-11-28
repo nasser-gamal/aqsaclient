@@ -22,7 +22,7 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
   const [form, setForm] = useState({
     date: innerProps?.data?.date?.split(".")[0] || DateTimeInput(),
     isPercentage: innerProps?.data?.isPercentage || false,
-    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.data?.id || "",
+    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.bankAccount?.id || "",
     number: innerProps?.data?.number || "",
     amount: innerProps?.data?.amount || "",
     agentDeduction: innerProps?.data?.agentDeduction || 0,
@@ -199,15 +199,15 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
       }
       <form onSubmit={onSubmit}>
         <Grid p={"10 10"} justify='space-between' align='center'>
-          {innerProps?.data ?
+          {innerProps?.bankAccount || innerProps?.show ?
             <Grid.Col span={{ base: 6, md: 3, lg: 3 }}>
               <TextInput
                 type='text'
                 name='bankAccountId'
-                value={innerProps?.data?.accountName || innerProps?.data?.bankAccount?.accountName}
+                value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
                 onChange={(e) => onChange(e)}
-                disabled={innerProps?.show || innerProps?.data}
+                disabled={innerProps?.show || innerProps?.bankAccount}
               />
             </Grid.Col>
             :

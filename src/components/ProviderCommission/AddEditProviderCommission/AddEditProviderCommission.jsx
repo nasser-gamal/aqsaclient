@@ -9,7 +9,7 @@ import { notify } from '../../../utils/notify';
 import { validateProviderCommission } from '../../../utils/validation';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { DateInput } from '../../../utils/formatDate';
+import { getCurrentDateTime } from '../../../utils/formatDate';
 import { useCreateProviderCommissionMutation, useUpdateProviderCommissionMutation } from '../../../app/features/provider/providerCommissions';
 import ProviderSelect from './ProviderSelect';
 import { TextInput } from '@mantine/core';
@@ -20,7 +20,7 @@ export default function AddEditProviderCommission({ context, id, innerProps }) {
   const [form, setForm] = useState({
     providerId: innerProps?.data?.provider.id || "",
     commission: innerProps?.data?.commission || "",
-    date: innerProps?.data?.date.split('T')[0] || DateInput(),
+    date: innerProps?.data?.date.split('T')[0] || getCurrentDateTime(),
     note: innerProps?.data?.note || ""
   });
 

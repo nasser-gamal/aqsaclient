@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DaySelect from "./Date/Date";
 import { useFindAllProfitsQuery } from "../../app/features/treasury/profitsApi";
 import { notify } from "../../utils/notify";
-import { DateInput } from "../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../utils/formatDate";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../app/features/loader/loaderSlice";
 // import axios from "axios";
@@ -19,8 +19,8 @@ export default function Index() {
 
 
   const [form, setForm] = useState({
-    startDate: DateInput(),
-    endDate: DateInput(),
+    startDate: getCurrentDateTime(),
+    endDate: getTomorrowDateTime(),
   });
 
   const [skip, setSkip] = useState(true);
@@ -39,7 +39,7 @@ export default function Index() {
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isLoading,  isFetching]);
+  }, [dispatch, isLoading, isFetching]);
 
 
   const handleClick = (e) => {
@@ -88,10 +88,10 @@ export default function Index() {
               </span>
             </div>
           </div>
-        <ProfitTable
-          data={data}
+          <ProfitTable
+            data={data}
           // reports={transactionReports}
-        />
+          />
         </>
       }
     </>

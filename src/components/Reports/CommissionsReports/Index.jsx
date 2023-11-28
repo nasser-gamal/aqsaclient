@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import DaySelect from "./Select/Date";
 import { useFindDailyCommissionsQuery } from "../../../app/features/reports/reportsApi";
 import { notify } from "../../../utils/notify";
-import { DateInput } from "../../../utils/formatDate";
+import { getCurrentDateTime, getTomorrowDateTime } from "../../../utils/formatDate";
 import LimitSelect from "../../UI/LimitSelect/LimitSelect";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
 
 
@@ -17,13 +17,13 @@ export default function Index() {
 
 
   const [form, setForm] = useState({
-    startDate: DateInput(),
-    endDate: DateInput(),
+    startDate: getCurrentDateTime(),
+    endDate: getTomorrowDateTime(),
   });
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isFetching, refetch, error } = useFindDailyCommissionsQuery({
+  const { data, isFetching, refetch } = useFindDailyCommissionsQuery({
     startDate: form.startDate,
     endDate: form.endDate,
     limit: 10000,
