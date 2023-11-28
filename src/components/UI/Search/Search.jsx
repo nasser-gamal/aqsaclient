@@ -10,8 +10,6 @@ export default function Search({ options, features, setFeatures }) {
 
   const onClick = () => {
     setFeatures({ ...features, [searchBy]: keyword.trim() });
-    console.log(features)
-    console.log(searchBy)
   }
 
   return (

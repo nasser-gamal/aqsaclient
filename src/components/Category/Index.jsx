@@ -22,7 +22,6 @@ export default function Index() {
 
   const { data, isLoading, isFetching } = useFindAllCategoriesQuery(features);
 
-  console.log(data)
 
   useEffect(() => {
     if (isLoading || isFetching) {

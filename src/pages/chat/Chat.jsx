@@ -16,7 +16,6 @@ export default function Chat() {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat`, {
         withCredentials: true,
       });
-      console.log(response)
       setChats(response?.data)
     } catch (err) {
       console.log(err)

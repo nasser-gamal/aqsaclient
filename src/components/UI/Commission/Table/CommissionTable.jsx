@@ -10,8 +10,6 @@ import ExportButton from '../../ExportButton/ExportButton';
 
 export default function CommissionTable({ data, isLoading, isFetching }) {
 
-  console.log(data)
-
   if (isLoading || isFetching) {
     return <Spinner />
   }

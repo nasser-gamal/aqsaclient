@@ -24,7 +24,6 @@ export default function Agents() {
   const { data, isLoading, error } = useFindAllUsersQuery(features);
   const dispatch = useDispatch()
 
-  console.log(error)
   useEffect(() => {
     if (isLoading) {
       dispatch(showLoader())

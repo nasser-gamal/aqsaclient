@@ -24,7 +24,6 @@ export default function AddNewGroup() {
       users.push(userId);
     }
     setForm({ ...form, users })
-    console.log(form)
   }
 
   return (

@@ -54,7 +54,6 @@ export default function LoginForm() {
         notify('error', error);
       } else {
         const { data } = await login(form).unwrap();
-        console.log(data)
         dispatch(setCredentials({ ...data }));
         if (data.role.name == 'agent') {
           navigate("/agent/commissions");
@@ -63,7 +62,6 @@ export default function LoginForm() {
         }
       }
     } catch (error) {
-      console.log(error)
       notify('error', error.data.message);
     }
   }

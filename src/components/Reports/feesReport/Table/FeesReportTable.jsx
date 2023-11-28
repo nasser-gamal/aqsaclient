@@ -33,7 +33,6 @@ export default function FeesReportTable({ data }) {
       sort: "",
     },
   ]
-  console.log(data)
 
   const rows = data?.map(element => {
     return <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>

@@ -54,7 +54,6 @@ export default function ProviderCommissionTable({ data }) {
 
 
   const [deleteProviderCommission] = useDeleteProviderCommissionMutation();
-  console.log(data)
 
 
 

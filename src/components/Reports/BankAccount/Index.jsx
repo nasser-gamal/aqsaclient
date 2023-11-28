@@ -44,8 +44,6 @@ export default function Index() {
 
   const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
   const { data: transactionReports, isLoading: reportsLoading, refetch: reportRefecth } = useGetTransactionAggregationsQuery(features, { skip });
-  console.log('data---', data)
-  console.log('transactionReports---', transactionReports)
 
 
 

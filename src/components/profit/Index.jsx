@@ -29,7 +29,6 @@ export default function Index() {
     startDate: form.startDate,
     endDate: form.endDate,
   }, { skip });
-  console.log(data)
   // const { data: transactionReports, isLoading: reportsLoading, error } = useGetTransactionAggregationsQuery({ 'date[gte]': form.startDate, 'date[lte]': form.endDate }, { skip });
 
 

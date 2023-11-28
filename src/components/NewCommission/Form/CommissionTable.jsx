@@ -60,7 +60,6 @@ export default function CommissionTable({ data, isLoading, form, setForm, onChan
   }
 
 
-  console.log(form)
   const rows = data?.map((element, index) => {
     return (
       <>
@@ -70,7 +69,6 @@ export default function CommissionTable({ data, isLoading, form, setForm, onChan
           </Table.Td>
         </Table.Tr>
         {element?.subCategories.map((ele, indx) => {
-          console.log(form?.commissions?.subCategories)
           return (
             <Table.Tr color='red' key={ele.id}>
               <Table.Td>{ele.name}</Table.Td>

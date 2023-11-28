@@ -120,7 +120,6 @@ export default function BankReportTable({ data, reports }) {
       list.push(id)
     }
     setChecked(list)
-    console.log(checked)
   }
 
 

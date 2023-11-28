@@ -31,7 +31,6 @@ export default function Index() {
   })
 
   const { data, isLoading, isFetching, error } = useFindAllProviderCommissionsQuery({ ...features });
-console.log(error)
   useEffect(() => {
     if (isLoading || isFetching) {
       dispatch(showLoader())

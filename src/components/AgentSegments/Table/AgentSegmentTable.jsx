@@ -5,7 +5,6 @@ import CustomTable from '../../common/CustomTable/CustomTable';
 
 export default function AgentSegmentsTable({ data }) {
 
-  console.log(data)
   const theads = [
     {
       title: "الشريحة",

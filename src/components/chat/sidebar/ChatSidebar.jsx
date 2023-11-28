@@ -8,9 +8,7 @@ import groupImage from '../../../assets/teamwork.png'
 
 export default function ChatSidebar({ setOpenChat, chats }) {
   const { user } = useSelector(state => state.user)
-  console.log(user)
   const dispatch = useDispatch()
-  console.log(chats)
 
   return (
     <div className='side-bar'>

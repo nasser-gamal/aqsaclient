@@ -22,7 +22,6 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
   const { data, isLoading, isFetching } = useGetCommissionsQuery(query, { skip });
 
-  console.log(data)
   return (
     <>
       <SearchDate

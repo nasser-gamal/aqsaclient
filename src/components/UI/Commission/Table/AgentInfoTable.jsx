@@ -45,7 +45,6 @@ export default function AgentInfoTable({ data }) {
     },
   ];
 
-  console.log('data=-=', data)
 
   const rows =
     <Table.Tr key={data.id}>

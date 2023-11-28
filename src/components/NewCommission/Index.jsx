@@ -69,7 +69,6 @@ export default function Index() {
     e.preventDefault()
     try {
       const error = validateCommission(form);
-      console.log(form)
       if (error) {
         notify('error', error);
       } else {
@@ -78,7 +77,6 @@ export default function Index() {
         resetForm()
       }
     } catch (err) {
-      console.log(err)
       notify('error', err.data.message);
     }
   }

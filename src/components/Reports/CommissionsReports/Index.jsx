@@ -29,8 +29,6 @@ export default function Index() {
     limit: 10000,
   }, { skip });
 
-  console.log(data)
-  console.log(error)
 
 
   useEffect(() => {

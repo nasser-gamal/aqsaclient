@@ -59,7 +59,6 @@ export default function AddEditBankAccount({ innerProps }) {
   }
 
 
-  console.log(innerProps?.data)
   return (
     <form onSubmit={onSubmit}>
       <DropDown

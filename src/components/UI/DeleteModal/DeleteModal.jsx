@@ -9,7 +9,6 @@ export default function DeleteModal({ title, text, handleDelete, id, onCancel, d
   const dispatch = useDispatch()
   const onConfirm = async () => {
     try {
-      console.log(id)
       dispatch(showLoader())
       const response = await handleDelete(id).unwrap();
       notify('success', response.message)

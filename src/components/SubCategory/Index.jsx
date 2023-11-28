@@ -33,7 +33,6 @@ export default function Index() {
   }, [dispatch, isFetching, isLoading]);
 
 
-  console.log(data?.data)
 
   return (
     <>

@@ -368,7 +368,7 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
               type='number'
               label='اجمالي المخصوم من المركز'
               value={innerProps?.data ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
-              disabled={true}
+              disabled
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>

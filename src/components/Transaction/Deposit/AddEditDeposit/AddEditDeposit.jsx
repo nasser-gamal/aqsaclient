@@ -84,7 +84,6 @@ export default function AddEditDeposit({ context, id, innerProps }) {
         context.closeModal(id);
       }
     } catch (error) {
-      console.log(error)
       notify('error', error.data.message);
     }
   }

@@ -72,7 +72,6 @@ export default function AddEditDeposit({ context, id, innerProps }) {
       dispatch(hideLoader())
     }
   }, [dispatch, isLoading])
-  console.log(innerProps)
 
   return (
     <div>
