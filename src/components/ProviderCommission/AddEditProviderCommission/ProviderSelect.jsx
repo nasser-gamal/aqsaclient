@@ -18,7 +18,6 @@ export default function ProviderSelect({ form, setForm, disabled }) {
     setForm({ ...form, providerId: value });
   }
 
-  // console.log(value)
 
   return (
     <Select

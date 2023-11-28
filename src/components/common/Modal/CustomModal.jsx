@@ -8,7 +8,6 @@ import Portal from '../../../utils/Portal';
 
 
 export default function CustomModal({ isOpen, title, innerProps, closeModalHandler, children }) {
-  console.log(innerProps)
   return (
     <Portal>
       <div

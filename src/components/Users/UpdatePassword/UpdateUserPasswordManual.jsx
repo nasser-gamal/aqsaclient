@@ -29,7 +29,6 @@ export default function UpdateUserPasswordManual({ innerProps }) {
 
 
   const onSubmit = async (e) => {
-    console.log('submit')
     e.preventDefault()
     try {
       const error = validatePassword(password);

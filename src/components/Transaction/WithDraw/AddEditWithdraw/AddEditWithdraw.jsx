@@ -19,7 +19,6 @@ export default function AddEditWithdraw() {
     after: innerProps?.data?.balanceAfter || ""
   });
 
-  console.log(balance.before)
   const [form, setForm] = useState({
     date: innerProps?.data?.date?.split(".")[0] || DateTimeInput(),
     isPercentage: innerProps?.data?.isPercentage || false,
@@ -159,7 +158,6 @@ export default function AddEditWithdraw() {
     return profit;
   }
 
-  console.log(innerProps)
 
   return (
     <div>

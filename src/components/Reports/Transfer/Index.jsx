@@ -72,7 +72,6 @@ export default function Index() {
     }
   }
 
-  console.log(error)
   return (
     <>
       <DaySelect

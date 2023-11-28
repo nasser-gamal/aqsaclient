@@ -44,7 +44,6 @@ export default function ChatSidebar({ setOpenChat, chats }) {
       <ul className='groups'>
         {
           chats?.map(chat => {
-            console.log(chat.lastMessageSent)
             return <li key={chat.id} onClick={() => setOpenChat(true)}>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <img style={{ width: '40px' }} src={chat.avatar || groupImage} alt="groupImg" />
