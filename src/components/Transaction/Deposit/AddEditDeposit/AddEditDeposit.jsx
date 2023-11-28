@@ -200,7 +200,7 @@ export default function AddEditDeposit() {
             type='number'
             name='providerFees'
             value={form.providerFees}
-            label='رسوم المزود'
+            label='الرسوم'
             onChange={(e) => onChange(e)}
             disabled={childrenProps?.show}
 
@@ -210,7 +210,7 @@ export default function AddEditDeposit() {
             type='number'
             name='providerPercentage'
             value={form.providerPercentage}
-            label='عائد مزود الخدمة'
+            label='العمولة'
             onChange={(e) => onChange(e)}
             disabled={childrenProps?.show}
 

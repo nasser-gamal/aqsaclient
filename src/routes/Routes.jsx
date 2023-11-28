@@ -183,7 +183,7 @@ const Router = () => {
           element={<InventoryPage />}
         />
         <Route
-          path="/apps"
+          path="/applications"
           element={<AppsPage />}
         />
       </Route>
@@ -206,7 +206,7 @@ const Router = () => {
         />
       </Route>
       <Route
-        path="/applications"
+        path="/apps"
         element={
           <ApplicationsPage />
         }

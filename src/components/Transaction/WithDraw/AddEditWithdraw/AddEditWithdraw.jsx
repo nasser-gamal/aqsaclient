@@ -312,7 +312,7 @@ export default function AddEditWithdraw() {
 
                 />
                 <label htmlFor="isPercentage">
-                  نسبة العائد
+                  نسبة العمولة
                   <span style={{
                     margin: '0 5px',
                     fontSize: "18px",
@@ -329,7 +329,7 @@ export default function AddEditWithdraw() {
             type='number'
             name='providerPercentage'
             value={form.providerPercentage}
-            label='عائد مزود الخدمة'
+			label="عمولة مزود الخدمة"
             onChange={(e) => onChange(e)}
             disabled={childrenProps?.show}
 
@@ -388,7 +388,7 @@ export default function AddEditWithdraw() {
             width={childrenProps?.transaction ? '30%' : '48%'}
             type='number'
             name='agentRevenue'
-            label='عائد المركز'
+            label='عمولة المركز'
             value={form.agentRevenue}
             onChange={(e) => onChange(e)}
             disabled={childrenProps?.show}

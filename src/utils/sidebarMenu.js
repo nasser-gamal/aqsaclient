@@ -247,7 +247,7 @@ export const adminMenu = [
         id: 1,
         title: 'تطبيقات الاقصي',
         imgSrc: list,
-        linkURL: '/apps',
+        linkURL: '/applications',
       },
     ],
     roles: ['superAdmin', 'admin'],
