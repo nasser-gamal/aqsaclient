@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   return (
     <div className={isOpen ? 'aqsa-side-bar show' : 'aqsa-side-bar'}>
-      <CloseIcon />
+      {/* <CloseIcon /> */}
       <SidebarMenu />
     </div>
   )

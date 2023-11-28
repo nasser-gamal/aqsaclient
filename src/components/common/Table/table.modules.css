@@ -8,13 +8,13 @@ table {
   /* border-spacing: 0 10px; */ 
 }
 table thead tr {
-  color: white;
-  background-color: #002d44;
+  /* color: white; */
+  /* background-color: #002d44 !important; */
 }
 table thead tr th {
   font-weight: normal;
   padding: 5px 0;
-  min-width: 80px;
+  min-width: 86px;
   border: 1px solid rgba(0, 0, 0, 0.164);
   /* position: relative; */
 }

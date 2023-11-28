@@ -2,57 +2,58 @@ import { useEffect, useState } from "react";
 import Pagination from '../../UI/Pagination/Pagination';
 import DaySelect from "./Select/Date";
 import DayTable from "./Table/DayTable";
-import { useFindDailyTransactionsQuery } from "../../../app/features/reports/reportsApi";
 import { notify } from "../../../utils/notify";
 import { DateInput } from "../../../utils/formatDate";
-import CustomButton from "../../common/Button/CustomButton";
-import EntrySelect from "../../UI/LimitSelect/EntrySelect";
-import { useDispatch, useSelector } from "react-redux";
+import LimitSelect from "../../UI/LimitSelect/LimitSelect";
+import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
 import axios from "axios";
 import apiEndpoints from "../../../utils/endPoints";
 import { saveAs } from 'file-saver'
 
+import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../../app/features/transaction/transactionApi';
 
 import { TbRefresh } from 'react-icons/tb';
+import { Center, Flex, Group, Text } from "@mantine/core";
+import ExportButton from "../../UI/ExportButton/ExportButton";
 
 export default function Index() {
-  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
-
-  const [form, setForm] = useState({
-    startDate: DateInput(),
-    endDate: DateInput(),
-  });
+  // const [form, setForm] = useState({
+  //   startDate: DateInput(),
+  //   endDate: DateInput(),
+  // });
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching, refetch } = useFindDailyTransactionsQuery({
-    startDate: form.startDate,
-    endDate: form.endDate,
-    page,
-    limit,
-    order: orderBy,
-    sort: "ASC"
-  }, { skip });
 
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    'date[gte]': DateInput(),
+    'date[lte]': DateInput()
+  });
+
+
+  const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
+  const { data: transactionReports, isLoading: reportsLoading, refetch: reportRefecth } = useGetTransactionAggregationsQuery(features, { skip });
 
   useEffect(() => {
-    if (isFetching) {
+    if (isFetching || isLoading || reportsLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isFetching, isLoading, reportsLoading]);
 
 
-  const handleClick = () => {
-    if (!form.startDate || !form.endDate) {
-      notify('error', 'اختر التاريخ')
-    } else {
-      setSkip(false)
-    }
+  const handleClick = (e) => {
+    e.preventDefault()
+    setSkip(false)
   }
 
 
@@ -76,42 +77,52 @@ export default function Index() {
 
   return (
     <>
-      <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
-      {data && data?.transactions?.transactions.length > 0 &&
+      <DaySelect
+        features={features}
+        setFeatures={setFeatures}
+        onClick={handleClick}
+        setSkip={setSkip}
+      />
+      {data && data?.data?.length > 0 &&
         <>
-          <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
-            <CustomButton
-              type='button'
-              classes={'add-btn'}
-              width={'80px'}
-              height={'30px'}
-              fontSize={'20px'}
-              onClick={exportToExcel}
-            >تصدير
-            </CustomButton>
-            <div className="d-flex flex-center" style={{ gap: '10px' }}>
-              <span className="d-flex">
-                <TbRefresh style={{
-                  fontSize: '26px',
-                  color: 'black',
-                  cursor: 'pointer'
+          <Flex justify={'space-between'}>
+            <ExportButton/>
+            <Group>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => {
+                  refetch()
+                  reportRefecth()
                 }}
-                  onClick={() => refetch()}
-                />
-              </span>
-              <EntrySelect />
-            </div>
-          </div>
-          <DayTable form={form} data={data} isLoading={isLoading} />
+              />
+              <LimitSelect
+                features={features}
+                setFeatures={setFeatures}
+              />
+            </Group>
+          </Flex>
+          <DayTable
+            data={data?.data}
+            reports={transactionReports?.data}
+          />
         </>
       }
-      {data && data?.transactions?.transactions.length < 1 && <div
-        style={{
-          textAlign: 'center',
-          fontsize: '26px',
-        }}
-      ><span>لا توجد عمليات</span></div>}
-      {data?.transactions?.pagination?.hasPagination && <Pagination pagination={data?.transactions?.pagination} />}
+      {data?.meta?.pagination?.hasPagination &&
+        <Pagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />}
+      {data && data?.data?.length < 1 &&
+        <Center m={'10 0'}>
+          <Text size={'xl'}>
+            لا يوجد عمليات
+          </Text>
+        </Center>
+      }
     </>
   )
 }

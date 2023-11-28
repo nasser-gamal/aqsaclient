@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
 
+import { Button, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
+import { useDeleteCategoryMutation } from '../../../app/features/category/categoryApi';
+
+import CustomTable from '../../common/CustomTable/CustomTable';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-// import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+
+export default function CategoryTable({ data }) {
 
 
-export default function CategoryTable({ categories }) {
-
-
-  const tableHead = [
+  const theads = [
     {
       title: "اسم الخدمة",
       className: "sort",
@@ -34,44 +37,65 @@ export default function CategoryTable({ categories }) {
       order: "",
       sort: "",
     },
-    // {
-    //   title: "حذف",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
 
 
+  const [deleteCategory] = useDeleteCategoryMutation();
+
+
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        {element.name}
+      </Table.Td>
+      <Table.Td>
+        {element.note || "-"}
+      </Table.Td>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td>
+        <Button
+          size="xs"
+          type="button"
+          disabled={element?.isDeleted}
+
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditCategory',
+              title: 'تعديل بيانات الخدمة',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+      <Table.Td>
+        <DeleteModal
+          title={'حذف الخدمة'}
+          disabled={element?.isDeleted}
+
+          text='هل أنت متأكد من حذف الخدمة ؟'
+          handleDelete={deleteCategory}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
+
+
+
   return (
-    <Table tableHead={tableHead} >
-      <tbody>
-        {
-          categories?.map(category => {
-            return <tr key={category.id}>
-              <td>
-                {category.name}
-              </td>
-              <td>
-                {category.note || "-"}
-              </td>
-              <td>
-                <DateAndTime createdAt={category.createdAt} />
-              </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditCategory',
-                    modalTitle: 'تعديل الخدمة',
-                    status: 'تعديل',
-                    childrenProps: { category }
-                  }}
-                />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

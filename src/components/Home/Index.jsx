@@ -1,6 +1,5 @@
 import './home.modules.css';
 
-import Section from './Section';
 import depositeImg from '../../assets/icons/deposit.png';
 import withdrawImg from '../../assets/icons/withdraw.png';
 import transferImg from '../../assets/icons/transfer.png';
@@ -8,59 +7,66 @@ import DropDown from './DropDown';
 import { useState } from 'react';
 import { DateInput } from '../../utils/formatDate';
 import BankReportTable from './Table';
-import { useFindUserTransactionsQuery } from '../../app/features/reports/reportsApi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import Pagination from '../UI/Pagination/Pagination';
 import { useEffect } from 'react';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
-import EntrySelect from '../UI/LimitSelect/EntrySelect';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import { Button, Center, Divider, Flex, Grid, Group, Image, Paper, Stack, Text, Title } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../app/features/transaction/transactionApi';
 
 
 export default function Index() {
-  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch();
-
 
   const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery(
     {
-      page: "", limit: "", order: 'createdAt', sort: 'ASC'
+      limit: 10000,
+      sort: '',
+      keyword: '',
     }
   );
 
 
   const [form, setForm] = useState({
-    bankAccountId: '',
-    bankAccountName: '',
+    bankAccount: '',
     startDate: DateInput(),
-    endDate: DateInput(),
   });
 
 
-  const [balance, setBalance] = useState()
+  const nextDay = new Date(DateInput());
+  nextDay.setDate(nextDay.getDate() + 1);
+
+
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    'date[gte]': DateInput(),
+  })
+
+
+
+  // const [balance, setBalance] = useState()
 
   const [showForm, setShowForm] = useState(false)
   const [skip, setSkip] = useState(true);
 
 
-  const { data, isLoading, isFetching } = useFindUserTransactionsQuery({
-    bankAccountId: form.bankAccountId,
-    startDate: form?.startDate,
-    endDate: form?.endDate,
-    page,
-    limit,
-    order: orderBy,
-    sort: "DESC"
-  }, { skip });
-
+  const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features, { skip });
+  const { data: transactionReports, isLoading: reportsLoading, error } = useGetTransactionAggregationsQuery(features, { skip });
 
   useEffect(() => {
-    if (getLoading || getFetching || isLoading || isFetching) {
+    if (getLoading || getFetching || isLoading || reportsLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [isLoading, isFetching, dispatch, getLoading, getFetching])
+  }, [reportsLoading, isFetching, dispatch, getLoading, getFetching, isLoading])
 
 
 
@@ -76,102 +82,175 @@ export default function Index() {
             data={bankAccounts}
             form={form}
             setForm={setForm}
-            setBalance={setBalance}
+            // setBalance={setBalance}
             setSkip={setSkip}
             setShowForm={setShowForm}
+            features={features}
+            setFeatures={setFeatures}
           />
         </div>
-        <Section active={form.bankAccountId ? true : false} title={'العمليات'} boxes={
-          [
-            {
-              boxTitle: 'ايداع',
-              img: depositeImg,
-              info: {
-                name: 'AddEditDeposit',
-                modalTitle: 'اضافة عملية ايداع جديدة',
-                status: 'اضافة',
-                childrenProps: { bankAccountId: form.bankAccountId, balanceBefore: balance, bankAccountName: form.bankAccountName }
-              }
-            },
-            {
-              boxTitle: 'سحب',
-              img: withdrawImg,
-              info: {
-                name: 'AddEditWithdraw',
-                modalTitle: 'اضافة عملية سحب جديدة',
-                status: 'اضافة',
-                childrenProps: { width: '700px', bankAccountId: form.bankAccountId, balanceBefore: balance, bankAccountName: form.bankAccountName }
-              }
-            },
-            {
-              boxTitle: 'تسوية',
-              img: transferImg,
-              info: {
-                name: 'AddEditTransfer',
-                modalTitle: 'اضافة عملية تسوية جديدة',
-                status: 'اضافة',
-                childrenProps: { bankAccountId: form.bankAccountId, bankAccountName: form.bankAccountName }
-              }
-            },
-          ]
-        } />
+        <Divider my="lg" label="الاقصي للدفع الالكتروني" labelPosition="center" />
 
-        {showForm && data && data?.transactions?.transactions.length > 0 &&
+        <Grid justify='center' align='center' m={'25 0 30'}>
+          <Grid.Col
+            span={{ base: 12, md: 3 }}
+          >
+            <Button
+              className='box'
+              w={'100%'}
+              h={'100%'}
+              bg={'white'}
+              c={'black'}
+              p={'15 0'}
+              disabled={form.bankAccount ? false : true}
+              onClick={() => {
+                // refetch()
+                modals.openContextModal({
+                  modal: 'AddEditDeposit',
+                  title: 'أضافة ايداع جديد',
+                  innerProps: {
+                    data: form.bankAccount,
+                  }
+                })
+              }
+              }
+            >
+              <Stack gap={5} justify='center'>
+                <Image
+                  h={60}
+                  w="auto"
+                  src={depositeImg} />
+                <Text span size='lg'>
+                  ايداع
+                </Text>
+              </Stack>
+            </Button>
+          </Grid.Col>
+          <Grid.Col
+            span={{ base: 12, md: 3 }}
+          >
+            <Button
+              className='box'
+              w={'100%'}
+              h={'100%'}
+              bg={'white'}
+              c={'black'}
+              p={'15 0'}
+              disabled={form.bankAccount ? false : true}
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditWithdraw',
+                  title: 'أضافة سحب جديد',
+                  innerProps: {
+                    data: form.bankAccount
+                  }
+                })
+              }
+            >
+              <Stack gap={5} justify='center'>
+                <Image
+                  h={60}
+                  w="auto"
+                  src={withdrawImg} />
+                <Text span size='lg'>
+                  سحب
+                </Text>
+              </Stack>
+            </Button>
+          </Grid.Col>
+          <Grid.Col
+            span={{ base: 12, md: 3 }}
+          >
+            <Button
+              className='box'
+              w={'100%'}
+              h={'100%'}
+              bg={'white'}
+              c={'black'}
+              p={'15 0'}
+              disabled={form.bankAccount ? false : true}
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditTransfer',
+                  innerProps: {
+                    data: form.bankAccount
+                  }
+                })
+              }
+            >
+              <Stack gap={5} justify='center'>
+                <Image
+                  h={60}
+                  w="auto"
+                  src={transferImg} />
+                <Text span size='lg'>
+                  تسوية
+                </Text>
+              </Stack>
+            </Button>
+          </Grid.Col>
+        </Grid>
+
+
+        {
+          showForm && data &&
           <>
-            <h4 style={{ marginTop: '20px', marginBottom: '20px', textAlign: 'center' }}>
-              تقرير شامل لحساب
-              <span style={{ color: 'red', fontWeight: 'bold', margin: '0 5px', display: 'inline-block' }}>{form.bankAccountName}</span>
-              بتاريخ  <span style={{ color: 'red', fontWeight: 'bold', margin: '0 5px', display: 'inline-block' }}>{form.startDate.replaceAll('-', '/')}</span>
+            <Divider my="sm" variant="dashed" />
+            <Center m={'20 0'}>
+              <Title order={3} fw={'normal'}>
+                تقرير شامل
+                بتاريخ
+                <Text span size='xl' c={'red'} fw={'bold'} display={'inline'} m={'0 5'}>
+                  {form.startDate.replaceAll('-', '/')}
+                </Text>
+              </Title>
 
-            </h4>
-            <div style={{
-              width: '100%',
-              textAlign: 'left'
-            }}>
-              <EntrySelect />
-              {/* <span>
-                <TbRefresh style={{
-                  fontSize: '26px',
-                  color: 'black',
-                  cursor: 'pointer'
-                }}
-                  onClick={() => refetch()}
+            </Center>
+
+          </>
+        }
+        {showForm && data && data?.data.length > 0 &&
+          <>
+            <Flex justify={'space-between'}>
+              <Group>
+                <Paper>
+                  الايداع {transactionReports?.data?.depositCount}
+                </Paper>
+                <Paper>
+                  السحب {transactionReports?.data?.withdrawalCount}
+                </Paper>
+              </Group>
+              <div style={{
+                width: '80px',
+              }}>
+                <LimitSelect
+                  features={features}
+                  setFeatures={setFeatures}
                 />
-              </span> */}
-            </div>
-            <BankReportTable data={data} />
-            {data && data?.transactions?.transactions.length < 1 && <div
-              style={{
-                textAlign: 'center',
-                fontsize: '26px',
-              }}
-            ><span>لا توجد عمليات</span></div>}
-            {data?.transactions?.pagination?.hasPagination && <Pagination pagination={data?.transactions?.pagination} />}
+              </div>
+            </Flex>
+            <BankReportTable
+              data={data?.data}
+              reports={transactionReports?.data}
+            />
+            {data?.meta?.pagination?.hasPagination &&
+              <Pagination
+                features={features}
+                setFeatures={setFeatures}
+                pagination={data?.meta?.pagination}
+              />
+            }
           </>
         }
         {
-          showForm && data && data?.transactions?.transactions.length < 1 &&
-          <div style={{ textAlign: 'center' }}>
-            <h4 style={{
-              marginTop: '20px', marginBottom: '20px', textAlign: 'center'
-            }}>
-              تقرير شامل لحساب
-              <span style={{ color: 'red', fontWeight: 'bold', margin: '0 5px', display: 'inline-block' }}>{form.bankAccountName}</span>
-              بتاريخ <span style={{ color: 'red', fontWeight: 'bold', margin: '0 5px', display: 'inline-block' }}>{form.startDate.replaceAll('-', '/')}</span>
-            </h4>
-            <p style={{ textAlign: 'center' }}>
-              لا يوجد أي عمليات علي الحساب في هذه الفترة
-            </p>
-            {/* <CustomButton
-              classes={'add-btn'}
-              width={'80px'}
-              height={'30px'}
-              fontSize={'18px'}
-              margin={'20px 0'}
-              onClick={() => refetch()}>
-              تحديث
-            </CustomButton> */}
-          </div>
+          showForm && data && data?.data?.length < 1 &&
+          <>
+            <Center m={'20 0'}>
+              <Text size='xl'>
+                لا يوجد أي عمليات علي الحساب في هذه الفترة
+              </Text>
+            </Center>
+          </>
         }
 
       </div>

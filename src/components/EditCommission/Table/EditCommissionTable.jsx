@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
-import CustomButton from '../../common/Button/CustomButton';
-import Table from '../../common/Table/Table';
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useUpdateCommissionMutation } from '../../../app/features/commissions/commissionApi';
 import Spinner from '../../UI/Loader/Spinner';
 import { notify } from '../../../utils/notify';
+import { Button, Table, TextInput } from '@mantine/core';
+import CustomTable from '../../common/CustomTable/CustomTable';
 
 export default function EditCommissionTable({ data, isLoading, isFetching }) {
   const dispatch = useDispatch()
@@ -17,13 +16,25 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
   });
 
   useEffect(() => {
-    if (data?.commissions) {
-      setForm({ ...form, commissions: data?.commissions })
+    const commissions = [];
+    if (data) {
+      data?.commissions.forEach((commission) => {
+        // Assuming subcategories are available within the category object
+        const subCategories = commission?.commissionItems.map((item) => ({
+          id: item.id,
+          amount: 0,
+          count: 0,
+        }));
+        commissions.push({
+          commision: commission.id,
+          subCategories: subCategories,
+        });
+      });
+      setForm({ ...form, commissions })
     }
+  }, [data])
 
-  }, [data?.commissions]);
-
-  const tableHead = [
+  const theads = [
     {
       title: "الخدمة",
       className: "",
@@ -54,15 +65,15 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
 
   const onChange = (e, index) => {
     const { name, value } = e.target;
-    const updatedCommissions = [...form.commissions];
-    const updatedCommission = { ...updatedCommissions[index] };
-    updatedCommission[name] = value;
-    updatedCommissions[index] = updatedCommission;
+    // const updatedCommissions = [...form.commissions];
+    // const updatedCommission = { ...updatedCommissions[index] };
+    // updatedCommission[name] = value;
+    // updatedCommissions[index] = updatedCommission;
 
-    setForm((prevForm) => ({
-      ...prevForm,
-      commissions: updatedCommissions,
-    }));
+    // setForm((prevForm) => ({
+    //   ...prevForm,
+    //   commissions: updatedCommissions,
+    // }));
   };
 
 
@@ -98,65 +109,46 @@ export default function EditCommissionTable({ data, isLoading, isFetching }) {
   }
 
 
+
+  const rows = data?.commissions?.map((element, index) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        {element?.segment?.service?.name}
+      </Table.Td>
+      <Table.Td>
+        <TextInput m={'10 0'}
+          type='text'
+          name='amountTotal'
+          placeholder={'ادخل القيمة'}
+          value={form?.commissions[index]?.amountTotal || 0}
+          onChange={(e) => onChange(e, index)}
+        />
+      </Table.Td>
+      <Table.Td>
+        <TextInput m={'10 0'}
+          type='text'
+          name='count'
+          placeholder={'عدد العمليات'}
+          value={form?.commissions[index]?.count || 0}
+          onChange={(e) => onChange(e, index)}
+        />
+      </Table.Td>
+      <Table.Td>
+        <Button
+          type={'button'}
+          size="xs"
+          onClick={() => onClick(element.id, index)}
+          disabled={form?.commissions[index]?.amountTotal < 0 || !form?.commissions[index]?.count < 0}
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+    </Table.Tr >
+  ));
+
   return (
     <>
-      {
-        data?.commissions && data?.commissions.length > 0 && <div style={{ marginTop: '20px' }}>
-          <Table tableHead={tableHead} isLoading={isLoading}>
-            <tbody>
-              {
-                data?.commissions?.map((commission, index) => {
-                  return <tr key={commission.id}>
-                    <td>
-                      {commission?.segment?.service.name}
-                    </td>
-                    <td>
-                      <CustomInput
-                        type='text'
-                        name='amountTotal'
-                        placeholder={'ادخل القيمة'}
-                        value={form?.commissions[index]?.amountTotal || 0}
-                        onChange={(e) => onChange(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <CustomInput
-                        type='text'
-                        name='count'
-                        placeholder={'عدد العمليات'}
-                        value={form?.commissions[index]?.count || 0}
-                        onChange={(e) => onChange(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <CustomButton
-                        classes={'edit-btn'}
-                        width='65px'
-                        height='30px'
-                        fontSize="17px"
-                        onClick={() => onClick(commission.id, index)}
-                        disabled={form?.commissions[index]?.amountTotal < 0 || !form?.commissions[index]?.count < 0}
-                      >
-                        تعديل
-                      </CustomButton>
-                    </td>
-                  </tr>
-                })
-              }
-            </tbody>
-          </Table>
-        </div>
-      }
-      {
-        data?.commissions.length < 1 && <div style={{
-          textAlign: "center",
-          marginTop: '30px',
-          fontSize: '19px',
-        }}>
-          <span>لا يوجد عمولة</span>
-        </div >
-      }
+      <CustomTable theads={theads} rows={rows} />
     </>
-
   )
 }

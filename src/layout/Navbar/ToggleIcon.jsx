@@ -1,8 +1,10 @@
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleSideBar } from '../../app/features/sidebar/sidebarSlice';
+import { Burger } from '@mantine/core';
 
 export default function ToggleIcon() {
+  const { isOpen } = useSelector(state => state.sidebar)
 
   const dispatch = useDispatch()
 
@@ -12,7 +14,8 @@ export default function ToggleIcon() {
 
   return (
     <div className='toggle-icon d-flex' >
-      <RxHamburgerMenu onClick={handleToggle} />
+      {/* <RxHamburgerMenu onClick={handleToggle} /> */}
+      <Burger color={'white'} opened={!isOpen} onClick={handleToggle} aria-label="Toggle navigation" />
     </div>
   )
 }

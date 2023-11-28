@@ -86,6 +86,17 @@ export const validateCategory = (formData) => {
   return error;
 };
 
+export const validateSubCategory = (formData) => {
+  let error;
+  if (!formData.categoryId) {
+    error = ' اختر الخدمة';
+  }
+  if (!formData.name) {
+    error = 'ادخل اسم الخدمة';
+  }
+  return error;
+};
+
 export const validateSegment = (formData) => {
   let error;
   if (!formData.title) {
@@ -247,7 +258,7 @@ export const validateFee = (formData) => {
   if (isNaN(formData.amount)) {
     error = 'القيمة يجب أن تكون رقمًا';
   }
-  
+
   return error;
 };
 

@@ -1,44 +1,83 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
-import EntrySelect from '../UI/LimitSelect/EntrySelect';
-import Pagination from '../UI/Pagination/Pagination';
-import AddButton from '../common/Button/AddButton';
 import BankAccountTable from './Table/BankAccountTable';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import { resetFilter } from '../../app/features/filter/filterSlice';
+import { modals } from '@mantine/modals';
+import { Button, Flex, Group } from '@mantine/core';
+import ExportButton from '../UI/ExportButton/ExportButton';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import CustomPagination from '../UI/Pagination/Pagination';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
+import Search from '../UI/Search/Search';
 
 
 export default function Index() {
+  const [features, setFeatures] = useState({
+    page: 1,
+    limit: 10,
+    sort: '',
+    keyword: '',
+  });
+
   const dispatch = useDispatch();
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
 
-  const { data, isLoading, isFetching } = useFindAllBankAccountsQuery({ page, limit, order: orderBy, sort });
-
+  const { data, isLoading, isFetching } = useFindAllBankAccountsQuery(features);
 
   useEffect(() => {
-    if (isFetching) {
+    if (isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isFetching, isLoading]);
 
 
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
 
   return (
     <>
-      <div className='d-flex flex-between'>
-        <AddButton name={'AddEditBankAccount'} modalTitle={'اضافة حساب'} />
-        <EntrySelect />
-      </div>
-      <BankAccountTable data={data} isLoading={isLoading} />
-      {data?.pagination?.hasPagination && <Pagination pagination={data?.pagination} />}
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditBankAccount',
+            title: 'أضافة حساب بنكى جديد',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'5px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'رقم الحساب', value: 'accountNumber' },
+            { label: 'اسم الحساب', value: 'accountName' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
+        />
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex >
+      <BankAccountTable
+        data={data?.data}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
+
     </>
   )
 }

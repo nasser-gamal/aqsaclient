@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useFindAllBankAccountsQuery } from '../../../app/features/bankAccount/bankAccountApi';
+import { Select } from '@mantine/core';
 
-export default function DropDown({ form, setForm, setSkip }) {
+export default function DropDown({ features, setFeatures, disabled, defaultValue, setSkip }) {
   const dispatch = useDispatch()
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الحساب');
-
-  const { data, isLoading } = useFindAllBankAccountsQuery({ page: "", limit: "", order: 'createdAt', sort: 'ASC' });
-  const [searchValue, setSearchValue] = useState()
+  const { data, isLoading: isLoading } = useFindAllBankAccountsQuery({
+    limit: 100000,
+    sort: '',
+    keyword: '',
+  });
 
   useEffect(() => {
     if (isLoading) {
@@ -25,45 +24,30 @@ export default function DropDown({ form, setForm, setSkip }) {
 
 
 
-  const filterSelectOptions = (e) => {
-    const { value } = e.target;
-    setSearchValue(value)
+  const options = data?.data.map((bank) => ({
+    value: `${bank?.id}`,
+    label: bank?.accountName,
+  })) || [];
+
+
+  const onChange = (value) => {
+    setFeatures({ ...features, bankAccountId: value });
+    setSkip(true)
   }
 
 
-
   return (
-    <CustomSelect
-      searchInput={true}
-      onChange={(e) => filterSelectOptions(e)}
-      dropHeading={dropHeading}
-      label={'اختر الحساب'}
-      isClicked={isClicked}
-      setIsClicked={setIsClicked}
-      onClick={() => {
-        setIsClicked(!isClicked)
-        setSkip(true)
-      }}
-    >
-      {
-        data?.bankAccounts.filter(bankAccount => {
-          const value = searchValue;
-          return value ? bankAccount.accountName.includes(value.toLowerCase()) : bankAccount;
-        }).map(bankAccount => {
-          return <li
-            key={bankAccount.id}
-            onClick={() => {
-              setDropHeading(bankAccount.accountName);
-              setIsClicked(!isClicked);
-              setForm({ ...form, bankAccountId: bankAccount.id })
-            }}
-          >
-            {
-              bankAccount.accountName
-            }
-          </li>
-        })
-      }
-    </CustomSelect>
+    <Select
+      m={'10 0'}
+      label="اختر البنك"
+      data={options}
+      onChange={onChange}
+      disabled={disabled}
+      defaultSearchValue={defaultValue}
+      searchable
+      nothingFoundMessage="غير موجود ..."
+      allowDeselect={false}
+
+    />
   )
 }

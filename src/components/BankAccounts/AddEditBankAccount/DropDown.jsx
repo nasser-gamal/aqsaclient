@@ -1,19 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useFindAllBanksQuery } from '../../../app/features/bank/bankApi';
+import { Select } from '@mantine/core';
 
-export default function DropDown({ form, setForm }) {
+export default function DropDown({ form, setForm, disabled, defaultValue }) {
   const dispatch = useDispatch()
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر البنك');
-
-  const { data, isLoading: isLoading } = useFindAllBanksQuery();
-
-  // const [searchValue, setSearchValue] = useState()
+  const { data, isLoading: isLoading } = useFindAllBanksQuery({ limit: 10000 });
 
   useEffect(() => {
     if (isLoading) {
@@ -25,50 +20,30 @@ export default function DropDown({ form, setForm }) {
 
 
 
-  // const filterSelectOptions = (e) => {
-  //   const { value } = e.target;
-  //   setSearchValue(value)
-  // }
+  const options = data?.data.map((bank) => ({
+    value: `${bank?.id}`,
+    label: bank?.bankName,
+  })) || [];
 
 
-  useEffect(() => {
-    const bank = data?.banks?.filter(bank => bank.id == form.bankId);
-    if (bank && bank.length > 0) {
-      setDropHeading(bank[0]?.bankName);
-      setForm({ ...form, bankId: bank[0]?.id });
-    }
-  }, [data?.banks, data])
+  const onChange = (value) => {
+    setForm({ ...form, bankId: value });
+  }
+
 
   return (
-    <CustomSelect
-      // searchInput={true}
-      // onChange={(e) => filterSelectOptions(e)}
-      dropHeading={dropHeading}
-      label={'اختر الخدمة'}
-      isClicked={isClicked}
-      setIsClicked={setIsClicked}
-      onClick={() => setIsClicked(!isClicked)}
-    >
-      {
-        data?.banks?.filter(bank => {
-          // const value = searchValue;
-          // return value ? bank.name.includes(value.toLowerCase()) : bank;
-          return bank
-        }).map(bank => {
-          return <li
-            key={bank.id}
-            onClick={() => {
-              setDropHeading(bank.bankName);
-              setIsClicked(!isClicked);
-              setForm({ ...form, bankId: bank.id })
-            }}
-          >
-            {
-              bank.bankName
-            }
-          </li>
-        })
-      }
-    </CustomSelect>
+    <Select
+      w={'100%'}
+      m={'10 0'}
+      label="اختر البنك"
+      data={options}
+      onChange={onChange}
+      disabled={disabled}
+      defaultSearchValue={defaultValue}
+      searchable
+      nothingFoundMessage="غير موجود ..."
+      allowDeselect={false}
+
+    />
   )
 }

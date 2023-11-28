@@ -1,72 +1,70 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+
 import { DateInput } from "../../../utils/formatDate";
 import Pagination from '../../UI/Pagination/Pagination';
 import EmployReportTable from "./Table/EmployReportTable";
-import { useFindEmployTransactionsQuery } from "../../../app/features/reports/reportsApi";
-import { validateEmployReport } from "../../../utils/validation";
 import { notify } from "../../../utils/notify";
 import DropDown from "./Select/DropDown";
 import Date from "../BankAccount/Date";
-import CustomButton from "../../common/Button/CustomButton";
 
-import EntrySelect from "../../UI/LimitSelect/EntrySelect";
+import LimitSelect from "../../UI/LimitSelect/LimitSelect";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
-import { resetFilter } from "../../../app/features/filter/filterSlice";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+
 import apiEndpoints from "../../../utils/endPoints";
 import { saveAs } from 'file-saver'
+import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../../app/features/transaction/transactionApi';
+
+import { TbRefresh } from 'react-icons/tb';
+import { Button, Center, Flex, Grid, Group, Text } from "@mantine/core";
+import ExportButton from "../../UI/ExportButton/ExportButton";
 
 import './employ.modules.css';
-import { TbRefresh } from 'react-icons/tb';
-
 
 export default function Index() {
-  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
-  const [form, setForm] = useState({
-    userId: "",
-    startDate: DateInput(),
-    endDate: DateInput()
-  });
+  // const [form, setForm] = useState({
+  //   userId: "",
+  //   startDate: DateInput(),
+  //   endDate: DateInput()
+  // });
+
+  const [features, setFeatures] = useState({
+    // page: '',
+    // limit: '',
+    // fields: '',
+    // sort: '',
+    // keyword: '',
+    'date[gte]': DateInput(),
+    'date[lte]': DateInput()
+  })
+
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching, refetch } = useFindEmployTransactionsQuery({
-    userId: form.userId,
-    startDate: form.startDate,
-    endDate: form.endDate,
-    page,
-    limit,
-    order: orderBy,
-    sort: "ASC"
-  }, { skip });
+  const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
+  const { data: transactionReports, isLoading: reportsLoading, refetch: reportRefecth } = useGetTransactionAggregationsQuery(features, { skip });
 
 
   const handleClick = () => {
-    const error = validateEmployReport(form);
-    if (error) {
-      notify('error', error)
+    if (!features.createdBy) {
+      notify('error', 'اختر المستخدم')
     } else {
       setSkip(false)
     }
   }
-
   useEffect(() => {
-    if (isFetching) {
+    if (isFetching || isLoading || reportsLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isFetching, isLoading, reportsLoading]);
 
 
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
+
 
 
   const exportToExcel = async () => {
@@ -89,60 +87,71 @@ export default function Index() {
 
   return (
     <>
-      <div className="acc-report" style={{
-        margin: "20px 0"
-      }}>
-        <div className="d-flex flex-wrap" style={{ gap: '10px' }}>
-          <DropDown form={form} setForm={setForm} setSkip={setSkip} />
-          <Date form={form} setForm={setForm} setSkip={setSkip} />
-        </div>
-        <div className="text-center" style={{ marginTop: '15px' }}>
-          <CustomButton
-            type='button'
-            classes={'add-btn'}
-            width={'80px'}
-            height={'30px'}
-            fontSize={'20px'}
+      <Grid justify='center'>
+        <Grid.Col span={{ base: 12, sm: 3 }}>
+          <DropDown
+            features={features}
+            setFeatures={setFeatures}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Date
+            features={features}
+            setFeatures={setFeatures}
             onClick={handleClick}
-          >بحث
-          </CustomButton>
-        </div>
-      </div>
-      {data && data?.transactions?.transactions.length > 0 &&
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+      </Grid>
+      <Center m={'20 0'}>
+        <Button
+          type='button'
+          onClick={handleClick}
+          disabled={!features.createdBy}
+        >بحث
+        </Button>
+      </Center>
+      {data && data?.data?.length > 0 &&
         <>
-          <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
-            <CustomButton
-              type='button'
-              classes={'add-btn'}
-              width={'80px'}
-              height={'30px'}
-              fontSize={'20px'}
-              onClick={exportToExcel}
-            >تصدير
-            </CustomButton>
-            <div className="d-flex flex-center" style={{ gap: '10px' }}>
-              <span className="d-flex">
-                <TbRefresh style={{
-                  fontSize: '26px',
-                  color: 'black',
-                  cursor: 'pointer'
+          <Flex justify={'space-between'}>
+            <ExportButton />
+            <Group>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => {
+                  refetch()
+                  reportRefecth()
                 }}
-                  onClick={() => refetch()}
-                />
-              </span>
-              <EntrySelect />
-            </div>
-          </div>
-          <EmployReportTable form={form} data={data} isLoading={isLoading} />
+              />
+              <LimitSelect
+                features={features}
+                setFeatures={setFeatures}
+              />
+            </Group>
+          </Flex>
+          <EmployReportTable
+            data={data?.data}
+            reports={transactionReports?.data}
+          />
         </>
       }
-      {data && data?.transactions?.transactions.length < 1 && <div
-        style={{
-          textAlign: 'center',
-          fontsize: '26px',
-        }}
-      ><span>لا توجد عمليات</span></div>}
-      {data?.transactions?.pagination?.hasPagination && <Pagination pagination={data?.transactions?.pagination} />}
+      {data && data?.data?.length < 1 &&
+        <Center m={'10 0'}>
+          <Text size={'xl'}>
+            لا يوجد عمليات
+          </Text>
+        </Center>
+      }
+      {data?.meta?.pagination?.hasPagination &&
+        <Pagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />}
     </>
   )
 }

@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../../common/Table/Table';
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
-import { useDispatch } from 'react-redux';
 import moreImg from '../../../../assets/icons/add-button.png'
-import { openModal } from '../../../../app/features/modal/modalSlice';
+import { modals } from '@mantine/modals';
+import CustomTable from '../../../common/CustomTable/CustomTable';
+import { Table } from '@mantine/core';
 
-export default function DayTable({ data }) {
-  const dispatch = useDispatch();
 
 
-  const tableHead = [
+export default function DayTable({ data, reports }) {
+
+
+  const theads = [
     {
       title: "رقم الفاتورة",
       className: "",
@@ -107,100 +108,99 @@ export default function DayTable({ data }) {
   ]
 
 
-  return (
-    <div className='report-table'>
-      <Table tableHead={tableHead}>
-        <tbody>
-          {
-            data?.transactions.transactions.map(transaction => {
-              return <tr key={transaction.id} className={transaction?.isDeleted && 'row-delete'}>
-                <td>
-                  {transaction.id}
-                </td>
-                <td className='date'>
-                  <DateAndTime createdAt={transaction.date} />
-                </td>
-                <td>
-                  {transaction?.bankAccount?.accountName || 'غير معروف'}
-                </td>
-                <td>
-                  {transaction.number}
-                </td>
-                <td>
-                  {transaction.balanceBefore}
-                </td>
-                <td>
-                  {transaction.type === 'ايداع' ? transaction.amountTotal : 0}
-                </td>
-                <td>
-                  {transaction.type === 'سحب' &&
-                    (transaction.balanceBefore - transaction.balanceAfter).toFixed(2) == transaction.amountTotal.toFixed(2) ?
-                    transaction.amountTotal :
-                    transaction.type !== 'سحب' ? 0 : transaction.providerDeduction}
-                </td>
-                <td>
-                  {transaction.amount}
-                </td>
-                <td>
-                  {transaction.providerFees}
-                </td>
-                <td>
-                  {transaction.amountTotal}
-                </td>
-                <td>
-                  {transaction.balanceAfter}
-                </td>
-                <td>
-                  {transaction.note || "-"}
-                </td>
-                <td>
-                  {transaction.providerRevenue}
-                </td>
-                <td>
-                  {transaction.profit}
-                </td>
 
-                <td>
-                  <img style={{
-                    'width': '28px',
-                    'cursor': 'pointer',
-                  }} src={moreImg} alt={moreImg}
-                    onClick={() => dispatch(openModal({
-                      name: transaction.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
-                      modalTitle: transaction.type === 'سحب' ? 'عرض بيانات العملية (سحب)' : 'عرض بيانات العملية (ايداع)',
-                      status: 'عرض',
-                      childrenProps: {
-                        transaction,
-                        show: true,
-                        width: transaction.type === 'سحب' && '700px'
-                      }
-                    }))}
-                  />
-                </td>
-              </tr>
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td className='date'>
+        {element.id}
+      </Table.Td>
+      <Table.Td className='date'>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>
+        {element.number}
+      </Table.Td>
+      <Table.Td>
+        {element?.bankAccount?.accountName}
+      </Table.Td>
+      <Table.Td>
+        {element.balanceBefore}
+      </Table.Td>
+      <Table.Td>
+        {element.type === 'ايداع' ? element.amountTotal : 0}
+      </Table.Td>
+      <Table.Td>
+        {element.type === 'سحب' &&
+          (element.balanceBefore - element.balanceAfter).toFixed(2) == element.amountTotal.toFixed(2) ?
+          element.amountTotal :
+          element.type !== 'سحب' ? 0 : element.providerDeduction}
+      </Table.Td>
+      <Table.Td>
+        {element.amount}
+      </Table.Td>
+      <Table.Td>
+        {element.providerFees}
+      </Table.Td>
+      <Table.Td>
+        {element.amountTotal}
+      </Table.Td>
+      <Table.Td>
+        {element.balanceAfter}
+      </Table.Td>
+      <Table.Td>
+        {element.note || "-"}
+      </Table.Td>
+      <Table.Td>
+        {element.providerRevenue}
+      </Table.Td>
+      <Table.Td>
+        {element.profit}
+      </Table.Td>
+      <Table.Td>
+        <img style={{
+          'width': '28px',
+          'cursor': 'pointer',
+        }} src={moreImg} alt={moreImg}
+          onClick={() =>
+            modals.openContextModal({
+              modal: element.type == 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
+              title: element.type == 'ايداع' ? 'عرض عملية ايداع' : 'عرض عملية سحب',
+              innerProps: { status: 'show', data: element, show: true }
             })
           }
-          <tr className='last-child'>
-            <td colSpan={5}>
-              اجمالي العمليات
-            </td>
-            <td>
-              {data?.totalDepoite}
-            </td>
-            <td>
-              {data?.totalWithdraw}
-            </td>
-            <td colSpan={6}>
-            </td>
-            <td>
-              {data?.totalProfit}
-            </td>
-            <td colSpan={3}>
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
 
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+
+
+
+  const tFoot =
+    <Table.Tr>
+      <Table.Td colSpan={5}>
+        الاجمالى
+      </Table.Td>
+      <Table.Td>
+        {reports?.depositTotal}
+      </Table.Td>
+      <Table.Td>
+        {reports?.withdrawalTotal}
+      </Table.Td>
+      <Table.Td colSpan={6}>
+      </Table.Td>
+      <Table.Td >
+        {reports?.profit}
+      </Table.Td>
+      <Table.Td >
+      </Table.Td>
+    </Table.Tr>
+
+
+
+
+  return (
+    <CustomTable theads={theads} rows={rows} tFoot={tFoot} />
   )
 }

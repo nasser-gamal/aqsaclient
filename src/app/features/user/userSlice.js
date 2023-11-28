@@ -11,8 +11,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      state.user = action.payload.user;
-      Cookies.set('user', JSON.stringify(action.payload.user));
+      state.user = action.payload;
+      Cookies.set('user', JSON.stringify(action.payload));
       
     },
 

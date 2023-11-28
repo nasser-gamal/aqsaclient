@@ -1,18 +1,15 @@
-
-import { useFindAllBanksQuery } from '../../../app/features/bank/bankApi';
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+/* eslint-disable react/prop-types */
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
+import CustomTable from '../../common/CustomTable/CustomTable';
+import { Button, Table } from '@mantine/core';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+import { modals } from '@mantine/modals';
+import { useDeleteBankMutation } from '../../../app/features/bank/bankApi';
 
-export default function BankTable() {
+export default function BankTable({ data }) {
 
-  const dispatch = useDispatch();
-  const { data, isFetching } = useFindAllBanksQuery();
 
-  const tableHead = [
+  const theads = [
     {
       title: "اسم البنك",
       className: "account-name",
@@ -37,50 +34,57 @@ export default function BankTable() {
       order: "",
       sort: "",
     },
-    // {
-    //   title: "حذف",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ]
 
+  const [deleteBank] = useDeleteBankMutation();
 
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>{element.bankName}</Table.Td>
+      <Table.Td>{element.note}</Table.Td>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td >
+        <Button
+          type="button"
+          disabled={element?.isDeleted}
 
-  useEffect(() => {
-    if (isFetching) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isFetching]);
+          size="xs"
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditBank',
+              title: 'تعديل بيانات البنك',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+      <Table.Td>
+        <DeleteModal
+          disabled={element?.isDeleted}
+
+          title={'حذف حساب'}
+          text='هل أنت متأكد من حذف الحساب ؟'
+          handleDelete={deleteBank}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
 
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.banks.map(bank => {
-            return <tr key={bank.id}>
-              <td>{bank.bankName}</td>
-              <td>{bank.note || "-"}</td>
-              <td>
-                <DateAndTime createdAt={bank.createdAt} />
-              </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditBank',
-                    modalTitle: 'تعديل الحساب',
-                    status: 'تعديل',
-                    childrenProps: { bank }
-                  }}
-                />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

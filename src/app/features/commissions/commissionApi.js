@@ -3,9 +3,17 @@ import { apiSlice } from '../../api/apiSlice';
 
 export const commissionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    findAllCommissions: builder.query({
-      query: ({ searchValue, agentId, year, month }) => ({
-        url: `${apiEndpoints.commission.GET_COMMISSIONS}?search=${searchValue}&agentId=${agentId}&month=${month}&year=${year}`,
+    getCommissions: builder.query({
+      query: (params) => ({
+        url: apiEndpoints.commission.GET_COMMISSIONS,
+        params: { ...params },
+      }),
+      providesTags: ['commissions'],
+    }),
+    getLoggedUserCommissions: builder.query({
+      query: (params) => ({
+        url: apiEndpoints.LOGGED_USER_COMMISSIONS,
+        params: { ...params },
       }),
       providesTags: ['commissions'],
     }),
@@ -36,7 +44,8 @@ export const commissionApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useFindAllCommissionsQuery,
+  useGetCommissionsQuery,
+  useGetLoggedUserCommissionsQuery,
   useCreateCommissionMutation,
   useUpdateCommissionMutation,
   useDeleteCommissionMutation,

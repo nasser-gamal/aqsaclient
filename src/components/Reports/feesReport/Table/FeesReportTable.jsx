@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../../common/Table/Table';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import CustomTable from '../../../common/CustomTable/CustomTable';
+import { Table } from '@mantine/core';
+
 
 export default function FeesReportTable({ data }) {
 
-  const tableHead = [
+  const theads = [
     {
       title: "التاريخ",
       className: "created-at",
@@ -31,40 +33,34 @@ export default function FeesReportTable({ data }) {
       sort: "",
     },
   ]
+  console.log(data)
 
+  const rows = data?.map(element => {
+    return <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td className='date'>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>
+        {element?.creator?.userName}
+      </Table.Td>
+      <Table.Td>
+        {element.note || "-"}
+      </Table.Td>
+      <Table.Td>
+        {element.amount}
+      </Table.Td>
+    </Table.Tr>
+  })
 
+  const tFoot = <Table.Tr className='last-child' >
+    <Table.Td colSpan={3}>
+      الاجمالي
+    </Table.Td>
+    <Table.Td>
+      {data?.totalFees}
+    </Table.Td>
+  </Table.Tr>
   return (
-    <div className='report-table'>
-      <Table tableHead={tableHead}>
-        <tbody>
-          {
-            data?.fees?.fees.map(fee => {
-              return <tr key={fee.id}>
-                <td className='date'>
-                  <DateAndTime createdAt={fee.date} />
-                </td>
-                <td>
-                  {fee?.creator.userName}
-                </td>
-                <td>
-                  {fee.note || "-"}
-                </td>
-                <td>
-                  {fee.amount}
-                </td>
-              </tr>
-            })
-          }
-          <tr className='last-child'>
-            <td  colSpan={3}>
-              الاجمالي
-            </td>
-            <td>
-              {data?.totalFees}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <CustomTable theads={theads} rows={rows} tFoot={tFoot} />
   )
 }

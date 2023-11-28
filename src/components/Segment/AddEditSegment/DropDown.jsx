@@ -1,74 +1,35 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
-import { useDispatch } from 'react-redux';
+import { Select } from '@mantine/core';
 import { useFindAllCategoriesQuery } from '../../../app/features/category/categoryApi';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 
-export default function DropDown({ form, setForm }) {
-  const dispatch = useDispatch()
+export default function DropDown({ form, setForm, disabled , value }) {
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الخدمة');
+  const { data } = useFindAllCategoriesQuery({ limit: 10000 });
 
-  const { data, isLoading: categoriesLoading } = useFindAllCategoriesQuery({ page: '', limit: '', order: "createdAt", sort: 'ASC' });
-
-  const [searchValue, setSearchValue] = useState()
-
-  useEffect(() => {
-    if (categoriesLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [categoriesLoading, dispatch]);
+  const options = data?.data.map((element) => ({
+    value: `${element?.id}`,
+    label: element?.name,
+  })) || [];
 
 
-
-  const filterSelectOptions = (e) => {
-    const { value } = e.target;
-    setSearchValue(value)
+  const onChange = (value) => {
+    setForm({ ...form, serviceId: value });
   }
 
 
-
-  useEffect(() => {
-    const service = data?.categories?.filter(category => category.id == form.serviceId);
-    if (service && service.length > 0) {
-      setDropHeading(service[0]?.name);
-      setForm({ ...form, serviceId: service[0]?.id });
-    }
-  }, [data?.categories, data])
-
   return (
-    <CustomSelect
-      searchInput={true}
-      onChange={(e) => filterSelectOptions(e)}
-      dropHeading={dropHeading}
-      label={'اختر الخدمة'}
-      isClicked={isClicked}
-      setIsClicked={setIsClicked}
-      onClick={() => setIsClicked(!isClicked)}
-    >
-      {
-        data?.categories?.filter(category => {
-          const value = searchValue;
-          return value ? category.name.includes(value.toLowerCase()) : category;
-        }).map(category => {
-          return <li
-            key={category.id}
-            onClick={() => {
-              setDropHeading(category.name);
-              setIsClicked(!isClicked);
-              setForm({ ...form, serviceId: category.id })
-            }}
-          >
-            {
-              category.name
-            }
-          </li>
-        })
-      }
-    </CustomSelect>
+    <Select
+      w={'100%'}
+      m={'10 0'}
+      label="اختر الخدمة"
+      data={options}
+      onChange={onChange}
+      disabled={disabled}
+      placeholder={value.label}
+      searchable
+      nothingFoundMessage="الخدمة غير موجودة..."
+      allowDeselect={false}
+
+    />
   )
 }

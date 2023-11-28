@@ -1,30 +1,34 @@
 /* eslint-disable react/prop-types */
-import CustomInput from '../../common/FormFields/input/CustomInput'
+import { Grid, TextInput } from '@mantine/core';
 
-export default function Date({ form, setForm, setSkip }) {
+export default function DaySelect({ setSkip, features, setFeatures }) {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value })
+    setFeatures({ ...features, [name]: value })
     setSkip(true)
   }
 
   return (
-    <div className='d-flex input-date' style={{ width: '58%', gap: '10px' }}>
-      <CustomInput
-        type='date'
-        name='startDate'
-        value={form.startDate}
-        label={'من'}
-        onChange={(e) => onChange(e)}
-      />
-      <CustomInput
-        type='date'
-        name='endDate'
-        value={form.endDate}
-        label={'إلي'}
-        onChange={(e) => onChange(e)}
-      />
-    </div>
+    <Grid justify='center'>
+      <Grid.Col span={{ base: 6 }}>
+        <TextInput m={'10 0'}
+          type={'date'}
+          label='من'
+          name='date[gte]'
+          value={features["date[gte]"]}
+          onChange={(e) => onChange(e)}
+        />
+      </Grid.Col>
+      <Grid.Col span={{ base: 6 }}>
+        <TextInput m={'10 0'}
+          type={'date'}
+          label='إلي'
+          name='date[lte]'
+          value={features["date[lte]"]}
+          onChange={(e) => onChange(e)}
+        />
+      </Grid.Col>
+    </Grid>
   )
 }

@@ -1,88 +1,99 @@
 import { useEffect, useState } from "react";
 import Pagination from '../../UI/Pagination/Pagination';
 import DaySelect from "./Select/Date";
-import { useFindDailyFeesQuery } from "../../../app/features/reports/reportsApi";
-import { notify } from "../../../utils/notify";
+import { useGetFeesQuery } from "../../../app/features/fees/feesApi";
 import { DateInput } from "../../../utils/formatDate";
-import EntrySelect from "../../UI/LimitSelect/EntrySelect";
-import { useDispatch, useSelector } from "react-redux";
+import LimitSelect from "../../UI/LimitSelect/LimitSelect";
+import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
 
-
-
 import { TbRefresh } from 'react-icons/tb';
+import { Center, Flex, Group, Text } from "@mantine/core";
+import ExportButton from "../../UI/ExportButton/ExportButton";
+
 import FeesReportTable from "./Table/FeesReportTable";
 
 export default function Index() {
-  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
 
-  const [form, setForm] = useState({
-    startDate: DateInput(),
-    endDate: DateInput(),
-  });
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    'createdAt[gte]': DateInput(),
+    'createdAt[lte]': DateInput()
+  })
+
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isLoading, isFetching, refetch } = useFindDailyFeesQuery({
-    startDate: form.startDate,
-    endDate: form.endDate,
-    page,
-    limit,
-    order: orderBy,
-    sort: "ASC"
-  }, { skip });
+  const { data, isLoading, isFetching, refetch } = useGetFeesQuery(features, { skip });
 
 
   useEffect(() => {
-    if (isFetching) {
+    if (isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isFetching, isLoading]);
 
 
-  const handleClick = () => {
-    if (!form.startDate || !form.endDate) {
-      notify('error', 'اختر التاريخ')
-    } else {
-      setSkip(false)
-    }
+  const handleClick = (e) => {
+    e.preventDefault()
+    setSkip(false)
   }
 
 
   return (
     <>
-      <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
-      {data && data?.fees?.fees.length > 0 &&
+      <DaySelect
+        features={features}
+        setFeatures={setFeatures}
+        onClick={handleClick}
+        setSkip={setSkip}
+      />
+      {data && data?.data?.length > 0 &&
         <>
-          <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
-            <div></div>
-            <div className="d-flex flex-center" style={{ gap: '10px' }}>
-              <span className="d-flex">
-                <TbRefresh style={{
-                  fontSize: '26px',
-                  color: 'black',
-                  cursor: 'pointer'
+          <Flex justify={'space-between'}>
+            <ExportButton />
+            <Group>
+              <TbRefresh style={{
+                fontSize: '26px',
+                color: 'black',
+                cursor: 'pointer'
+              }}
+                onClick={() => {
+                  refetch()
                 }}
-                  onClick={() => refetch()}
-                />
-              </span>
-              <EntrySelect />
-            </div>
-          </div>
-          <FeesReportTable form={form} data={data} isLoading={isLoading} />
+              />
+              <LimitSelect
+                features={features}
+                setFeatures={setFeatures}
+              />
+            </Group>
+          </Flex>
+          <FeesReportTable
+            data={data?.data}
+          />
         </>
       }
-      {data && data?.fees?.fees.length < 1 && <div
-        style={{
-          textAlign: 'center',
-          fontsize: '26px',
-        }}
-      ><span>لا توجد مصاريف</span></div>}
-      {data?.fees?.pagination?.hasPagination && <Pagination pagination={data?.fees?.pagination} />}
+      {data?.meta?.pagination?.hasPagination &&
+        <Pagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />}
+      {data && data?.data?.length < 1 &&
+        <Center m={'10 0'}>
+          <Text size={'xl'}>
+            لا يوجد مصاريف لهذه الفترة
+          </Text>
+        </Center>
+      }
     </>
   )
 }

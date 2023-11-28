@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+import { Button, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { notify } from '../../../utils/notify';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+
 import { useDeleteProviderMutation } from '../../../app/features/provider/providerApi';
 
-export default function ProviderTable({ data }) {
-  const dispatch = useDispatch();
+import CustomTable from '../../common/CustomTable/CustomTable';
 
-  const tableHead = [
+
+export default function ProviderTable({ data }) {
+
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -48,55 +48,51 @@ export default function ProviderTable({ data }) {
   ]
 
 
-  const [deleteProvider, { isLoading }] = useDeleteProviderMutation();
+  const [deleteProvider] = useDeleteProviderMutation();
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
 
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td>{element.name}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+      <Table.Td>
+        <Button
+          type="button"
+          disabled={element?.isDeleted}
 
-  const handleDelete = async (providerId) => {
-    try {
-      const response = await deleteProvider(providerId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
+          size="xs"
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditProvider',
+              title: 'تعديل المزود',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+      <Table.Td>
+        <DeleteModal
+          title={'حذف مزود'}
+          disabled={element?.isDeleted}
+
+          text='هل أنت متأكد من حذف المزود ؟'
+          handleDelete={deleteProvider}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
+
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.provider.map(provider => {
-            return <tr key={provider.id}>
-              <td>
-                <DateAndTime createdAt={provider.createdAt} />
-              </td>
-              <td>{provider.name}</td>
-              <td>{provider.note || "-"}</td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditProvider',
-                    modalTitle: 'تعديل الحساب',
-                    status: 'تعديل',
-                    childrenProps: { provider }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(provider.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

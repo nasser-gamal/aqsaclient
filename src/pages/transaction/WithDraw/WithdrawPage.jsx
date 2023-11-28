@@ -9,6 +9,7 @@ export default function WithdrawPage() {
       <PageHelmet title={'السحب'} />
       <Container>
         <WithDraw />
+        
       </Container>
     </>
   )

@@ -1,19 +1,22 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../common/Table/Table';
-import EditButton from '../../UI/TableButtons/EditButton';
+import { useDeleteBankAccountMutation } from '../../../app/features/bankAccount/bankAccountApi';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+import CustomTable from '../../common/CustomTable/CustomTable';
+import { Button, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
 
 export default function BankAccountTable({ data }) {
 
-  const tableHead = [
+  const theads = [
     {
       title: "رقم الحساب",
       className: "account-number",
       order: "accountNumber",
       sort: "ASC",
     },
-   
+
     {
       title: "اسم الحساب",
       className: "bank",
@@ -50,38 +53,62 @@ export default function BankAccountTable({ data }) {
       order: "",
       sort: "",
     },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ];
+
+  const [deleteBankAccount] = useDeleteBankAccountMutation()
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>{element.bankNumber}</Table.Td>
+      <Table.Td>{element.accountName}</Table.Td>
+      <Table.Td>{element.bank?.bankName}</Table.Td>
+      <Table.Td>{element.balance}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td>
+        <Button
+          size="xs"
+          disabled={element?.isDeleted}
+
+           type="button"
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditBankAccount',
+              title: 'تعديل بيانات البنك',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+      <Table.Td>
+        <DeleteModal
+          disabled={element?.isDeleted}
+
+          title={'حذف حساب'}
+          text='هل أنت متأكد من حذف الحساب ؟'
+          handleDelete={deleteBankAccount}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
 
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
+    <CustomTable theads={theads} rows={rows} />
 
-        {
-          data?.bankAccounts.map(bankAccount => {
-            return <tr key={bankAccount.id}>
-              <td>{bankAccount.bankNumber}</td>
-              <td>{bankAccount.accountName}</td>
-              <td>{bankAccount.bank.bankName}</td>
-              <td>{bankAccount.balance}</td>
-              <td>{bankAccount.note || "-"}</td>
-              <td>
-                <DateAndTime createdAt={bankAccount.createdAt} />
-              </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditBankAccount',
-                    modalTitle: 'تعديل الحساب',
-                    status: 'تعديل',
-                    childrenProps: { bankAccount }
-                  }}
-                />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+
   )
 }

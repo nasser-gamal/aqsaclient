@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import CustomButton from "../common/Button/CustomButton";
 import Agents from "./Form/Agents";
 import CommissionTable from "./Form/CommissionTable";
 
@@ -9,29 +8,48 @@ import { useCreateCommissionMutation } from "../../app/features/commissions/comm
 import { useDispatch } from "react-redux";
 
 import { notify } from "../../utils/notify";
+import Year from "./Form/year";
 import Month from "./Form/Month";
 import { validateCommission } from "../../utils/validation";
 import { useFindAllCategoriesQuery } from "../../app/features/category/categoryApi";
-import Year from "./Form/year";
+import { Button, Grid } from "@mantine/core";
+import { months } from "../../utils/months";
 
 export default function Index() {
-  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery({ page: '', limit: '', order: "createdAt", sort: 'ASC' });
-
   const dispatch = useDispatch()
+
+
+
+  const { data, isLoading: categoryLoading } = useFindAllCategoriesQuery({ limit: 10000 });
+
+
+  var currentDate = new Date();
+  var currentMonthIndex = currentDate.getMonth();
 
   const [form, setForm] = useState({
     agentId: "",
-    month: '',
+    month: months[currentMonthIndex],
     year: new Date().getFullYear(),
     commissions: [],
   });
 
+  const onChange = (e, categoryIndex, subCategoryIndex) => {
+    // const { name, value } = e.target;
+    // const data = [...form.commissions];
+    // data[serviceId][name] = value;
+    // setForm({ ...form, commissions: data });
 
-  const onChange = (e, serviceId) => {
     const { name, value } = e.target;
-    const data = [...form.commissions];
-    data[serviceId][name] = value;
-    setForm({ ...form, commissions: data });
+
+    // Make a copy of the form state to avoid mutating it directly
+    const updatedForm = { ...form };
+    // console.log('updae', updatedForm.commissions[categoryIndex].subCategories[subCategoryIndex][name])
+
+    // Update the amount or count based on the input name and category index
+    updatedForm.commissions[categoryIndex].subCategories[subCategoryIndex][name] = Number(value);
+
+    // Update the state with the modified form
+    setForm(updatedForm);
   };
 
 
@@ -47,9 +65,11 @@ export default function Index() {
 
 
 
-  const onClick = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault()
     try {
       const error = validateCommission(form);
+      console.log(form)
       if (error) {
         notify('error', error);
       } else {
@@ -58,6 +78,7 @@ export default function Index() {
         resetForm()
       }
     } catch (err) {
+      console.log(err)
       notify('error', err.data.message);
     }
   }
@@ -72,18 +93,29 @@ export default function Index() {
   }
 
   return (
-    <>
-      <div className="d-flex" style={{
-        gap: '20px',
-        justifyContent: 'center',
-        marginBottom: '10px'
-      }}>
-        <Year form={form} setForm={setForm} />
-        <Month form={form} setForm={setForm} />
-        <Agents form={form} setForm={setForm} />
-      </div>
+    <form onSubmit={onSubmit}>
+      <Grid mb={20} justify="center" align="center">
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Year
+            form={form}
+            setForm={setForm}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Month
+            form={form}
+            setForm={setForm}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Agents
+            form={form}
+            setForm={setForm}
+          />
+        </Grid.Col>
+      </Grid>
       <CommissionTable
-        data={data}
+        data={data?.data}
         isLoading={categoryLoading}
         form={form}
         setForm={setForm}
@@ -92,16 +124,12 @@ export default function Index() {
       <div className="text-center" style={{
         marginTop: '20px '
       }}>
-        <CustomButton
-          classes={'add-btn'}
-          width={'80px'}
-          height={'30px'}
-          fontSize={'18px'}
-          onClick={onClick}
+        <Button
+          type='submit'
         >
           إضافة
-        </CustomButton>
+        </Button>
       </div>
-    </>
+    </form>
   )
 }

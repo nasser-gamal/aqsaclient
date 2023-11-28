@@ -41,18 +41,19 @@ import SegmentsPageForAll from "../pages/SegmentForAll/Segments.Page";
 import DuesPage from "../pages/Dues/DuesPage";
 import Page404 from "../pages/Page404/Page404";
 import Chat from "../pages/chat/Chat";
+import SubCategoryPage from "../pages/SubCategory/SubCategoryPage";
 
 
 const Router = () => {
 
   return (
     <Routes>
-       {/* <Route
+       <Route
           path="/chat"
           element={
             <Chat />
           }
-        /> */}
+        />
       <Route element={<Page404 />} path="*" />
       <Route element={<AdminRoute />}>
         <Route
@@ -80,6 +81,12 @@ const Router = () => {
           path="/services"
           element={
             <CategoryPage />
+          }
+        />
+        <Route
+          path="/subServices"
+          element={
+            <SubCategoryPage />
           }
         />
         <Route
@@ -183,7 +190,7 @@ const Router = () => {
           element={<InventoryPage />}
         />
         <Route
-          path="/apps"
+          path="/applications"
           element={<AppsPage />}
         />
       </Route>
@@ -206,7 +213,7 @@ const Router = () => {
         />
       </Route>
       <Route
-        path="/applications"
+        path="/apps"
         element={
           <ApplicationsPage />
         }

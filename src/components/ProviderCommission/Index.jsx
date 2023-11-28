@@ -1,18 +1,37 @@
-import { useEffect } from 'react';
-import AddButton from '../common/Button/AddButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
+import { Button, Flex, Group } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { useDispatch } from 'react-redux';
+
+
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import ProviderCommissionTable from './Table/ProviderCommissionTable';
-import Pagination from '../UI/Pagination/Pagination';
 import { useFindAllProviderCommissionsQuery } from '../../app/features/provider/providerCommissions';
+
+
+import CustomPagination from '../UI/Pagination/Pagination';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import ExportButton from '../UI/ExportButton/ExportButton';
+import Search from '../UI/Search/Search';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
+
+import ProviderCommissionTable from './Table/ProviderCommissionTable';
 
 
 export default function Index() {
   const dispatch = useDispatch();
 
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
-  const { data, isLoading, isFetching } = useFindAllProviderCommissionsQuery({ page, limit, order: orderBy, sort });
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    conditions: '',
+  })
 
+  const { data, isLoading, isFetching, error } = useFindAllProviderCommissionsQuery({ ...features });
+console.log(error)
   useEffect(() => {
     if (isLoading || isFetching) {
       dispatch(showLoader())
@@ -23,9 +42,47 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditProviderCommission'} modalTitle={'اضافة عمولة مزود'} />
-      <ProviderCommissionTable data={data?.providerCommissions} />
-      {data?.providerCommissions?.pagination.hasPagination && <Pagination pagination={data?.providerCommissions?.pagination} />}
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditProviderCommission',
+            title: 'أضافة  شريحة جديدة',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'اسم المزود', value: 'name' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
+        />
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex>
+      <ProviderCommissionTable
+        data={data?.data}
+        isLoading={isLoading}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

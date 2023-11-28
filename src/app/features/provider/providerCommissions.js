@@ -4,14 +4,14 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerCommissionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviderCommissions: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.providerCommission.GET_PROVIDER_COMMISSIONS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: ({ page, limit, fields, sort, keyword, conditions }) => ({
+        url: `${apiEndpoints.PROVIDER_COMMISSIONS}?page=${page}&limit=${limit}&fields=${fields}&sort=${sort}&keyword=${keyword}&${conditions}`,
       }),
       providesTags: ['providerCommission'],
     }),
     createProviderCommission: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.providerCommission.CREATE_PROVIDER_COMMISSION,
+        url: apiEndpoints.PROVIDER_COMMISSIONS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +19,7 @@ export const providerCommissionApiSlice = apiSlice.injectEndpoints({
     }),
     updateProviderCommission: builder.mutation({
       query: ({ providerCommissionId, form }) => ({
-        url: `${apiEndpoints.providerCommission.UPDATE_PROVIDER_COMMISSION}/${providerCommissionId}`,
+        url: `${apiEndpoints.PROVIDER_COMMISSIONS}/${providerCommissionId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +27,7 @@ export const providerCommissionApiSlice = apiSlice.injectEndpoints({
     }),
     deleteProviderCommission: builder.mutation({
       query: (providerCommissionId) => ({
-        url: `${apiEndpoints.providerCommission.DELETE_PROVIDER_COMMISSION}/${providerCommissionId}`,
+        url: `${apiEndpoints.PROVIDER_COMMISSIONS}/${providerCommissionId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['providerCommission'],

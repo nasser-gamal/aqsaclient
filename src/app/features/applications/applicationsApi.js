@@ -5,13 +5,13 @@ export const ApplicationApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllApps: builder.query({
       query: () => ({
-        url: apiEndpoints.applications.GET_APPS,
+        url: apiEndpoints.APPS,
       }),
       providesTags: ['apps'],
     }),
     createApp: builder.mutation({
       query: ({ form }) => ({
-        url: apiEndpoints.applications.CREATE_APP,
+        url: apiEndpoints.APPS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +19,7 @@ export const ApplicationApiSlice = apiSlice.injectEndpoints({
     }),
     updateApp: builder.mutation({
       query: ({ appId, form }) => ({
-        url: `${apiEndpoints.applications.UPDATE_APP}/${appId}`,
+        url: `${apiEndpoints.APPS}/${appId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +27,7 @@ export const ApplicationApiSlice = apiSlice.injectEndpoints({
     }),
     deleteApp: builder.mutation({
       query: (appId) => ({
-        url: `${apiEndpoints.applications.DELETE_APP}/${appId}`,
+        url: `${apiEndpoints.APPS}/${appId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['apps'],
@@ -39,5 +39,5 @@ export const {
   useFindAllAppsQuery,
   useCreateAppMutation,
   useUpdateAppMutation,
-  useDeleteAppMutation
+  useDeleteAppMutation,
 } = ApplicationApiSlice;

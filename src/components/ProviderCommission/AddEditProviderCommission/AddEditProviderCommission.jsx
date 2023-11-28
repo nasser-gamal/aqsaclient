@@ -1,28 +1,27 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
 
 
 import { notify } from '../../../utils/notify';
 import { validateProviderCommission } from '../../../utils/validation';
 
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { DateInput } from '../../../utils/formatDate';
 import { useCreateProviderCommissionMutation, useUpdateProviderCommissionMutation } from '../../../app/features/provider/providerCommissions';
 import ProviderSelect from './ProviderSelect';
+import { TextInput } from '@mantine/core';
 
-export default function AddEditProviderCommission() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditProviderCommission({ context, id, innerProps }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    providerId: childrenProps?.providerCommission.provider.id || "",
-    commission: childrenProps?.providerCommission.commission || "",
-    date: childrenProps?.providerCommission.date.split('T')[0] || DateInput(),
-    note: childrenProps?.providerCommission.note || ""
+    providerId: innerProps?.data?.provider.id || "",
+    commission: innerProps?.data?.commission || "",
+    date: innerProps?.data?.date.split('T')[0] || DateInput(),
+    note: innerProps?.data?.note || ""
   });
 
   const onChange = (e) => {
@@ -50,12 +49,11 @@ export default function AddEditProviderCommission() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.providerCommission
-          ? await updateProviderCommission({ providerCommissionId: childrenProps?.providerCommission.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateProviderCommission({ providerCommissionId: innerProps?.data.id, form }).unwrap()
           : await createProviderCommission(form).unwrap();
-
         notify('success', response.message);
-        dispatch(closeModal())
+        context.closeModal(id)
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -64,23 +62,27 @@ export default function AddEditProviderCommission() {
 
   return (
     <form onSubmit={onSubmit}>
-      <ProviderSelect form={form} setForm={setForm} />
-      <CustomInput
+      <ProviderSelect
+        form={form}
+        setForm={setForm}
+        value={innerProps?.data?.provider ? { label: innerProps?.data?.provider.name, value: innerProps?.data?.provider.id } : ''}
+      />
+      <TextInput m={'10 0'}
         type='text'
         label='العمولة'
         name={'commission'}
         value={form.commission}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='date'
         label='التاريخ'
         name={'date'}
         value={form.date}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
-        type='textarea'
+      <TextInput m={'10 0'}
+        type='text'
         label='محلوظة'
         name={'note'}
         value={form.note}

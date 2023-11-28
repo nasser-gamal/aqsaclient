@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+import { modals } from '@mantine/modals';
+import { Button, Table } from '@mantine/core';
+
+
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
 import showImg from '../../../assets/icons/picture.png'
 import { useDeleteAppMutation } from '../../../app/features/applications/applicationsApi';
-import { notify } from '../../../utils/notify';
+import CustomTable from '../../common/CustomTable/CustomTable';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+
+
 
 export default function AppTable({ data }) {
 
-  const dispatch = useDispatch();
 
-  const tableHead = [
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -72,71 +72,73 @@ export default function AppTable({ data }) {
 
 
 
-  const [deleteAgentTreasury, { isLoading }] = useDeleteAppMutation();
+  const [deleteAgentTreasury] = useDeleteAppMutation();
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
 
 
-  const handleDelete = async (appId) => {
-    try {
-      const response = await deleteAgentTreasury(appId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <td>
+        <DateAndTime createdAt={element.createdAt} />
+      </td>
+      <td>
+        {element.name}
+      </td>
+      <td>
+        {element.isLink ? "لا" : 'نعم'}
+      </td>
+      <td>
+        {element.link || '-'}
+      </td>
+      <td>
+        <a target='_blanc' href={`${import.meta.env.VITE_API_BASE_URL}/${element.img}`}>
+          <img style={{ width: '30px', cursor: 'pointer' }} src={showImg} alt={showImg} />
+        </a>
+      </td>
+      <td>
+        {element.note || "-"}
+      </td>
+        <>
+          <Table.Td>
+          <Button
+            disabled={element?.isDeleted}
+
+              type="button"
+              size="xs"
+              color="rgba(13, 148, 45, 1)"
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditApp',
+                  title: 'تعديل التطبيق',
+                  innerProps: { status: 'edit', data: element }
+                })
+              }
+            >
+              تعديل
+            </Button>
+          </Table.Td>
+          <Table.Td>
+          <DeleteModal
+            disabled={element?.isDeleted}
+
+              title={'حذف تطبيق'}
+              text='هل أنت متأكد من حذف التطبيق ؟'
+              handleDelete={deleteAgentTreasury}
+              id={element.id}
+              onCancel={() => console.log('Cancel')}
+            />
+          </Table.Td>
+        </>
+    </Table.Tr >
+  ));
+
+
 
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.map(app => {
-            return <tr key={app.id}>
-              <td>
-                <DateAndTime createdAt={app.createdAt} />
-              </td>
-              <td>
-                {app.name}
-              </td>
-              <td>
-                {app.isLink ? "لا" : 'نعم'}
-              </td>
-              <td>
-                {app.link || '-'}
-              </td>
-              <td>
-                <a target='_blanc' href={`${import.meta.env.VITE_API_BASE_URL}/${app.img}`}>
-                  <img style={{ width: '30px', cursor: 'pointer' }} src={showImg} alt={showImg} />
-                </a>
-              </td>
-              <td>
-                {app.note || "-"}
-              </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditApp',
-                    modalTitle: 'تعديل التطبيق',
-                    status: 'تعديل',
-                    childrenProps: { app }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(app.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
+
   )
 }

@@ -1,51 +1,93 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useFindAllWithDrawQuery } from '../../../app/features/transaction/withDrawApi';
-import EntrySelect from '../../UI/LimitSelect/EntrySelect';
-import Pagination from '../../UI/Pagination/Pagination';
-import AddButton from '../../common/Button/AddButton'
+import './index.modules.css';
+
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Flex, Group } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
+
+import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
+
 import WithdrawTable from './Table/WithdrawTable'
 
-import { useEffect } from 'react';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { resetFilter } from '../../../app/features/filter/filterSlice';
+import CustomPagination from '../../UI/Pagination/Pagination';
+import LimitSelect from '../../UI/LimitSelect/LimitSelect';
+import ExportButton from '../../UI/ExportButton/ExportButton';
+import FilterSelect from '../../UI/FilterSelect/FilterSelect';
+import Search from '../../UI/Search/Search';
+import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
 
-import './index.modules.css';
+
+
 export default function Index() {
-
   const dispatch = useDispatch();
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
 
-  const { data, isLoading, isFetching } = useFindAllWithDrawQuery({ page, limit, order: orderBy, sort });
+  const [features, setFeatures] = useState({
+    page: 1,
+    limit: 10,
+    sort: '',
+    keyword: '',
+    type: 'سحب'
+  })
 
+  const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features);
 
   useEffect(() => {
-    if (isFetching) {
+    if (isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching]);
+  }, [dispatch, isLoading, isFetching]);
 
 
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
 
 
   return (
     <>
-      <div className='d-flex flex-between'>
-        <AddButton
-          name={'AddEditWithdraw'}
-          modalTitle='اضافة عملية سحب جديدة'
-          childrenProps={{ width: '700px' }}
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditWithdraw',
+            title: 'أضافة سحب جديد',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'رقم الفاتورة', value: 'id' },
+            // { label: 'اسم الحساب', value: 'bankAccountName' },
+            { label: 'الرقم', value: 'number' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
         />
-        <EntrySelect />
-      </div>
-      <WithdrawTable data={data} isLoading={isLoading} />
-      {data?.pagination?.hasPagination && <Pagination pagination={data?.pagination} />}
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex>
+      <WithdrawTable
+        data={data?.data}
+        isLoading={isLoading}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

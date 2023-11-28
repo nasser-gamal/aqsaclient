@@ -1,19 +1,16 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+import { Button, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+import CustomTable from '../../common/CustomTable/CustomTable';
 import { useDeleteFeeMutation } from '../../../app/features/fees/feesApi';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { notify } from '../../../utils/notify';
 
 export default function FeesTable({ data }) {
-  const dispatch = useDispatch();
 
-  const tableHead = [
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -47,56 +44,52 @@ export default function FeesTable({ data }) {
     },
   ]
 
+  const [deleteFee] = useDeleteFeeMutation();
 
-  const [deleteFee, { isLoading }] = useDeleteFeeMutation();
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>{element.amount}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+      <Table.Td>
+        <Button
+          size="xs"
+          type="button"
+          disabled={element?.isDeleted}
+
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditFees',
+              title: 'تعديل مصاريف ',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td>
+      <Table.Td>
+        <DeleteModal
+          disabled={element?.isDeleted}
+
+          title={'حذف حساب'}
+          text='هل أنت متأكد من حذف الحساب ؟'
+          handleDelete={deleteFee}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td>
+    </Table.Tr >
+  ));
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
 
-
-  const handleDelete = async (feesId) => {
-    try {
-      const response = await deleteFee(feesId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.fees.map(fee => {
-            return <tr key={fee.id}>
-              <td>
-                <DateAndTime createdAt={fee.date} />
-              </td>
-              <td>{fee.amount}</td>
-              <td>{fee.note || "-"}</td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditFees',
-                    modalTitle: 'تعديل الحساب',
-                    status: 'تعديل',
-                    childrenProps: { fee }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(fee.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
+
   )
 }

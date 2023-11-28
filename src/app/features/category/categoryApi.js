@@ -4,14 +4,15 @@ import { apiSlice } from '../../api/apiSlice';
 export const categoryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllCategories: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.category.GET_CATEGORIES}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: (params) => ({
+        url: apiEndpoints.CATEGORIES,
+        params: { ...params },
       }),
       providesTags: ['categories'],
     }),
     createCategory: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.category.CREATE_CATEGORY,
+        url: apiEndpoints.CATEGORIES,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +20,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
     }),
     updateCategory: builder.mutation({
       query: ({ categoryId, form }) => ({
-        url: `${apiEndpoints.category.UPDATE_CATEGORY}/${categoryId}`,
+        url: `${apiEndpoints.CATEGORIES}/${categoryId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +28,7 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
     }),
     deleteCategory: builder.mutation({
       query: (categoryId) => ({
-        url: `${apiEndpoints.category.DELETE_CATEGORY}/${categoryId}`,
+        url: `${apiEndpoints.CATEGORIES}/${categoryId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['categories'],

@@ -1,72 +1,42 @@
 /* eslint-disable react/prop-types */
-import CustomButton from '../../common/Button/CustomButton';
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
-import YearDate from '../../UI/Commission/SearchDate/YearDate';
-import { useState } from 'react';
-import { months } from './months';
+import YearDate from '../../UI/Commission/SearchDate/Year';
+import { Button, Center, Grid,  } from '@mantine/core';
+import Month from '../../UI/Commission/SearchDate/Month';
 
 export default function SearchDate({ query, setQuery, setSkip }) {
-
-
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الشهر');
-
-  const onClick = () => {
+  const onSubmit = (e) => {
+    e.preventDefault()
     setSkip(false);
   }
 
-
-  const handleClick = (month) => {
-    setIsClicked(!isClicked);
-    setDropHeading(month.name);
-    setQuery({ ...query, month: month.id })
-    setSkip(true)
-  }
-
-
   return (
-    <div className='search-date'>
-      <div className='d-flex'>
-        <YearDate
-          query={query}
-          setQuery={setQuery}
-          setSkip={setSkip}
-        />
-        <CustomSelect
-          dropHeading={dropHeading}
-          label={'الشهر'}
-          isClicked={isClicked}
-          setIsClicked={setIsClicked}
-          onClick={() => setIsClicked(!isClicked)}
-        >
-          {
-            months.map(month => {
-              return <li
-                key={month.id}
-                onClick={() => {
-                  handleClick(month)
-                }}
-              >
-                {month.name}
-              </li>
-            })
-          }
-        </CustomSelect>
-      </div>
-      <div className='text-center'>
-        <CustomButton
-          type='button'
-          classes={'add-btn'}
-          width='80px'
-          height='30px'
-          fontSize='20px'
-          marginTop='5px'
-          onClick={onClick}
+    <form onSubmit={onSubmit} style={{
+      marginTop: '20px'
+    }}>
+      <Grid justify='center'>
+        <Grid.Col span={{ base: 12, sm: 3}}>
+          <YearDate
+            form={query}
+            setForm={setQuery}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3}}>
+          <Month
+            form={query}
+            setForm={setQuery}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+      </Grid>
+      <Center m={'20 0'}>
+        <Button
+          type='submit'
           disabled={!query.month}
         >
           بحث
-        </CustomButton>
-      </div>
-    </div>
+        </Button>
+      </Center>
+    </form>
   )
 }

@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CustomInput from '../../../common/FormFields/input/CustomInput';
+import { useDispatch, } from 'react-redux';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
 import ReciverSelect from './ReciverSelect';
 
@@ -11,18 +11,17 @@ import SenderSelect from './SenderSelect';
 import { notify } from '../../../../utils/notify';
 import { useCreateTransferMutation, useUpdateTransferMutation } from '../../../../app/features/transaction/transferApi';
 import { validateTransfer } from '../../../../utils/validation';
-import { closeModal } from '../../../../app/features/modal/modalSlice';
+import { TextInput } from '@mantine/core';
 
-export default function AddEditDeposit() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditDeposit({ context, id, innerProps }) {
   const dispatch = useDispatch()
 
 
   const [form, setForm] = useState({
-    senderId: childrenProps?.bankAccountId || childrenProps?.transfer?.senderId || "",
-    amountTotal: childrenProps?.transfer?.amountTotal || "",
-    recipientId: childrenProps?.transfer?.recipientId || "",
-    note: childrenProps?.transfer?.note || ""
+    senderId: innerProps?.data.id || innerProps?.data?.senderId || "",
+    amountTotal: innerProps?.data?.amountTotal || "",
+    recipientId: innerProps?.data?.recipientId || "",
+    note: innerProps?.data?.note || ""
   });
 
   const onChange = (e) => {
@@ -31,41 +30,40 @@ export default function AddEditDeposit() {
   };
 
 
+  const [createSegment] = useCreateTransferMutation();
+  const [updateSegment] = useUpdateTransferMutation();
 
-  const [createSegment, { isLoading: createLoading }] = useCreateTransferMutation();
-  const [updateSegment, { isLoading: updateLoading }] = useUpdateTransferMutation();
 
-
-  useEffect(() => {
-    if (createLoading || updateLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, createLoading, updateLoading]);
-
+  // useEffect(() => {
+  //   if (createLoading || updateLoading) {
+  //     dispatch(showLoader())
+  //   } else {
+  //     dispatch(hideLoader())
+  //   }
+  // }, [dispatch, createLoading, updateLoading]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(showLoader())
       const error = validateTransfer(form);
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.transfer
-          ? await updateSegment({ transactionId: childrenProps?.transfer.id, form }).unwrap()
+        const response = innerProps?.status === 'edit'
+          ? await updateSegment({ transactionId: innerProps?.data.id, form }).unwrap()
           : await createSegment(form).unwrap();
         notify('success', response.message);
-        dispatch(closeModal())
+        context.closeModal(id)
       }
+      dispatch(hideLoader())
     } catch (error) {
+      dispatch(hideLoader())
       notify('error', error.data.message);
     }
   }
 
-
-
-  const { data, isLoading } = useFindAllBankAccountsQuery({ page: 1, limit: 100000000000, order: 'createdAt', sort: "ASC" });
+  const { data, isLoading } = useFindAllBankAccountsQuery({ limit: 10000 });
 
   useEffect(() => {
     if (isLoading) {
@@ -74,43 +72,45 @@ export default function AddEditDeposit() {
       dispatch(hideLoader())
     }
   }, [dispatch, isLoading])
+  console.log(innerProps)
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <div >
-          {childrenProps?.bankAccountId ?
-            <CustomInput
-              width={'100%'}
+        <div>
+          {innerProps?.data || innerProps?.show ?
+            <TextInput m={'10 0'}
+              w={'100%'}
               type='text'
               name='bankAccountId'
-              value={childrenProps?.bankAccountName}
               label='الحساب'
+              value={innerProps?.data?.sender?.accountName || innerProps?.data?.accountName}
               onChange={(e) => onChange(e)}
-              disabled={childrenProps?.show || childrenProps?.bankAccountId}
-            /> :
+              disabled={innerProps?.show || innerProps?.data}
+            />
+            :
             <SenderSelect
-              bankAccounts={data?.bankAccounts}
+              data={data?.data}
               form={form}
               setForm={setForm}
-              disabled={childrenProps?.bankAccountId || childrenProps?.transfer ? true : false}
+              disabled={innerProps?.data ? true : false}
             />
           }
-
           <ReciverSelect
-            bankAccounts={data?.bankAccounts}
+            data={data?.data}
             form={form}
             setForm={setForm}
-            disabled={childrenProps?.transfer ? true : false}
+            disabled={innerProps?.data?.recipient ? true : false}
+            defaultValue={innerProps?.data?.recipient?.accountName}
           />
-          <CustomInput
+          <TextInput m={'10 0'}
             type='number'
             name='amountTotal'
             label='القيمة'
             value={form.amountTotal}
             onChange={(e) => onChange(e)}
           />
-          <CustomInput
+          <TextInput m={'10 0'}
             type='textarea'
             name='note'
             label='ملحوظة'

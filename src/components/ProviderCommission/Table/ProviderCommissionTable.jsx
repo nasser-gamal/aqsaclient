@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { notify } from '../../../utils/notify';
+
+import { Button, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
+import CustomTable from '../../common/CustomTable/CustomTable';
+import ResotreButton from '../../UI/RestoreData/ResotreButton';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+
 import { useDeleteProviderCommissionMutation } from '../../../app/features/provider/providerCommissions';
 
 export default function ProviderCommissionTable({ data }) {
-  const dispatch = useDispatch();
 
-  const tableHead = [
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -53,56 +53,52 @@ export default function ProviderCommissionTable({ data }) {
   ]
 
 
-  const [deleteProviderCommission, { isLoading }] = useDeleteProviderCommissionMutation();
+  const [deleteProviderCommission] = useDeleteProviderCommissionMutation();
+  console.log(data)
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
 
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>{element?.provider?.name}</Table.Td>
+      <Table.Td>{element.commission}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
 
-  const handleDelete = async (providerId) => {
-    try {
-      const response = await deleteProviderCommission(providerId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
-
+      <>
+        <Table.Td>
+          <Button
+            disabled={element?.isDeleted}
+            type="button"
+            size="xs"
+            color="rgba(13, 148, 45, 1)"
+            onClick={() =>
+              modals.openContextModal({
+                modal: 'AddEditProviderCommission',
+                title: 'تعديل العمولة',
+                innerProps: { status: 'edit', data: element }
+              })
+            }
+          >
+            تعديل
+          </Button>
+        </Table.Td>
+        <Table.Td>
+          <DeleteModal
+            disabled={element?.isDeleted}
+            title={'حذف عمولة مزود'}
+            text='هل أنت متأكد من حذف العمولة ؟'
+            handleDelete={deleteProviderCommission}
+            id={element.id}
+            onCancel={() => console.log('Cancel')}
+          />
+        </Table.Td>
+      </>
+    </Table.Tr >
+  ));
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.providerCommissions.map(providerCommission => {
-            return <tr key={providerCommission.id}>
-              <td>
-                <DateAndTime createdAt={providerCommission.date} />
-              </td>
-              <td>{providerCommission.provider.name}</td>
-              <td>{providerCommission.commission}</td>
-              <td>{providerCommission.note || "-"}</td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditProviderCommission',
-                    modalTitle: 'تعديل الحساب',
-                    status: 'تعديل',
-                    childrenProps: { providerCommission }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(providerCommission.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

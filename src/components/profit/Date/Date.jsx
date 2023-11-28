@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import CustomButton from '../../../components/common/Button/CustomButton';
-import CustomInput from '../../../components/common/FormFields/input/CustomInput';
+import { Button, Center, Grid, TextInput } from '@mantine/core';
 
 export default function DaySelect({ form, setForm, onClick, setSkip }) {
 
@@ -13,46 +12,32 @@ export default function DaySelect({ form, setForm, onClick, setSkip }) {
 
 
   return (
-    <div style={{
-      margin: '0 auto 20px',
-    }}>
-      <div className='d-flex' style={{
-        width: "600px",
-        maxWidth: '100%',
-        margin: 'auto',
-        gap: '20px'
-      }}>
-        <CustomInput
-          type={'date'}
-          label='من'
-          name='startDate'
-          value={form.startDate}
-          onChange={(e) => onChange(e)}
-          width={'48%'}
-
-        />
-        <CustomInput
-          type={'date'}
-          label='إلي'
-          name='endDate'
-          value={form.endDate}
-          onChange={(e) => onChange(e)}
-          width={'48%'}
-        />
-      </div>
-      <div className='text-center'>
-        <CustomButton
-          type='button'
-          classes={'add-btn'}
-          width='60px'
-          height='30px'
-          fontSize={'20px'}
-          marginTop={'10px'}
-          onClick={onClick}
-        >
+    <form onSubmit={onClick}>
+      <Grid justify='center'>
+        <Grid.Col span={{ base: 12, sm: 3 }}>
+          <TextInput m={'10 0'}
+            type={'date'}
+            label='من'
+            name='startDate'
+            value={form.startDate}
+            onChange={(e) => onChange(e)}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3 }}>
+          <TextInput m={'10 0'}
+            type={'date'}
+            label='إلي'
+            name='endDate'
+            value={form.endDate}
+            onChange={(e) => onChange(e)}
+          />
+        </Grid.Col>
+      </Grid>
+      <Center m={'20 0'}>
+        <Button type='submit'  >
           بحث
-        </CustomButton>
-      </div>
-    </div>
+        </Button>
+      </Center>
+    </form>
   )
 }

@@ -4,14 +4,15 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviderTreasury: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.providerTreasury.GET_PROVIDER_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: (params) => ({
+        url: apiEndpoints.PROVIDER_TREASURIES,
+        params: { ...params },
       }),
       providesTags: ['providerTreasury'],
     }),
     createProviderTreasury: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.providerTreasury.CREATE_PROVIDER_TREASURY,
+        url: apiEndpoints.PROVIDER_TREASURIES,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +20,7 @@ export const providerTreasuryApiSlice = apiSlice.injectEndpoints({
     }),
     updateProviderTreasury: builder.mutation({
       query: ({ treasuryId, form }) => ({
-        url: `${apiEndpoints.providerTreasury.UPDATE_PROVIDER_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.PROVIDER_TREASURIES}/${treasuryId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +28,7 @@ export const providerTreasuryApiSlice = apiSlice.injectEndpoints({
     }),
     deleteProviderTreasury: builder.mutation({
       query: (treasuryId) => ({
-        url: `${apiEndpoints.providerTreasury.DELETE_PROVIDER_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.PROVIDER_TREASURIES}/${treasuryId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['providerTreasury'],

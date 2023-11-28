@@ -1,18 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import CustomSelect from "../../common/FormFields/Select/CustomSelect";
-import { useFindAllAgentsQuery } from "../../../app/features/user/agentApi";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
+import { useFindAllUsersQuery } from "../../../app/features/user/userApi";
+import { Select } from "@mantine/core";
 
-export default function Agents({ form, setForm }) {
+export default function Agents({ form, setForm, setSkip, disabled }) {
   const dispatch = useDispatch()
 
-  const [dropHeading, setDropHeading] = useState()
-  const [isClicked, setIsClicked] = useState(false);
-
-  const { data, isLoading } = useFindAllAgentsQuery();
-  const [users, setUsers] = useState([])
+  const { data, isLoading } = useFindAllUsersQuery({ limit: 10000, roleId: 3 });
 
   useEffect(() => {
     if (isLoading) {
@@ -22,55 +18,35 @@ export default function Agents({ form, setForm }) {
     }
   }, [isLoading, dispatch]);
 
-  useEffect(() => {
-    setUsers(data?.users)
-  }, [data]);
 
 
-  // const filterSelectOptions = (e) => {
-  //   const value = e.target.value;
-  //   const filteredOptions = users.filter(user => {
-  //     return user.userName.includes(value);
-  //   });
-  //   setUsers(filteredOptions)
-  // }
+  const options = data?.data.map((element) => ({
+    value: `${element?.id}`,
+    label: element?.accountName,
+  })) || [];
 
 
-  const handleChange = (agentId) => {
-    setForm({ ...form, agentId })
+  const onChange = (value) => {
+    setForm({ ...form, agentId: value });
+    if (setSkip) {
+      setSkip(true)
+    }
   }
 
+
   return (
-    <div style={{
-      width: "400px",
-      // maxWidth: "100%",
-      // margin: "auto",
-    }}>
-      <CustomSelect
-        // searchInput={true}
-        // onChange={(e) => filterSelectOptions(e)}
-        dropHeading={dropHeading}
-        label={'اختر العميل'}
-        isClicked={isClicked}
-        setIsClicked={setIsClicked}
-        onClick={() => setIsClicked(!isClicked)}
-      >
-        {
-          users?.map(user => {
-            return <li
-              key={user.id}
-              onClick={() => {
-                setDropHeading(user.userName)
-                setIsClicked(!isClicked);
-                handleChange(user.id);
-              }}
-            >
-              {user.userName}
-            </li>
-          })
-        }
-      </CustomSelect>
-      
-    </div>
+    <Select
+      m={'10 0'}
+
+      w={'100%'}
+      label="اختر الوكيل"
+      data={options}
+      onChange={onChange}
+      disabled={disabled}
+      searchable
+      nothingFoundMessage="الخدمة غير موجودة..."
+      allowDeselect={false}
+
+    />
   )
 }

@@ -4,33 +4,33 @@ import { apiSlice } from '../../api/apiSlice';
 export const addionalTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllAddionalTreasury: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.addionalTreasury.GET_ADDIONAL_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: ({ page, limit, fields, sort, keyword, conditions }) => ({
+        url: `${apiEndpoints.ADDIONAL_TREASURIES}?page=${page}&limit=${limit}&fields=${fields}&sort=${sort}&keyword=${keyword}&${conditions}`,
       }),
-      providesTags: ['addionalTreasury'],
+      providesTags: ['addionalTreasuries'],
     }),
     createAddionalTreasury: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.addionalTreasury.CREATE_ADDIONAL_TREASURY,
+        url: apiEndpoints.ADDIONAL_TREASURIES,
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['addionalTreasury'],
+      invalidatesTags: ['addionalTreasuries'],
     }),
     updateAddionalTreasury: builder.mutation({
       query: ({ treasuryId, form }) => ({
-        url: `${apiEndpoints.addionalTreasury.UPDATE_ADDIONAL_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.ADDIONAL_TREASURIES}/${treasuryId}`,
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['addionalTreasury'],
+      invalidatesTags: ['addionalTreasuries'],
     }),
     deleteAddionalTreasury: builder.mutation({
       query: (treasuryId) => ({
-        url: `${apiEndpoints.addionalTreasury.DELETE_ADDIONAL_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.ADDIONAL_TREASURIES}/${treasuryId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['addionalTreasury'],
+      invalidatesTags: ['addionalTreasuries'],
     }),
   }),
 });

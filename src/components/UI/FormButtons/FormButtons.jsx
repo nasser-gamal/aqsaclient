@@ -1,39 +1,41 @@
+/* eslint-disable react/prop-types */
 
 import './form-btns.modules.css';
-import CustomButton from '../../common/Button/CustomButton';
+import { Button, Flex } from '@mantine/core';
+import { modals } from '@mantine/modals';
 
+export default function FormButtons({ status, close }) {
 
-import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../../app/features/modal/modalSlice';
-
-export default function FormButtons() {
-
-  const dispatch = useDispatch();
-
-  const { status } = useSelector(state => state.modal);
-
+  // const btnTitle = {
+  //   CREATE: 'حفظ',
+  //   EDIT: 'تعديل',
+  //   DELETE: 'تأكيد'
+  // }
 
   return (
-    <div className='d-flex flex-center form-btns'>
-      <CustomButton
+    <Flex p={'20px 0 8px '} gap={10} justify={'center'}>
+      <Button
         type='submit'
-        classes={'add-btn'}
-        width={'80px'}
-        height={'30px'}
-        fontSize={'18px'}
+        variant="filled"
+        radius="xl"
       >
-        {status}
-      </CustomButton>
-      <CustomButton
+        {status === "edit" ? "تعديل" : "حفظ"}
+      </Button>
+      <Button
         type='button'
-        classes={'cancel-btn'}
-        width={'80px'}
-        height={'30px'}
-        fontSize={'18px'}
-        onClick={() => dispatch(closeModal())}
+        variant="filled"
+        color="gray"
+        onClick={() => {
+          if (close) {
+            close()
+          } else {
+            modals.closeAll()
+          }
+        }}
+        radius="xl"
       >
         إلغاء
-      </CustomButton>
-    </div>
+      </Button>
+    </Flex>
   )
 }

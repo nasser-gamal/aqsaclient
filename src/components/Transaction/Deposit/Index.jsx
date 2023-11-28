@@ -1,20 +1,31 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useFindAllDepositesQuery } from '../../../app/features/transaction/depositeApi';
-import Pagination from '../../UI/Pagination/Pagination';
-import AddButton from '../../common/Button/AddButton'
-import DepositTable from './Table/DepositTable'
 import './index.modules.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Flex, Group } from '@mantine/core';
+
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { resetFilter } from '../../../app/features/filter/filterSlice';
-import EntrySelect from '../../UI/LimitSelect/EntrySelect';
+
+import DepositTable from './Table/DepositTable'
+import CustomPagination from '../../UI/Pagination/Pagination';
+import LimitSelect from '../../UI/LimitSelect/LimitSelect';
+import { modals } from '@mantine/modals';
+import ExportButton from '../../UI/ExportButton/ExportButton';
+import FilterSelect from '../../UI/FilterSelect/FilterSelect';
+import Search from '../../UI/Search/Search';
+import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
-  const { data, isLoading, isFetching } = useFindAllDepositesQuery({ page, limit, order: orderBy, sort });
 
+  const [features, setFeatures] = useState({
+    page: 1,
+    limit: 10,
+    sort: '',
+    keyword: '',
+    type: 'ايداع'
+  })
 
+  const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features);
 
   useEffect(() => {
     if (isFetching) {
@@ -25,22 +36,51 @@ export default function Index() {
   }, [dispatch, isFetching]);
 
 
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
   return (
     <>
-      <div className='d-flex flex-between'>
-        <AddButton
-          name={'AddEditDeposit'}
-          modalTitle='اضافة عملية ايداع جديدة'
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditDeposit',
+            title: 'أضافة ايداع جديد',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'رقم الفاتورة', value: 'id' },
+            // { label: 'اسم الحساب', value: 'bankAccountName' },
+            { label: 'الرقم', value: 'number' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
         />
-        <EntrySelect />
-      </div>
-      <DepositTable data={data} isLoading={isLoading} />
-      {data?.pagination?.hasPagination && <Pagination pagination={data?.pagination} />}
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex>
+      <DepositTable
+        data={data?.data}
+        isLoading={isLoading}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

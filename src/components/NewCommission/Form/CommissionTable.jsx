@@ -1,12 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
-import Table from '../../common/Table/Table';
+import { Table, TextInput, Title } from '@mantine/core';
+import CustomTable from '../../common/CustomTable/CustomTable';
 import Spinner from '../../UI/Loader/Spinner';
 
-export default function CommissionTable({data, isLoading, form, setForm, onChange }) {
+export default function CommissionTable({ data, isLoading, form, setForm, onChange }) {
 
-  const tableHead = [
+  const theads = [
+    {
+      title: "الفئة",
+      className: "",
+      order: "",
+      sort: "",
+    },
     {
       title: "الخدمة",
       className: "",
@@ -29,53 +35,77 @@ export default function CommissionTable({data, isLoading, form, setForm, onChang
 
 
 
-
   useEffect(() => {
     const commissions = [];
-    if (data?.categories) {
-      data?.categories.map((category) => {
-        return commissions.push({ serviceId: category.id, amountTotal: 0, count: 0 })
-      })
+    if (data) {
+      data.forEach((category) => {
+        // Assuming subcategories are available within the category object
+        const subCategories = category?.subCategories.map((subCategory) => ({
+          id: subCategory.id,
+          amount: 0,
+          count: 0,
+        }));
+        commissions.push({
+          categoryId: category.id,
+          subCategories: subCategories,
+        });
+      });
       setForm({ ...form, commissions })
     }
-  }, [data?.categories])
+  }, [data])
 
 
   if (isLoading) {
     return <Spinner />
   }
 
-  return (
-    <Table tableHead={tableHead} isLoading={isLoading}>
-      <tbody>
-        {
-          data?.categories?.map((category, index) => {
-            return <tr key={category.id}>
-              <td>
-                {category.name}
-              </td>
-              <td>
-                <CustomInput
-                  type='text'
-                  name='amountTotal'
+
+  console.log(form)
+  const rows = data?.map((element, index) => {
+    return (
+      <>
+        <Table.Tr>
+          <Table.Td style={{ textAlign: 'center' }} rowSpan={element?.subCategories?.length + 1} bg={'#9ecae7'} p={'10 30'}>
+            <Title order={3} fw={'normal'}>{element?.name}</Title>
+          </Table.Td>
+        </Table.Tr>
+        {element?.subCategories.map((ele, indx) => {
+          console.log(form?.commissions?.subCategories)
+          return (
+            <Table.Tr color='red' key={ele.id}>
+              <Table.Td>{ele.name}</Table.Td>
+              <Table.Td>
+                <TextInput
+                  m={'10 0'}
+                  type='number'
+                  name='amount'
                   placeholder={'ادخل القيمة'}
-                  value={form?.commissions[index]?.amountTotal || 0}
-                  onChange={(e) => onChange(e, index)}
+                  value={form?.commissions[index]?.subCategories[indx]?.amount || 0}
+                  onChange={(e) => onChange(e, index, indx)}
+                  fw={'bold'}
                 />
-              </td>
-              <td>
-                <CustomInput
-                  type='text'
+              </Table.Td>
+              <Table.Td>
+                <TextInput
+                  m={'10 0'}
+                  type='number'
                   name='count'
                   placeholder={'عدد العمليات'}
-                  value={form?.commissions[index]?.count || 0}
-                  onChange={(e) => onChange(e, index)}
+                  value={form?.commissions[index]?.subCategories[indx]?.count || 0}
+                  onChange={(e) => onChange(e, index, indx)}
+                  fw={'bold'}
                 />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
+      </>
+    );
+  });
+
+
+
+  return (
+    <CustomTable theads={theads} rows={rows} />
   )
 }

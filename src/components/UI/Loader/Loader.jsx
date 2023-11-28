@@ -6,13 +6,9 @@ import logo from '../../../assets/logo/logo.png'
 export default function Loader() {
   return (
     <Portal>
-      {/* <div className="loader">
-        <div className='prog'>
-        </div>
-      </div> */}
       <div className="loader">
         <div className="loader-info">
-          <img style={{ height: "80px", marginLeft: "5px" }} src={logo} alt="logo" />
+          <img style={{ height: "90px", marginBottom: "4px" }} src={logo} alt="logo" />
         </div>
       </div>
     </Portal>
