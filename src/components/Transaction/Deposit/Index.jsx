@@ -8,11 +8,11 @@ import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice
 import DepositTable from './Table/DepositTable'
 import CustomPagination from '../../UI/Pagination/Pagination';
 import LimitSelect from '../../UI/LimitSelect/LimitSelect';
-import { modals } from '@mantine/modals';
 import ExportButton from '../../UI/ExportButton/ExportButton';
 import FilterSelect from '../../UI/FilterSelect/FilterSelect';
 import Search from '../../UI/Search/Search';
 import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
+import { openModal } from '../../../app/features/modal/modalSlice';
 
 export default function Index() {
   const dispatch = useDispatch();
@@ -41,11 +41,20 @@ export default function Index() {
       <Button
         mb={10}
         onClick={() =>
-          modals.openContextModal({
-            modal: 'AddEditDeposit',
-            title: 'أضافة ايداع جديد',
-          })
-        }>
+          dispatch(
+          openModal({
+            name: 'AddEditDeposit',
+            modalTitle: 'اضافة عميلة ايداع',
+            status: 'حفظ'
+          }))}
+
+      // onClick={() =>
+      //   modals.openContextModal({
+      //     modal: 'AddEditDeposit',
+      //     title: 'أضافة ايداع جديد',
+      //   })
+      // }
+      >
         اضافة
       </Button>
       <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>

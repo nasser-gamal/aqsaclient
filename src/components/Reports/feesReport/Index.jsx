@@ -7,11 +7,12 @@ import LimitSelect from "../../UI/LimitSelect/LimitSelect";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
 
-import { TbRefresh } from 'react-icons/tb';
-import { Center, Flex, Group, Text } from "@mantine/core";
+import { Button, Center, Flex, Group, Text } from "@mantine/core";
 import ExportButton from "../../UI/ExportButton/ExportButton";
 
 import FeesReportTable from "./Table/FeesReportTable";
+import FilterSelect from '../../UI/FilterSelect/FilterSelect';
+import Search from '../../UI/Search/Search';
 
 export default function Index() {
   const dispatch = useDispatch()
@@ -20,9 +21,6 @@ export default function Index() {
   const [features, setFeatures] = useState({
     page: '',
     limit: '',
-    fields: '',
-    sort: '',
-    keyword: '',
     'createdAt[gte]': getCurrentDateTime(),
     'createdAt[lte]': getTomorrowDateTime()
   })
@@ -58,26 +56,43 @@ export default function Index() {
       />
       {data && data?.data?.length > 0 &&
         <>
-          <Flex justify={'space-between'}>
+        <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+          <Group>
+            <FilterSelect features={features} setFeatures={setFeatures} />
+          </Group>
+          <Search
+            options={[
+              { label: 'رقم الفاتورة', value: 'id' },
+              // { label: 'اسم الحساب', value: 'bankAccountName' },
+              { label: 'الرقم', value: 'number' },
+            ]}
+            features={features}
+            setFeatures={setFeatures}
+          />
+          <Group>
+            <Button
+              onClick={() => {
+                refetch()
+              }}>
+              تحديث
+            </Button>
+
+            {/* <TbRefresh style={{
+              fontSize: '26px',
+              color: 'black',
+              cursor: 'pointer'
+            }}
+        
+            /> */}
             <ExportButton />
-            <Group>
-              <TbRefresh style={{
-                fontSize: '26px',
-                color: 'black',
-                cursor: 'pointer'
-              }}
-                onClick={() => {
-                  refetch()
-                }}
-              />
-              <LimitSelect
-                features={features}
-                setFeatures={setFeatures}
-              />
-            </Group>
-          </Flex>
+            <LimitSelect
+              features={features}
+              setFeatures={setFeatures}
+            />
+          </Group>
+        </Flex>
           <FeesReportTable
-            data={data?.data}
+            data={data}
           />
         </>
       }

@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import Modal from './Modal'
 import { closeModal } from '../../../app/features/modal/modalSlice';
-
+import CustomModal from './CustomModal'
 import AddEditUser from '../../Users/AddEditUser/AddEditUser';
 import UpdateUserPassword from '../../Users/UpdatePassword/UpdateUserPassword';
 import UpdateUserPasswordManual from '../../Users/UpdatePassword/UpdateUserPasswordManual';
@@ -33,7 +32,7 @@ export default function ModalManager() {
 
   const dispatch = useDispatch();
 
-  const { isOpen, componentName, modalTitle, childrenProps } = useSelector(
+  const { isOpen, componentName, modalTitle, innerProps } = useSelector(
     (state) => state.modal
   );
 
@@ -41,50 +40,52 @@ export default function ModalManager() {
 
   const componentsLookUp =
   {
-    DeleteConfirm,
-    AddEditUser,
-    UpdateUserPassword,
-    UpdateAgentPassword,
-    UpdateUserPasswordManual,
-    UpdateAgentPasswordManual,
-    AddEditCategory,
-    AddEditSegment,
-    AddEditAgent,
-    AddEditBankAccount,
-    AddEditBank,
-    AddEditDeposit,
+    // DeleteConfirm,
+    // AddEditUser,
+    // UpdateUserPassword,
+    // UpdateAgentPassword,
+    // UpdateUserPasswordManual,
+    // UpdateAgentPasswordManual,
+    // AddEditCategory,
+    // AddEditSegment,
+    // AddEditAgent,
+    // AddEditBankAccount,
+    // AddEditBank,
+    // AddEditWithdraw,
+    // AddEditTransfer,
+    // AddEditFees,
+    // AddEditProvider,
+    // AddEditProviderCommission,
+    // AddEditAgentTreasury,
+    // AddEditProviderTreasury,
+    // AddEditAddionalTreasury,
+    // TransactionInfo,
+    // AddEditApp,
+    // AddEditDues,
+    // ReportPeriod, AddNewGroup,
     AddEditWithdraw,
-    AddEditTransfer,
-    AddEditFees,
-    AddEditProvider,
-    AddEditProviderCommission,
-    AddEditAgentTreasury,
-    AddEditProviderTreasury,
-    AddEditAddionalTreasury,
-    TransactionInfo,
-    AddEditApp,
-    AddEditDues,
-    ReportPeriod, AddNewGroup
+    AddEditDeposit,
+
   };
 
   let renderComponent;
   if (componentName) {
     const SelectedComponent = componentsLookUp[componentName];
     if (SelectedComponent) {
-      renderComponent = <SelectedComponent {...childrenProps} />;
+      renderComponent = <SelectedComponent {...innerProps} />;
     }
   }
 
 
   return (
-    <Modal
+    <CustomModal
       isOpen={isOpen}
       componentName={componentName}
       closeModalHandler={closeModalHandler}
       title={modalTitle}
-      childrenProps={childrenProps}
+      innerProps={innerProps}
     >
       {renderComponent}
-    </Modal>
+    </CustomModal>
   )
 }

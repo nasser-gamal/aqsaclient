@@ -16,6 +16,7 @@ import ExportButton from '../../UI/ExportButton/ExportButton';
 import FilterSelect from '../../UI/FilterSelect/FilterSelect';
 import Search from '../../UI/Search/Search';
 import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
+import { openModal } from '../../../app/features/modal/modalSlice';
 
 
 
@@ -48,13 +49,16 @@ export default function Index() {
       <Button
         mb={10}
         onClick={() =>
-          modals.openContextModal({
-            modal: 'AddEditWithdraw',
-            title: 'أضافة سحب جديد',
-          })
-        }>
+          dispatch(
+            openModal({
+              name: 'AddEditWithdraw',
+              modalTitle: 'اضافة عميلة سحب',
+              status: 'حفظ',
+              innerProps: { width: '700px' }
+            }))}
+      >
         اضافة
-      </Button>
+      </Button >
       <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
         <Group>
           <FilterSelect features={features} setFeatures={setFeatures} />

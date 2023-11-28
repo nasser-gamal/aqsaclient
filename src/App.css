@@ -123,3 +123,9 @@ table thead tr th {
 tr.checked {
   background-color: #c5f6fa !important;
 }
+
+
+.m-8fb7ebe7:disabled, .m-8fb7ebe7[data-disabled] {
+  /* color: #000000 !important; */
+  opacity:1 !important;
+}

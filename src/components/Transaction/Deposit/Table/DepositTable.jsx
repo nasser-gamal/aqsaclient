@@ -2,7 +2,6 @@
 
 
 import { Button, NumberFormatter, Table } from '@mantine/core';
-import { modals } from '@mantine/modals';
 
 import moreImg from '../../../../assets/icons/add-button.png'
 import { useDeleteDepositeMutation } from '../../../../app/features/transaction/depositeApi';
@@ -10,6 +9,8 @@ import ResotreButton from '../../../UI/RestoreData/ResotreButton';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import DeleteModal from '../../../UI/DeleteModal/DeleteModal';
 import CustomTable from '../../../common/CustomTable/CustomTable';
+import { openModal } from '../../../../app/features/modal/modalSlice';
+import { useDispatch } from 'react-redux';
 
 export default function DepositTable({ data, }) {
 
@@ -106,13 +107,14 @@ export default function DepositTable({ data, }) {
     },
   ];
 
+  const dispatch = useDispatch()
 
   const [deleteDeposite] = useDeleteDepositeMutation();
 
   const rows = data?.map((element) => (
     <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>      <Table.Td>
-        {element.id}
-      </Table.Td>
+      {element.id}
+    </Table.Td>
       <Table.Td>
         <DateAndTime createdAt={element.date} />
       </Table.Td>
@@ -151,13 +153,12 @@ export default function DepositTable({ data, }) {
           'width': '28px',
           'cursor': 'pointer',
         }} src={moreImg} alt={moreImg}
-          onClick={() =>
-            modals.openContextModal({
-              modal: 'AddEditDeposit',
-              title: 'عرض عملية ايداع',
-              innerProps: { status: 'show', data: element, show: true }
-            })
-          }
+          onClick={() => dispatch(openModal({
+            name: "AddEditDeposit",
+            modalTitle: 'عرض بيانات العملية',
+            status: 'عرض',
+            innerProps: { data: element, show: true }
+          }))}
         />
       </Table.Td>
       {element.isDeleted ? <>
@@ -174,13 +175,11 @@ export default function DepositTable({ data, }) {
               type="button"
               size="xs"
               color="rgba(13, 148, 45, 1)"
-              onClick={() =>
-                modals.openContextModal({
-                  modal: 'AddEditDeposit',
-                  title: 'تعديل عملية ايداع',
-                  innerProps: { status: 'edit', data: element }
-                })
-              }
+              onClick={() => dispatch(openModal({
+                name: "AddEditDeposit",
+                modalTitle: 'تعديل العملية',
+                innerProps: { data: element, status: 'edit' }
+              }))}
             >
               تعديل
             </Button>

@@ -1,22 +1,23 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import FormButtons from '../../../UI/FormButtons/FormButtons';
+import { useDispatch, useSelector } from 'react-redux';
 import { useCreateDepositeMutation, useUpdateDepositeMutation } from '../../../../app/features/transaction/depositeApi';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { validateDeposite } from '../../../../utils/validation';
 import { notify } from '../../../../utils/notify';
 import DropDown from '../DropDown';
 import {
-  Checkbox, Group, List, NumberFormatter, Stack, Text, TextInput
+  Button,
+  Checkbox, Flex, Group, List, NumberFormatter, Stack, Text, TextInput
 }
   from '@mantine/core';
-import { DateTimePicker } from '@mantine/dates';
+
+import { closeModal } from '../../../../app/features/modal/modalSlice';
 
 
-
-export default function AddEditDeposit({ context, id, innerProps }) {
+export default function AddEditDeposit() {
   const dispatch = useDispatch();
+  const { innerProps } = useSelector(state => state.modal);
 
 
   const [balance, setBalance] = useState({
@@ -81,10 +82,12 @@ export default function AddEditDeposit({ context, id, innerProps }) {
           ? await updateDeposite({ transactionId: innerProps?.data?.id, form }).unwrap()
           : await createDeposite(form).unwrap();
         notify('success', response.message);
-        context.closeModal(id);
+        // context.closeModal(id);
+        dispatch(closeModal());
       }
     } catch (error) {
       notify('error', error.data.message);
+      
     }
   }
 
@@ -142,7 +145,7 @@ export default function AddEditDeposit({ context, id, innerProps }) {
         }
         <form onSubmit={onSubmit}>
           <div className='deposite-form'>
-            {innerProps?.bankAccount || innerProps?.show ?
+            {innerProps?.bankAccount || innerProps?.show || innerProps.status == 'edit' ?
               <TextInput m={'10 0'}
                 w={'100%'}
                 type='text'
@@ -150,7 +153,7 @@ export default function AddEditDeposit({ context, id, innerProps }) {
                 value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
                 onChange={(e) => onChange(e)}
-                disabled={innerProps?.show || innerProps?.bankAccount}
+                disabled={innerProps?.show || innerProps?.bankAccount || innerProps.status == 'edit'}
               />
               :
               <DropDown
@@ -217,20 +220,13 @@ export default function AddEditDeposit({ context, id, innerProps }) {
               onChange={(e) => onChange(e)}
               disabled={innerProps?.show}
             />
-            {/* <CustomInput
-              width={'100%'}
+            <TextInput
+              w={'100%'}
               type='datetime-local'
               name='date'
               value={form.date}
               label='التاريخ'
               onChange={(e) => onChange(e)}
-              disabled={innerProps?.show}
-            /> */}
-            <DateTimePicker
-              w={'100%'}
-              clearable
-              defaultValue={new Date()}
-              label="التاريخ والوقت"
               disabled={innerProps?.show}
             />
             <TextInput m={'10 0'}
@@ -278,7 +274,28 @@ export default function AddEditDeposit({ context, id, innerProps }) {
             </List>
           </div>
           }
-          {!innerProps?.show && <FormButtons status={innerProps?.status} />}
+          {!innerProps?.show &&
+            <Flex p={'20px 0 8px '} gap={10} justify={'center'}>
+            <Button
+              type='submit'
+              variant="filled"
+              radius="xl"
+            >
+              {status === "edit" ? "تعديل" : "حفظ"}
+            </Button>
+            <Button
+              type='button'
+              variant="filled"
+              color="gray"
+              onClick={() => {
+                dispatch(closeModal())
+              }}
+              radius="xl"
+            >
+              إلغاء
+            </Button>
+          </Flex>
+          }
         </form>
       </div>
     </>

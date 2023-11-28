@@ -13,9 +13,11 @@ import Pagination from '../UI/Pagination/Pagination';
 import { useEffect } from 'react';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
 import LimitSelect from '../UI/LimitSelect/LimitSelect';
-import { Button, Center, Divider, Flex, Grid, Group, Image, Paper, Stack, Text, Title } from '@mantine/core';
+import { Button, Center, Divider, Flex, Grid, Image, Stack, Text, Title } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../app/features/transaction/transactionApi';
+import { openModal } from '../../app/features/modal/modalSlice';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
 
 
 export default function Index() {
@@ -66,7 +68,7 @@ export default function Index() {
 
   return (
     <>
-      <div>
+      <div className='home'>
         <div style={{
           width: '350px',
           maxWidth: '100%',
@@ -83,9 +85,13 @@ export default function Index() {
             setFeatures={setFeatures}
           />
         </div>
-        <Divider color={'#8e94a1'} my="lg" label="الاقصي للدفع الالكتروني" labelPosition="center" />
-
-        <Grid justify='center' align='center' m={'25 0 30'}>
+        {/* <Divider color={'#8e94a1'} my="lg" label="الاقصي للدفع الالكتروني" labelPosition="center" /> */}
+        <Center mt={25} p={'5 0'} bg={'#002d44'} style={{ borderRadius: '10px' }}>
+          <Title order={4} fw={'normal'} c={'white'}>
+            العمليات
+          </Title>
+        </Center>
+        <Grid justify='center' align='center' m={'15 0 30'}>
           <Grid.Col
             span={{ base: 12, md: 3 }}
           >
@@ -97,17 +103,14 @@ export default function Index() {
               c={'black'}
               p={'15 0'}
               disabled={form.bankAccount ? false : true}
-              onClick={() => {
-                // refetch()
-                modals.openContextModal({
-                  modal: 'AddEditDeposit',
-                  title: 'أضافة ايداع جديد',
-                  innerProps: {
-                    bankAccount: form.bankAccount,
-                  }
-                })
-              }
-              }
+              onClick={() =>
+                dispatch(
+                  openModal({
+                    name: 'AddEditDeposit',
+                    modalTitle: 'اضافة عميلة ايداع',
+                    status: 'حفظ',
+                    innerProps: { bankAccount: form.bankAccount }
+                  }))}
             >
               <Stack gap={5} justify='center'>
                 <Image
@@ -132,13 +135,13 @@ export default function Index() {
               p={'15 0'}
               disabled={form.bankAccount ? false : true}
               onClick={() =>
-                modals.openContextModal({
-                  modal: 'AddEditWithdraw',
-                  title: 'أضافة سحب جديد',
-                  innerProps: {
-                    bankAccount: form.bankAccount
-                  }
-                })
+                dispatch(
+                  openModal({
+                    name: 'AddEditWithdraw',
+                    modalTitle: 'اضافة عميلة سحب',
+                    status: 'حفظ',
+                    innerProps: { bankAccount: form.bankAccount, width: '700px' }
+                  }))
               }
             >
               <Stack gap={5} justify='center'>
@@ -206,22 +209,12 @@ export default function Index() {
         {showForm && data && data?.data.length > 0 &&
           <>
             <Flex justify={'space-between'}>
-              <Group>
-                <Paper>
-                  الايداع {transactionReports?.data?.depositCount}
-                </Paper>
-                <Paper>
-                  السحب {transactionReports?.data?.withdrawalCount}
-                </Paper>
-              </Group>
-              <div style={{
-                width: '80px',
-              }}>
+
+                <FilterSelect features={features} setFeatures={setFeatures} />
                 <LimitSelect
                   features={features}
                   setFeatures={setFeatures}
                 />
-              </div>
             </Flex>
             <BankReportTable
               data={data?.data}

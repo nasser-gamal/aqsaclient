@@ -34,7 +34,7 @@ export default function FeesReportTable({ data }) {
     },
   ]
 
-  const rows = data?.map(element => {
+  const rows = data?.data.map(element => {
     return <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
       <Table.Td className='date'>
         <DateAndTime createdAt={element.date} />
@@ -56,7 +56,7 @@ export default function FeesReportTable({ data }) {
       الاجمالي
     </Table.Td>
     <Table.Td>
-      {data?.totalFees}
+      {data?.meta?.totalFees}
     </Table.Td>
   </Table.Tr>
   return (

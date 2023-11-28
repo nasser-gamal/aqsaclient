@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { modals } from '@mantine/modals';
 import { Button, NumberFormatter, Table } from '@mantine/core';
 
 import moreImg from '../../../../assets/icons/add-button.png'
@@ -10,6 +9,8 @@ import ResotreButton from '../../../UI/RestoreData/ResotreButton';
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import DeleteModal from '../../../UI/DeleteModal/DeleteModal';
 import CustomTable from '../../../common/CustomTable/CustomTable';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../../../app/features/modal/modalSlice';
 
 export default function WithdrawTable({ data }) {
   const theads = [
@@ -105,7 +106,7 @@ export default function WithdrawTable({ data }) {
     },
   ]
 
-
+  const dispatch = useDispatch()
 
   const [deleteWithDraw] = useDeleteWithDrawMutation();
 
@@ -152,13 +153,12 @@ export default function WithdrawTable({ data }) {
           'width': '28px',
           'cursor': 'pointer',
         }} src={moreImg} alt={moreImg}
-          onClick={() =>
-            modals.openContextModal({
-              modal: 'AddEditWithdraw',
-              title: 'عرض عملية ايداع',
-              innerProps: { status: 'show', data: element, show: true }
-            })
-          }
+          onClick={() => dispatch(openModal({
+            name: "AddEditWithdraw",
+            modalTitle: 'عرض بيانات العملية',
+            status: 'عرض',
+            innerProps: { data: element, width: '700px', show: true }
+          }))}
         />
       </Table.Td>
       {element.isDeleted ? <>
@@ -176,11 +176,12 @@ export default function WithdrawTable({ data }) {
               size="xs"
               color="rgba(13, 148, 45, 1)"
               onClick={() =>
-                modals.openContextModal({
-                  modal: 'AddEditWithdraw',
-                  title: 'تعديل عملية سحب',
-                  innerProps: { status: 'edit', data: element },
-                })
+                dispatch(openModal({
+                  name: 'AddEditWithdraw',
+                  modalTitle: 'تعديل عملية سحب',
+                  status: 'تعديل',
+                  innerProps: { data: element, width: '700px', status: 'edit' }
+                }))
               }
             >
               تعديل

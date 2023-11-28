@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import FormButtons from '../../../UI/FormButtons/FormButtons';
 import DropDown from '../../Deposit/DropDown';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useCreateWithDrawMutation, useUpdateWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { validateWithDraw } from '../../../../utils/validation';
 import { notify } from '../../../../utils/notify';
-import { CheckIcon, Checkbox, Grid, Group, List, NumberFormatter, Radio, Stack, Text, TextInput } from '@mantine/core';
+import { Button, CheckIcon, Checkbox, Flex, Grid, Group, List, NumberFormatter, Radio, Stack, Text, TextInput } from '@mantine/core';
+import { closeModal } from '../../../../app/features/modal/modalSlice';
 
 
-export default function AddEditWithdraw({ context, id, innerProps }) {
+export default function AddEditWithdraw() {
   const dispatch = useDispatch();
+  const { innerProps } = useSelector(state => state.modal);
 
   const [balance, setBalance] = useState({
     before: innerProps?.data?.balanceBefore || innerProps?.data?.balance || "",
@@ -82,7 +83,7 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
           ? await updateWithDraw({ transactionId: innerProps?.data.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
         notify('success', response.message);
-        context.closeModal(id)
+        dispatch(closeModal())
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -199,15 +200,15 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
       }
       <form onSubmit={onSubmit}>
         <Grid p={"10 10"} justify='space-between' align='center'>
-          {innerProps?.bankAccount || innerProps?.show ?
-            <Grid.Col span={{ base: 6, md: 3, lg: 3 }}>
+          {innerProps?.bankAccount || innerProps?.show || innerProps.status == 'edit' ?
+            <Grid.Col span={{ base: 6, md: 3, lg: 4 }}>
               <TextInput
                 type='text'
                 name='bankAccountId'
                 value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
                 onChange={(e) => onChange(e)}
-                disabled={innerProps?.show || innerProps?.bankAccount}
+                disabled={innerProps?.show || innerProps?.bankAccount || innerProps.status == 'edit'}
               />
             </Grid.Col>
             :
@@ -456,7 +457,28 @@ export default function AddEditWithdraw({ context, id, innerProps }) {
           </List>
         </div>
         }
-        {!innerProps?.show && <FormButtons status={innerProps?.status} />}
+        {!innerProps?.show &&
+          <Flex p={'20px 0 8px '} gap={10} justify={'center'}>
+            <Button
+              type='submit'
+              variant="filled"
+              radius="xl"
+            >
+              {status === "edit" ? "تعديل" : "حفظ"}
+            </Button>
+            <Button
+              type='button'
+              variant="filled"
+              color="gray"
+              onClick={() => {
+                dispatch(closeModal())
+              }}
+              radius="xl"
+            >
+              إلغاء
+            </Button>
+          </Flex>
+        }
       </form>
     </div>
   )

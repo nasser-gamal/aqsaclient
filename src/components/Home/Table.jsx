@@ -11,9 +11,10 @@ import ResotreButton from '../UI/RestoreData/ResotreButton';
 import DeleteModal from '../UI/DeleteModal/DeleteModal';
 import { useDeleteDepositeMutation } from '../../app/features/transaction/depositeApi';
 import { useDeleteWithDrawMutation } from '../../app/features/transaction/withDrawApi';
+import { useDispatch } from 'react-redux';
 
 
-
+import { openModal } from '../../app/features/modal/modalSlice'
 
 export default function BankReportTable({ data, reports }) {
 
@@ -107,6 +108,7 @@ export default function BankReportTable({ data, reports }) {
   ]
 
 
+  const dispatch = useDispatch()
   const [deleteDeposite] = useDeleteDepositeMutation()
   const [deleteWithDraw] = useDeleteWithDrawMutation()
 
@@ -130,7 +132,7 @@ export default function BankReportTable({ data, reports }) {
         {element.type === 'سحب' &&
           (element.balanceBefore - element.balanceAfter).toFixed(2) == element.amountTotal.toFixed(2) ?
           <NumberFormatter thousandSeparator value={element.amountTotal} /> :
-          element.type !== 'سحب' ? 0 :  <NumberFormatter thousandSeparator value={element.providerDeduction} />
+          element.type !== 'سحب' ? 0 : <NumberFormatter thousandSeparator value={element.providerDeduction} />
         }
       </Table.Td>
       <Table.Td>
@@ -153,13 +155,15 @@ export default function BankReportTable({ data, reports }) {
           'width': '28px',
           'cursor': 'pointer',
         }} src={moreImg} alt={moreImg}
-          onClick={() =>
-            modals.openContextModal({
-              modal: element.type == 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
-              title: element.type == 'ايداع' ? 'عرض عملية ايداع' : 'عرض عملية سحب',
-              innerProps: { status: 'show', data: element, show: true }
-            })
-          }
+          onClick={() => dispatch(openModal({
+            name: element.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
+            modalTitle: element.type === 'سحب' ? 'عرض بيانات العملية (سحب)' : 'عرض بيانات العملية (ايداع)',
+            innerProps: {
+              data: element,
+              show: true,
+              width: element.type === 'سحب' && '700px'
+            }
+          }))}
         />
       </Table.Td>
       {
@@ -177,13 +181,15 @@ export default function BankReportTable({ data, reports }) {
                 type="button"
                 size="xs"
                 color="rgba(13, 148, 45, 1)"
-                onClick={() =>
-                  modals.openContextModal({
-                    modal: element.type == 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
-                    title: element.type == 'ايداع' ? 'تعديل عملية ايداع' : 'تعديل عملية سحب',
-                    innerProps: { status: 'edit', data: element }
-                  })
-                }
+                onClick={() => dispatch(openModal({
+                  name: element.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
+                  modalTitle: element.type === 'سحب' ? 'تعديل بيانات العملية (سحب)' : 'تعديل بيانات العملية (ايداع)',
+                  innerProps: {
+                    data: element,
+                    status: 'edit',
+                    width: element.type === 'سحب' && '700px'
+                  }
+                }))}
               >
                 تعديل
               </Button>

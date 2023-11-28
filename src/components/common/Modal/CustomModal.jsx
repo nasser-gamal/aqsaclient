@@ -7,7 +7,8 @@ import './modal.modules.css';
 import Portal from '../../../utils/Portal';
 
 
-export default function Modal({ isOpen, title, childrenProps, closeModalHandler, children }) {
+export default function CustomModal({ isOpen, title, innerProps, closeModalHandler, children }) {
+  console.log(innerProps)
   return (
     <Portal>
       <div
@@ -18,7 +19,7 @@ export default function Modal({ isOpen, title, childrenProps, closeModalHandler,
         <div className="modal-container">
           <div className="modal-content"
             style={{
-              width: childrenProps?.width
+              width: innerProps?.width
             }}
           >
             <div className="modal-header">

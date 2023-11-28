@@ -11,7 +11,7 @@ import Router from "./routes/Routes";
 import ResponseMsg from './components/UI/ResponseMsg/ResponseMsg';
 import ModalManager from './components/common/Modal/ModalManager';
 import Loader from './components/UI/Loader/Loader';
-import AddEditDeposit from './components/Transaction/Deposit/AddEditDeposit/AddEditDeposit';
+// import AddEditDeposit from './components/Transaction/Deposit/AddEditDeposit/AddEditDeposit';
 import AddEditUser from './components/Users/AddEditUser/AddEditUser';
 import UpdateUserPasswordManual from './components/Users/UpdatePassword/UpdateUserPasswordManual';
 import UpdateUserPassword from './components/Users/UpdatePassword/UpdateUserPassword';
@@ -45,8 +45,8 @@ function App() {
     AddEditFees: AddEditFees,
     AddEditCategory: AddEditCategory,
     AddEditSubCategory: AddEditSubCategory,
-    AddEditDeposit: AddEditDeposit,
-    AddEditWithdraw: AddEditWithdraw,
+    // AddEditDeposit: AddEditDeposit,
+    // AddEditWithdraw: AddEditWithdraw,
     // AddEditWithdraw: (props) => (
     //   <AddEditWithdraw
     //     w={'3000px'}

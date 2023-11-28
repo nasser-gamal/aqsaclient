@@ -20,6 +20,8 @@ import apiEndpoints from '../../../utils/endPoints';
 import { TbRefresh } from 'react-icons/tb';
 import { Button, Center, Flex, Grid, Group, Text } from '@mantine/core';
 import ExportButton from '../../UI/ExportButton/ExportButton';
+import FilterSelect from '../../UI/FilterSelect/FilterSelect';
+import Search from '../../UI/Search/Search';
 
 
 export default function Index() {
@@ -114,25 +116,42 @@ export default function Index() {
       </Center>
       {data && data?.data?.length > 0 &&
         <>
-          <Flex justify={'space-between'}>
+        <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+          <Group>
+            <FilterSelect features={features} setFeatures={setFeatures} />
+          </Group>
+          <Search
+            options={[
+              { label: 'رقم الفاتورة', value: 'id' },
+              // { label: 'اسم الحساب', value: 'bankAccountName' },
+              { label: 'الرقم', value: 'number' },
+            ]}
+            features={features}
+            setFeatures={setFeatures}
+          />
+          <Group>
+            <Button
+              onClick={() => {
+                refetch()
+                reportRefecth()
+              }}>
+              تحديث
+            </Button>
+
+            {/* <TbRefresh style={{
+              fontSize: '26px',
+              color: 'black',
+              cursor: 'pointer'
+            }}
+        
+            /> */}
             <ExportButton />
-            <Group>
-              <TbRefresh style={{
-                fontSize: '26px',
-                color: 'black',
-                cursor: 'pointer'
-              }}
-                onClick={() => {
-                  refetch()
-                  reportRefecth()
-                }}
-              />
-              <LimitSelect
-                features={features}
-                setFeatures={setFeatures}
-              />
-            </Group>
-          </Flex>
+            <LimitSelect
+              features={features}
+              setFeatures={setFeatures}
+            />
+          </Group>
+        </Flex>
           <BankReportTable
             data={data?.data}
             reports={transactionReports?.data}

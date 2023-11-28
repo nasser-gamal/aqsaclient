@@ -3,9 +3,10 @@
 
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
 import moreImg from '../../../../assets/icons/add-button.png'
-import { modals } from '@mantine/modals';
 import CustomTable from '../../../common/CustomTable/CustomTable';
-import { Table } from '@mantine/core';
+import { NumberFormatter, Table } from '@mantine/core';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../../../app/features/modal/modalSlice';
 
 
 
@@ -107,7 +108,7 @@ export default function DayTable({ data, reports }) {
     },
   ]
 
-
+  const dispatch = useDispatch()
 
 
   const rows = data?.map((element) => (
@@ -162,13 +163,15 @@ export default function DayTable({ data, reports }) {
           'width': '28px',
           'cursor': 'pointer',
         }} src={moreImg} alt={moreImg}
-          onClick={() =>
-            modals.openContextModal({
-              modal: element.type == 'ايداع' ? 'AddEditDeposit' : 'AddEditWithdraw',
-              title: element.type == 'ايداع' ? 'عرض عملية ايداع' : 'عرض عملية سحب',
-              innerProps: { status: 'show', data: element, show: true }
-            })
-          }
+          onClick={() => dispatch(openModal({
+            name: element.type === 'سحب' ? "AddEditWithdraw" : "AddEditDeposit",
+            modalTitle: element.type === 'سحب' ? 'عرض بيانات العملية (سحب)' : 'عرض بيانات العملية (ايداع)',
+            innerProps: {
+              data: element,
+              show: true,
+              width: element.type === 'سحب' && '700px'
+            }
+          }))}
         />
       </Table.Td>
     </Table.Tr >
@@ -183,15 +186,15 @@ export default function DayTable({ data, reports }) {
         الاجمالى
       </Table.Td>
       <Table.Td>
-        {reports?.depositTotal}
+        <NumberFormatter thousandSeparator value={reports?.depositTotal?.toFixed()} />
       </Table.Td>
       <Table.Td>
-        {reports?.withdrawalTotal}
+        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal?.toFixed()} />
       </Table.Td>
       <Table.Td colSpan={6}>
       </Table.Td>
       <Table.Td >
-        {reports?.profit}
+        <NumberFormatter thousandSeparator value={reports?.profit?.toFixed()} />
       </Table.Td>
       <Table.Td >
       </Table.Td>

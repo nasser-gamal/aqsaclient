@@ -15,18 +15,13 @@
   flex-wrap: wrap;
 }
 .box {
-  width: 250px;
-  border: 1px solid #00000052;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding:  10px;
-  cursor: pointer;
+    width: 250px;
+    border: 1px solid #00000024;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    cursor: pointer;
   
-}
-.box.disabled {
-  background: rgba(0, 0, 0, 0.062) !important;
-  pointer-events: none;
-  cursor: not-allowed;
 }
 .box:hover {
   background-color: #1795d91a  !important;
@@ -36,4 +31,7 @@
 }
 .box img {
   width: 60px;
+}
+.home button:disabled {
+     background-color: rgba(0, 0, 0, 0.062) !important;
 }
