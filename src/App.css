@@ -126,6 +126,6 @@ tr.checked {
 
 
 .m-8fb7ebe7:disabled, .m-8fb7ebe7[data-disabled] {
-  /* color: #000000 !important; */
+  color: #000000 !important;
   opacity:1 !important;
 }
