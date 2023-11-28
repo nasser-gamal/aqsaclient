@@ -63,7 +63,10 @@ export default function AddEditDeposit({ context, id, innerProps }) {
     }
   }
 
-  const { data, isLoading } = useFindAllBankAccountsQuery({ limit: 10000 });
+  const { data, isLoading } = useFindAllBankAccountsQuery({
+    limit: 10000,
+    sort: '-createdAt',
+  });
 
   useEffect(() => {
     if (isLoading) {

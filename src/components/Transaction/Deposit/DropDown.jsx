@@ -5,7 +5,10 @@ import { useFindAllBankAccountsQuery } from '../../../app/features/bankAccount/b
 
 export default function DropDown({ balance, setBalance, form, setForm, disabled }) {
 
-  const { data } = useFindAllBankAccountsQuery({ limit: 150000 });
+  const { data } = useFindAllBankAccountsQuery({
+    limit: 150000,
+    sort: '-createdAt',
+});
 
 
   const options = data?.data.map((bankAccount) => ({

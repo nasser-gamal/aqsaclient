@@ -21,7 +21,10 @@ import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '
 export default function Index() {
   const dispatch = useDispatch();
 
-  const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery({ limit: 10000, });
+  const { data: bankAccounts, isLoading: getLoading, isFetching: getFetching } = useFindAllBankAccountsQuery({
+    limit: 10000,
+    sort: '-createdAt',
+  });
 
 
   const [form, setForm] = useState({

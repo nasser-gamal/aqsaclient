@@ -12,7 +12,9 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
   const [isClicked, setIsClicked] = useState(false);
   const [dropHeading, setDropHeading] = useState('اختر الحساب');
 
-  const { data, isLoading } = useFindAllBankAccountsQuery({ page: '', limit: 1000000, order: 'createdAt', sort: 'ASC' });
+  const { data, isLoading } = useFindAllBankAccountsQuery({
+    page: '', limit: 1000000, sort: '-createdAt',
+  });
   const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {

@@ -10,7 +10,7 @@ export default function DropDown({ features, setFeatures, disabled, defaultValue
 
   const { data, isLoading: isLoading } = useFindAllBankAccountsQuery({
     limit: 100000,
-    sort: '',
+    sort: '-createdAt',
     keyword: '',
   });
 

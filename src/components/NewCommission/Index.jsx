@@ -77,6 +77,7 @@ export default function Index() {
         resetForm()
       }
     } catch (err) {
+      console.log(err)
       notify('error', err.data.message);
     }
   }

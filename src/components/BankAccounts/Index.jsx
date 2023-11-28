@@ -16,8 +16,7 @@ export default function Index() {
   const [features, setFeatures] = useState({
     page: 1,
     limit: 10,
-    sort: '',
-    keyword: '',
+    sort: '-createdAt',
   });
 
   const dispatch = useDispatch();
