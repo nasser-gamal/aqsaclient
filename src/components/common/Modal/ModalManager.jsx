@@ -4,7 +4,6 @@ import Modal from './Modal'
 import { closeModal } from '../../../app/features/modal/modalSlice';
 
 import AddEditUser from '../../Users/AddEditUser/AddEditUser';
-import UserTransaction from '../../Users/UserTransaction/UserTransaction';
 import UpdateUserPassword from '../../Users/UpdatePassword/UpdateUserPassword';
 import UpdateUserPasswordManual from '../../Users/UpdatePassword/UpdateUserPasswordManual';
 import UpdateAgentPassword from '../../Agents/UpdatePassword/UpdateAgentPassword';
@@ -50,7 +49,6 @@ export default function ModalManager() {
     UpdateAgentPasswordManual,
     AddEditCategory,
     AddEditSegment,
-    UserTransaction,
     AddEditAgent,
     AddEditBankAccount,
     AddEditBank,

@@ -32,12 +32,12 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
 
 
   useEffect(() => {
-    const bankAccount = data?.bankAccounts?.filter(bankAccount => bankAccount.id == form.bankAccountId);
+    const bankAccount = data?.data?.filter(bankAccount => bankAccount.id == form.bankAccountId);
     if (bankAccount && bankAccount.length > 0) {
       setDropHeading(bankAccount[0]?.accountName);
       setForm({ ...form, bankAccountId: bankAccount[0]?.id });
     }
-  }, [data?.bankAccounts, data]);
+  }, [data?.data, data]);
 
 
   return (
@@ -56,7 +56,7 @@ export default function DropDown({ form, setForm, setBalance, disabled }) {
       disabled={disabled}
     >
       {
-        data?.bankAccounts.filter(bankAccount => {
+        data?.data.filter(bankAccount => {
           const value = searchValue;
           return value ? bankAccount.accountName.includes(value.toLowerCase()) : bankAccount;
         }).map(bankAccount => {

@@ -1,16 +1,31 @@
-import { useEffect } from 'react';
-import AddButton from '../common/Button/AddButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import Pagination from '../UI/Pagination/Pagination';
-import { useFindAllAddionalTreasuryQuery } from '../../app/features/addionalTreasury/addionalTreasuryApi';
-import AddionalTreasuryTable from './Table/AddionalTreasuryTable';
+import { useEffect, useState } from 'react';
 
+import { Button, Flex, Group } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { useDispatch, } from 'react-redux';
+import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
+import AddionalTreasuryTable  from './Table/AddionalTreasuryTable';
+import { useFindAllAddionalTreasuryQuery } from '../../app/features/addionalTreasury/addionalTreasuryApi';
+
+import CustomPagination from '../UI/Pagination/Pagination';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import ExportButton from '../UI/ExportButton/ExportButton';
+import Search from '../UI/Search/Search';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
-  const { data, isLoading, isFetching } = useFindAllAddionalTreasuryQuery({ page, limit, order: orderBy, sort });
+
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    conditions: '',
+  })
+
+  const { data, isLoading, isFetching } = useFindAllAddionalTreasuryQuery({ ...features });
 
   useEffect(() => {
     if (isLoading || isFetching) {
@@ -22,9 +37,47 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditAddionalTreasury'} modalTitle={'اضافة أرصدة أخر'} />
-      <AddionalTreasuryTable data={data?.addionalTreasury} />
-      {data?.pagination.hasPagination && <Pagination pagination={data?.pagination} />}
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditAddionalTreasury',
+            title: 'أضافة  رصيد تجار',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'القيمة', value: 'amount' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
+        />
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex>
+      <AddionalTreasuryTable
+        data={data?.data}
+        isLoading={isLoading}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

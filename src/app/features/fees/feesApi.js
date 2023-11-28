@@ -3,15 +3,16 @@ import { apiSlice } from '../../api/apiSlice';
 
 export const feesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    findAllFees: builder.query({
-      query: () => ({
-        url: apiEndpoints.fees.GET_FEES,
+    getFees: builder.query({
+      query: (params) => ({
+        url: apiEndpoints.FEES,
+        params: { ...params },
       }),
       providesTags: ['fees'],
     }),
     createFee: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.fees.CREATE_FEE,
+        url: apiEndpoints.FEES,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +20,7 @@ export const feesApiSlice = apiSlice.injectEndpoints({
     }),
     updateFee: builder.mutation({
       query: ({ feesId, form }) => ({
-        url: `${apiEndpoints.fees.UPDATE_FEE}/${feesId}`,
+        url: `${apiEndpoints.FEES}/${feesId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +28,7 @@ export const feesApiSlice = apiSlice.injectEndpoints({
     }),
     deleteFee: builder.mutation({
       query: (feesId) => ({
-        url: `${apiEndpoints.fees.DELETE_FEE}/${feesId}`,
+        url: `${apiEndpoints.FEES}/${feesId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['fees'],
@@ -36,7 +37,7 @@ export const feesApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useFindAllFeesQuery,
+  useGetFeesQuery,
   useCreateFeeMutation,
   useUpdateFeeMutation,
   useDeleteFeeMutation,

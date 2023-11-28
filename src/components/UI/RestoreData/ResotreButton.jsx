@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react'
-import CustomButton from '../../common/Button/CustomButton'
 import { useDispatch } from 'react-redux'
 import { notify } from '../../../utils/notify'
 import { useRestoreDepositeMutation } from '../../../app/features/transaction/depositeApi'
 import { useRestoreWithDrawMutation } from '../../../app/features/transaction/withDrawApi'
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice'
+import { Button } from '@mantine/core'
 
-export default function ResotreButton({  type, transactionId }) {
+export default function ResotreButton({ type, transactionId }) {
   const dispatch = useDispatch()
   const [restoreDeposite, { isLoading: depositeLoading }] = useRestoreDepositeMutation()
   const [restoreWithdraw, { isLoading: withdrawLoading }] = useRestoreWithDrawMutation()
@@ -22,7 +22,6 @@ export default function ResotreButton({  type, transactionId }) {
   }
 
 
-
   useEffect(() => {
     if (depositeLoading || withdrawLoading) {
       dispatch(showLoader())
@@ -33,18 +32,14 @@ export default function ResotreButton({  type, transactionId }) {
 
 
 
-
   return (
     <div className='restore-btn'>
-      <CustomButton
-        classes={'add-btn'}
-        width={'60px'}
-        height={'30px'}
-        fontSize={'16px'}
+      <Button
+        size='xs'
         onClick={restoreData}
       >
         استرجاع
-      </CustomButton>
+      </Button>
     </div>
   )
 }

@@ -3,7 +3,7 @@ import DaySelect from "./Select/Date";
 import { useFindDailyCommissionsQuery } from "../../../app/features/reports/reportsApi";
 import { notify } from "../../../utils/notify";
 import { DateInput } from "../../../utils/formatDate";
-import EntrySelect from "../../UI/LimitSelect/EntrySelect";
+import LimitSelect from "../../UI/LimitSelect/LimitSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoader, showLoader } from "../../../app/features/loader/loaderSlice";
 
@@ -13,7 +13,6 @@ import { TbRefresh } from 'react-icons/tb';
 import CommissionsReportTable from "./Table/CommissionsReportTable";
 
 export default function Index() {
-  const { page, limit, orderBy } = useSelector(state => state.filter);
   const dispatch = useDispatch()
 
 
@@ -24,14 +23,14 @@ export default function Index() {
 
   const [skip, setSkip] = useState(true);
 
-  const { data, isFetching, refetch } = useFindDailyCommissionsQuery({
+  const { data, isFetching, refetch, error } = useFindDailyCommissionsQuery({
     startDate: form.startDate,
     endDate: form.endDate,
-    page,
-    limit,
-    order: orderBy,
-    sort: "ASC"
+    limit: 10000,
   }, { skip });
+
+  console.log(data)
+  console.log(error)
 
 
   useEffect(() => {
@@ -43,7 +42,8 @@ export default function Index() {
   }, [dispatch, isFetching]);
 
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault()
     if (!form.startDate || !form.endDate) {
       notify('error', 'اختر التاريخ')
     } else {
@@ -55,7 +55,7 @@ export default function Index() {
   return (
     <>
       <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
-      {data && data?.commissions.length > 0 &&
+      {data && data?.agentCommissions.length > 0 &&
         <>
           <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
             <div></div>
@@ -69,13 +69,16 @@ export default function Index() {
                   onClick={() => refetch()}
                 />
               </span>
-              <EntrySelect />
+              <LimitSelect
+              // features={features}
+              // setFeatures={setFeatures}
+              />
             </div>
           </div>
           <CommissionsReportTable data={data} />
         </>
       }
-      {data && data?.commissions.length < 1 && <div
+      {data && data?.agentCommissions.length < 1 && <div
         style={{
           textAlign: 'center',
           fontsize: '26px',

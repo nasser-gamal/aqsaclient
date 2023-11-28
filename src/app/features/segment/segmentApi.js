@@ -4,14 +4,15 @@ import { apiSlice } from '../../api/apiSlice';
 export const segmentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllSegment: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.segment.GET_SEGMENTS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: (params) => ({
+        url: apiEndpoints.SEGMENTS,
+        params: { ...params },
       }),
       providesTags: ['segments'],
     }),
     createSegment: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.segment.CREATE_SEGMENT,
+        url: apiEndpoints.SEGMENTS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +20,7 @@ export const segmentApiSlice = apiSlice.injectEndpoints({
     }),
     updateSegment: builder.mutation({
       query: ({ segmentId, form }) => ({
-        url: `${apiEndpoints.segment.UPDATE_SEGMENT}/${segmentId}`,
+        url: `${apiEndpoints.SEGMENTS}/${segmentId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +28,7 @@ export const segmentApiSlice = apiSlice.injectEndpoints({
     }),
     deleteSegment: builder.mutation({
       query: (segmentId) => ({
-        url: `${apiEndpoints.segment.DELETE_SEGMENT}/${segmentId}`,
+        url: `${apiEndpoints.SEGMENTS}/${segmentId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['segments'],

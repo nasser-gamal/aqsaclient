@@ -1,24 +1,18 @@
 /* eslint-disable react/prop-types */
-
-import EditButton from '../../../UI/TableButtons/EditButton';
-import Table from '../../../common/Table/Table';
-
-import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import { modals } from '@mantine/modals';
+import { Button, NumberFormatter, Table } from '@mantine/core';
 
 import moreImg from '../../../../assets/icons/add-button.png'
-import { openModal } from '../../../../app/features/modal/modalSlice';
-import { useDispatch } from 'react-redux';
-import DeleteButton from '../../../UI/TableButtons/DeleteButton';
-import { useEffect } from 'react';
-import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
-import { notify } from '../../../../utils/notify';
+
 import { useDeleteWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
+
 import ResotreButton from '../../../UI/RestoreData/ResotreButton';
+import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import DeleteModal from '../../../UI/DeleteModal/DeleteModal';
+import CustomTable from '../../../common/CustomTable/CustomTable';
 
-export default function DepositTable({ data }) {
-  const dispatch = useDispatch();
-
-  const tableHead = [
+export default function WithdrawTable({ data }) {
+  const theads = [
     {
       title: "رقم الفاتورة",
       className: "",
@@ -113,110 +107,102 @@ export default function DepositTable({ data }) {
 
 
 
-  const [deleteWithDraw, { isLoading }] = useDeleteWithDrawMutation();
-
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
+  const [deleteWithDraw] = useDeleteWithDrawMutation();
 
 
-  const handleDelete = async (transactionId) => {
-    try {
-      const response = await deleteWithDraw(transactionId).unwrap();
-      notify('success', response.message)
-    } catch (err) {
-      notify('error', err.data.message)
-    }
-  }
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>      <Table.Td>
+      {element.id}
+    </Table.Td>
+      <Table.Td className='date'>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>
+        {element?.bankAccount?.accountName || 'غير معروف'}
+      </Table.Td>
+      <Table.Td>
+        {element.number}
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.balanceBefore} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.amount} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.providerFees} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.amountTotal} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.balanceAfter} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.providerRevenue} />
+      </Table.Td>
+      <Table.Td>
+        <NumberFormatter thousandSeparator value={element.profit} />
+      </Table.Td>
+      <Table.Td>
+        {element.note || "-"}
+      </Table.Td>
+      <Table.Td>
+        <img style={{
+          'width': '28px',
+          'cursor': 'pointer',
+        }} src={moreImg} alt={moreImg}
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditWithdraw',
+              title: 'عرض عملية ايداع',
+              innerProps: { status: 'show', data: element, show: true }
+            })
+          }
+        />
+      </Table.Td>
+      {element.isDeleted ? <>
+        <td colSpan={'2'}>
+          <ResotreButton
+            type={'withDraw'}
+            transactionId={element.id}
+          />
+        </td>
+      </> :
+        <>
+          <Table.Td>
+            <Button
+              type="button"
+              size="xs"
+              color="rgba(13, 148, 45, 1)"
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditWithdraw',
+                  title: 'تعديل عملية سحب',
+                  innerProps: { status: 'edit', data: element },
+                })
+              }
+            >
+              تعديل
+            </Button>
+          </Table.Td>
+          <Table.Td>
+            <DeleteModal
+              title={'حذف عملية'}
+              text='هل أنت متأكد من حذف العملية ؟'
+              handleDelete={deleteWithDraw}
+              id={element.id}
+              onCancel={() => console.log('Cancel')}
+            />
+          </Table.Td>
+        </>
+      }
+    </Table.Tr >
+  ));
 
 
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.transactions.map(transaction => {
-            return <tr key={transaction.id}>
-              <td>
-                {transaction.id}
-              </td>
-              <td className='date'>
-                <DateAndTime createdAt={transaction.date} />
-              </td>
-              <td>
-                {transaction?.bankAccount?.accountName || 'غير معروف'}
-              </td>
-              <td>
-                {transaction.number}
-              </td>
-              <td>
-                {transaction.balanceBefore}
-              </td>
-              <td>
-                {transaction.amount}
-              </td>
-              <td>
-                {transaction.providerFees}
-              </td>
-              <td>
-                {transaction.amountTotal}
-              </td>
-              <td>
-                {transaction.balanceAfter}
-              </td>
-              <td>
-                {transaction.providerRevenue}
-              </td>
-              <td>
-                {transaction.profit}
-              </td>
-              <td>
-                {transaction.note || "-"}
-              </td>
-              <td>
-                <img style={{
-                  'width': '28px',
-                  'cursor': 'pointer',
-                }} src={moreImg} alt={moreImg}
-                  onClick={() => dispatch(openModal({
-                    name: "AddEditWithdraw",
-                    modalTitle: 'عرض بيانات العملية',
-                    status: 'عرض',
-                    childrenProps: { transaction, width: '700px', show: true }
-                  }))}
-                />
-              </td>
-              {transaction.isDeleted ? <>
-                <td colSpan={'2'}>
-                  <ResotreButton
-                    type={'withdraw'}
-                    transactionId={transaction.id}
-                  />
-                </td>
-              </> : <>
-                <td>
-                  <EditButton
-                    editProps={{
-                      name: 'AddEditWithdraw',
-                      modalTitle: 'تعديل عملية سحب',
-                      status: 'تعديل',
-                      childrenProps: { transaction, width: '700px' }
-                    }}
-                  />
-                </td>
-                <td>
-                  <DeleteButton onClick={() => handleDelete(transaction.id)} />
-                </td>
-              </>}
-
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import Table from '../../common/Table/Table';
 
+import { Table } from '@mantine/core';
+import CustomTable from '../../common/CustomTable/CustomTable';
 
-export default function AgentSegmentsTable({ segments, isLoading }) {
+export default function AgentSegmentsTable({ data }) {
 
-
-  const tableHead = [
+  console.log(data)
+  const theads = [
     {
       title: "الشريحة",
       className: "title",
@@ -36,24 +37,23 @@ export default function AgentSegmentsTable({ segments, isLoading }) {
       order: "",
       sort: "ASC",
     },
+
   ];
 
 
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>{element.title}</Table.Td>
+      <Table.Td>{element?.service?.name || "-"}</Table.Td>
+      <Table.Td>{element.start}</Table.Td>
+      <Table.Td>{element.end || "-"}</Table.Td>
+      <Table.Td>{(element.percentage) + "%"}</Table.Td>
+    </Table.Tr >
+  ));
+
+
   return (
-    <Table tableHead={tableHead} isLoading={isLoading}>
-      <tbody>
-        {
-          segments?.map((segment) => {
-            return <tr key={segment.id}>
-              <td>{segment.title}</td>
-              <td>{segment.service.name}</td>
-              <td>{segment.start}</td>
-              <td>{segment.end || "-"}</td>
-              <td>{(segment.percentage) + "%"}</td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

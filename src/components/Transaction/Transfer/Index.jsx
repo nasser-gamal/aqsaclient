@@ -1,34 +1,21 @@
-import { useEffect } from 'react'
-import { useFindAllTransferQuery } from '../../../app/features/transaction/transferApi'
-import Pagination from '../../UI/Pagination/Pagination';
-import AddButton from '../../common/Button/AddButton'
-import TransferTable from './Table/TransferTable'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useGetTransfersQuery } from '../../../app/features/transaction/transferApi'
+import { useDispatch } from 'react-redux'
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice'
-import { resetFilter } from '../../../app/features/filter/filterSlice';
-import EntrySelect from '../../UI/LimitSelect/EntrySelect';
+import { modals } from '@mantine/modals';
+import { Button, Flex, Group } from '@mantine/core';
+import ExportButton from '../../UI/ExportButton/ExportButton';
+import LimitSelect from '../../UI/LimitSelect/LimitSelect';
+import CustomPagination from '../../UI/Pagination/Pagination';
+import FilterSelect from '../../UI/FilterSelect/FilterSelect';
+import Search from '../../UI/Search/Search';
+import TransferTable from './Table/TransferTable';
 
 export default function Index() {
+  const [features, setFeatures] = useState({ page: 1, limit: 10 });
   const dispatch = useDispatch();
 
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
-
-  const { data, isLoading, isFetching } = useFindAllTransferQuery({ page, limit, order: orderBy, sort });
-
-  useEffect(() => {
-    if (isFetching) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isFetching]);
-
-
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
+  const { data, isLoading, isFetching } = useGetTransfersQuery(features);
 
 
   useEffect(() => {
@@ -41,15 +28,46 @@ export default function Index() {
 
   return (
     <>
-      <div className='d-flex flex-between'>
-        <AddButton
-          name={'AddEditTransfer'}
-          modalTitle='اضافة عملية جديدة'
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditTransfer',
+            title: 'أضافة عملية تسوية',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'5px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'اسم البنك', value: 'bankName' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
         />
-        <EntrySelect />
-      </div>
-      <TransferTable transfers={data?.transfers} />
-      {data?.pagination?.hasPagination && <Pagination pagination={data?.pagination} />}
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex >
+      <TransferTable
+        data={data?.data}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

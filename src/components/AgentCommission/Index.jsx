@@ -1,27 +1,28 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import CommissionTable from '../UI/Commission/Table/CommissionTable';
 import SearchDate from './SearchDate/SearchDate';
 
-
-import { useFindAllCommissionsQuery } from '../../app/features/commissions/commissionApi';
+import { useGetLoggedUserCommissionsQuery } from '../../app/features/commissions/commissionApi';
 
 import './agent.modules.css';
-import { useSelector } from 'react-redux';
+import { months } from '../../utils/months';
+
 
 export default function Index() {
-  const {user} = useSelector(state => state.user)
-
+  var currentDate = new Date();
+  var currentMonthIndex = currentDate.getMonth();
   const [query, setQuery] = useState({
-    agentId: user.id,
     year: new Date().getFullYear(),
-    month: '',
-    searchValue: ''
+    month: months[currentMonthIndex],
+    limit: 10000
   });
 
   const [skip, setSkip] = useState(true);
-  const { data, isLoading, isFetching, isError } = useFindAllCommissionsQuery({ ...query }, { skip});
+  const { data, isLoading, isFetching, isError } = useGetLoggedUserCommissionsQuery(query, { skip });
 
+  console.log(data)
 
   return (
     <>
@@ -30,9 +31,10 @@ export default function Index() {
         setQuery={setQuery}
         setSkip={setSkip}
       />
+
       <CommissionTable
-        data={data}
-        user={data && data?.userCommission}
+        data={data?.data}
+        user={data?.data}
         isLoading={isLoading}
         isFetching={isFetching}
         isError={isError}

@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-import Table from '../../../common/Table/Table';
 
-export default function AgentInfoTable({ user }) {
+import { Table } from "@mantine/core";
+import CustomTable from '../../../common/CustomTable/CustomTable';
 
-  const tableHead = [
+export default function AgentInfoTable({ data }) {
+
+  const theads = [
     {
       title: "الكود",
       className: "",
@@ -28,13 +30,13 @@ export default function AgentInfoTable({ user }) {
       order: "",
       sort: "",
     },
-
     {
-      title: "البيان",
+      title: "التاريخ",
       className: "",
       order: "",
       sort: "",
     },
+
     {
       title: "العنوان",
       className: "",
@@ -43,39 +45,36 @@ export default function AgentInfoTable({ user }) {
     },
   ];
 
+  console.log('data=-=', data)
+
+  const rows =
+    <Table.Tr key={data.id}>
+      <Table.Td>
+        {data?.agent?.accountNumber}
+      </Table.Td>
+      <Table.Td>
+        {data?.agent?.userName}
+      </Table.Td>
+      <Table.Td>
+        {data?.agent?.nationalId}
+      </Table.Td>
+      <Table.Td>
+        {data?.agent?.phoneNumber}
+      </Table.Td>
+      <Table.Td>
+        {data?.month}
+        / {data?.year}
+      </Table.Td>
+      <Table.Td>
+        {data?.agent?.address}
+      </Table.Td>
+    </Table.Tr >
 
 
 
 
   return (
-    <div className="user-info">
-      <Table tableHead={tableHead}>
-        <tbody>
-          <tr>
-            <td>
-              {user.agent.accountNumber}
-            </td>
-            <td>
-              {user.agent.userName}
-            </td>
-            <td>
-              {user.agent.nationalId}
-            </td>
-            <td>
-              {user.agent.phoneNumber}
-            </td>
-            <td>
-              عمولة شهر {user.month}
-            </td>
-            {/* <td>
-              سنة  {user.year}
-            </td> */}
-            <td>
-              {user.agent.address}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <CustomTable theads={theads} rows={rows} />
+
   )
 }

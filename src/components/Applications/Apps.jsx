@@ -39,7 +39,7 @@ export default function Apps() {
     <div>
       <h2 className="text-center">تطبيقات الاقصي</h2>
       <div className="app-boxes">
-        {data?.map(app => {
+        {data?.data?.map(app => {
           return <div className="app-box" key={app.id}>
             <img src={`${import.meta.env.VITE_API_BASE_URL}/${app.img}`} alt={`${import.meta.env.VITE_API_BASE_URL}/${app.img}`} />
             <span>{app.name}</span>

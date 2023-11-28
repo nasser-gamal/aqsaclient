@@ -1,43 +1,19 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
 import { months } from '../../../utils/months';
+import { NativeSelect } from '@mantine/core';
 
 export default function Month({ form, setForm }) {
 
-  const [dropHeading, setDropHeading] = useState()
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleChange = (month) => {
-    setForm({ ...form, month })
+  const handleChange = (e) => {
+    setForm({ ...form, month: e.target.value })
   }
 
   return (
-    <div style={{
-      width: '200px'
-    }}>
-      <CustomSelect
-        dropHeading={dropHeading}
-        label={'الشهر'}
-        isClicked={isClicked}
-        setIsClicked={setIsClicked}
-        onClick={() => setIsClicked(!isClicked)}
-      >
-        {
-          months?.map(month => {
-            return <li
-              key={month.id}
-              onClick={() => {
-                setDropHeading(month.name)
-                setIsClicked(!isClicked);
-                handleChange(month.id);
-              }}
-            >
-              {month.name}
-            </li>
-          })
-        }
-      </CustomSelect>
-    </div>
+    <NativeSelect
+      data={months}
+      onChange={handleChange}
+      label='الشهر'
+      value={form.month}
+    />
   )
 }

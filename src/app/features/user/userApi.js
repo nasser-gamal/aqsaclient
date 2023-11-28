@@ -4,14 +4,15 @@ import { apiSlice } from '../../api/apiSlice';
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllUsers: builder.query({
-      query: () => ({
-        url: apiEndpoints.user.GET_USERS,
+      query: (params) => ({
+        url: `${apiEndpoints.USERS}`,
+        params: { ...params },
       }),
       providesTags: ['users'],
     }),
     createUser: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.user.CREATE_USER,
+        url: apiEndpoints.USERS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +20,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: ({ userId, form }) => ({
-        url: `${apiEndpoints.user.UPDATE_USER}/${userId}`,
+        url: `${apiEndpoints.USERS}/${userId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +28,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updatePasswordManual: builder.mutation({
       query: ({ userId, password }) => ({
-        url: `${apiEndpoints.user.UPDATE_USER_PASSWORD_MANUAL}/${userId}`,
+        url: `${apiEndpoints.USERS}/update-password-manual/${userId}`,
         method: 'PUT',
         body: { password },
       }),
@@ -35,7 +36,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updatePassword: builder.mutation({
       query: ({ userId, password }) => ({
-        url: `${apiEndpoints.user.UPDATE_USER_PASSWORD}/${userId}`,
+        url: `${apiEndpoints.USERS}/update-password/${userId}`,
         method: 'PUT',
         body: { password },
       }),
@@ -43,14 +44,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updateUserStatus: builder.mutation({
       query: (userId) => ({
-        url: `${apiEndpoints.user.UPDATE_USER_STATUS}/${userId}`,
+        url: `${apiEndpoints.USERS}/update-status/${userId}`,
         method: 'PUT',
       }),
       invalidatesTags: ['users'],
     }),
     deleteUser: builder.mutation({
       query: ({ id, password }) => ({
-        url: `${apiEndpoints.user.DELETE_USER}/${id}`,
+        url: `${apiEndpoints.USERS}/${id}`,
         method: 'DELETE',
         body: { password },
       }),

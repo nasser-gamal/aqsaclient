@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
 
-// import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
+import { modals } from '@mantine/modals';
+import { Button, Table } from '@mantine/core';
+import CustomTable from '../../common/CustomTable/CustomTable';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
+import { useDeleteSegmentMutation } from '../../../app/features/segment/segmentApi';
 
 
-export default function SegmentTable({ segments }) {
+
+export default function SegmentTable({ data }) {
 
 
-  const tableHead = [
+  const theads = [
     {
       title: "الشريحة",
       className: "title",
@@ -58,54 +61,65 @@ export default function SegmentTable({ segments }) {
       order: "",
       sort: "",
     },
-    // {
-    //   title: "حذف",
-    //   className: "",
-    //   order: "",
-    //   sort: "",
-    // },
+    {
+      title: "حذف",
+      className: "",
+      order: "",
+      sort: "",
+    },
   ];
+
+  const [deleteSegment] = useDeleteSegmentMutation()
+
+
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>      <Table.Td>{element.title}</Table.Td>
+      <Table.Td>{element?.service?.name || "-"}</Table.Td>
+      <Table.Td>{element.start}</Table.Td>
+      <Table.Td>{element.end || "-"}</Table.Td>
+      <Table.Td>{(element.percentage) + "%"}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <>
+        <Table.Td>
+          <Button
+            type="button"
+            disabled={element?.isDeleted}
+            size="xs"
+            color="rgba(13, 148, 45, 1)"
+            onClick={() =>
+              modals.openContextModal({
+                modal: 'AddEditSegment',
+                title: 'تعديل الشريحة',
+                innerProps: { status: 'edit', data: element }
+              })
+            }
+          >
+            تعديل
+          </Button>
+        </Table.Td>
+        <Table.Td>
+          <DeleteModal
+            title={'حذف شريحة'}
+            disabled={element?.isDeleted}
+            text='هل أنت متأكد من حذف الشريحة ؟'
+            handleDelete={deleteSegment}
+            id={element.id}
+            onCancel={() => console.log('Cancel')}
+          />
+        </Table.Td>
+      </>
+    </Table.Tr >
+  ));
+
+
 
 
   return (
-    <Table tableHead={tableHead} >
-      <tbody>
-        {
-          segments?.map((segment) => {
-            return <tr key={segment.id}>
-              <td>{segment.title}</td>
-              <td>{segment.service.name}</td>
-              <td>{segment.start}</td>
-              <td>{segment.end || "-"}</td>
-              <td>{(segment.percentage) + "%"}</td>
-              <td>{segment.note || "-"}</td>
-              <td>
-                <DateAndTime createdAt={segment.createdAt} />
-              </td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditSegment',
-                    modalTitle: 'تعديل الشريحة',
-                    status: 'تعديل',
-                    childrenProps: { segment }
-                  }}
-                />
-              </td>
-              {/* <td>
-                <DeleteButton
-                  deleteProps={{
-                    name: 'DeleteConfirm',
-                    modalTitle: 'حذف الشريحة',
-                    status: 'حذف',
-                    childrenProps: { id: segment.id, message: 'هل أنت متأكد أنك تريد حذف هذه الشريحة ؟' }
-                  }}
-                />
-              </td> */}
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
+
   )
 }

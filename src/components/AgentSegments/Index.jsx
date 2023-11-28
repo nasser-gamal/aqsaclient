@@ -7,7 +7,11 @@ import './segment.modules.css';
 
 export default function Index() {
 
-  const { data, isLoading } = useFindAllSegmentQuery({ page: "", limit: "", order: 'createdAt', sort: 'ASC' });
+  const { data, isLoading } = useFindAllSegmentQuery(
+    {
+      limit: 10000,
+    }
+  );
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export default function Index() {
 
   return (
     <>
-      <AgentSegmentsTable segments={data?.segments} isLoading={isLoading} />
+      <AgentSegmentsTable data={data?.data} isLoading={isLoading} />
     </>
   )
 }

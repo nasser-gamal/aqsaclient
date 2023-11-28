@@ -4,6 +4,25 @@ const apiEndpoints = {
     LOGOUT: '/auth/logout',
   },
 
+  USERS: '/users',
+  CATEGORIES: '/categories',
+  SUB_CATEGORIES: '/subCategories',
+  SEGMENTS: '/segments',
+  BANKS: '/banks',
+  BANK_ACCOUNTS: '/bank-accounts',
+  FEES: '/fees',
+  PROVIDERS: '/providers',
+  PROVIDER_COMMISSIONS: '/providers-commissions',
+  AGENT_TREASURIES: '/agentTreasuries',
+  PROVIDER_TREASURIES: '/providerTreasuries',
+  ADDIONAL_TREASURIES: '/addionalTreasuries',
+  DUES: '/dues',
+  APPS: '/apps',
+  TRANSACTIONS: '/transactions',
+  TRANSFER: '/transfers',
+  LOGGED_USER_COMMISSIONS: '/commission/me',
+
+  
   agent: {
     CREATE_AGENT: '/agent/create',
     GET_AGENTS: '/agent/getAll',
@@ -14,29 +33,15 @@ const apiEndpoints = {
     UPDATE_AGENT_PASSWORD_MANUAL: '/agent/update-password-manual',
   },
 
-  user: {
-    CREATE_USER: '/user/create',
-    GET_USERS: '/user/getAll',
-    UPDATE_USER: '/user/update',
-    UPDATE_USER_STATUS: '/user/update-status',
-    DELETE_USER: '/user/delete',
-    UPDATE_USER_PASSWORD: '/user/update-password',
-    UPDATE_USER_PASSWORD_MANUAL: '/user/update-password-manual',
-  },
-
-  category: {
-    CREATE_CATEGORY: '/category/create',
-    GET_CATEGORIES: '/category/getAll',
-    UPDATE_CATEGORY: '/category/update',
-    DELETE_CATEGORY: '/category/delete',
-  },
-
-  segment: {
-    GET_SEGMENTS: '/segment/getAll',
-    CREATE_SEGMENT: '/segment/create',
-    UPDATE_SEGMENT: '/segment/update',
-    DELETE_SEGMENT: '/segment/delete',
-  },
+  // user: {
+  //   CREATE_USER: '/user/create',
+  //   GET_USERS: '/user/getAll',
+  //   UPDATE_USER: '/user/update',
+  //   UPDATE_USER_STATUS: '/user/update-status',
+  //   DELETE_USER: '/user/delete',
+  //   UPDATE_USER_PASSWORD: '/user/update-password',
+  //   UPDATE_USER_PASSWORD_MANUAL: '/user/update-password-manual',
+  // },
 
   commission: {
     GET_COMMISSIONS: '/commission/getAll',
@@ -46,25 +51,12 @@ const apiEndpoints = {
     DELETE_COMMISSION: '/commission/delete',
   },
 
-  bank: {
-    CREATE_BANK: '/banks/create',
-    GET_BANKS: '/banks/getAll',
-    UPDATE_BANK: '/banks/update',
-  },
-
-  bankAccount: {
-    CREATE_BANKACCOUNT: '/bank-accounts/create',
-    GET_BANKACCOUNTS: '/bank-accounts/getAll',
-    UPDATE_BANKACCOUNT: '/bank-accounts/update',
-  },
-
   deposite: {
     CREATE_DEPOSITE: '/transaction/deposite/create',
     GET_DEPOSITES: '/transaction/deposite/getAll',
     UPDATE_DEPOSITE: '/transaction/deposite/update',
     DELETE_DEPOSITE: '/transaction/deposite/delete',
     RESTORE_DEPOSITE: '/transaction/deposite/restore',
-
   },
 
   withdraw: {
@@ -82,63 +74,8 @@ const apiEndpoints = {
     DELETE_TRANSFER: '/transaction/transfer/delete',
   },
 
-  fees: {
-    GET_FEES: '/fees/getAll',
-    CREATE_FEE: '/fees/create',
-    UPDATE_FEE: '/fees/update',
-    DELETE_FEE: '/fees/delete',
-  },
-  provider: {
-    GET_PROVIDERS: '/provider/getAll',
-    CREATE_PROVIDER: '/provider/create',
-    UPDATE_PROVIDER: '/provider/update',
-    DELETE_PROVIDER: '/provider/delete',
-  },
-  providerCommission: {
-    GET_PROVIDER_COMMISSIONS: '/provider/commission/getAll',
-    CREATE_PROVIDER_COMMISSION: '/provider/commission/create',
-    UPDATE_PROVIDER_COMMISSION: '/provider/commission/update',
-    DELETE_PROVIDER_COMMISSION: '/provider/commission/delete',
-  },
-
-  agentTreasury: {
-    GET_AGENT_TREASURYS: '/agentTreasury/getAll',
-    CREATE_AGENT_TREASURY: '/agentTreasury/create',
-    UPDATE_AGENT_TREASURY: '/agentTreasury/update',
-    DELETE_AGENT_TREASURY: '/agentTreasury/delete',
-  },
-
-  providerTreasury: {
-    GET_PROVIDER_TREASURYS: '/providerTreasury/getAll',
-    CREATE_PROVIDER_TREASURY: '/providerTreasury/create',
-    UPDATE_PROVIDER_TREASURY: '/providerTreasury/update',
-    DELETE_PROVIDER_TREASURY: '/providerTreasury/delete',
-  },
-
-  addionalTreasury: {
-    GET_ADDIONAL_TREASURYS: '/addionalTreasury/getAll',
-    CREATE_ADDIONAL_TREASURY: '/addionalTreasury/create',
-    UPDATE_ADDIONAL_TREASURY: '/addionalTreasury/update',
-    DELETE_ADDIONAL_TREASURY: '/addionalTreasury/delete',
-  },
-
-  dues: {
-    GET_DUES: '/dues/getAll',
-    CREATE_DUE: '/dues/create',
-    UPDATE_DUE: '/dues/update',
-    DELETE_DUE: '/dues/delete',
-  },
-
   treasury: {
     GET_TREASURY: '/treasury/get',
-  },
-
-  applications: {
-    CREATE_APP: '/apps/create',
-    GET_APPS: '/apps/getAll',
-    UPDATE_APP: '/apps/update',
-    DELETE_APP: '/apps/delete',
-    DOWNLOAD_APP: '/apps/download',
   },
 
   reports: {

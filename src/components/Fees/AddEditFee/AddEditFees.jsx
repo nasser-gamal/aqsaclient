@@ -1,26 +1,27 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
 
 
 import { notify } from '../../../utils/notify';
 import { validateFee } from '../../../utils/validation';
 
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateFeeMutation, useUpdateFeeMutation } from '../../../app/features/fees/feesApi';
 import { DateInput } from '../../../utils/formatDate';
+import { modals } from '@mantine/modals';
+import { TextInput } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 
-export default function AddEditFees() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditFees({ innerProps }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    amount: childrenProps?.fee.amount || "",
-    date: childrenProps?.fee.date.split("T")[0] || DateInput(),
-    note: childrenProps?.fee.note || ""
+    amount: innerProps?.data.amount || "",
+    date: innerProps?.data.date.split("T")[0] || DateInput(),
+    note: innerProps?.data.note || ""
   });
 
   const onChange = (e) => {
@@ -48,12 +49,11 @@ export default function AddEditFees() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.fee
-          ? await updateFee({ feesId: childrenProps?.fee.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateFee({ feesId: innerProps?.data.id, form }).unwrap()
           : await createFee(form).unwrap();
-
         notify('success', response.message);
-        dispatch(closeModal())
+        modals.closeAll()
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -62,22 +62,30 @@ export default function AddEditFees() {
 
   return (
     <form onSubmit={onSubmit}>
-      <CustomInput
-        type='text'
+      <TextInput m={'10 0'}
+        type='number'
         label='القيمة'
         name={'amount'}
         value={form.amount}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      {/*  <TextInput  m={'10 0'}
         type='date'
         label='التاريخ'
         name={'date'}
         value={form.date}
         onChange={(e) => onChange(e)}
+      /> */}
+      <DateTimePicker
+        w={'100%'}
+        clearable
+        name={'date'}
+        value={new Date() || form.date}
+        label="التاريخ والوقت"
+        onChange={(e) => onChange(e)}
       />
-      <CustomInput
-        type='textarea'
+      <TextInput m={'10 0'}
+        type='text'
         label='محلوظة'
         name={'note'}
         value={form.note}

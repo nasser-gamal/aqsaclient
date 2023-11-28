@@ -1,16 +1,35 @@
-import { useEffect } from 'react';
-import AddButton from '../common/Button/AddButton';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, } from 'react-redux';
+
+
+import { Button, Flex, Group } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
 import { useFindAllProvidersQuery } from '../../app/features/provider/providerApi';
 import ProviderTable from './Table/ProviderTable';
-import Pagination from '../UI/Pagination/Pagination';
 
+
+
+import CustomPagination from '../UI/Pagination/Pagination';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import ExportButton from '../UI/ExportButton/ExportButton';
+import Search from '../UI/Search/Search';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
-  const { data, isLoading, isFetching } = useFindAllProvidersQuery({ page, limit, order: orderBy, sort });
+
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    fields: '',
+    sort: '',
+    keyword: '',
+    conditions: '',
+  })
+
+  const { data, isLoading, isFetching } = useFindAllProvidersQuery({ ...features });
 
   useEffect(() => {
     if (isLoading || isFetching) {
@@ -22,9 +41,49 @@ export default function Index() {
 
   return (
     <>
-      <AddButton name={'AddEditProvider'} modalTitle={'اضافة مزود جديد'} />
-      <ProviderTable data={data?.provider} />
-      {data?.provider?.pagination.hasPagination && <Pagination pagination={data?.provider?.pagination} />}
+      <>
+        <Button
+          mb={10}
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditProvider',
+              title: 'أضافة  شريحة جديدة',
+            })
+          }>
+          اضافة
+        </Button>
+        <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+          <Group>
+            <FilterSelect features={features} setFeatures={setFeatures} />
+          </Group>
+          <Search
+            options={[
+              { label: 'اسم المزود', value: 'name' },
+            ]}
+            features={features}
+            setFeatures={setFeatures}
+          />
+          <Group>
+            <ExportButton />
+            <LimitSelect
+              features={features}
+              setFeatures={setFeatures}
+            />
+          </Group>
+        </Flex>
+        <ProviderTable
+          data={data?.data}
+          isLoading={isLoading}
+        />
+        {
+          data?.meta?.pagination?.hasPagination &&
+          <CustomPagination
+            features={features}
+            setFeatures={setFeatures}
+            pagination={data?.meta?.pagination}
+          />
+        }
+      </>
     </>
   )
 }

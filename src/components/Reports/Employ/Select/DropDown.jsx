@@ -1,68 +1,50 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-
-import CustomSelect from '../../../common/FormFields/Select/CustomSelect';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
 import { useFindAllUsersQuery } from '../../../../app/features/user/userApi';
+import { Select } from '@mantine/core';
 
-export default function DropDown({ form, setForm, setSkip }) {
+export default function DropDown({ features, setFeatures, disabled, defaultValue, setSkip }) {
   const dispatch = useDispatch()
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الموظف');
+  const { data, isLoading: isLoading } = useFindAllUsersQuery({ 'roleId[ne]': 3 });
 
-  const { data, isFetching } = useFindAllUsersQuery();
-  const [searchValue, setSearchValue] = useState()
 
   useEffect(() => {
-    if (isFetching) {
+    if (isLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [isFetching, dispatch]);
+  }, [isLoading, dispatch]);
 
 
 
-  const filterSelectOptions = (e) => {
-    const { value } = e.target;
-    setSearchValue(value)
+  const options = data?.data.map((user) => ({
+    value: `${user?.id}`,
+    label: user?.accountName,
+  })) || [];
+
+
+  const onChange = (value) => {
+    setFeatures({ ...features, createdBy: value });
+    setSkip(true)
   }
 
 
   return (
-    <CustomSelect
-      searchInput={true}
-      onChange={(e) => filterSelectOptions(e)}
-      dropHeading={dropHeading}
-      label={'اختر الحساب'}
-      isClicked={isClicked}
-      setIsClicked={setIsClicked}
-      onClick={() => {
-        setIsClicked(!isClicked)
-        setSkip(true)
-      }}
-    >
-      {
-        data?.users.filter(user => {
-          const value = searchValue;
-          return value ? user.userName.includes(value.toLowerCase()) : user;
-        }).map(user => {
-          return <li
-            key={user.id}
-            onClick={() => {
-              setDropHeading(user.userName);
-              setIsClicked(!isClicked);
-              setForm({ ...form, userId: user.id })
-            }}
-          >
-            {
-              user.userName
-            }
-          </li>
-        })
-      }
-    </CustomSelect>
+    <Select
+      m={'10 0'}
+      label="اختر المستخدم"
+      data={options}
+      onChange={onChange}
+      disabled={disabled}
+      defaultSearchValue={defaultValue}
+      searchable
+      nothingFoundMessage="غير موجود ..."
+      allowDeselect={false}
+
+    />
   )
 }

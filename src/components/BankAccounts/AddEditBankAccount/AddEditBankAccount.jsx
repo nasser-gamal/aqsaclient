@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import CustomInput from '../../common/FormFields/input/CustomInput';
+/* eslint-disable react/prop-types */
+import { useDispatch } from 'react-redux';
 import FormButtons from '../../UI/FormButtons/FormButtons';
 import { useEffect, useState } from 'react';
 import { useCreateBankAccountMutation, useUpdateBankAccountMutation } from '../../../app/features/bankAccount/bankAccountApi';
@@ -7,18 +7,18 @@ import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice
 import { notify } from '../../../utils/notify';
 import DropDown from './DropDown';
 import { validateBankAccount } from '../../../utils/validation';
-import { closeModal } from '../../../app/features/modal/modalSlice';
+import { TextInput } from '@mantine/core';
+import { modals } from '@mantine/modals';
 
-export default function AddEditBankAccount() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditBankAccount({ innerProps }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    accountName: childrenProps?.bankAccount.accountName || "",
-    bankNumber: childrenProps?.bankAccount.bankNumber || "",
-    balance: childrenProps?.bankAccount.balance || "",
-    note: childrenProps?.bankAccount.note || "",
-    bankId: childrenProps?.bankAccount.bank.id || ""
+    accountName: innerProps?.data?.accountName || "",
+    bankNumber: innerProps?.data?.bankNumber || "",
+    balance: innerProps?.data?.balance || "",
+    note: innerProps?.data?.note || "",
+    bankId: innerProps?.data?.bank?.id || ""
   });
 
   const onChange = (e) => {
@@ -47,11 +47,11 @@ export default function AddEditBankAccount() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.bankAccount
-          ? await updateBank({ bankAccountId: childrenProps?.bankAccount.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateBank({ bankAccountId: innerProps?.data?.id, form }).unwrap()
           : await createBank(form).unwrap();
         notify('success', response.message);
-        dispatch(closeModal())
+        modals.closeAll();
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -59,33 +59,38 @@ export default function AddEditBankAccount() {
   }
 
 
-
+  console.log(innerProps?.data)
   return (
     <form onSubmit={onSubmit}>
-      <DropDown form={form} setForm={setForm} />
-      <CustomInput
+      <DropDown
+        form={form}
+        setForm={setForm}
+        disabled={innerProps?.data}
+        defaultValue={innerProps?.data ? innerProps?.data?.bank?.bankName : ''}
+      />
+      <TextInput m={'10 0'}
         type='text'
         label='اسم الحساب'
         name={'accountName'}
         value={form.accountName}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='text'
         label='رقم الحساب'
         name={'bankNumber'}
         value={form.bankNumber}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
-        type='text'
+      <TextInput m={'10 0'}
+        type='number'
         label='الرصيد الافتتاحي'
         name={'balance'}
         value={form.balance}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
-        type='textarea'
+      <TextInput m={'10 0'}
+        type='text'
         label='محلوظة'
         name={'note'}
         value={form.note}

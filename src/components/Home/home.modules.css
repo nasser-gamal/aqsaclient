@@ -23,15 +23,15 @@
   cursor: pointer;
 }
 .box.disabled {
-  background-color: rgba(0, 0, 0, 0.062);
+  background: rgba(0, 0, 0, 0.062) !important;
   pointer-events: none;
   cursor: not-allowed;
 }
 .box:hover {
-  background-color: #1795d91a;
+  background-color: #1795d91a  !important;
 }
 .box.disabled:hover  {
-  background-color: rgba(0, 0, 0, 0.062);
+  background: rgba(0, 0, 0, 0.062) !important;
 }
 .box img {
   width: 60px;

@@ -1,27 +1,26 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
+import { TextInput } from '@mantine/core';
 
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
-
 
 import { notify } from '../../../utils/notify';
 import { validateTreasury } from '../../../utils/validation';
-
-import { closeModal } from '../../../app/features/modal/modalSlice';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { DateInput } from '../../../utils/formatDate';
+
+import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateProviderTreasuryMutation, useUpdateProviderTreasuryMutation } from '../../../app/features/providerTreasury/providerTreasuryApi';
 
-export default function AddEditProviderTreasury() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditProviderTreasury({ context, id, innerProps }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    amount: childrenProps?.providerTreasury.amount || "",
-    date: childrenProps?.providerTreasury.date.split('T')[0] || DateInput(),
-    note: childrenProps?.providerTreasury.note || ""
+    amount: innerProps?.data.amount || "",
+    date: innerProps?.data.date.split('T')[0] || DateInput(),
+    note: innerProps?.data.note || ""
   });
+
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -48,12 +47,12 @@ export default function AddEditProviderTreasury() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.providerTreasury
-          ? await updateProviderTreasury({ treasuryId: childrenProps?.providerTreasury.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateProviderTreasury({ treasuryId: innerProps?.data.id, form }).unwrap()
           : await createProviderTreasury(form).unwrap();
 
         notify('success', response.message);
-        dispatch(closeModal())
+        context.closeModal(id)
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -62,21 +61,21 @@ export default function AddEditProviderTreasury() {
 
   return (
     <form onSubmit={onSubmit}>
-      <CustomInput
-        type='text'
+      <TextInput m={'10 0'}
+        type='number'
         label='القيمة'
         name={'amount'}
         value={form.amount}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='date'
         label='التاريخ'
         name={'date'}
         value={form.date}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='textarea'
         label='محلوظة'
         name={'note'}

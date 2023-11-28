@@ -4,14 +4,14 @@ import { apiSlice } from '../../api/apiSlice';
 export const providerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllProviders: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.provider.GET_PROVIDERS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: ({ page, limit, fields, sort, keyword, conditions }) => ({
+        url: `${apiEndpoints.PROVIDERS}?page=${page}&limit=${limit}&fields=${fields}&sort=${sort}&keyword=${keyword}&${conditions}`,
       }),
       providesTags: ['provider'],
     }),
     createProvider: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.provider.CREATE_PROVIDER,
+        url: apiEndpoints.PROVIDERS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +19,7 @@ export const providerApiSlice = apiSlice.injectEndpoints({
     }),
     updateProvider: builder.mutation({
       query: ({ providerId, form }) => ({
-        url: `${apiEndpoints.provider.UPDATE_PROVIDER}/${providerId}`,
+        url: `${apiEndpoints.PROVIDERS}/${providerId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +27,7 @@ export const providerApiSlice = apiSlice.injectEndpoints({
     }),
     deleteProvider: builder.mutation({
       query: (providerId) => ({
-        url: `${apiEndpoints.provider.DELETE_PROVIDER}/${providerId}`,
+        url: `${apiEndpoints.PROVIDERS}/${providerId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['provider'],

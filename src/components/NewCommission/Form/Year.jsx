@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
-import CustomSelect from '../../common/FormFields/Select/CustomSelect';
+import { NativeSelect } from '@mantine/core';
 
 export default function Year({ form, setForm }) {
 
@@ -17,42 +16,16 @@ export default function Year({ form, setForm }) {
     yearOptions.push(year);
   }
 
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState(new Date().getFullYear());
 
-
-  const handleChange = (year) => {
-    setForm({ ...form, year })
+  const handleChange = (e) => {
+    setForm({ ...form, year: e.target.value })
   }
 
   return (
-    <div style={{
-      width: '200px'
-    }}>
-      <CustomSelect
-        dropHeading={dropHeading}
-        label={'السنة'}
-        isClicked={isClicked}
-        setIsClicked={setIsClicked}
-        onClick={() => {
-          setIsClicked(!isClicked)
-        }}
-      >
-        {
-          yearOptions.map((year, index) => {
-            return <li
-              key={index}
-              onClick={() => {
-                setDropHeading(year)
-                setIsClicked(!isClicked);
-                handleChange(year);
-              }}
-            >
-              {year}
-            </li>
-          })
-        }
-      </CustomSelect>
-    </div>
+    <NativeSelect
+      data={yearOptions}
+      onChange={handleChange}
+      label='السنة'
+    />
   )
 }

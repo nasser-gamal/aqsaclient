@@ -3,9 +3,10 @@ import { apiSlice } from '../../api/apiSlice';
 
 export const transferApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    findAllTransfer: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.transfer.GET_TRANSFERS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+    getTransfers: builder.query({
+      query: (params) => ({
+        url: apiEndpoints.TRANSFER,
+        params: { ...params },
       }),
       providesTags: ['transfers'],
     }),
@@ -27,7 +28,7 @@ export const transferApiSlice = apiSlice.injectEndpoints({
     }),
     deleteTransfer: builder.mutation({
       query: (transactionId) => ({
-        url: `${apiEndpoints.transfer.DELETE_TRANSFER}/${transactionId}`,
+        url: `${apiEndpoints.TRANSFER}/${transactionId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['transfers', 'bankAccounts'],
@@ -36,7 +37,7 @@ export const transferApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-  useFindAllTransferQuery,
+  useGetTransfersQuery,
   useCreateTransferMutation,
   useUpdateTransferMutation,
   useDeleteTransferMutation,

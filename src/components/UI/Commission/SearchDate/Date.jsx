@@ -1,12 +1,20 @@
 /* eslint-disable react/prop-types */
-import YearDate from './yearDate'
-import MonthDate from './monthDate'
+import YearDate from './Year'
+import MonthDate from './Month'
 
 export default function Date({ query, setQuery, setSkip }) {
   return (
-    <> 
-      <YearDate query={query} setQuery={setQuery} setSkip={setSkip} />
-      <MonthDate query={query} setQuery={setQuery} setSkip={setSkip} />
+    <>
+      <YearDate
+        form={query}
+        setForm={setQuery}
+        setSkip={setSkip}
+      />
+      <MonthDate
+        form={query}
+        setForm={setQuery}
+        setSkip={setSkip}
+      />
     </>
   )
 }

@@ -1,21 +1,33 @@
 /* eslint-disable react/prop-types */
 import { useDispatch } from 'react-redux';
-import Table from '../../common/Table/Table';
-import SwitchActive from '../../common/Toggle/SwitchActive';
-// import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import EditButton from '../../UI/TableButtons/EditButton';
-import UpdatePasswordButton from '../../UI/TableButtons/UpdatePasswordButton';
 
 
 import { useUpdateUserStatusMutation } from '../../../app/features/user/userApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import CustomTable from '../../common/CustomTable/CustomTable';
+import { Button, Menu, Switch, Table } from '@mantine/core';
+import { modals } from '@mantine/modals';
 
-export default function UserTable({ users, isLoading }) {
+
+import {
+  IconSettings,
+  // IconSearch,
+  IconPhoto,
+  IconMessageCircle,
+  IconTrash,
+  // IconArrowsLeftRight,
+} from '@tabler/icons-react';
+import DeleteUser from '../DeleteUser/DeleteUser';
+import { useDisclosure } from '@mantine/hooks';
+
+export default function UserTable({ data, isLoading }) {
+  const [opened, { open, close }] = useDisclosure(false);
+
   const dispatch = useDispatch();
 
-  const tableHead = [
+  const theads = [
     {
       title: "اسم صاحب الحساب",
       className: "user-name",
@@ -36,6 +48,12 @@ export default function UserTable({ users, isLoading }) {
     },
     {
       title: "البريد الالكتروني",
+      className: "email",
+      order: "email",
+      sort: "ASC",
+    },
+    {
+      title: "الرقم القومي",
       className: "email",
       order: "email",
       sort: "ASC",
@@ -64,26 +82,42 @@ export default function UserTable({ users, isLoading }) {
       order: "isActive",
       sort: "ASC",
     },
+
+    // {
+    //   title: "تغير الرقم السري",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: "ارسال الرقم السري",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: "تعديل",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
+    // {
+    //   title: "حذف",
+    //   className: "",
+    //   order: "",
+    //   sort: "",
+    // },
     {
-      title: "تعديل",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "تغير الرقم السري",
-      className: "",
-      order: "",
-      sort: "",
-    },
-    {
-      title: "ارسال الرقم السري",
+      title: "#",
       className: "",
       order: "",
       sort: "",
     },
 
+
   ]
+  const [id, setId] = useState()
+
   const [updateUserStatus, { isLoading: updateLoading }] = useUpdateUserStatusMutation()
 
 
@@ -108,70 +142,151 @@ export default function UserTable({ users, isLoading }) {
 
 
 
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>{element.userName}</Table.Td>
+      <Table.Td>{element.accountName}</Table.Td>
+      <Table.Td>{element.phoneNumber}</Table.Td>
+      <Table.Td>{element.email}</Table.Td>
+      <Table.Td>{element.nationalId || '-'}</Table.Td>
+      <Table.Td>{element.address}</Table.Td>
+      <Table.Td>{element.role?.nameAr}</Table.Td>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td>
+        <Switch
+          disabled={element?.isDeleted}
+          checked={element.isActive ? true : false}
+          onChange={() => updateStatus(element.id)}
+        />
+      </Table.Td>
+      {/* <Table.Td >
+        <Button
+          type="button"
+          size="xs"
+          color="rgba(13, 148, 45, 1)"
+          onClick={() =>
+            modals.openContextModal({
+              modal: 'AddEditUser',
+              title: 'تعديل الموظف',
+              innerProps: { status: 'edit', data: element }
+            })
+          }
+        >
+          تعديل
+        </Button>
+      </Table.Td> */}
+      {/* <Table.Td>
+        <DeleteModal
+          title={'حذف حساب'}
+          text='هل أنت متأكد من حذف الحساب ؟'
+          handleDelete={deleteUser}
+          id={element.id}
+          onCancel={() => console.log('Cancel')}
+        />
+      </Table.Td> */}
+      <Table.Td>
+        <Menu shadow="md" width={200}>
+          <Menu.Target >
+            <Button
+              disabled={element?.isDeleted}
+              type="button"
+              size="xs"
+            >المزيد</Button>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            <Menu.Label>الاعدادات</Menu.Label>
+            <Menu.Item
+              leftSection={<IconSettings color='blue' style={{ width: "20px", height: "20px" }} />}
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditUser',
+                  title: 'تعديل المستخدم',
+                  innerProps: { status: 'edit', data: element }
+                })
+              }
+            >
+              تعديل بيانات الحساب
+            </Menu.Item>
+            <Menu.Item
+              leftSection={<IconSettings color='blue' style={{ width: "20px", height: "20px" }} />}
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'UpdateUserPasswordManual',
+                  title: 'تغير الرقم السري للمستخدم',
+                  innerProps: { id: element.id }
+                })
+              }
+            >
+              تغير كلمة السر
+            </Menu.Item>
+            <Menu.Item
+              leftSection={<IconMessageCircle color='blue' style={{ width: "20px", height: "20px" }} />}
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'UpdateUserPassword',
+                  title: 'ارسال الرقم السري برسالة',
+                  innerProps: { id: element.id }
+                })
+              }
+            >
+              ارسال كلمة السر
+            </Menu.Item>
+            <Menu.Item
+              leftSection={<IconPhoto color='blue' style={{ width: "20px", height: "20px" }} />}
+            >
+              ارسال رسالة
+            </Menu.Item>
+            <Menu.Divider />
+
+            <Menu.Item
+              color="red"
+              leftSection={<IconTrash style={{ width: "rem(14)", height: "rem(14)" }} />}
+              // onClick={() =>
+              //   modals.openContextModal({
+              //     modal: 'DeleteUser',
+              //     title: 'حذف المستخدم',
+              //     innerProps: { status: 'delete', data: element }
+              //   })
+              // }
+              onClick={() => {
+                setId(element.id)
+                open()
+              }}
+            >
+              حذف  الحساب
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Table.Td>
+
+      {/* <Table.Td>
+        <UpdatePasswordButton
+          name={'UpdateUserPasswordManual'}
+          id={element.id}
+        />
+      </Table.Td>
+      <Table.Td>
+        <UpdatePasswordButton
+          name={'UpdateUserPassword'}
+          id={element.id}
+        />
+      </Table.Td> */}
+    </Table.Tr >
+  ));
+
+
   return (
-    <Table tableHead={tableHead} isLoading={isLoading}>
-      <tbody>
-        {
-          users?.map(user => {
-            return <tr key={user.id}>
-              <td>{user.userName}</td>
-              <td>{user.accountName}</td>
-              <td>{user.phoneNumber}</td>
-              <td>{user.email}</td>
-              <td>{user.address}</td>
-              <td>{user.role?.nameAr}</td>
-              <td>
-                <DateAndTime createdAt={user.createdAt} />
-              </td>
-              <td>
-                <SwitchActive
-                  active={user.isActive ? true : false}
-                  onClick={() => updateStatus(user.id)}
-                />
-              </td>
-              {/* <td>
-                <CgMoreR
-                  style={{
-                    fontSize: "24px",
-                    color: "#081871",
-                    cursor: "pointer",
-                  }}
-                  onClick={() =>
-                    dispatch(openModal(
-                      {
-                        name: 'UserTransaction',
-                        modalTitle: 'أخر 5 عمليات',
-                        status: 'show',
-                        childrenProps: { id: user.id }
-                      }
-                    ))}
-                />
-              </td> */}
-              <td >
-                <EditButton
-                  editProps={{
-                    name: 'AddEditUser',
-                    modalTitle: 'تعديل الموظف',
-                    status: 'تعديل',
-                    childrenProps: { user: user }
-                  }} />
-              </td>
-              <td>
-                <UpdatePasswordButton
-                  name={'UpdateUserPasswordManual'}
-                  id={user.id}
-                />
-              </td>
-              <td>
-                <UpdatePasswordButton
-                  name={'UpdateUserPassword'}
-                  id={user.id}
-                />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <>
+      <CustomTable theads={theads} rows={rows} />
+      <DeleteUser
+        opened={opened}
+        close={close}
+        title="حذف موظف"
+        id={id}
+      />
+    </>
   )
 }

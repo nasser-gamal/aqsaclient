@@ -1,61 +1,44 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { Select } from '@mantine/core';
 
-import CustomSelect from '../common/FormFields/Select/CustomSelect';
+export default function DropDown({ form, setForm, setBalance, setSkip, data, setShowForm, features, setFeatures }) {
 
-export default function DropDown({ form, setForm, setBalance, setSkip, data, setShowForm }) {
-
-  const [isClicked, setIsClicked] = useState(false);
-  const [dropHeading, setDropHeading] = useState('اختر الحساب');
-
-  const [searchValue, setSearchValue] = useState()
+  const options = data?.data.map((bankAccount) => ({
+    value: `${bankAccount?.id}`,
+    label: bankAccount?.accountName,
+  })) || [];
 
 
+  const findBalanceBefore = (selectedValue) => {
+    const selectedOption = data?.data.filter((option) => option.id == selectedValue);
+    return selectedOption[0];
+  };
 
-
-  const filterSelectOptions = (e) => {
-    const { value } = e.target;
-    setSearchValue(value)
-  }
-
-  const onClick = (bankAccount) => {
-    setDropHeading(bankAccount.accountName);
-    setIsClicked(!isClicked);
-    setForm({ ...form, bankAccountId: bankAccount.id, bankAccountName: bankAccount.accountName })
-    setBalance(bankAccount.balance)
-    setSkip(false)
+  const onChange = (value) => {
+    const bankAccount = findBalanceBefore(value)
+    setForm({ ...form, bankAccount });
     setShowForm(true)
-  }
+    setFeatures({ ...features, bankAccountId: value });
+    setSkip(false)
+  };
 
 
   return (
-    <CustomSelect
-      searchInput={true}
-      onChange={(e) => filterSelectOptions(e)}
-      dropHeading={dropHeading}
-      isClicked={isClicked}
-      setIsClicked={setIsClicked}
-      onClick={() => {
-        setIsClicked(!isClicked)
-      }}
-    >
-      {
-        data?.bankAccounts.filter(bankAccount => {
-          const value = searchValue;
-          return value ? bankAccount.accountName.includes(value.toLowerCase()) : bankAccount;
-        }).map(bankAccount => {
-          return <li
-            key={bankAccount.id}
-            onClick={() => {
-              onClick(bankAccount)
-            }}
-          >
-            {
-              bankAccount.accountName
-            }
-          </li>
-        })
-      }
-    </CustomSelect>
+    <Select
+      w={'100%'}
+      m={'10 0'}
+
+      // mt={'30px'}
+      data={options}
+      onChange={onChange}
+      // disabled={disabled}
+      // defaultSearchValue={defaultValue}
+      searchable
+      placeholder='الحساب'
+      nothingFoundMessage="غير موجود ..."
+      allowDeselect={false}
+
+    />
   )
 }
+

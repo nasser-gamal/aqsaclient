@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
-import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { notify } from '../../../utils/notify';
+import { modals } from '@mantine/modals';
+import { Button, Table } from '@mantine/core';
+
 import { useDeleteAgentTreasuryMutation } from '../../../app/features/agentTreasury/agentTreasuryApi';
 
-export default function AgentTreasuryTable({ data }) {
-  const dispatch = useDispatch();
+import CustomTable from '../../common/CustomTable/CustomTable';
+import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import ResotreButton from '../../UI/RestoreData/ResotreButton';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
 
-  const tableHead = [
+
+export default function AgentTreasuryTable({ data }) {
+
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -48,55 +48,57 @@ export default function AgentTreasuryTable({ data }) {
   ]
 
 
-  const [deleteAgentTreasury, { isLoading }] = useDeleteAgentTreasuryMutation();
+  const [deleteAgentTreasury] = useDeleteAgentTreasuryMutation();
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
+
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>{element.amount}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+   
+        <>
+          <Table.Td>
+            <Button
+              type="button"
+            size="xs"
+            disabled={element?.isDeleted}
+
+              color="rgba(13, 148, 45, 1)"
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditAgentTreasury',
+                  title: 'تعديل رصيد',
+                  innerProps: { status: 'edit', data: element }
+                })
+              }
+            >
+              تعديل
+            </Button>
+          </Table.Td>
+          <Table.Td>
+          <DeleteModal
+            disabled={element?.isDeleted}
+
+              title={'حذف رصيد'}
+              text='هل أنت متأكد من حذف الرصيد ؟'
+              handleDelete={deleteAgentTreasury}
+              id={element.id}
+              onCancel={() => console.log('Cancel')}
+            />
+          </Table.Td>
+        </>
+      
+    </Table.Tr >
+  ));
 
 
-  const handleDelete = async (treasuryId) => {
-    try {
-      const response = await deleteAgentTreasury(treasuryId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
+
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.map(agentTreasury => {
-            return <tr key={agentTreasury.id}>
-              <td>
-                <DateAndTime createdAt={agentTreasury.date} />
-              </td>
-              <td>{agentTreasury.amount}</td>
-              <td>{agentTreasury.note || "-"}</td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditAgentTreasury',
-                    modalTitle: 'تعديل ',
-                    status: 'تعديل',
-                    childrenProps: { agentTreasury }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(agentTreasury.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

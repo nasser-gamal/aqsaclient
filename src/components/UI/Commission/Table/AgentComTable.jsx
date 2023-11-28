@@ -1,9 +1,18 @@
 /* eslint-disable react/prop-types */
-import Table from '../../../common/Table/Table';
+
+import { Table } from "@mantine/core";
+import CustomTable from '../../../common/CustomTable/CustomTable';
+import React from "react";
 
 
 export default function AgentCommissisonTable({ data }) {
-  const tableHead = [
+  const theads = [
+    {
+      title: "الفئة",
+      className: "",
+      order: "",
+      sort: "",
+    },
     {
       title: "الخدمة",
       className: "",
@@ -11,7 +20,20 @@ export default function AgentCommissisonTable({ data }) {
       sort: "",
     },
     {
-      title: "القيمة الاجمالية",
+      title: "عدد العمليات",
+      className: "",
+      order: "",
+      sort: "",
+    },
+    {
+      title: "القيمة",
+      className: "",
+      order: "",
+      sort: "",
+    },
+ 
+    {
+      title: "الاجمالي",
       className: "",
       order: "",
       sort: "",
@@ -37,46 +59,115 @@ export default function AgentCommissisonTable({ data }) {
   ];
 
 
-  return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.commissions.map(commission => {
-            return <tr key={commission.id}>
-              <td className='service'>
-                {commission.segment.service.name}
-              </td>
-              <td className='amount-total'>
-                {commission.amountTotal}
-              </td>
-              <td className='segment'>
-                {commission.segment.title}
-              </td>
-              <td className='percentage'>
-                {(commission.segment.percentage) + "%"}
-              </td>
-              <td className='commission'>
-                {commission.commission}
-              </td>
-            </tr>
-          })
-        }
-        <tr>
-          <td>الاجمالي</td>
-          <td>
-            {data?.totalAmount}
-          </td>
-          <td>
+  const rows = data?.commissions?.map((commission, commissionIndex) => (
+    <React.Fragment key={commissionIndex}>
+      {commission?.commissionItems.map((item, itemIndex) => (
+        <Table.Tr key={`${commissionIndex}-${itemIndex}`}>
+          {itemIndex === 0 &&
+            <Table.Td style={{ background: '#9ecae7'}} rowSpan={commission?.commissionItems.length}>{commission?.service?.name}</Table.Td>
+          }
+      
+          <Table.Td>{item?.subCategory?.name}</Table.Td>
+          <Table.Td>{item.count}</Table.Td>
+          <Table.Td>{item.amount}</Table.Td>
+          {itemIndex === 0 && (
+            <>
+              <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.amountTotal}</Table.Td>
+            </>
+          )}
+          {itemIndex === 0 &&
+            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.segment?.title}</Table.Td>
+          }
+          {itemIndex === 0 &&
+            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.segment?.percentage}%</Table.Td>
+          }
+          {itemIndex === 0 &&
+            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.commissionAmount}</Table.Td>
+          }
+        </Table.Tr>
+      ))}
+    </React.Fragment>
+  ))
 
-          </td>
-          <td>
-            الاجمالي
-          </td>
-          <td>
-            {data?.totalCommissions}
-          </td>
-        </tr>
-      </tbody>
-    </Table>
+
+
+
+
+
+
+
+
+  const tFoot =
+    <Table.Tr>
+      <Table.Td colSpan={2}>
+        الاجمالى
+      </Table.Td>
+   
+      <Table.Td>
+        {data?.totalCount}
+      </Table.Td>
+      <Table.Td>
+        {data?.amountTotal}
+      </Table.Td>
+      <Table.Td colSpan={3}>
+        {/* الاجمالى */}
+      </Table.Td>
+      <Table.Td>
+        {data?.commissionAmount}
+      </Table.Td>
+    </Table.Tr>
+
+
+  return (
+    <CustomTable theads={theads} rows={rows} tFoot={tFoot} bg={'red'} />
+    // <table border="1">
+    //   <thead>
+    //     <tr>
+    //       <th>Service Name</th>
+    //       <th>SubCategory Name</th>
+    //       <th>Amount Total</th>
+    //       <th>Commission Amount</th>
+    //       <th>Commission Item Amount</th>
+    //       <th>Commission Item Count</th>
+    //     </tr>
+    //   </thead>
+    //   <tbody>
+    //     {data?.commissions.map((commission, commissionIndex) => (
+    //       <React.Fragment key={commissionIndex}>
+    //         {commission?.commissionItems.map((item, itemIndex) => (
+    //           <tr key={`${commissionIndex}-${itemIndex}`}>
+    //             {itemIndex === 0 &&
+    //               <td rowSpan={commission.commissionItems.length}>{commission.service.name}</td>
+    //             }
+    //             <td>{item.subCategory.name}</td>
+    //             <td>{item.amount}</td>
+    //             <td>{item.count}</td>
+    //             {itemIndex === 0 && (
+    //               <>
+    //                 <td rowSpan={commission.commissionItems.length}>{commission.amountTotal}</td>
+    //                 <td rowSpan={commission.commissionItems.length}>{commission.commissionAmount}</td>
+    //               </>
+    //             )}
+
+    //           </tr>
+    //         ))}
+    //       </React.Fragment>
+    //     ))}
+    //     <tr>
+    //       <td colSpan={2}>
+    //         الاجمالى
+    //       </td>
+    //       <td>
+    //         {data?.amountTotal}
+    //       </td>
+    //       <td colSpan={2}>
+    //         {/* الاجمالى */}
+    //       </td>
+    //       <td>
+    //         {data?.commissionAmount}
+    //       </td>
+    //     </tr>
+    //   </tbody>
+    // </table>
   )
 }

@@ -1,23 +1,23 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import { notify } from '../../../utils/notify';
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { validateApp } from '../../../utils/validation';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateAppMutation, useUpdateAppMutation } from '../../../app/features/applications/applicationsApi';
+import { Radio, Stack, TextInput } from '@mantine/core';
 
-export default function AddEditApp() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditApp({ context, id, innerProps }) {
   const dispatch = useDispatch();
+
   const [form, setForm] = useState({
-    name: childrenProps?.app.name || "",
-    img: childrenProps?.app.img || "",
-    apk: childrenProps?.app.apk || "",
-    isLink: childrenProps?.app.isLink ? true : false,
-    link: childrenProps?.app.link || "",
-    note: childrenProps?.app.note || ""
+    name: innerProps?.data.name || "",
+    img: innerProps?.data.img || "",
+    apk: innerProps?.data.apk || "",
+    isLink: innerProps?.data.isLink ? true : false,
+    link: innerProps?.data.link || "",
+    note: innerProps?.data.note || ""
   });
 
   const onChange = (e) => {
@@ -57,95 +57,69 @@ export default function AddEditApp() {
         formData.append('link', form.link);
         formData.append('note', form.note);
 
-        const response = childrenProps?.app
-          ? await updateApp({ appId: childrenProps?.app.id, form: formData }).unwrap()
+        const response = innerProps?.data
+          ? await updateApp({ appId: innerProps?.data.id, form: formData }).unwrap()
           : await createApp({ form: formData }).unwrap();
         notify('success', response.message);
-        dispatch(closeModal())
+        context.closeModal(id)
       }
     } catch (error) {
       console.log(error)
-      // notify('error', error.data.message);
+      notify('error', error.data.message);
     }
   }
 
   return (
     <form onSubmit={onSubmit}>
-      <CustomInput
+      <TextInput m={'10 0'}
         type='text'
         label='اسم التطبيق'
         name={'name'}
         value={form.name}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='file'
         label='صورة التطبيق'
         name={'img'}
         onChange={(e) => setForm({ ...form, img: e.target.files[0] })}
       />
-      <div style={{
-        padding: '10px 0'
-      }}>
-        <div className='d-flex' style={{
-          gap: '10px',
-          alignItems: "center"
-        }}>
-          <input
-            style={{
-              fontSize: '30px',
-              width: 'fit-content',
-              transform: 'scale(1.2)',
-            }}
-            id='link'
-            type="radio"
-            name='link'
-            value={true}
-            onChange={() => setForm({ ...form, isLink: true, apk: '' })}
-            checked={form.isLink === true}
-            disabled={childrenProps?.app}
-          />
-          <label htmlFor="link">
-            رابط تحميل
-          </label>
-        </div>
-        <div className='d-flex' style={{
-          gap: '10px',
-          alignItems: "center"
-        }}>
-          <input
-            style={{
-              fontSize: '30px',
-              width: 'fit-content',
-              transform: 'scale(1.2)',
-            }}
-            id='direct'
-            type="radio"
-            name='direct'
-            value={false}
-            onChange={() => setForm({ ...form, isLink: false, link: '' })}
-            checked={form.isLink == false}
-            disabled={childrenProps?.app}
-          />
-          <label htmlFor="direct">
-            تحميل مباشر
-          </label>
-        </div>
-      </div>
-      {form.isLink ? <CustomInput
+      <Stack m={'10 0'} gap={0}>
+        <Radio
+          mb={10}
+          type="radio"
+          name='link'
+          value={true}
+          onChange={() => setForm({ ...form, isLink: true, apk: '' })}
+          checked={form.isLink === true}
+          disabled={innerProps?.data}
+          label='رابط تحميل'
+        />
+        <Radio
+          type="radio"
+          name='direct'
+          value={false}
+          onChange={() => setForm({ ...form, isLink: false, link: '' })}
+          checked={form.isLink == false}
+          disabled={innerProps?.data}
+          label='تحميل مباشر'
+        />
+      </Stack>
+      {form.isLink ? <TextInput m={'10 0'}
         type='text'
         label='رابط التطبيق'
         name={'link'}
         value={form.link}
         onChange={(e) => onChange(e)}
-      /> : <CustomInput
-        type='file'
-        label='التطبيق apk'
-        name={'apk'}
-        onChange={(e) => setForm({ ...form, apk: e.target.files[0] })}
-      />
+      /> :
+        <TextInput m={'10 0'}
+          type='file'
+          label='التطبيق apk'
+          name={'apk'}
+          onChange={(e) => setForm({ ...form, apk: e.target.files[0] })}
+        />
       }
-      <CustomInput
+      <TextInput m={'10 0'}
         type='textarea'
         label='محلوظة'
         name={'note'}

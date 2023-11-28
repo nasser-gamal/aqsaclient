@@ -1,29 +1,31 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
 
 import { validateUser } from '../../../utils/validation';
 import { notify } from '../../../utils/notify';
 
 
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateUserMutation, useUpdateUserMutation } from '../../../app/features/user/userApi';
+import { modals } from '@mantine/modals';
+import { TextInput } from '@mantine/core';
 
-export default function AddEditUser() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditUser({ innerProps }) {
 
 
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    accountName: childrenProps?.user.accountName || "",
-    email: childrenProps?.user.email || "",
-    userName: childrenProps?.user.userName || "",
-    phoneNumber: childrenProps?.user.phoneNumber || "",
-    address: childrenProps?.user.address || "",
+    accountName: innerProps?.data?.accountName || "",
+    email: innerProps?.data?.email || "",
+    userName: innerProps?.data?.userName || "",
+    phoneNumber: innerProps?.data?.phoneNumber || "",
+    nationalId: innerProps?.data?.nationalId || "",
+    address: innerProps?.data?.address || "",
+    roleId: innerProps?.data?.roleId || innerProps?.roleId,
   });
 
   const onChange = (e) => {
@@ -52,14 +54,13 @@ export default function AddEditUser() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.user
-          ? await updateUser({ userId: childrenProps?.user.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateUser({ userId: innerProps?.data?.id, form }).unwrap()
           : await createUser(form).unwrap();
         notify('success', response.message);
 
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+        modals.closeAll();
+
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -69,35 +70,42 @@ export default function AddEditUser() {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <CustomInput
+        <TextInput m={'10 0'}
           type='text'
           name='accountName'
           label={'اسم الحساب'}
           value={form.accountName}
           onChange={(e) => onChange(e)}
         />
-        <CustomInput
+        <TextInput m={'10 0'}
           type='text'
           name='userName'
           label={'اسم صاحب الحساب'}
           value={form.userName}
           onChange={(e) => onChange(e)}
         />
-        <CustomInput
+        <TextInput m={'10 0'}
           type='email'
           name='email'
           label={'البريد الالكتروني'}
           value={form.email}
           onChange={(e) => onChange(e)}
         />
-        <CustomInput
+        <TextInput m={'10 0'}
           type='text'
           name='phoneNumber'
           label={'رقم الموبايل'}
           value={form.phoneNumber}
           onChange={(e) => onChange(e)}
         />
-        <CustomInput
+        <TextInput m={'10 0'}
+          type='text'
+          name='nationalId'
+          label={'الرقم القومي'}
+          value={form.nationalId}
+          onChange={(e) => onChange(e)}
+        />
+        <TextInput m={'10 0'}
           type='text'
           name='address'
           label={'العنوان'}

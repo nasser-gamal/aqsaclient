@@ -1,34 +1,40 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../../common/FormFields/input/CustomInput';
+import { useDispatch } from 'react-redux';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
-import DropDown from './DropDown';
-import { useDispatch, useSelector } from 'react-redux';
 import { useCreateDepositeMutation, useUpdateDepositeMutation } from '../../../../app/features/transaction/depositeApi';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
-import { closeModal } from '../../../../app/features/modal/modalSlice';
 import { validateDeposite } from '../../../../utils/validation';
 import { notify } from '../../../../utils/notify';
+import DropDown from '../DropDown';
+import {
+  Checkbox, Group, List, NumberFormatter, Stack, Text, TextInput
+}
+  from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 
 
-export default function AddEditDeposit() {
-  const { childrenProps } = useSelector(state => state.modal);
+
+export default function AddEditDeposit({ context, id, innerProps }) {
   const dispatch = useDispatch();
 
+
   const [balance, setBalance] = useState({
-    before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
-    after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""
+    before: innerProps?.data?.balanceBefore || innerProps?.data?.balance || "",
+    after: innerProps?.data?.balanceAfter || ""
   });
 
 
+
   const [form, setForm] = useState({
-    bankAccountId: childrenProps?.bankAccountId || childrenProps?.transaction?.bankAccountId || "",
-    isPercentage: childrenProps?.transaction?.isPercentage || false,
-    date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
-    number: childrenProps?.transaction?.number || "",
-    amount: childrenProps?.transaction?.amount || "",
-    providerFees: childrenProps?.transaction?.providerFees || 0,
-    providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
-    note: childrenProps?.transaction?.note || "",
+    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.data?.id || "",
+    isPercentage: innerProps?.data?.isPercentage || false,
+    date: innerProps?.data?.date?.split(".")[0] || DateTimeInput(),
+    number: innerProps?.data?.number || "",
+    amount: innerProps?.data?.amount || "",
+    providerFees: innerProps?.data?.providerFees || 0,
+    providerPercentage: innerProps?.data?.providerPercentage ? innerProps?.data?.providerPercentage : innerProps?.data?.providerRevenue || 0,
+    note: innerProps?.data?.note || "",
   });
 
 
@@ -71,14 +77,14 @@ export default function AddEditDeposit() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.transaction
-          ? await updateDeposite({ transactionId: childrenProps?.transaction.id, form }).unwrap()
+        const response = innerProps?.status === 'edit'
+          ? await updateDeposite({ transactionId: innerProps?.data?.id, form }).unwrap()
           : await createDeposite(form).unwrap();
         notify('success', response.message);
-
-        dispatch(closeModal())
+        context.closeModal(id);
       }
     } catch (error) {
+      console.log(error)
       notify('error', error.data.message);
     }
   }
@@ -97,174 +103,188 @@ export default function AddEditDeposit() {
 
 
   return (
-    <div>
-      {childrenProps?.show &&
-        <>
-          <div className="balance" style={{ marginBottom: '10px' }}>
-            <ul style={{ background: '#4caf5047' }}>
-              <li>
-                رصيد قبل
-                <span> {balance.before}</span>
-              </li>
-              <li>
-                رصيد بعد
-                <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
-              </li>
-            </ul>
-          </div>
-          <div style={{
-            textAlign: 'center'
-          }}>
-            <h5>
-              بواسطة
-            </h5>
-            <span style={{ color: 'red', fontWeight: 'bold' }}>
-              {childrenProps?.transaction?.creator.userName}
-            </span>
-          </div>
-        </>
-      }
-      <form onSubmit={onSubmit}>
-        <div className='deposite-form'>
-
-          {childrenProps?.bankAccountId || childrenProps?.show ?
-            <CustomInput
-              width={'100%'}
-              type='text'
-              name='bankAccountId'
-              value={childrenProps?.bankAccountName || childrenProps?.transaction?.bankAccount?.accountName}
-              label='الحساب'
-              onChange={(e) => onChange(e)}
-              disabled={childrenProps?.show || childrenProps?.bankAccountId}
-            /> :
-            <DropDown
-              balance={balance}
-              setBalance={setBalance}
-              form={form}
-              setForm={setForm}
-              disabled={childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
-            />}
-          <CustomInput
-            width={'49%'}
-            type='text'
-            name='number'
-            value={form.number}
-            label='الرقم'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-          />
-          <CustomInput
-            width={'49%'}
-            type='number'
-            name='amount'
-            value={form.amount}
-            label='قيمة الفاتورة'
-            onChange={(e) => {
-              setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })
-              onChange(e)
-            }}
-            onBlur={(e) => setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })}
-            disabled={childrenProps?.show}
-
-          />
-          <div className='input-checkbox d-flex ' style={{
-            gap: '10px',
-            width: '100%',
-          }}>
-            <div className='d-flex' style={{
-              gap: '10px',
-              alignItems: "center"
-            }}>
-              <input
-                style={{
-                  fontSize: '30px',
-                  width: 'fit-content',
-                  transform: 'scale(1.2)',
-                }}
-                id='isPercentage'
-                type="checkbox"
-                name='isPercentage'
-                value={form.isPercentage}
-                onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
-                checked={form.isPercentage}
-                disabled={childrenProps?.show}
-
-              />
-              <label htmlFor="isPercentage">
-                نسبة
-              </label>
+    <>
+      <div>
+        {innerProps?.show &&
+          <>
+            <div className="balance" style={{ margin: '10px 0' }}>
+              <List p={'10px 0'} listStyleType='none' bg={'#4caf5047'} >
+                <List.Item>
+                  <Group gap={6}>
+                    <Text>
+                      رصيد قبل
+                    </Text>
+                    <Text fw={'bold'} color='red'>
+                      <NumberFormatter thousandSeparator value={balance.before} />
+                    </Text>
+                  </Group>
+                </List.Item>
+                <List.Item>
+                  <Group gap={6}>
+                    <Text>
+                      رصيد بعد
+                    </Text>
+                    <Text fw={'bold'} color='red'>
+                      <NumberFormatter thousandSeparator value={balance.after || (+balance.before + ((+form.amount + +form.providerFees)))} />
+                    </Text>
+                  </Group>
+                </List.Item>
+              </List>
             </div>
+            <Stack gap={0} m={'10px 0'} align='center'>
+              <Text size="md" fw={'bold'}>
+                بواسطة
+              </Text>
+              <Text size="md" color='red' fw={'bold'}>
+                {innerProps?.data?.creator.userName}
+              </Text>
+            </Stack>
+          </>
+        }
+        <form onSubmit={onSubmit}>
+          <div className='deposite-form'>
+            {innerProps?.data || innerProps?.show ?
+              <TextInput m={'10 0'}
+                w={'100%'}
+                type='text'
+                name='bankAccountId'
+                label='الحساب'
+
+                value={innerProps?.data?.accountName || innerProps?.data?.bankAccount?.accountName}
+                onChange={(e) => onChange(e)}
+                disabled={innerProps?.show || innerProps?.data}
+              />
+              :
+              <DropDown
+                balance={balance}
+                setBalance={setBalance}
+                form={form}
+                setForm={setForm}
+                disabled={innerProps?.data?.bankAccountId || innerProps?.data ? true : false}
+              />
+            }
+            <TextInput m={'10 0'}
+              w={'49%'}
+              type='text'
+              label='الرقم'
+              name='number'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+              value={form.number}
+            />
+            <TextInput m={'10 0'}
+              w={'49%'}
+              type='number'
+              label='قيمة الفاتورة'
+              name='amount'
+              value={form.amount}
+              onChange={(e) => {
+                setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })
+                onChange(e)
+              }}
+              onBlur={(e) => setBalance({ ...balance, after: (+e.target.value + +balance.before).toFixed(2) })}
+              disabled={innerProps?.show}
+            />
+            <Checkbox
+              w={'100%'}
+              m={'5px 0'}
+              name='isPercentage'
+              defaultChecked
+              color="lime.4"
+              iconColor="dark.8"
+              size="sm"
+              label="نسبة"
+              onChange={() => setForm({
+                ...form,
+                isPercentage: !form.isPercentage
+              })}
+              checked={form.isPercentage}
+              disabled={innerProps?.show}
+            />
+            <TextInput m={'10 0'}
+              w={'49%'}
+              label="الرسوم"
+              type='number'
+              name='providerFees'
+              value={form.providerFees}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+            <TextInput m={'10 0'}
+              w={'49%'}
+              label="العائد"
+              type='number'
+              name='providerPercentage'
+              value={form.providerPercentage}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+            {/* <CustomInput
+              width={'100%'}
+              type='datetime-local'
+              name='date'
+              value={form.date}
+              label='التاريخ'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            /> */}
+            <DateTimePicker
+              w={'100%'}
+              clearable
+              defaultValue={new Date()}
+              label="التاريخ والوقت"
+              disabled={innerProps?.show}
+            />
+            <TextInput m={'10 0'}
+              w={'49%'}
+              label="الربح"
+              type='text'
+              name='providerPercentage'
+              value={innerProps?.data?.profit || calcProfit()}
+              onChange={(e) => onChange(e)}
+              disabled={true}
+            />
+            <TextInput m={'10 0'}
+              type='text'
+              w={'49%'}
+              label="ملحوظة"
+              name='note'
+              value={form.note}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
           </div>
-          <CustomInput
-            width={'49%'}
-            type='number'
-            name='providerFees'
-            value={form.providerFees}
-            label='الرسوم'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
+          {balance.before && !innerProps?.show && <div className="balance">
+            <List listStyleType='none'>
+              <List.Item>
+                <Group gap={6}>
+                  <Text>
+                    رصيد قبل
+                  </Text>
+                  <Text fw={'bold'} color='red'>
+                    <NumberFormatter thousandSeparator value={balance.before} />
+                  </Text>
+                </Group>
+              </List.Item>
+              {balance.after && <List.Item>
+                <Group gap={6}>
+                  <Text>
+                    رصيد بعد
+                  </Text>
+                  <Text fw={'bold'} color='red'>
+                    <NumberFormatter thousandSeparator value={(+balance.before + ((+form.amount)))} />
+                  </Text>
+                </Group>
+              </List.Item>
+              }
+            </List>
+          </div>
+          }
+          {!innerProps?.show && <FormButtons status={innerProps?.status} />}
+        </form>
+      </div>
+    </>
 
-          />
-          <CustomInput
-            width={'49%'}
-            type='number'
-            name='providerPercentage'
-            value={form.providerPercentage}
-            label='العمولة'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={'100%'}
-            type='datetime-local'
-            name='date'
-            value={form.date}
-            label='التاريخ'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={'49%'}
-            type='text'
-            value={childrenProps?.transaction?.profit || calcProfit()}
-            label='الربح'
-            onChange={(e) => onChange(e)}
-            disabled={true}
-          />
-
-          <CustomInput
-            width={'49%'}
-            type='text'
-            name='note'
-            value={form.note}
-            label='ملحوظة'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-        </div>
-        {balance.before && !childrenProps?.show && <div className="balance">
-          <ul>
-            <li>
-              رصيد قبل
-              <span> {balance.before}</span>
-            </li>
-            {balance.after && <li>
-              رصيد بعد
-              <span> {
-                <span> {(+balance.before + ((+form.amount + +form.providerFees))).toFixed(2)}</span>
-              }</span>
-            </li>}
-          </ul>
-        </div>}
-        {!childrenProps?.show && <FormButtons />}
-
-
-
-
-      </form>
-    </div>
+    /* </Modal> */
   )
 }

@@ -1,41 +1,41 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../../common/FormFields/input/CustomInput';
 import FormButtons from '../../../UI/FormButtons/FormButtons';
-import DropDown from './DropDown';
-import { useDispatch, useSelector } from 'react-redux';
+import DropDown from '../../Deposit/DropDown';
+import { useDispatch } from 'react-redux';
 import { useCreateWithDrawMutation, useUpdateWithDrawMutation } from '../../../../app/features/transaction/withDrawApi';
 import { hideLoader, showLoader } from '../../../../app/features/loader/loaderSlice';
-import { closeModal } from '../../../../app/features/modal/modalSlice';
 import { validateWithDraw } from '../../../../utils/validation';
 import { notify } from '../../../../utils/notify';
+import { CheckIcon, Checkbox, Grid, Group, List, NumberFormatter, Radio, Stack, Text, TextInput } from '@mantine/core';
 
 
-export default function AddEditWithdraw() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditWithdraw({ context, id, innerProps }) {
   const dispatch = useDispatch();
 
   const [balance, setBalance] = useState({
-    before: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceBefore || "",
-    after: childrenProps?.balanceBefore || childrenProps?.transaction?.balanceAfter || ""
+    before: innerProps?.data?.balanceBefore || innerProps?.data?.balance || "",
+    after: innerProps?.data?.balanceAfter || ""
   });
 
+  console.log(balance.before)
   const [form, setForm] = useState({
-    date: childrenProps?.transaction?.date.split(".")[0] || DateTimeInput(),
-    isPercentage: childrenProps?.transaction?.isPercentage || false,
-    bankAccountId: childrenProps?.bankAccountId || childrenProps?.transaction?.bankAccountId || "",
-    number: childrenProps?.transaction?.number || "",
-    amount: childrenProps?.transaction?.amount || "",
-    agentDeduction: childrenProps?.transaction?.agentDeduction || 0,
-    agentRevenue: childrenProps?.transaction?.agentRevenue || 0,
+    date: innerProps?.data?.date?.split(".")[0] || DateTimeInput(),
+    isPercentage: innerProps?.data?.isPercentage || false,
+    bankAccountId: innerProps?.data?.bankAccountId || innerProps?.data?.id || "",
+    number: innerProps?.data?.number || "",
+    amount: innerProps?.data?.amount || "",
+    agentDeduction: innerProps?.data?.agentDeduction || 0,
+    agentRevenue: innerProps?.data?.agentRevenue || 0,
     providerAmount: 0,
     fees: 0,
-    providerPercentage: childrenProps?.transaction?.providerPercentage ? childrenProps?.transaction?.providerPercentage : childrenProps?.transaction?.providerRevenue || 0,
-    providerFees: childrenProps?.transaction?.providerFees || 0,
-    additionalFees: childrenProps?.transaction?.additionalFees || 0,
-    isFeesPercentage: childrenProps?.transaction?.isFeesPercentage || false,
-    additionalRevenue: childrenProps?.transaction?.additionalRevenue || 0,
-    isTotalRevenue: ((childrenProps?.transaction?.balanceBefore - childrenProps?.transaction?.balanceAfter).toFixed(2) == childrenProps?.transaction?.amountTotal.toFixed(2)) ? true : (!childrenProps?.transaction ? true : false),
-    note: childrenProps?.transaction?.note || "",
+    providerPercentage: innerProps?.data?.providerPercentage ? innerProps?.data?.providerPercentage : innerProps?.data?.providerRevenue || 0,
+    providerFees: innerProps?.data?.providerFees || 0,
+    additionalFees: innerProps?.data?.additionalFees || 0,
+    isFeesPercentage: innerProps?.data?.isFeesPercentage || false,
+    additionalRevenue: innerProps?.data?.additionalRevenue || 0,
+    isTotalRevenue: ((innerProps?.data?.balanceBefore - innerProps?.data?.balanceAfter).toFixed(2) == innerProps?.data?.amountTotal?.toFixed(2)) ? true : (!innerProps?.data ? true : false),
+    note: innerProps?.data?.note || "",
   });
 
   function DateTimeInput() {
@@ -78,12 +78,11 @@ export default function AddEditWithdraw() {
         notify('error', error);
       } else {
 
-        const response = childrenProps?.transaction
-          ? await updateWithDraw({ transactionId: childrenProps?.transaction.id, form }).unwrap()
+        const response = innerProps?.status === 'edit'
+          ? await updateWithDraw({ transactionId: innerProps?.data.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
         notify('success', response.message);
-
-        dispatch(closeModal())
+        context.closeModal(id)
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -94,9 +93,9 @@ export default function AddEditWithdraw() {
   const calcTotalAmount = () => {
     let amount;
     if (form.isFeesPercentage == true) {
-      amount = +form.amount + (+form.amount * (+form.providerFees / 100))
+      amount = +form.amount + (+form.amount * (+form.providerFees / 100)) + +form.additionalFees
     } else {
-      amount = +form.amount + +form.providerFees
+      amount = +form.amount + +form.providerFees + +form.additionalFees
     }
     return +amount.toFixed(2);
   }
@@ -104,7 +103,7 @@ export default function AddEditWithdraw() {
 
   const calcProviderDeduction = () => {
     let amount = calcTotalAmount();
-    let totalProviderDeduction = amount + +form.additionalFees
+    let totalProviderDeduction = amount
     if (form.isPercentage == true) {
       totalProviderDeduction -= (+form.providerPercentage / 100) * (amount)
     } else {
@@ -159,192 +158,162 @@ export default function AddEditWithdraw() {
     return profit;
   }
 
+  console.log(innerProps)
 
   return (
     <div>
-      {childrenProps?.show && <>
-        <div className="balance" style={{ marginBottom: '10px' }}>
-          <ul style={{ background: '#4caf5047' }}>
-            <li>
-              رصيد قبل
-              <span> {balance.before}</span>
-            </li>
-            <li>
-              رصيد بعد
-              <span> {calcBalancAfter()}</span>
-            </li>
-          </ul>
+      {innerProps?.show && <>
+        <div className="balance" style={{ margin: '10px 0' }}>
+          <List p={'10px 0'} listStyleType='none' bg={'#4caf5047'} >
+            <List.Item>
+              <Group gap={6}>
+                <Text>
+                  رصيد قبل
+                </Text>
+                <Text fw={'bold'} color='red'>
+                  <NumberFormatter thousandSeparator value={balance.before} />
+                </Text>
+              </Group>
+            </List.Item>
+            <List.Item>
+              <Group gap={6}>
+                <Text>
+                  رصيد بعد
+                </Text>
+                <Text fw={'bold'} color='red'>
+                  <NumberFormatter thousandSeparator value={balance.after || calcBalancAfter()} />
+                </Text>
+              </Group>
+            </List.Item>
+          </List>
         </div>
-        <div style={{
-          textAlign: 'center'
-        }}>
-          <h5>
+        <Stack gap={0} m={'10px 0'} align='center'>
+          <Text size="md" fw={'bold'}>
             بواسطة
-          </h5>
-          <span style={{ color: 'red', fontWeight: 'bold' }}>
-            {childrenProps?.transaction?.creator.userName}
-          </span>
-        </div>
+          </Text>
+          <Text size="md" color='red' fw={'bold'}>
+            {innerProps?.data?.creator.userName}
+          </Text>
+        </Stack>
       </>
       }
       <form onSubmit={onSubmit}>
-        <div className='withdraw-form'>
-
-          {childrenProps?.bankAccountId ?
-            <CustomInput
-              width={'30%'}
-              type='text'
-              name='bankAccountId'
-              value={childrenProps?.bankAccountName}
-              label='الحساب'
-              onChange={(e) => onChange(e)}
-              disabled={childrenProps?.show || childrenProps?.bankAccountId}
-            /> :
-            <DropDown
-              balance={balance}
-              setBalance={setBalance}
-              form={form}
-              setForm={setForm}
-              disabled={childrenProps?.show || childrenProps?.bankAccountId || childrenProps?.transaction ? true : false}
-            />
+        <Grid p={"10 10"} justify='space-between' align='center'>
+          {innerProps?.data ?
+            <Grid.Col span={{ base: 6, md: 3, lg: 3 }}>
+              <TextInput
+                type='text'
+                name='bankAccountId'
+                value={innerProps?.data?.accountName || innerProps?.data?.bankAccount?.accountName}
+                label='الحساب'
+                onChange={(e) => onChange(e)}
+                disabled={innerProps?.show || innerProps?.data}
+              />
+            </Grid.Col>
+            :
+            <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+              <DropDown
+                balance={balance}
+                setBalance={setBalance}
+                form={form}
+                setForm={setForm}
+                disabled={innerProps?.show || innerProps?.bankAccountId || innerProps?.data ? true : false}
+              />
+            </Grid.Col>
           }
-          <CustomInput
-            width={'30%'}
-            type='datetime-local'
-            name='date'
-            value={form.date}
-            label='التاريخ'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
 
-          />
-          <CustomInput
-            width={'30%'}
-            type='text'
-            name='number'
-            value={form.number}
-            label='الرقم'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-          />
-          <CustomInput
-            width={'30%'}
-            type='number'
-            name='amount'
-            value={form.amount}
-            label='قيمة الفاتورة'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-          />
+              type='datetime-local'
+              name='date'
+              value={form.date}
+              label='التاريخ'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='text'
+              name='number'
+              value={form.number}
+              label='الرقم'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
 
-          <CustomInput
-            width={'30%'}
-            type='number'
-            name='providerFees'
-            value={form.providerFees}
-            label='رسوم المزود'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-          />
-          <CustomInput
-            width={'30%'}
-            type='number'
-            value={calcTotalAmount() || 0}
-            label='الاجمالي'
-            disabled={true}
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              name='amount'
+              value={form.amount}
+              label='قيمة الفاتورة'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
 
-          />
-          <div className='form-input' style={{
-            width: '30%'
-          }}>
-            <div className='input-checkbox d-flex ' style={{
-              gap: '10px',
-            }}>
-              <div className='d-flex' style={{
-                gap: '10px',
-                alignItems: "center"
-              }}>
-                <input
-                  style={{
-                    fontSize: '22px',
-                    width: 'fit-content',
-                    transform: 'scale(1.2)',
-                  }}
-                  id='isFeesPercentage'
-                  type="checkbox"
-                  name='isFeesPercentage'
-                  value={form.isFeesPercentage}
-                  onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
-                  checked={form.isFeesPercentage}
-                  disabled={childrenProps?.show}
+              type='number'
+              name='providerFees'
+              value={form.providerFees}
+              label='رسوم المزود'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              width={'30%'}
+              type='number'
+              value={calcTotalAmount() || 0}
+              label='الاجمالي'
+              disabled={true}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
+            <Checkbox
+              mb={10}
+              name='isFeesPercentage'
+              label='نسبة الرسوم'
+              value={form.isFeesPercentage}
+              onChange={() => setForm({ ...form, isFeesPercentage: !form.isFeesPercentage })}
+              checked={form.isFeesPercentage}
+              disabled={innerProps?.show}
+            />
+            <Checkbox
+              label='نسبة العائد'
+              name='isPercentage'
+              value={form.isPercentage}
+              onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
+              checked={form.isPercentage}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              name='providerPercentage'
+              value={form.providerPercentage}
+              label='عائد مزود الخدمة'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              value={calcProviderDeduction() || 0}
+              label='اجمالي المخصوم من المزود'
+              disabled={true}
+            />
+          </Grid.Col>
 
-                />
-                <label htmlFor="isFeesPercentage">
-                  نسبة الرسوم
-                  <span style={{
-                    margin: '0 5px',
-                    fontSize: "18px",
-                    fontWeight: 'bold'
-                  }}>%</span>
-                </label>
-              </div>
-            </div>
-            <div className='input-checkbox d-flex ' style={{
-              gap: '10px',
-            }}>
-              <div className='d-flex' style={{
-                gap: '10px',
-                alignItems: "center"
-              }}>
-                <input
-                  style={{
-                    fontSize: '22px',
-                    width: 'fit-content',
-                    transform: 'scale(1.2)',
-                  }}
-                  id='isPercentage'
-                  type="checkbox"
-                  name='isPercentage'
-                  value={form.isPercentage}
-                  onChange={() => setForm({ ...form, isPercentage: !form.isPercentage })}
-                  checked={form.isPercentage}
-                  disabled={childrenProps?.show}
-
-                />
-                <label htmlFor="isPercentage">
-                  نسبة العمولة
-                  <span style={{
-                    margin: '0 5px',
-                    fontSize: "18px",
-                    fontWeight: 'bold'
-                  }}>%</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-
-          <CustomInput
-            width={'30%'}
-            type='number'
-            name='providerPercentage'
-            value={form.providerPercentage}
-			label="عمولة مزود الخدمة"
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={'30%'}
-            type='number'
-            value={calcProviderDeduction() || 0}
-            label='اجمالي المخصوم من المزود'
-            disabled={true}
-          />
-          {!childrenProps?.transaction &&
-            <>
-              <CustomInput
-                width={'30%'}
+          <>
+            <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+              <TextInput
                 type='number'
                 name='providerAmount'
                 value={form.providerAmount}
@@ -354,10 +323,11 @@ export default function AddEditWithdraw() {
                   setForm({ ...form, providerAmount: value, agentDeduction: (+value + +form.fees).toFixed(2) });
                 }
                 }
-                disabled={childrenProps?.show}
-
+                disabled={innerProps?.show}
               />
-              <CustomInput
+            </Grid.Col>
+            <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+              <TextInput
                 width={'30%'}
                 type='number'
                 name='fees'
@@ -367,144 +337,126 @@ export default function AddEditWithdraw() {
                   const { value } = e.target
                   setForm({ ...form, fees: value, agentDeduction: (+form.providerAmount + +value).toFixed(2) });
                 }}
-                disabled={childrenProps?.show}
-
+                disabled={innerProps?.show}
               />
-            </>
-          }
-          <CustomInput
-            width={'30%'}
-            type='number'
-            name='agentDeduction'
-            label='المخصوم من المركز'
-            disabled={childrenProps?.show || !childrenProps?.transaction ? true : false}
-            value={!childrenProps?.transaction ? (+form.providerAmount + +form.fees).toFixed(2) : form.agentDeduction}
-            onChange={(e) =>
-              onChange(e)
-            }
-
-          />
-          <CustomInput
-            width={childrenProps?.transaction ? '30%' : '48%'}
-            type='number'
-            name='agentRevenue'
-            label='عمولة المركز'
-            value={form.agentRevenue}
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={childrenProps?.transaction ? '30%' : '48%'}
-            type='number'
-            label='اجمالي المخصوم من المركز'
-            value={childrenProps?.transaction ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
-            disabled={true}
-
-          />
-          <div style={{
-            padding: '10px 0'
-          }}>
-            <div className='d-flex' style={{
-              gap: '10px',
-              alignItems: "center"
-            }}>
-              <input
-                style={{
-                  fontSize: '30px',
-                  width: 'fit-content',
-                  transform: 'scale(1.2)',
-                }}
-                id='total'
-                type="radio"
+            </Grid.Col>
+          </>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              name='agentDeduction'
+              label='المخصوم من المركز'
+              disabled={innerProps?.show || !innerProps?.data ? true : false}
+              value={!innerProps?.data ? (+form.providerAmount + +form.fees).toFixed(2) : form.agentDeduction}
+              onChange={(e) =>
+                onChange(e)
+              }
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 6, lg: 6 }}>
+            <TextInput
+              type='number'
+              name='agentRevenue'
+              label='عمولة المركز'
+              value={form.agentRevenue}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+            <TextInput
+              type='number'
+              label='اجمالي المخصوم من المركز'
+              value={innerProps?.data ? (+form.agentDeduction - +form.agentRevenue).toFixed(2) : ((+form.providerAmount + +form.fees) - form.agentRevenue).toFixed(2)}
+              disabled={true}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
+            <Stack>
+              <Radio
+                label="الاجمالى"
+                icon={CheckIcon}
                 name='total'
-                value={false}
                 onChange={() => setForm({ ...form, isTotalRevenue: true })}
                 checked={form.isTotalRevenue === true}
-                disabled={childrenProps?.show || childrenProps?.transaction ? true : false}
-
+                disabled={innerProps?.show || innerProps?.data ? true : false}
               />
-              <label htmlFor="total">
-                الاجمالي
-              </label>
-            </div>
-            <div className='d-flex' style={{
-              gap: '10px',
-              alignItems: "center"
-            }}>
-              <input
-                style={{
-                  fontSize: '30px',
-                  width: 'fit-content',
-                  transform: 'scale(1.2)',
-                }}
-                id='revenue'
-                type="radio"
-                name='revenue'
-                value={true}
+              <Radio
+                label="المخصوم من مزود الخدمة"
+                icon={CheckIcon}
+                name='total'
                 onChange={() => setForm({ ...form, isTotalRevenue: false })}
                 checked={form.isTotalRevenue === false}
-                disabled={childrenProps?.show || childrenProps?.transaction ? true : false}
-
+                disabled={innerProps?.show || innerProps?.data ? true : false}
               />
-              <label htmlFor="revenue">
-                المخصوم من مزود الخدمة
-              </label>
-            </div>
-          </div>
-          <CustomInput
-            width={'30%'}
-            type='number'
-            label='رسوم أخري'
-            name='additionalFees'
-            value={form.additionalFees}
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={'30%'}
-            type='number'
-            label='عمولة أخري'
-            name='additionalRevenue'
-            value={form.additionalRevenue}
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
-          <CustomInput
-            width={'49%'}
-            type='text'
-            value={childrenProps?.transaction?.profit || calcProfit()}
-            label='الربح'
-            onChange={(e) => onChange(e)}
-            disabled={true}
-          />
-
-          <CustomInput
-            width={'49%'}
-            type='text'
-            name='note'
-            value={form.note}
-            label='ملحوظة'
-            onChange={(e) => onChange(e)}
-            disabled={childrenProps?.show}
-
-          />
+            </Stack>
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              label='رسوم أخري'
+              name='additionalFees'
+              value={form.additionalFees}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6, md: 4, lg: 4 }}>
+            <TextInput
+              type='number'
+              label='عمولة أخري'
+              name='additionalRevenue'
+              value={form.additionalRevenue}
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6 }}>
+            <TextInput
+              type='text'
+              value={innerProps?.data?.profit || calcProfit()}
+              label='الربح'
+              onChange={(e) => onChange(e)}
+              disabled={true}
+            />
+          </Grid.Col>
+          <Grid.Col span={{ base: 6 }}>
+            <TextInput
+              type='text'
+              name='note'
+              value={form.note}
+              label='ملحوظة'
+              onChange={(e) => onChange(e)}
+              disabled={innerProps?.show}
+            />
+          </Grid.Col>
+        </Grid>
+        {balance.before && !innerProps?.show && <div className="balance">
+          <List listStyleType='none'>
+            <List.Item>
+              <Group gap={6}>
+                <Text>
+                  رصيد قبل
+                </Text>
+                <Text fw={'bold'} color='red'>
+                  <NumberFormatter thousandSeparator value={balance.before} />
+                </Text>
+              </Group>
+            </List.Item>
+            <List.Item>
+              <Group gap={6}>
+                <Text>
+                  رصيد بعد
+                </Text>
+                <Text fw={'bold'} color='red'>
+                  <NumberFormatter thousandSeparator value={calcBalancAfter()} />
+                </Text>
+              </Group>
+            </List.Item>
+          </List>
         </div>
-        {balance.before  && !childrenProps?.show && <div className="balance">
-          <ul>
-            <li>
-              رصيد قبل
-              <span> {balance.before}</span>
-            </li>
-            <li>
-              رصيد بعد
-              <span> {calcBalancAfter()}</span>
-            </li>
-          </ul>
-        </div>}
-        {!childrenProps?.show && <FormButtons />}
+        }
+        {!innerProps?.show && <FormButtons status={innerProps?.status} />}
       </form>
     </div>
   )

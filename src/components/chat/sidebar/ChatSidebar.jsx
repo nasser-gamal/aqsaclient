@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Logo from '../../../layout/Navbar/Logo'
 import './sidebar.css'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { openModal } from '../../../app/features/modal/modalSlice'
+import groupImage from '../../../assets/teamwork.png'
 
-export default function ChatSidebar({ setOpenChat }) {
-
+export default function ChatSidebar({ setOpenChat, chats }) {
+  const { user } = useSelector(state => state.user)
+  console.log(user)
   const dispatch = useDispatch()
+  console.log(chats)
 
   return (
     <div className='side-bar'>
@@ -41,36 +44,26 @@ export default function ChatSidebar({ setOpenChat }) {
         </button>
       </div>
       <ul className='groups'>
-        <li onClick={() => setOpenChat(true)}>
-          جروب س
-          <p>
-            رسالة بس
-          </p>
-        </li>
-        <li onClick={() => setOpenChat(true)}>
-          جروب س
-          <p>
-            رسالة بس
-          </p>
-        </li>
-        <li onClick={() => setOpenChat(true)}>
-          جروب س
-          <p>
-            رسالة بس
-          </p>
-        </li>
-        <li onClick={() => setOpenChat(true)}>
-          جروب س
-          <p>
-            رسالة بس
-          </p>
-        </li>
-        <li onClick={() => setOpenChat(true)}>
-          جروب س
-          <p>
-            رسالة بس
-          </p>
-        </li>
+        {
+          chats?.map(chat => {
+            console.log(chat.lastMessageSent)
+            return <li key={chat.id} onClick={() => setOpenChat(true)}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <img style={{ width: '40px' }} src={chat.avatar || groupImage} alt="groupImg" />
+                <h5>
+                  {chat.name}
+                </h5>
+              </div>
+              <p style={{
+                whiteSpace: 'nowrap',
+              }}>
+                {/* {chat.lastMessageSent || user.id == chat?.owner.id ? "تم إنشاء المجموعة" : "تم اضافتك للمجموعة"} */}
+                {chat.lastMessageSent}
+              </p>
+            </li>
+          })
+        }
+
       </ul>
     </div>
   )

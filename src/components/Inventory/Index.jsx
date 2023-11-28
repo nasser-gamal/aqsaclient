@@ -37,7 +37,8 @@ export default function Index() {
   }, [dispatch, isFetching]);
 
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault()
     if (!form.startDate || !form.endDate) {
       notify('error', 'اختر التاريخ')
     } else {
@@ -51,19 +52,13 @@ export default function Index() {
       <DaySelect form={form} setForm={setForm} onClick={handleClick} setSkip={setSkip} />
       {data &&
         <>
-          <div className='d-flex flex-between' style={{ paddingBottom: '3px' }}>
-            <div className="d-flex flex-center" style={{ gap: '10px' }}>
-              <span className="d-flex">
-                <TbRefresh style={{
-                  fontSize: '26px',
-                  color: 'black',
-                  cursor: 'pointer'
-                }}
-                  onClick={() => refetch()}
-                />
-              </span>
-            </div>
-          </div>
+          <TbRefresh style={{
+            fontSize: '26px',
+            color: 'black',
+            cursor: 'pointer'
+          }}
+            onClick={() => refetch()}
+          />
           <InventoryTable data={data} isLoading={isLoading} />
         </>
       }

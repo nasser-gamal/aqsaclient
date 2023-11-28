@@ -1,21 +1,33 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { Button, Flex, Group } from '@mantine/core';
+import { modals } from '@mantine/modals';
+
 import { useFindAllSegmentQuery } from '../../app/features/segment/segmentApi';
-import AddButton from '../common/Button/AddButton';
-import SegmentTable from './Table/SegmentTable';
-import { useEffect } from 'react';
 import { hideLoader, showLoader } from '../../app/features/loader/loaderSlice';
-import { resetFilter } from '../../app/features/filter/filterSlice';
-import EntrySelect from '../UI/LimitSelect/EntrySelect';
-import Pagination from '../UI/Pagination/Pagination';
+
+import CustomPagination from '../UI/Pagination/Pagination';
+import LimitSelect from '../UI/LimitSelect/LimitSelect';
+import ExportButton from '../UI/ExportButton/ExportButton';
+import Search from '../UI/Search/Search';
+import FilterSelect from '../UI/FilterSelect/FilterSelect';
+
+import SegmentTable from './Table/SegmentTable';
 
 
 export default function Index() {
 
 
   const dispatch = useDispatch()
-  const { page, limit, orderBy, sort } = useSelector(state => state.filter);
 
-  const { data, isLoading, isFetching } = useFindAllSegmentQuery({ page, limit, order: orderBy, sort });
+  const [features, setFeatures] = useState({
+    page: '',
+    limit: '',
+    sort: '',
+    keyword: '',
+  })
+  const { data, isLoading, isFetching } = useFindAllSegmentQuery(features);
 
 
   useEffect(() => {
@@ -27,21 +39,51 @@ export default function Index() {
   }, [dispatch, isFetching]);
 
 
-  useEffect(() => {
-    dispatch(
-      resetFilter()
-    );
-  }, []);
-
-
   return (
     <>
-      <div className='d-flex flex-between'>
-        <AddButton name={'AddEditSegment'} modalTitle={'اضافة شريحة جديدة'} />
-        <EntrySelect />
-      </div>
-      <SegmentTable segments={data?.segments} isLoading={isLoading} />
-      {data?.pagination?.hasPagination && <Pagination pagination={data?.pagination} />}
+      <Button
+        mb={10}
+        onClick={() =>
+          modals.openContextModal({
+            modal: 'AddEditSegment',
+            title: 'أضافة  شريحة جديدة',
+          })
+        }>
+        اضافة
+      </Button>
+      <Flex bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+        <Group>
+          <FilterSelect features={features} setFeatures={setFeatures} />
+        </Group>
+        <Search
+          options={[
+            { label: 'رقم الفاتورة', value: 'id' },
+            // { label: 'اسم الحساب', value: 'bankAccountName' },
+            { label: 'الرقم', value: 'number' },
+          ]}
+          features={features}
+          setFeatures={setFeatures}
+        />
+        <Group>
+          <ExportButton />
+          <LimitSelect
+            features={features}
+            setFeatures={setFeatures}
+          />
+        </Group>
+      </Flex>
+      <SegmentTable
+        data={data?.data}
+        isLoading={isLoading}
+      />
+      {
+        data?.meta?.pagination?.hasPagination &&
+        <CustomPagination
+          features={features}
+          setFeatures={setFeatures}
+          pagination={data?.meta?.pagination}
+        />
+      }
     </>
   )
 }

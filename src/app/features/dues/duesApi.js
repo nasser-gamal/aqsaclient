@@ -4,14 +4,14 @@ import { apiSlice } from '../../api/apiSlice';
 export const duesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllDues: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.dues.GET_DUES}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: ({ page, limit, fields, sort, keyword, conditions }) => ({
+        url: `${apiEndpoints.DUES}?page=${page}&limit=${limit}&fields=${fields}&sort=${sort}&keyword=${keyword}&${conditions}`,
       }),
       providesTags: ['Dues'],
     }),
     createDues: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.dues.CREATE_DUE,
+        url: apiEndpoints.DUES,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +19,7 @@ export const duesApiSlice = apiSlice.injectEndpoints({
     }),
     updateDues: builder.mutation({
       query: ({ dueId, form }) => ({
-        url: `${apiEndpoints.dues.UPDATE_DUE}/${dueId}`,
+        url: `${apiEndpoints.DUES}/${dueId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +27,7 @@ export const duesApiSlice = apiSlice.injectEndpoints({
     }),
     deleteDues: builder.mutation({
       query: (dueId) => ({
-        url: `${apiEndpoints.dues.DELETE_DUE}/${dueId}`,
+        url: `${apiEndpoints.DUES}/${dueId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Dues'],

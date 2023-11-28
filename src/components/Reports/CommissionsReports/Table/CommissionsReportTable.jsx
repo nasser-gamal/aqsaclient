@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../../common/Table/Table';
+import { Table } from '@mantine/core';
+import CustomTable from '../../../common/CustomTable/CustomTable';
+import { commissionApiSlice } from '../../../../app/features/commissions/commissionApi';
+import { useEffect, useState } from 'react';
 
 export default function CommissionsReportTable({ data }) {
+  const [totalCommissions, setTotalCommission] = useState()
 
-  const tableHead = [
+  const theads = [
     {
       title: "المركز",
       className: "",
@@ -26,35 +30,33 @@ export default function CommissionsReportTable({ data }) {
   ]
 
 
+  const rows = data?.agentCommissions?.map((comission) => {
+    return <Table.Tr key={comission.id}>
+      <Table.Td>
+        {comission?.agent.accountNumber}
+      </Table.Td>
+      <Table.Td>
+        {comission?.agent.userName}
+      </Table.Td>
+      <Table.Td>
+        {comission?.commissionAmount}
+      </Table.Td>
+    </Table.Tr>
+  })
+
+  const tFoot = <Table.Tr className='last-child'>
+    <Table.Td colSpan={2}>
+      الاجمالي
+    </Table.Td>
+    <Table.Td>
+      {data?.totalCommission}
+    </Table.Td>
+  </Table.Tr>
+
+
+
+
   return (
-    <div className='report-table'>
-      <Table tableHead={tableHead}>
-        <tbody>
-          {
-            data?.commissions.map((comission, index) => {
-              return <tr key={index}>
-                <td>
-                  {comission?.agent.accountNumber}
-                </td>
-                <td>
-                  {comission?.agent.userName}
-                </td>
-                <td>
-                  {comission.commissions}
-                </td>
-              </tr>
-            })
-          }
-          <tr className='last-child'>
-            <td colSpan={2}>
-              الاجمالي
-            </td>
-            <td>
-              {data?.totalCommission}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+    <CustomTable theads={theads} rows={rows} tFoot={tFoot} />
   )
 }

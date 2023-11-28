@@ -1,17 +1,17 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
 import { useUpdatePasswordMutation } from '../../../app/features/user/userApi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { validatePassword } from '../../../utils/validation';
+import { modals } from '@mantine/modals';
+import { PasswordInput } from '@mantine/core';
 
 
-export default function UpdateUserPassword() {
+export default function UpdateUserPassword({ innerProps }) {
   const dispatch = useDispatch();
-  const { childrenProps } = useSelector(state => state.modal);
 
   const [password, setPassword] = useState();
 
@@ -37,12 +37,10 @@ export default function UpdateUserPassword() {
       } else {
         const response = await
           updatePassword(
-            { userId: childrenProps.id, password }
+            { userId: innerProps.id, password }
           ).unwrap();
         notify('success', response.message);
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+        modals.closeAll()
       }
     } catch (err) {
       notify('error', err.data.message)
@@ -53,7 +51,7 @@ export default function UpdateUserPassword() {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <CustomInput
+        <PasswordInput
           type='password'
           name='password'
           placeholder={'ادخل الرقم السري الخاص بالادمن'}

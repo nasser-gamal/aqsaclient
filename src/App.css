@@ -1,7 +1,14 @@
+@font-face {
+  font-family: Tajawal;
+  src: url(../src/assets/fonts/Tajawal/Tajawal-Regular.ttf);
+}
+
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+    /* font-family: 'Tajawal'; */
 }
 body {
   direction: rtl;
@@ -86,4 +93,33 @@ table {
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   appearance: none;
+}
+
+
+/* Modal  */
+.mantine-Modal-header {
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
+@media (max-width: 567px) {
+  .mantine-Modal-inner {
+    /* padding-right: 0; */
+  }
+}
+table thead tr th {
+  border-color: rgba(0, 0, 0, 0.096)  !important;
+  text-align: center !important;
+  font-size: 13px;
+}
+
+.mantine-TextInput-label, .mantine-Select-label, .mantine-DateTimePicker-label {
+  margin-bottom: 6px;
+  /* color: rgba(0, 0, 0, 0.815); */
+}
+/* .deleted-row td {
+  text-decoration: line-through;
+  color: red;
+} */
+
+tr.checked {
+  background-color: #c5f6fa !important;
 }

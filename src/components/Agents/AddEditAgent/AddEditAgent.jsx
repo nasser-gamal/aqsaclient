@@ -23,7 +23,8 @@ export default function AddEditAgent() {
     phoneNumber: childrenProps?.user.phoneNumber || "",
     address: childrenProps?.user.address || "",
     nationalId: childrenProps?.user.nationalId || "",
-    accountNumber: childrenProps?.user.accountNumber || ""
+    accountNumber: childrenProps?.user.accountNumber || "",
+    roleId: 3,
   });
 
 

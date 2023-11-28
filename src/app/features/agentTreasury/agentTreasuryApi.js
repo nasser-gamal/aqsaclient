@@ -4,33 +4,33 @@ import { apiSlice } from '../../api/apiSlice';
 export const agentTreasuryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllAgentTreasury: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.agentTreasury.GET_AGENT_TREASURYS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: ({ page, limit, fields, sort, keyword, conditions }) => ({
+        url: `${apiEndpoints.AGENT_TREASURIES}?page=${page}&limit=${limit}&fields=${fields}&sort=${sort}&keyword=${keyword}&${conditions}`,
       }),
-      providesTags: ['agentTreasury'],
+      providesTags: ['agentTreasuries'],
     }),
     createAgentTreasury: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.agentTreasury.CREATE_AGENT_TREASURY,
+        url: apiEndpoints.AGENT_TREASURIES,
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['agentTreasury'],
+      invalidatesTags: ['agentTreasuries'],
     }),
     updateAgentTreasury: builder.mutation({
       query: ({ treasuryId, form }) => ({
-        url: `${apiEndpoints.agentTreasury.UPDATE_AGENT_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.AGENT_TREASURIES}/${treasuryId}`,
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['agentTreasury'],
+      invalidatesTags: ['agentTreasuries'],
     }),
     deleteAgentTreasury: builder.mutation({
       query: (treasuryId) => ({
-        url: `${apiEndpoints.agentTreasury.DELETE_AGENT_TREASURY}/${treasuryId}`,
+        url: `${apiEndpoints.AGENT_TREASURIES}/${treasuryId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['agentTreasury'],
+      invalidatesTags: ['agentTreasuries'],
     }),
   }),
 });

@@ -1,20 +1,24 @@
+/* eslint-disable react/prop-types */
+import { useDispatch, } from 'react-redux';
+
 import { useEffect, useState } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
-import FormButtons from '../../UI/FormButtons/FormButtons';
+import { TextInput } from '@mantine/core';
+
 import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../../app/features/category/categoryApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { notify } from '../../../utils/notify';
-import { closeModal } from '../../../app/features/modal/modalSlice';
-import { validateCategory } from '../../../utils/validation';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 
-export default function AddEditCategory() {
-  const { childrenProps } = useSelector(state => state.modal);
+import FormButtons from '../../UI/FormButtons/FormButtons';
+
+import { validateCategory } from '../../../utils/validation';
+import { notify } from '../../../utils/notify';
+import { modals } from '@mantine/modals';
+
+export default function AddEditCategory({ innerProps }) {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
-    name: childrenProps?.category.name || "",
-    note: childrenProps?.category.note || ""
+    name: innerProps?.data?.name || "",
+    note: innerProps?.data?.note || ""
   });
 
   const onChange = (e) => {
@@ -38,19 +42,16 @@ export default function AddEditCategory() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      
+
       const error = validateCategory(form);
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.category
-          ? await updateCategory({ categoryId: childrenProps?.category.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateCategory({ categoryId: innerProps?.data.id, form }).unwrap()
           : await createCategory(form).unwrap();
         notify('success', response.message);
-
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+        modals.closeAll()
       }
     } catch (error) {
       notify('error', error.data.message);
@@ -59,15 +60,15 @@ export default function AddEditCategory() {
 
   return (
     <form onSubmit={onSubmit}>
-      <CustomInput
+      <TextInput m={'10 0'}
         type='text'
         label='اسم الخدمة'
         name={'name'}
         value={form.name}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
-        type='textarea'
+      <TextInput m={'10 0'}
+        type='text'
         label='محلوظة'
         name={'note'}
         value={form.note}

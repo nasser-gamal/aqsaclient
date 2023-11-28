@@ -1,19 +1,19 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import CustomInput from '../../common/FormFields/input/CustomInput';
 import FormButtons from '../../UI/FormButtons/FormButtons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import { notify } from '../../../utils/notify';
-import { closeModal } from '../../../app/features/modal/modalSlice';
 import { validateBank } from '../../../utils/validation';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { useCreateBankMutation, useUpdateBankMutation } from '../../../app/features/bank/bankApi';
+import { TextInput } from '@mantine/core';
+import { modals } from '@mantine/modals';
 
-export default function AddEditBank() {
-  const { childrenProps } = useSelector(state => state.modal);
+export default function AddEditBank({ innerProps }) {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
-    bankName: childrenProps?.bank.bankName || "",
-    note: childrenProps?.bank.note || ""
+    bankName: innerProps?.data?.bankName || "",
+    note: innerProps?.data?.note || ""
   });
 
   const onChange = (e) => {
@@ -42,30 +42,32 @@ export default function AddEditBank() {
       if (error) {
         notify('error', error);
       } else {
-        const response = childrenProps?.bank
-          ? await updateBank({ bankId: childrenProps?.bank.id, form }).unwrap()
+        const response = innerProps?.data
+          ? await updateBank({ bankId: innerProps?.data?.id, form }).unwrap()
           : await createBank(form).unwrap();
         notify('success', response.message);
 
-        setTimeout(() => {
-          dispatch(closeModal())
-        }, 1000)
+        modals.closeAll()
       }
     } catch (error) {
       notify('error', error.data.message);
     }
   }
 
+
+
+
+
   return (
     <form onSubmit={onSubmit}>
-      <CustomInput
+      <TextInput m={'10 0'}
         type='text'
         label='اسم الخدمة'
         name={'bankName'}
         value={form.bankName}
         onChange={(e) => onChange(e)}
       />
-      <CustomInput
+      <TextInput m={'10 0'}
         type='textarea'
         label='محلوظة'
         name={'note'}

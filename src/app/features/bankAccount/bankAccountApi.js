@@ -4,26 +4,34 @@ import { apiSlice } from '../../api/apiSlice';
 export const bankAccountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllBankAccounts: builder.query({
-      query: ({ page, limit, order, sort }) => ({
-        url: `${apiEndpoints.bankAccount.GET_BANKACCOUNTS}?page=${page}&limit=${limit}&order=${order}&sort=${sort}`,
+      query: (params) => ({
+        url: apiEndpoints.BANK_ACCOUNTS,
+        params: { ...params },
       }),
-      providesTags: ['bankAccounts'],
+      providesTags: ['bankAccounts', 'deposite'],
     }),
     createBankAccount: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.bankAccount.CREATE_BANKACCOUNT,
+        url: apiEndpoints.BANK_ACCOUNTS,
         method: 'POST',
         body: form,
       }),
-      invalidatesTags: ['bankAccounts'],
+      invalidatesTags: ['bankAccounts', 'deposite'],
     }),
     updateBankAccount: builder.mutation({
       query: ({ bankAccountId, form }) => ({
-        url: `${apiEndpoints.bankAccount.UPDATE_BANKACCOUNT}/${bankAccountId}`,
+        url: `${apiEndpoints.BANK_ACCOUNTS}/${bankAccountId}`,
         method: 'PUT',
         body: form,
       }),
-      invalidatesTags: ['bankAccounts'],
+      invalidatesTags: ['bankAccounts', 'deposite'],
+    }),
+    deleteBankAccount: builder.mutation({
+      query: (bankAccountId) => ({
+        url: `${apiEndpoints.BANK_ACCOUNTS}/${bankAccountId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['bankAccounts', 'deposite'],
     }),
   }),
 });
@@ -32,4 +40,5 @@ export const {
   useFindAllBankAccountsQuery,
   useCreateBankAccountMutation,
   useUpdateBankAccountMutation,
+  useDeleteBankAccountMutation,
 } = bankAccountApiSlice;

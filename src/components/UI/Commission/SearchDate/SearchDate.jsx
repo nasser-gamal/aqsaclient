@@ -1,23 +1,46 @@
 /* eslint-disable react/prop-types */
-import CustomButton from '../../../common/Button/CustomButton';
-import CustomInput from '../../../common/FormFields/input/CustomInput';
 
 import './searchDate.modules.css';
 
-import Date from './Date';
+import { Button, Center, Grid } from '@mantine/core';
+import Year from './Year';
+import Month from './Month';
+import Agents from '../../../NewCommission/Form/Agents';
 
 export default function SearchDate({ query, setQuery, setSkip }) {
 
-  const onClick = () => {
+  const onSubmit = (e) => {
+    e.preventDefault()
     setSkip(false);
   }
 
 
   return (
-    <div className='search-date '>
-      <div className='d-flex flex-center flex-wrap' style={{ width: '100%' }}>
-        <Date query={query} setQuery={setQuery} setSkip={setSkip} />
-        <CustomInput
+    <form onSubmit={onSubmit} className='search-date'>
+      <Grid align='center' justify='center'>
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Year
+            form={query}
+            setForm={setQuery}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Month
+            form={query}
+            setForm={setQuery}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 3, md: 3, lg: 3 }}>
+          <Agents
+            form={query}
+            setForm={setQuery}
+            setSkip={setSkip}
+          />
+        </Grid.Col>
+      </Grid>
+      {/*  <TextInput  m={'10 0'}
           type='text'
           label='بيانات العميل'
           name='search'
@@ -26,22 +49,15 @@ export default function SearchDate({ query, setQuery, setSkip }) {
             setQuery({ ...query, searchValue: e.target.value })
             setSkip(true)
           }}
-        />
-      </div>
-      <div className='text-center'>
-        <CustomButton
-          type='button'
-          classes={'add-btn'}
-          width='80px'
-          height='30px'
-          fontSize='20px'
-          marginTop='5px'
-          onClick={onClick}
-          disabled={!query.searchValue || !query.month}
+        /> */}
+      <Center m={20}>
+        <Button
+          type='submit'
+          disabled={!query.agentId}
         >
           بحث
-        </CustomButton>
-      </div>
-    </div>
+        </Button>
+      </Center>
+    </form>
   )
 }

@@ -7,6 +7,7 @@ export default function AgentRoute() {
 
   const { user } = useSelector((state) => state.user);
 
+  console.log(user)
   return user && user?.role?.name == 'agent' ? (
     <>
       <AgentNav />

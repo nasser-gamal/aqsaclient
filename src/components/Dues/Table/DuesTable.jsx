@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
 
-import EditButton from '../../UI/TableButtons/EditButton';
-import Table from '../../common/Table/Table';
-import DateAndTime from '../../UI/DateAndTime/DateAndTime';
-import DeleteButton from '../../UI/TableButtons/DeleteButton';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
-import { notify } from '../../../utils/notify';
+import { modals } from '@mantine/modals';
+import { Button, Table } from '@mantine/core';
+
 import { useDeleteDuesMutation } from '../../../app/features/dues/duesApi';
 
-export default function DuesTable({ data }) {
-  const dispatch = useDispatch();
+import CustomTable from '../../common/CustomTable/CustomTable';
+import DateAndTime from '../../UI/DateAndTime/DateAndTime';
+import ResotreButton from '../../UI/RestoreData/ResotreButton';
+import DeleteModal from '../../UI/DeleteModal/DeleteModal';
 
-  const tableHead = [
+
+export default function DuesTable({ data }) {
+
+  const theads = [
     {
       title: "التاريخ",
       className: "",
@@ -48,55 +48,56 @@ export default function DuesTable({ data }) {
   ]
 
 
-  const [deleteDues, { isLoading }] = useDeleteDuesMutation();
+  const [deleteDues] = useDeleteDuesMutation();
 
 
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader())
-    } else {
-      dispatch(hideLoader())
-    }
-  }, [dispatch, isLoading]);
+  const rows = data?.map((element) => (
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.date} />
+      </Table.Td>
+      <Table.Td>{element.amount}</Table.Td>
+      <Table.Td>{element.note || "-"}</Table.Td>
+    
+        <>
+          <Table.Td>
+            <Button
+            type="button"
+            disabled={element?.isDeleted}
+
+              size="xs"
+              color="rgba(13, 148, 45, 1)"
+              onClick={() =>
+                modals.openContextModal({
+                  modal: 'AddEditDues',
+                  title: 'تعديل رصيد',
+                  innerProps: { status: 'edit', data: element }
+                })
+              }
+            >
+              تعديل
+            </Button>
+          </Table.Td>
+          <Table.Td>
+          <DeleteModal
+            disabled={element?.isDeleted}
+
+              title={'حذف رصيد'}
+              text='هل أنت متأكد من حذف الرصيد ؟'
+              handleDelete={deleteDues}
+              id={element.id}
+              onCancel={() => console.log('Cancel')}
+            />
+          </Table.Td>
+        </>
+      
+    </Table.Tr >
+  ));
 
 
-  const handleDelete = async (treasuryId) => {
-    try {
-      const response = await deleteDues(treasuryId).unwrap();
-      notify('success', response.message);
-    } catch (err) {
-      notify('error', err.data.message);
-    }
-  }
+
 
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          data?.map(due => {
-            return <tr key={due.id}>
-              <td>
-                <DateAndTime createdAt={due.date} />
-              </td>
-              <td>{due.amount}</td>
-              <td>{due.note || "-"}</td>
-              <td>
-                <EditButton
-                  editProps={{
-                    name: 'AddEditDues',
-                    modalTitle: 'تعديل ',
-                    status: 'تعديل',
-                    childrenProps: { due }
-                  }}
-                />
-              </td>
-              <td>
-                <DeleteButton onClick={() => handleDelete(due.id)} />
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

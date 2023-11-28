@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import { notify } from '../../../utils/notify';
 import { MdAccountCircle } from "react-icons/md";
+import { Avatar, Center, Flex, Group, Indicator, List, Menu, Text } from '@mantine/core';
 
 
 export default function AgentNav() {
@@ -53,30 +54,66 @@ export default function AgentNav() {
 
 
   return (
-    <div className='agent-nav d-flex flex-between'>
+    <Flex justify={'space-between'} align={'center'} className='agent-nav'>
       <Logo />
       <div className='agent-nav-links'>
-        <ul>
-          <li>
+        <List listStyleType='none'>
+          <List.Item>
             <NavLink to='/agent/commissions' className={'text-white'}>العمولة</NavLink>
-          </li>
-          <li>
+          </List.Item>
+          <List.Item>
             <NavLink to='/agent/segments' className={'text-white'}>الشرائح</NavLink>
-          </li>
-        </ul>
+          </List.Item>
+        </List>
       </div>
-      <div className="account acc" ref={menuRef}>
-        <span className='d-flex' onClick={() => setShowAcc(!showAcc)}>
-          <MdAccountCircle />
-        </span>
-        <ul className={showAcc ? "account-info show" : "account-info"}>
-          <li>{user.accountName}</li>
-          <li>رقم الحساب : {user.accountNumber}</li>
-          <li className='log-out text-center' onClick={signOut}>
-            <span className='text-white' >تسجيل خروج</span>
-          </li>
-        </ul>
-      </div>
-    </div>
+      <Group gap={8}>
+        <Text c={'white'}>
+          {user.accountName}
+        </Text>
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <Indicator style={{ cursor: 'pointer' }} disabled={true} size={16} offset={7} position="bottom-end" color="red" withBorder>
+              <Avatar
+                size="md"
+                radius="xl"
+                src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png"
+              // onClick={() => setShowAcc(!showAcc)}
+              />
+            </Indicator>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item style={{ pointerEvents: 'none' }} >
+              <Group gap={10}>
+                <Text size='sm'>
+                  الاسم
+                </Text>
+                <Text fw={'bold'} c='red'>
+                  {user.userName}
+                </Text>
+              </Group>
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item style={{ pointerEvents: 'none' }} >
+              <Group gap={10}>
+                <Text size='sm'>
+                  الحساب
+                </Text>
+                <Text fw={'bold'} c='red'>
+                  {user.accountNumber}
+                </Text>
+              </Group>
+            </Menu.Item>
+            <Menu.Divider />
+
+            <Menu.Item
+              onClick={signOut}
+            // leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+            >
+              تسجيل خروج
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Group>
+    </Flex>
   )
 }

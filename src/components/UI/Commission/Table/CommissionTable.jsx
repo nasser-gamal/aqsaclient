@@ -5,9 +5,12 @@ import AgentInfoTable from './AgentInfoTable';
 import Spinner from '../../../UI/Loader/Spinner'
 
 import './index.modules.css';
+import { Center, Flex, Stack, Text } from '@mantine/core';
+import ExportButton from '../../ExportButton/ExportButton';
 
-export default function CommissionTable({ data, user, isLoading, isFetching }) {
+export default function CommissionTable({ data, isLoading, isFetching }) {
 
+  console.log(data)
 
   if (isLoading || isFetching) {
     return <Spinner />
@@ -16,22 +19,22 @@ export default function CommissionTable({ data, user, isLoading, isFetching }) {
 
   return (
     <>
-      {data && data?.commissions.length > 0 &&
-        <div className='commission-tables'>
-          <AgentInfoTable user={user} />
-          <AgentCommissisonTable data={data} />
-        </div>
+      {data && data?.length > 0 &&
+        <>
+          <Flex justify={'end'}>
+            <ExportButton />
+          </Flex>
+          <Stack mt={2} gap={0}>
+            <AgentInfoTable data={data[0]} />
+            <AgentCommissisonTable data={data[0]} />
+          </Stack>
+        </>
       }
       {
-        data?.commissions.length < 1 && <div
-          style={{
-            textAlign: 'center',
-            marginTop: '30px',
-            fontSize: '19px'
-          }}
-        >
-          <span>لا يوجد عمولة</span>
-        </div >
+        data?.length < 1 &&
+        <Center m={20}>
+          <Text size='xl'>لا يوجد عمولة</Text>
+        </Center>
       }
     </>
   )

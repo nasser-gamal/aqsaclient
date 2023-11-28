@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import CustomInput from '../../common/FormFields/input/CustomInput';
-import CustomButton from '../../common/Button/CustomButton';
 import Logo from '../../../layout/Navbar/Logo';
 
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
@@ -14,6 +12,7 @@ import { notify } from '../../../utils/notify'
 import { useLoginMutation } from '../../../app/features/auth/authApi';
 import { validateLogin } from '../../../utils/validation';
 import { setCredentials } from '../../../app/features/user/userSlice';
+import { Button, Center, PasswordInput, Text, TextInput } from '@mantine/core';
 
 
 export default function LoginForm() {
@@ -54,15 +53,17 @@ export default function LoginForm() {
       if (error) {
         notify('error', error);
       } else {
-        const userData = await login(form).unwrap();
-        dispatch(setCredentials({ ...userData }));
-        if (userData.user.role.name == 'agent') {
+        const { data } = await login(form).unwrap();
+        console.log(data)
+        dispatch(setCredentials({ ...data }));
+        if (data.role.name == 'agent') {
           navigate("/agent/commissions");
         } else {
           navigate("/");
         }
       }
     } catch (error) {
+      console.log(error)
       notify('error', error.data.message);
     }
   }
@@ -76,7 +77,8 @@ export default function LoginForm() {
           <Logo />
           {/* <h2>تسجيل الدخول</h2> */}
           <form onSubmit={onSubmit}>
-            <CustomInput
+            <TextInput m={'10 0'}
+              p={'10 0'}
               type="text"
               name="phoneNumber"
               label="رقم الموبايل"
@@ -86,8 +88,8 @@ export default function LoginForm() {
             />
 
             <div className="input-pass">
-              <CustomInput
-                type={"text"}
+              <PasswordInput
+                p={'10 0'}
                 name="password"
                 label="الرقم السري "
                 placeholder="الرقم السري"
@@ -96,11 +98,13 @@ export default function LoginForm() {
                 onChange={(e) => handleChange(e)}
               />
             </div>
-            <div className='text-center'>
-              <CustomButton type="submit" classes={'add-btn'} width='110px' height='38px' margin='20px 0'>
-                تسجيل الدخول
-              </CustomButton>
-            </div>
+            <Center>
+              <Button type="submit" m={'20 0'} >
+                <Text size={'14'}>
+                  تسجيل الدخول
+                </Text>
+              </Button>
+            </Center>
           </form>
         </div>
       </div>

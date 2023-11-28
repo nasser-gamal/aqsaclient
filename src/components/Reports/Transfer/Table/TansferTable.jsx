@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 
-import Table from '../../../common/Table/Table';
+
 import DateAndTime from '../../../UI/DateAndTime/DateAndTime';
+import CustomTable from '../../../common/CustomTable/CustomTable';
+import { Table } from '@mantine/core';
 
 
-export default function TransferTable({ transfers }) {
+export default function TransferTable({ data }) {
 
-  const tableHead = [
+  const theads = [
     {
       title: "التاريخ",
       className: "created-at",
@@ -63,43 +65,39 @@ export default function TransferTable({ transfers }) {
     },
   ]
 
+  const rows = data?.map(element => {
+    return <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
+        <DateAndTime createdAt={element.createdAt} />
+      </Table.Td>
+      <Table.Td>
+        {element?.amountTotal}
+      </Table.Td>
+      <Table.Td>
+        {element?.sender?.accountName}
+      </Table.Td>
+      <Table.Td>
+        {element?.balanceSenderBefore}
+      </Table.Td>
+      <Table.Td>
+        {element?.balanceSenderAfter}
+      </Table.Td>
+      <Table.Td>
+        {element?.recipient?.accountName}
+      </Table.Td>
+      <Table.Td>
+        {element?.balanceRecipientBefore}
+      </Table.Td>
+      <Table.Td>
+        {element?.balanceRecipientAfter}
+      </Table.Td>
+      <Table.Td>
+        {element?.note || "-"}
+      </Table.Td>
+    </Table.Tr>
+  })
+
   return (
-    <Table tableHead={tableHead}>
-      <tbody>
-        {
-          transfers?.map(transfer => {
-            return <tr key={transfer.id}>
-              <td>
-                <DateAndTime createdAt={transfer.createdAt} />
-              </td>
-              <td>
-                {transfer.amountTotal}
-              </td>
-              <td>
-                {transfer.sender.accountName}
-              </td>
-              <td>
-                {transfer.balanceSenderBefore}
-              </td>
-              <td>
-                {transfer.balanceSenderAfter}
-              </td>
-              <td>
-                {transfer.recipient.accountName}
-              </td>
-              <td>
-                {transfer.balanceRecipientBefore}
-              </td>
-              <td>
-                {transfer.balanceRecipientAfter}
-              </td>
-              <td>
-                {transfer.note || "-"}
-              </td>
-            </tr>
-          })
-        }
-      </tbody>
-    </Table>
+    <CustomTable theads={theads} rows={rows} />
   )
 }

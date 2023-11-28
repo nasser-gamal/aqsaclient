@@ -5,13 +5,13 @@ export const agentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllAgents: builder.query({
       query: () => ({
-        url: apiEndpoints.agent.GET_AGENTS,
+        url: `${apiEndpoints.USERS}?roleId=3`,
       }),
       providesTags: ['agents'],
     }),
     createAgent: builder.mutation({
       query: (form) => ({
-        url: apiEndpoints.agent.CREATE_AGENT,
+        url: apiEndpoints.USERS,
         method: 'POST',
         body: form,
       }),
@@ -19,7 +19,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     }),
     updateAgent: builder.mutation({
       query: ({ agentId, form }) => ({
-        url: `${apiEndpoints.agent.UPDATE_AGENT}/${agentId}`,
+        url: `${apiEndpoints.USERS}/${agentId}`,
         method: 'PUT',
         body: form,
       }),
@@ -27,7 +27,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     }),
     updatePasswordManual: builder.mutation({
       query: ({ userId, password }) => ({
-        url: `${apiEndpoints.user.UPDATE_AGENT_PASSWORD_MANUAL}/${userId}`,
+        url: `${apiEndpoints.USERS}/${userId}`,
         method: 'PUT',
         body: { password },
       }),
@@ -35,7 +35,7 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     }),
     updateAgentPassword: builder.mutation({
       query: ({ agentId, password }) => ({
-        url: `${apiEndpoints.agent.UPDATE_AGENT_PASSWORD}/${agentId}`,
+        url: `${apiEndpoints.USERS}/${agentId}`,
         method: 'PUT',
         body: { password },
       }),
@@ -43,14 +43,14 @@ export const agentApiSlice = apiSlice.injectEndpoints({
     }),
     updateAgentStatus: builder.mutation({
       query: (agentId) => ({
-        url: `${apiEndpoints.agent.UPDATE_AGENT_STATUS}/${agentId}`,
+        url: `${apiEndpoints.USERS}/${agentId}`,
         method: 'PUT',
       }),
       invalidatesTags: ['agents'],
     }),
     deleteAgent: builder.mutation({
       query: (agentId) => ({
-        url: `${apiEndpoints.agent.DELETE_AGENT}/${agentId}`,
+        url: `${apiEndpoints.USERS}/${agentId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['agents'],

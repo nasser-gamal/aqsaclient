@@ -28,7 +28,49 @@ export default function ChatContent({ openChat }) {
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
             </p>
           </li>
-        </ul> : <div style={{
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+          <li className='left'>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem vel eum quasi maiores consectetur ipsam. Explicabo, fugiat omnis. Quod laborum aliquam nihil tempore autem minus saepe aspernatur totam dicta voluptatibus.
+            </p>
+          </li>
+        </ul> 
+        
+          : <div style={{
           textAlign: 'center'
         }}>
           <img src={logo} alt="" />
