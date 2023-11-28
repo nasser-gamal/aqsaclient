@@ -210,10 +210,10 @@ export default function BankReportTable({ data, reports }) {
         الاجمالى
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.depositTotal.toFixed(2)} />
+        <NumberFormatter thousandSeparator value={reports?.depositTotal?.toFixed(2)} />
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal.toFixed(2)} />
+        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal?.toFixed(2)} />
       </Table.Td>
       <Table.Td colSpan={8}>
       </Table.Td>
