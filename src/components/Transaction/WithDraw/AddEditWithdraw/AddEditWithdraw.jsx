@@ -15,7 +15,7 @@ export default function AddEditWithdraw() {
   const { innerProps } = useSelector(state => state.modal);
 
   const [balance, setBalance] = useState({
-    before: innerProps?.data?.balanceBefore || innerProps?.data?.balance || "",
+    before: innerProps?.data?.balanceBefore || innerProps?.bankAccount?.balance || "",
     after: innerProps?.data?.balanceAfter || ""
   });
 
@@ -157,6 +157,7 @@ export default function AddEditWithdraw() {
 
     return profit;
   }
+
 
 
   return (

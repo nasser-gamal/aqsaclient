@@ -109,8 +109,10 @@ export default function Index() {
                   openModal({
                     name: 'AddEditDeposit',
                     modalTitle: 'اضافة عميلة ايداع',
-                    status: 'حفظ',
-                    innerProps: { bankAccount: form.bankAccount }
+                    innerProps: {
+                      bankAccount: form.bankAccount,
+                      status: 'حفظ',
+                    }
                   }))}
             >
               <Stack gap={5} justify='center'>
@@ -140,8 +142,11 @@ export default function Index() {
                   openModal({
                     name: 'AddEditWithdraw',
                     modalTitle: 'اضافة عميلة سحب',
-                    status: 'حفظ',
-                    innerProps: { bankAccount: form.bankAccount, width: '700px' }
+                    innerProps: {
+                      bankAccount: form.bankAccount,
+                      width: '700px',
+                      status: 'حفظ',
+                    }
                   }))
               }
             >
@@ -211,11 +216,11 @@ export default function Index() {
           <>
             <Flex justify={'space-between'}>
 
-                <FilterSelect features={features} setFeatures={setFeatures} />
-                <LimitSelect
-                  features={features}
-                  setFeatures={setFeatures}
-                />
+              <FilterSelect features={features} setFeatures={setFeatures} />
+              <LimitSelect
+                features={features}
+                setFeatures={setFeatures}
+              />
             </Flex>
             <BankReportTable
               data={data?.data}

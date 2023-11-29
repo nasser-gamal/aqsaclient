@@ -37,7 +37,6 @@ export default function AddEditDeposit() {
     note: innerProps?.data?.note || "",
   });
 
-
   function DateTimeInput() {
     const getCurrentDateTime = () => {
       const now = new Date();
@@ -247,7 +246,8 @@ export default function AddEditDeposit() {
               disabled={innerProps?.show}
             />
           </div>
-          {balance.before && !innerProps?.show && <div className="balance">
+          {balance.before && !innerProps?.show &&
+            <div className="balance">
             <List listStyleType='none'>
               <List.Item>
                 <Group gap={6}>
