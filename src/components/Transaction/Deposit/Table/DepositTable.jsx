@@ -112,7 +112,8 @@ export default function DepositTable({ data, }) {
   const [deleteDeposite] = useDeleteDepositeMutation();
 
   const rows = data?.map((element) => (
-    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>      <Table.Td>
+    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+      <Table.Td>
       {element.id}
     </Table.Td>
       <Table.Td>
@@ -162,12 +163,12 @@ export default function DepositTable({ data, }) {
         />
       </Table.Td>
       {element.isDeleted ? <>
-        <td colSpan={'2'}>
+        <Table.Td colSpan={'2'}>
           <ResotreButton
             type={'deposite'}
             transactionId={element.id}
           />
-        </td>
+        </Table.Td>
       </> :
         <>
           <Table.Td>
@@ -194,7 +195,7 @@ export default function DepositTable({ data, }) {
             />
           </Table.Td>
         </>}
-    </Table.Tr >
+    </Table.Tr>
   ));
 
   return (

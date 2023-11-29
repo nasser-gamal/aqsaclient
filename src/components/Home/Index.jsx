@@ -47,7 +47,7 @@ export default function Index() {
 
 
 
-  // const [balance, setBalance] = useState()
+  const [balance, setBalance] = useState()
 
   const [showForm, setShowForm] = useState(false)
   const [skip, setSkip] = useState(true);
@@ -78,7 +78,8 @@ export default function Index() {
             data={bankAccounts}
             form={form}
             setForm={setForm}
-            // setBalance={setBalance}
+            balance={balance}
+            setBalance={setBalance}
             setSkip={setSkip}
             setShowForm={setShowForm}
             features={features}

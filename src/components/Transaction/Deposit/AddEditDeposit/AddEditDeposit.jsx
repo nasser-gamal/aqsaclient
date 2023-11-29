@@ -21,10 +21,9 @@ export default function AddEditDeposit() {
 
 
   const [balance, setBalance] = useState({
-    before: innerProps?.data?.balanceBefore || innerProps?.data?.balance || "",
+    before:  innerProps?.data?.balanceBefore || innerProps?.bankAccount?.balance || "",
     after: innerProps?.data?.balanceAfter || ""
   });
-
 
 
   const [form, setForm] = useState({
@@ -87,7 +86,7 @@ export default function AddEditDeposit() {
       }
     } catch (error) {
       notify('error', error.data.message);
-      
+
     }
   }
 
@@ -145,7 +144,7 @@ export default function AddEditDeposit() {
         }
         <form onSubmit={onSubmit}>
           <div className='deposite-form'>
-            {innerProps?.bankAccount || innerProps?.show || innerProps.status == 'edit' ?
+            {innerProps?.bankAccount || innerProps?.show || innerProps?.status == 'edit' ?
               <TextInput m={'10 0'}
                 w={'100%'}
                 type='text'
@@ -153,7 +152,7 @@ export default function AddEditDeposit() {
                 value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
                 onChange={(e) => onChange(e)}
-                disabled={innerProps?.show || innerProps?.bankAccount || innerProps.status == 'edit'}
+                disabled={innerProps?.show || innerProps?.bankAccount || innerProps?.status == 'edit'}
               />
               :
               <DropDown
@@ -276,25 +275,25 @@ export default function AddEditDeposit() {
           }
           {!innerProps?.show &&
             <Flex p={'20px 0 8px '} gap={10} justify={'center'}>
-            <Button
-              type='submit'
-              variant="filled"
-              radius="xl"
-            >
-              {status === "edit" ? "تعديل" : "حفظ"}
-            </Button>
-            <Button
-              type='button'
-              variant="filled"
-              color="gray"
-              onClick={() => {
-                dispatch(closeModal())
-              }}
-              radius="xl"
-            >
-              إلغاء
-            </Button>
-          </Flex>
+              <Button
+                type='submit'
+                variant="filled"
+                radius="xl"
+              >
+                {innerProps?.status === "edit" ? "تعديل" : "حفظ"}
+              </Button>
+              <Button
+                type='button'
+                variant="filled"
+                color="gray"
+                onClick={() => {
+                  dispatch(closeModal())
+                }}
+                radius="xl"
+              >
+                إلغاء
+              </Button>
+            </Flex>
           }
         </form>
       </div>

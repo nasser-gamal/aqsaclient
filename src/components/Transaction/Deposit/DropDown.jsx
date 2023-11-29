@@ -14,7 +14,7 @@ export default function DropDown({ balance, setBalance, form, setForm, disabled 
   const options = data?.data.map((bankAccount) => ({
     value: `${bankAccount?.id}`,
     label: bankAccount?.accountName,
-    balanceBefore: bankAccount?.balance
+    // balanceBefore: bankAccount?.balance
   })) || [];
 
 
@@ -22,7 +22,6 @@ export default function DropDown({ balance, setBalance, form, setForm, disabled 
     const selectedOption = options.find((option) => option.value === selectedValue);
     return selectedOption?.balanceBefore || '';
   };
-
 
   const onChange = (value) => {
     const balanceBefore = findBalanceBefore(value);
@@ -41,7 +40,6 @@ export default function DropDown({ balance, setBalance, form, setForm, disabled 
       searchable
       nothingFoundMessage="غير موجود ..."
       allowDeselect={false}
-
     />
   )
 }

@@ -43,7 +43,6 @@ export default function Index() {
 
     // Make a copy of the form state to avoid mutating it directly
     const updatedForm = { ...form };
-    // console.log('updae', updatedForm.commissions[categoryIndex].subCategories[subCategoryIndex][name])
 
     // Update the amount or count based on the input name and category index
     updatedForm.commissions[categoryIndex].subCategories[subCategoryIndex][name] = Number(value);
