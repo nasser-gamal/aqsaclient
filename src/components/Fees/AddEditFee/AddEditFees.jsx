@@ -69,21 +69,21 @@ export default function AddEditFees({ innerProps }) {
         value={form.amount}
         onChange={(e) => onChange(e)}
       />
-      {/*  <TextInput  m={'10 0'}
+       <TextInput  m={'10 0'}
         type='date'
         label='التاريخ'
         name={'date'}
         value={form.date}
         onChange={(e) => onChange(e)}
-      /> */}
-      <DateTimePicker
+      />
+      {/* <DateTimePicker
         w={'100%'}
         clearable
         name={'date'}
         value={new Date() || form.date}
         label="التاريخ والوقت"
         onChange={(e) => onChange(e)}
-      />
+      /> */}
       <TextInput m={'10 0'}
         type='text'
         label='محلوظة'
