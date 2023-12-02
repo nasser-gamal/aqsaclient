@@ -196,27 +196,25 @@ export default function BankReportTable({ data, reports }) {
 
 
 
-
   const tFoot =
     <Table.Tr>
       <Table.Td colSpan={5}>
         الاجمالى
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.depositTotal?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.depositTotal} />
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal} />
       </Table.Td>
       <Table.Td colSpan={6}>
       </Table.Td>
       <Table.Td >
-        <NumberFormatter thousandSeparator value={reports?.profit?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.profit} />
       </Table.Td>
       <Table.Td >
       </Table.Td>
     </Table.Tr>
-
 
 
 

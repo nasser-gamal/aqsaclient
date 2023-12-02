@@ -15,7 +15,7 @@ import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bank
 import LimitSelect from '../UI/LimitSelect/LimitSelect';
 import { Button, Center, Divider, Flex, Grid, Image, Stack, Text, Title } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../app/features/transaction/transactionApi';
+import { useGetAllTransactionsQuery } from '../../app/features/transaction/transactionApi';
 import { openModal } from '../../app/features/modal/modalSlice';
 import FilterSelect from '../UI/FilterSelect/FilterSelect';
 
@@ -54,17 +54,17 @@ export default function Index() {
 
 
   const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features, { skip });
-  const { data: transactionReports, isLoading: reportsLoading } = useGetTransactionAggregationsQuery(features, { skip });
 
   useEffect(() => {
-    if (getLoading || getFetching || isLoading || reportsLoading || isFetching) {
+    if (getLoading || getFetching || isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [reportsLoading, isFetching, dispatch, getLoading, getFetching, isLoading])
+  }, [isFetching, dispatch, getLoading, getFetching, isLoading])
 
 
+  console.log(data)
 
   return (
     <>
@@ -224,7 +224,7 @@ export default function Index() {
             </Flex>
             <BankReportTable
               data={data?.data}
-              reports={transactionReports?.data}
+              reports={data?.meta}
             />
             {data?.meta?.pagination?.hasPagination &&
               <Pagination

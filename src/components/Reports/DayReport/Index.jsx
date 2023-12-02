@@ -11,9 +11,8 @@ import axios from "axios";
 import apiEndpoints from "../../../utils/endPoints";
 import { saveAs } from 'file-saver'
 
-import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../../app/features/transaction/transactionApi';
+import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
 
-import { TbRefresh } from 'react-icons/tb';
 import { Button, Center, Flex, Group, Text } from "@mantine/core";
 import ExportButton from "../../UI/ExportButton/ExportButton";
 import FilterSelect from "../../UI/FilterSelect/FilterSelect";
@@ -39,15 +38,14 @@ export default function Index() {
 
 
   const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
-  const { data: transactionReports, isLoading: reportsLoading, refetch: reportRefecth } = useGetTransactionAggregationsQuery(features, { skip });
 
   useEffect(() => {
-    if (isFetching || isLoading || reportsLoading) {
+    if (isFetching || isLoading) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching, isLoading, reportsLoading]);
+  }, [dispatch, isFetching, isLoading]);
 
 
   const handleClick = (e) => {
@@ -101,7 +99,6 @@ export default function Index() {
             <Button
               onClick={() => {
                 refetch()
-                reportRefecth()
               }}>
               تحديث
             </Button>
@@ -122,7 +119,7 @@ export default function Index() {
         </Flex>
           <DayTable
             data={data?.data}
-            reports={transactionReports?.data}
+            reports={data?.meta}
           />
         </>
       }

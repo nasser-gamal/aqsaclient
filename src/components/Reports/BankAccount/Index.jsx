@@ -11,13 +11,12 @@ import { useDispatch } from 'react-redux';
 import { hideLoader, showLoader } from '../../../app/features/loader/loaderSlice';
 import LimitSelect from '../../UI/LimitSelect/LimitSelect';
 
-import { useGetAllTransactionsQuery, useGetTransactionAggregationsQuery } from '../../../app/features/transaction/transactionApi';
+import { useGetAllTransactionsQuery } from '../../../app/features/transaction/transactionApi';
 
 import { saveAs } from 'file-saver'
 import axios from 'axios';
 import apiEndpoints from '../../../utils/endPoints';
 
-import { TbRefresh } from 'react-icons/tb';
 import { Button, Center, Flex, Grid, Group, Text } from '@mantine/core';
 import ExportButton from '../../UI/ExportButton/ExportButton';
 import FilterSelect from '../../UI/FilterSelect/FilterSelect';
@@ -45,7 +44,6 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
 
   const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
-  const { data: transactionReports, isLoading: reportsLoading, refetch: reportRefecth } = useGetTransactionAggregationsQuery(features, { skip });
 
 
 
@@ -60,12 +58,12 @@ export default function Index() {
 
 
   useEffect(() => {
-    if (isLoading || isFetching || reportsLoading) {
+    if (isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [dispatch, isFetching, isLoading, reportsLoading]);
+  }, [dispatch, isFetching, isLoading]);
 
 
 
@@ -133,7 +131,6 @@ export default function Index() {
             <Button
               onClick={() => {
                 refetch()
-                reportRefecth()
               }}>
               تحديث
             </Button>
@@ -154,7 +151,7 @@ export default function Index() {
         </Flex>
           <BankReportTable
             data={data?.data}
-            reports={transactionReports?.data}
+            reports={data?.meta}
           />
         </>
       }

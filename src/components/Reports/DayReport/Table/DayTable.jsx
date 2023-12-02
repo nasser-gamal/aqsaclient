@@ -186,15 +186,15 @@ export default function DayTable({ data, reports }) {
         الاجمالى
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.depositTotal?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.totalDeposite} />
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.totalWithdraw} />
       </Table.Td>
       <Table.Td colSpan={6}>
       </Table.Td>
       <Table.Td >
-        <NumberFormatter thousandSeparator value={reports?.profit?.toFixed()} />
+        <NumberFormatter thousandSeparator value={reports?.profit} />
       </Table.Td>
       <Table.Td >
       </Table.Td>

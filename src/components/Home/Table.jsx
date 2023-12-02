@@ -3,7 +3,6 @@
 
 import DateAndTime from '../UI/DateAndTime/DateAndTime';
 import { Button, NumberFormatter, Table } from '@mantine/core';
-import { modals } from '@mantine/modals';
 
 import moreImg from '../../assets/icons/add-button.png'
 import CustomTable from '../common/CustomTable/CustomTable';
@@ -216,10 +215,10 @@ export default function BankReportTable({ data, reports }) {
         الاجمالى
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.depositTotal?.toFixed(2)} />
+        <NumberFormatter thousandSeparator value={reports?.totalDeposite} />
       </Table.Td>
       <Table.Td>
-        <NumberFormatter thousandSeparator value={reports?.withdrawalTotal?.toFixed(2)} />
+        <NumberFormatter thousandSeparator value={reports?.totalWithdraw} />
       </Table.Td>
       <Table.Td colSpan={8}>
       </Table.Td>
