@@ -64,7 +64,6 @@ export default function Index() {
   }, [isFetching, dispatch, getLoading, getFetching, isLoading])
 
 
-  console.log(data)
 
   return (
     <>
