@@ -265,7 +265,7 @@ export default function AddEditDeposit() {
                     رصيد بعد
                   </Text>
                   <Text fw={'bold'} color='red'>
-                    <NumberFormatter thousandSeparator value={(+balance.before + ((+form.amount)).toFixed(2))} />
+                    <NumberFormatter thousandSeparator value={(+balance.before + ((+form.amount)))} />
                   </Text>
                 </Group>
               </List.Item>
