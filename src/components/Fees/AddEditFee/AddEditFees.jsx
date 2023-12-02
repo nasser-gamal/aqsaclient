@@ -13,8 +13,6 @@ import { useCreateFeeMutation, useUpdateFeeMutation } from '../../../app/feature
 import { getCurrentDateTime } from '../../../utils/formatDate';
 import { modals } from '@mantine/modals';
 import { TextInput } from '@mantine/core';
-import { DateTimePicker } from '@mantine/dates';
-
 export default function AddEditFees({ innerProps }) {
   const dispatch = useDispatch();
 
