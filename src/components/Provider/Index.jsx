@@ -25,7 +25,7 @@ export default function Index() {
     limit: '',
   })
 
-  const { data, isLoading, isFetching } = useFindAllProvidersQuery(...features);
+  const { data, isLoading, isFetching } = useFindAllProvidersQuery(features);
 
   useEffect(() => {
     if (isLoading || isFetching) {
