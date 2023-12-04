@@ -23,13 +23,9 @@ export default function Index() {
   const [features, setFeatures] = useState({
     page: '',
     limit: '',
-    fields: '',
-    sort: '',
-    keyword: '',
-    conditions: '',
   })
 
-  const { data, isLoading, isFetching } = useFindAllProvidersQuery({ ...features });
+  const { data, isLoading, isFetching } = useFindAllProvidersQuery(...features);
 
   useEffect(() => {
     if (isLoading || isFetching) {
