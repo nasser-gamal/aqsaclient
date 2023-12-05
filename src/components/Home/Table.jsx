@@ -2,7 +2,7 @@
 
 
 import DateAndTime from '../UI/DateAndTime/DateAndTime';
-import { Button, NumberFormatter, Table } from '@mantine/core';
+import { Button, Center, Checkbox, NumberFormatter, Table } from '@mantine/core';
 
 import moreImg from '../../assets/icons/add-button.png'
 import CustomTable from '../common/CustomTable/CustomTable';
@@ -14,17 +14,18 @@ import { useDispatch } from 'react-redux';
 
 
 import { openModal } from '../../app/features/modal/modalSlice'
+import { useState } from 'react';
 
 export default function BankReportTable({ data, reports }) {
 
 
   const theads = [
-    // {
-    //   title: "رقم الفاتورة",
-    //   className: "",
-    //   order: "",
-    //   sort: "ASC",
-    // },
+    {
+      title: "#",
+      className: "",
+      order: "",
+      sort: "ASC",
+    },
     {
       title: "التاريخ",
       className: "created-at",
@@ -113,8 +114,29 @@ export default function BankReportTable({ data, reports }) {
 
 
 
+
+  const [checked, setChecked] = useState([])
+
+  const handleChecked = (id) => {
+    const list = [...checked];
+
+    const index = list.findIndex(li => li === id);
+    if (index > -1) {
+      list.splice(index, 1)
+    } else {
+      list.push(id)
+    }
+    setChecked(list)
+  }
+
+
   const rows = data?.map((element) => (
-    <Table.Tr key={element.id} className={element?.isDeleted == true ? 'deleted-row' : ''}>
+    <Table.Tr key={element.id} className={checked.includes(element.id) ? "checked" : ""}>
+      <Table.Td >
+        <Center>
+          <Checkbox onChange={() => handleChecked(element.id)} />
+        </Center>
+      </Table.Td>
       <Table.Td className='date'>
         <DateAndTime createdAt={element.date} />
       </Table.Td>
@@ -211,7 +233,7 @@ export default function BankReportTable({ data, reports }) {
 
   const tFoot =
     <Table.Tr>
-      <Table.Td colSpan={3}>
+      <Table.Td colSpan={4}>
         الاجمالى
       </Table.Td>
       <Table.Td>

@@ -13,11 +13,13 @@ import Pagination from '../UI/Pagination/Pagination';
 import { useEffect } from 'react';
 import { useFindAllBankAccountsQuery } from '../../app/features/bankAccount/bankAccountApi';
 import LimitSelect from '../UI/LimitSelect/LimitSelect';
-import { Button, Center, Divider, Flex, Grid, Image, Stack, Text, Title } from '@mantine/core';
+import { Button, Center, Divider, Flex, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useGetAllTransactionsQuery } from '../../app/features/transaction/transactionApi';
 import { openModal } from '../../app/features/modal/modalSlice';
 import FilterSelect from '../UI/FilterSelect/FilterSelect';
+import Search from '../UI/Search/Search';
+import ExportButton from '../UI/ExportButton/ExportButton';
 
 
 export default function Index() {
@@ -53,7 +55,7 @@ export default function Index() {
   const [skip, setSkip] = useState(true);
 
 
-  const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features, { skip });
+  const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
 
   useEffect(() => {
     if (getLoading || getFetching || isLoading || isFetching) {
@@ -193,34 +195,35 @@ export default function Index() {
           </Grid.Col>
         </Grid>
 
-
-        {
-          showForm && data &&
-          <>
-            <Divider my="sm" variant="dashed" />
-            <Center m={'20 0'}>
-              <Title order={3} fw={'normal'}>
-                تقرير شامل
-                بتاريخ
-                <Text span size='xl' c={'red'} fw={'bold'} display={'inline'} m={'0 5'}>
-                  {form.startDate.replaceAll('-', '/')}
-                </Text>
-              </Title>
-
-            </Center>
-
-          </>
-        }
         {showForm && data && data?.data.length > 0 &&
           <>
-            <Flex justify={'space-between'}>
-
+          <Divider my="sm" variant="dashed" />
+          <Flex mt={30} bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+            <Group>
               <FilterSelect features={features} setFeatures={setFeatures} />
+            </Group>
+            <Title order={3} fw={'normal'}>
+              تقرير شامل
+              بتاريخ
+              <Text span size='xl' c={'red'} fw={'bold'} display={'inline'} m={'0 5'}>
+                {form.startDate.replaceAll('-', '/')}
+              </Text>
+            </Title>
+
+            <Group>
+              <Button
+                onClick={() => {
+                  refetch()
+                }}>
+                تحديث
+              </Button>
+              <ExportButton />
               <LimitSelect
                 features={features}
                 setFeatures={setFeatures}
               />
-            </Flex>
+            </Group>
+          </Flex>
             <BankReportTable
               data={data?.data}
               reports={data?.meta}

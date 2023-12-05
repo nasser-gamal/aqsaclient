@@ -134,14 +134,6 @@ export default function Index() {
               }}>
               تحديث
             </Button>
-
-            {/* <TbRefresh style={{
-              fontSize: '26px',
-              color: 'black',
-              cursor: 'pointer'
-            }}
-        
-            /> */}
             <ExportButton />
             <LimitSelect
               features={features}
