@@ -17,7 +17,7 @@ export default function Apps() {
     e.preventDefault();
     dispatch(showLoader())
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.applications.DOWNLOAD_APP}/${appId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}${apiEndpoints.APPS}/download/${appId}`, {
         responseType: 'blob',
         withCredentials: true,
       });
@@ -25,8 +25,9 @@ export default function Apps() {
       saveAs(file, 'تجار الاقصي.apk');
       dispatch(hideLoader())
     } catch (err) {
+      console.log(err)
       dispatch(hideLoader())
-      notify('error', err.data.message)
+      // notify('error', err.data.message)
     }
   }
 

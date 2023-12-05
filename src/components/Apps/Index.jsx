@@ -26,10 +26,6 @@ export default function Index() {
   const [features, setFeatures] = useState({
     page: '',
     limit: '',
-    fields: '',
-    sort: '',
-    keyword: '',
-    conditions: '',
   })
 
   const { data, isLoading } = useFindAllAppsQuery();
