@@ -64,7 +64,8 @@ export default function AddEditApp({ context, id, innerProps }) {
         context.closeModal(id)
       }
     } catch (error) {
-      notify('error', error.data.message);
+      console.log(error)
+      // notify('error', error.data.message);
     }
   }
 
