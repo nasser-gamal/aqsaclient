@@ -83,11 +83,42 @@ export default function AddEditWithdraw() {
           : await createWithDraw(form).unwrap();
         notify('success', response.message);
         // dispatch(closeModal())
+        resetData()
       }
     } catch (error) {
       notify('error', error.data.message);
     }
   };
+
+
+  const resetData = () => {
+    let updatebalance = calcBalancAfter()
+    console.log(updatebalance)
+    setBalance({
+      before: updatebalance,
+      after: ''
+    });
+    setForm({
+      ...form,
+      isPercentage: false,
+      date: DateTimeInput(),
+      number: "",
+      amount: "",
+      providerFees: 0,
+      providerPercentage: 0,
+      note: "",
+      agentDeduction:  0,
+      agentRevenue:  0,
+      providerAmount: 0,
+      fees: 0,
+      additionalFees:  0,
+      isFeesPercentage: false,
+      additionalRevenue:  0,
+      isTotalRevenue: true,
+    });
+
+  }
+
 
 
   const calcTotalAmount = () => {

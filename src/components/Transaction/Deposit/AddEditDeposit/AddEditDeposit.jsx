@@ -21,7 +21,7 @@ export default function AddEditDeposit() {
 
 
   const [balance, setBalance] = useState({
-    before:  innerProps?.data?.balanceBefore || innerProps?.bankAccount?.balance || "",
+    before: innerProps?.data?.balanceBefore || innerProps?.bankAccount?.balance || "",
     after: innerProps?.data?.balanceAfter || ""
   });
 
@@ -82,11 +82,31 @@ export default function AddEditDeposit() {
         notify('success', response.message);
         // context.closeModal(id);
         // dispatch(closeModal());
+        resetData()
       }
     } catch (error) {
       notify('error', error.data.message);
 
     }
+  }
+
+  const resetData = () => {
+    const updatebalance = +innerProps?.bankAccount?.balance + +form.amount
+    setBalance({
+      before: updatebalance,
+      after: ''
+    });
+    setForm({
+      ...form,
+      isPercentage: false,
+      date: DateTimeInput(),
+      number: "",
+      amount: "",
+      providerFees: 0,
+      providerPercentage: 0,
+      note: "",
+    });
+
   }
 
 
@@ -248,30 +268,30 @@ export default function AddEditDeposit() {
           </div>
           {balance.before && !innerProps?.show &&
             <div className="balance">
-            <List listStyleType='none'>
-              <List.Item>
-                <Group gap={6}>
-                  <Text>
-                    رصيد قبل
-                  </Text>
-                  <Text fw={'bold'} color='red'>
-                    <NumberFormatter thousandSeparator value={balance.before} />
-                  </Text>
-                </Group>
-              </List.Item>
-              {balance.after && <List.Item>
-                <Group gap={6}>
-                  <Text>
-                    رصيد بعد
-                  </Text>
-                  <Text fw={'bold'} color='red'>
-                    <NumberFormatter thousandSeparator value={(+balance.before + ((+form.amount))).toFixed(2)} />
-                  </Text>
-                </Group>
-              </List.Item>
-              }
-            </List>
-          </div>
+              <List listStyleType='none'>
+                <List.Item>
+                  <Group gap={6}>
+                    <Text>
+                      رصيد قبل
+                    </Text>
+                    <Text fw={'bold'} color='red'>
+                      <NumberFormatter thousandSeparator value={balance.before} />
+                    </Text>
+                  </Group>
+                </List.Item>
+                {balance.after && <List.Item>
+                  <Group gap={6}>
+                    <Text>
+                      رصيد بعد
+                    </Text>
+                    <Text fw={'bold'} color='red'>
+                      <NumberFormatter thousandSeparator value={(+balance.before + ((+form.amount))).toFixed(2)} />
+                    </Text>
+                  </Group>
+                </List.Item>
+                }
+              </List>
+            </div>
           }
           {!innerProps?.show &&
             <Flex p={'20px 0 8px '} gap={10} justify={'center'}>
