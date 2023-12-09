@@ -81,7 +81,7 @@ export default function AddEditDeposit() {
           : await createDeposite(form).unwrap();
         notify('success', response.message);
         // context.closeModal(id);
-        dispatch(closeModal());
+        // dispatch(closeModal());
       }
     } catch (error) {
       notify('error', error.data.message);

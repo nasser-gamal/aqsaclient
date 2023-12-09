@@ -82,7 +82,7 @@ export default function AddEditWithdraw() {
           ? await updateWithDraw({ transactionId: innerProps?.data.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
         notify('success', response.message);
-        dispatch(closeModal())
+        // dispatch(closeModal())
       }
     } catch (error) {
       notify('error', error.data.message);
