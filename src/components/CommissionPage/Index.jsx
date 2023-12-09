@@ -16,7 +16,7 @@ export default function Index() {
     month: months[currentMonthIndex],
     year: new Date().getFullYear(),
     agentId: '',
-    limit: 10000
+    limit: 10000,
   });
 
   const [skip, setSkip] = useState(true);

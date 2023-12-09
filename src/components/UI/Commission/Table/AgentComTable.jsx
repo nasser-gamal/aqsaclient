@@ -31,7 +31,7 @@ export default function AgentCommissisonTable({ data }) {
       order: "",
       sort: "",
     },
- 
+
     {
       title: "الاجمالي",
       className: "",
@@ -58,52 +58,56 @@ export default function AgentCommissisonTable({ data }) {
     },
   ];
 
+  const commissions = data?.commissions.slice().reverse();
 
-  const rows = data?.commissions?.map((commission, commissionIndex) => (
-    <React.Fragment key={commissionIndex}>
-      {commission?.commissionItems.map((item, itemIndex) => (
-        <React.Fragment key={`${commissionIndex}-${itemIndex}`}>
-          <Table.Tr key={`${commissionIndex}-${itemIndex}`}>
-            {itemIndex === 0 && (
-              <>
-                <Table.Td rowSpan={commission?.commissionItems.length}>
-                  {commission?.service?.name}
-                </Table.Td>
-              </>
-            )}
+  const rows = commissions?.map((commission, commissionIndex) => {
+    
+    return (
+      <React.Fragment key={commissionIndex}>
+        {commission?.commissionItems.map((item, itemIndex) => (
+          <React.Fragment key={`${commissionIndex}-${itemIndex}`}>
+            <Table.Tr key={`${commissionIndex}-${itemIndex}`}>
+              {itemIndex === 0 && (
+                <>
+                  <Table.Td rowSpan={commission?.commissionItems.length}>
+                    {commission?.service?.name}
+                  </Table.Td>
+                </>
+              )}
 
-            <Table.Td>{item?.subCategory?.name}</Table.Td>
-            <Table.Td>{item.count}</Table.Td>
-            <Table.Td>{item.amount}</Table.Td>
+              <Table.Td>{item?.subCategory?.name}</Table.Td>
+              <Table.Td>{item.count}</Table.Td>
+              <Table.Td>{item.amount}</Table.Td>
 
-            {itemIndex === 0 && (
-              <>
-                <Table.Td rowSpan={commission?.commissionItems.length}>
-                  {commission?.amountTotal}
-                </Table.Td>
-                <Table.Td rowSpan={commission?.commissionItems.length}>
-                  {commission?.segment?.title}
-                </Table.Td>
-                <Table.Td rowSpan={commission?.commissionItems.length}>
-                  {commission?.segment?.percentage}%
-                </Table.Td>
-                <Table.Td rowSpan={commission?.commissionItems.length}>
-                  {commission?.commissionAmount}
-                </Table.Td>
-              </>
-            )}
-          </Table.Tr>
-
-          {/* Add an empty row or a separator row between services */}
-          {itemIndex === commission?.commissionItems.length - 1 && (
-            <Table.Tr bg={'white'} key={`${commissionIndex}-separator`}>
-              <Table.Td p={10} colSpan={8}></Table.Td>
+              {itemIndex === 0 && (
+                <>
+                  <Table.Td rowSpan={commission?.commissionItems.length}>
+                    {commission?.amountTotal}
+                  </Table.Td>
+                  <Table.Td rowSpan={commission?.commissionItems.length}>
+                    {commission?.segment?.title}
+                  </Table.Td>
+                  <Table.Td rowSpan={commission?.commissionItems.length}>
+                    {commission?.segment?.percentage}%
+                  </Table.Td>
+                  <Table.Td rowSpan={commission?.commissionItems.length}>
+                    {commission?.commissionAmount}
+                  </Table.Td>
+                </>
+              )}
             </Table.Tr>
-          )}
-        </React.Fragment>
-      ))}
-    </React.Fragment>
-  ));
+
+            {/* Add an empty row or a separator row between services */}
+            {itemIndex === commission?.commissionItems.length - 1 && (
+              <Table.Tr bg={'white'} key={`${commissionIndex}-separator`}>
+                <Table.Td p={10} colSpan={8}></Table.Td>
+              </Table.Tr>
+            )}
+          </React.Fragment>
+        ))}
+      </React.Fragment>
+    )
+  });
 
 
 
@@ -119,7 +123,7 @@ export default function AgentCommissisonTable({ data }) {
       <Table.Td colSpan={2}>
         الاجمالى
       </Table.Td>
-   
+
       <Table.Td>
         {data?.totalCount}
       </Table.Td>
