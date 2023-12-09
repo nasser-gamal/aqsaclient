@@ -62,32 +62,49 @@ export default function AgentCommissisonTable({ data }) {
   const rows = data?.commissions?.map((commission, commissionIndex) => (
     <React.Fragment key={commissionIndex}>
       {commission?.commissionItems.map((item, itemIndex) => (
-        <Table.Tr key={`${commissionIndex}-${itemIndex}`}>
-          {itemIndex === 0 &&
-            <Table.Td style={{ background: '#9ecae7'}} rowSpan={commission?.commissionItems.length}>{commission?.service?.name}</Table.Td>
-          }
-      
-          <Table.Td>{item?.subCategory?.name}</Table.Td>
-          <Table.Td>{item.count}</Table.Td>
-          <Table.Td>{item.amount}</Table.Td>
-          {itemIndex === 0 && (
-            <>
-              <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.amountTotal}</Table.Td>
-            </>
+        <React.Fragment key={`${commissionIndex}-${itemIndex}`}>
+          <Table.Tr key={`${commissionIndex}-${itemIndex}`}>
+            {itemIndex === 0 && (
+              <>
+                <Table.Td rowSpan={commission?.commissionItems.length}>
+                  {commission?.service?.name}
+                </Table.Td>
+              </>
+            )}
+
+            <Table.Td>{item?.subCategory?.name}</Table.Td>
+            <Table.Td>{item.count}</Table.Td>
+            <Table.Td>{item.amount}</Table.Td>
+
+            {itemIndex === 0 && (
+              <>
+                <Table.Td rowSpan={commission?.commissionItems.length}>
+                  {commission?.amountTotal}
+                </Table.Td>
+                <Table.Td rowSpan={commission?.commissionItems.length}>
+                  {commission?.segment?.title}
+                </Table.Td>
+                <Table.Td rowSpan={commission?.commissionItems.length}>
+                  {commission?.segment?.percentage}%
+                </Table.Td>
+                <Table.Td rowSpan={commission?.commissionItems.length}>
+                  {commission?.commissionAmount}
+                </Table.Td>
+              </>
+            )}
+          </Table.Tr>
+
+          {/* Add an empty row or a separator row between services */}
+          {itemIndex === commission?.commissionItems.length - 1 && (
+            <Table.Tr  key={`${commissionIndex}-separator`}>
+              <Table.Td p={10} colSpan={8}></Table.Td>
+            </Table.Tr>
           )}
-          {itemIndex === 0 &&
-            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.segment?.title}</Table.Td>
-          }
-          {itemIndex === 0 &&
-            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.segment?.percentage}%</Table.Td>
-          }
-          {itemIndex === 0 &&
-            <Table.Td rowSpan={commission?.commissionItems.length}>{commission?.commissionAmount}</Table.Td>
-          }
-        </Table.Tr>
+        </React.Fragment>
       ))}
     </React.Fragment>
-  ))
+  ));
+
 
 
 
