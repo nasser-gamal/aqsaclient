@@ -96,7 +96,7 @@ export default function AgentCommissisonTable({ data }) {
 
           {/* Add an empty row or a separator row between services */}
           {itemIndex === commission?.commissionItems.length - 1 && (
-            <Table.Tr  key={`${commissionIndex}-separator`}>
+            <Table.Tr bg={'white'} key={`${commissionIndex}-separator`}>
               <Table.Td p={10} colSpan={8}></Table.Td>
             </Table.Tr>
           )}

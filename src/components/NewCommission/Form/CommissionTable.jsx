@@ -98,7 +98,7 @@ export default function CommissionTable({ data, isLoading, form, setForm, onChan
 
           {/* Add an empty row or a separator row between sub-categories */}
           {indx === element?.subCategories.length - 1 && (
-            <Table.Tr key={`${element.id}-separator`}>
+            <Table.Tr bg={'white'} key={`${element.id}-separator`}>
               <Table.Td colSpan={3}></Table.Td>
             </Table.Tr>
           )}
