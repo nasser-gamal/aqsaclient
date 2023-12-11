@@ -8,7 +8,7 @@ export const transactionsApiSlice = apiSlice.injectEndpoints({
         url: `${apiEndpoints.TRANSACTIONS}`,
         params: { ...params },
       }),
-      providesTags: ['transactions'],
+      providesTags: ['transactions', 'bankAccounts'],
     }),
     getTransactionAggregations: builder.query({
       query: (params) => ({

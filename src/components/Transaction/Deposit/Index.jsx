@@ -23,7 +23,7 @@ export default function Index() {
     sort: '',
     keyword: '',
     type: 'ايداع'
-  })
+  });
 
   const { data, isLoading, isFetching } = useGetAllTransactionsQuery(features);
 
@@ -47,13 +47,6 @@ export default function Index() {
             modalTitle: 'اضافة عميلة ايداع',
             status: 'حفظ'
           }))}
-
-      // onClick={() =>
-      //   modals.openContextModal({
-      //     modal: 'AddEditDeposit',
-      //     title: 'أضافة ايداع جديد',
-      //   })
-      // }
       >
         اضافة
       </Button>

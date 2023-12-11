@@ -37,6 +37,8 @@ export default function Index() {
   });
 
 
+
+
   const nextDay = new Date(getCurrentDateTime());
   nextDay.setDate(nextDay.getDate() + 1);
 
@@ -45,11 +47,8 @@ export default function Index() {
     page: '',
     limit: '',
     'date[gte]': getCurrentDateTime(),
-  })
+  });
 
-
-
-  const [balance, setBalance] = useState()
 
   const [showForm, setShowForm] = useState(false)
   const [skip, setSkip] = useState(true);
@@ -57,13 +56,21 @@ export default function Index() {
 
   const { data, isLoading, isFetching, refetch } = useGetAllTransactionsQuery(features, { skip });
 
+
   useEffect(() => {
     if (getLoading || getFetching || isLoading || isFetching) {
       dispatch(showLoader())
     } else {
       dispatch(hideLoader())
     }
-  }, [isFetching, dispatch, getLoading, getFetching, isLoading])
+  }, [isFetching, dispatch, getLoading, getFetching, isLoading]);
+
+
+  let bankAccount;
+  const findBankAccount = () => {
+    const selectedOption = bankAccounts?.data.filter((option) => option.id == form?.bankAccount?.id);
+    bankAccount = selectedOption[0]
+  };
 
 
 
@@ -79,8 +86,6 @@ export default function Index() {
             data={bankAccounts}
             form={form}
             setForm={setForm}
-            balance={balance}
-            setBalance={setBalance}
             setSkip={setSkip}
             setShowForm={setShowForm}
             features={features}
@@ -105,16 +110,20 @@ export default function Index() {
               c={'black'}
               p={'15 0'}
               disabled={form.bankAccount ? false : true}
-              onClick={() =>
+              onClick={() => {
+                findBankAccount()
                 dispatch(
                   openModal({
                     name: 'AddEditDeposit',
                     modalTitle: 'اضافة عميلة ايداع',
                     innerProps: {
-                      bankAccount: form.bankAccount,
+                      bankAccount: bankAccount,
                       status: 'حفظ',
                     }
-                  }))}
+                  }))
+              }
+
+              }
             >
               <Stack gap={5} justify='center'>
                 <Image
@@ -138,17 +147,19 @@ export default function Index() {
               c={'black'}
               p={'15 0'}
               disabled={form.bankAccount ? false : true}
-              onClick={() =>
+              onClick={() => {
+                findBankAccount()
                 dispatch(
                   openModal({
                     name: 'AddEditWithdraw',
                     modalTitle: 'اضافة عميلة سحب',
                     innerProps: {
-                      bankAccount: form.bankAccount,
+                      bankAccount: bankAccount,
                       width: '700px',
                       status: 'حفظ',
                     }
                   }))
+              }
               }
             >
               <Stack gap={5} justify='center'>
@@ -197,33 +208,33 @@ export default function Index() {
 
         {showForm && data && data?.data.length > 0 &&
           <>
-          <Divider my="sm" variant="dashed" />
-          <Flex mt={30} bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
-            <Group>
-              <FilterSelect features={features} setFeatures={setFeatures} />
-            </Group>
-            <Title order={3} fw={'normal'}>
-              تقرير شامل
-              بتاريخ
-              <Text span size='xl' c={'red'} fw={'bold'} display={'inline'} m={'0 5'}>
-                {form.startDate.replaceAll('-', '/')}
-              </Text>
-            </Title>
+            <Divider my="sm" variant="dashed" />
+            <Flex mt={30} bg={'#eee'} p={'10px'} mb={'10px'} justify={'space-between'} align={'center'}>
+              <Group>
+                <FilterSelect features={features} setFeatures={setFeatures} />
+              </Group>
+              <Title order={3} fw={'normal'}>
+                تقرير شامل
+                بتاريخ
+                <Text span size='xl' c={'red'} fw={'bold'} display={'inline'} m={'0 5'}>
+                  {form.startDate.replaceAll('-', '/')}
+                </Text>
+              </Title>
 
-            <Group>
-              <Button
-                onClick={() => {
-                  refetch()
-                }}>
-                تحديث
-              </Button>
-              <ExportButton />
-              <LimitSelect
-                features={features}
-                setFeatures={setFeatures}
-              />
-            </Group>
-          </Flex>
+              <Group>
+                <Button
+                  onClick={() => {
+                    refetch()
+                  }}>
+                  تحديث
+                </Button>
+                <ExportButton />
+                <LimitSelect
+                  features={features}
+                  setFeatures={setFeatures}
+                />
+              </Group>
+            </Flex>
             <BankReportTable
               data={data?.data}
               reports={data?.meta}

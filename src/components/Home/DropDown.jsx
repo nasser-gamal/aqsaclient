@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Select } from '@mantine/core';
 
-export default function DropDown({ form, setForm, setBalance, setSkip, data, setShowForm, features, setFeatures }) {
+export default function DropDown({ form, setForm, setSkip, data, setShowForm, features, setFeatures }) {
 
   const options = data?.data.map((bankAccount) => ({
     value: `${bankAccount?.id}`,
     label: bankAccount?.accountName,
   })) || [];
-
 
   const findBalanceBefore = (selectedValue) => {
     const selectedOption = data?.data.filter((option) => option.id == selectedValue);
@@ -27,11 +26,8 @@ export default function DropDown({ form, setForm, setBalance, setSkip, data, set
     <Select
       w={'100%'}
       m={'10 0'}
-      // mt={'30px'}
       data={options}
       onChange={onChange}
-      // disabled={disabled}
-      // defaultSearchValue={defaultValue}
       searchable
       placeholder='الحساب'
       nothingFoundMessage="غير موجود ..."

@@ -12,13 +12,16 @@ import {
 }
   from '@mantine/core';
 
-import { closeModal } from '../../../../app/features/modal/modalSlice';
+import { closeModal, updateFormState } from '../../../../app/features/modal/modalSlice';
 
 
 export default function AddEditDeposit() {
   const dispatch = useDispatch();
   const { innerProps } = useSelector(state => state.modal);
 
+  // const getCurrentBalanc = () => {
+  //   innerProps?.bankAccount?.id == 
+  // }
 
   const [balance, setBalance] = useState({
     before: innerProps?.data?.balanceBefore || innerProps?.bankAccount?.balance || "",
@@ -69,7 +72,7 @@ export default function AddEditDeposit() {
   }, [dispatch, createLoading, updateLoading]);
 
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e, close) => {
     e.preventDefault();
     try {
       const error = validateDeposite(form);
@@ -80,13 +83,17 @@ export default function AddEditDeposit() {
           ? await updateDeposite({ transactionId: innerProps?.data?.id, form }).unwrap()
           : await createDeposite(form).unwrap();
         notify('success', response.message);
-        // context.closeModal(id);
-        // dispatch(closeModal());
-        resetData()
+        console.log(innerProps)
+        // dispatch(updateFormState())
+        if (close) {
+          dispatch(closeModal())
+        } else {
+          resetData();
+        }
       }
+
     } catch (error) {
       notify('error', error.data.message);
-
     }
   }
 
@@ -301,6 +308,14 @@ export default function AddEditDeposit() {
                 radius="xl"
               >
                 {innerProps?.status === "edit" ? "تعديل" : "حفظ"}
+              </Button>
+              <Button
+                type='button'
+                variant="filled"
+                onClick={(e) => onSubmit(e, true)}
+                radius="xl"
+              >
+                حفظ والغاء
               </Button>
               <Button
                 type='button'

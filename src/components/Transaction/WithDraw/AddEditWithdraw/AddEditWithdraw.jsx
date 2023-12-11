@@ -70,7 +70,7 @@ export default function AddEditWithdraw() {
   }, [dispatch, createLoading, updateLoading]);
 
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e, close) => {
     e.preventDefault();
     try {
       const error = validateWithDraw(form);
@@ -82,9 +82,11 @@ export default function AddEditWithdraw() {
           ? await updateWithDraw({ transactionId: innerProps?.data.id, form }).unwrap()
           : await createWithDraw(form).unwrap();
         notify('success', response.message);
-        // dispatch(closeModal())
-        resetData()
-      }
+        if (close) {
+          dispatch(closeModal())
+        } else {
+          resetData();
+        }      }
     } catch (error) {
       notify('error', error.data.message);
     }
@@ -495,6 +497,14 @@ export default function AddEditWithdraw() {
               radius="xl"
             >
               {status === "edit" ? "تعديل" : "حفظ"}
+            </Button>
+            <Button
+              type='button'
+              variant="filled"
+              onClick={(e) => onSubmit(e, true)}
+              radius="xl"
+            >
+              حفظ والغاء
             </Button>
             <Button
               type='button'
