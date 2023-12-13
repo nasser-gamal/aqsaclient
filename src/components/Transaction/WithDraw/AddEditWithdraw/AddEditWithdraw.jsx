@@ -86,7 +86,8 @@ export default function AddEditWithdraw() {
           dispatch(closeModal())
         } else {
           resetData();
-        }      }
+        }
+      }
     } catch (error) {
       notify('error', error.data.message);
     }
@@ -94,8 +95,7 @@ export default function AddEditWithdraw() {
 
 
   const resetData = () => {
-    let updatebalance = calcBalancAfter()
-    console.log(updatebalance)
+    let updatebalance = calcBalanceAfter()
     setBalance({
       before: updatebalance,
       after: ''
@@ -109,13 +109,13 @@ export default function AddEditWithdraw() {
       providerFees: 0,
       providerPercentage: 0,
       note: "",
-      agentDeduction:  0,
-      agentRevenue:  0,
+      agentDeduction: 0,
+      agentRevenue: 0,
       providerAmount: 0,
       fees: 0,
-      additionalFees:  0,
+      additionalFees: 0,
       isFeesPercentage: false,
-      additionalRevenue:  0,
+      additionalRevenue: 0,
       isTotalRevenue: true,
     });
 
@@ -147,12 +147,12 @@ export default function AddEditWithdraw() {
   }
 
 
-  const calcBalancAfter = () => {
-    let balanceAfter = balance.before;
+  const calcBalanceAfter = () => {
+    let balanceAfter = balance.before + +form.additionalRevenue;
     const totalAmount = calcTotalAmount();
     const providerDeduction = calcProviderDeduction()
     if (form.isTotalRevenue) {
-      balanceAfter -= totalAmount + +form.additionalFees;
+      balanceAfter -= totalAmount ;
     } else {
       balanceAfter -= providerDeduction;
     }
@@ -214,7 +214,7 @@ export default function AddEditWithdraw() {
                   رصيد بعد
                 </Text>
                 <Text fw={'bold'} color='red'>
-                  <NumberFormatter thousandSeparator value={balance.after || calcBalancAfter()} />
+                  <NumberFormatter thousandSeparator value={balance.after || calcBalanceAfter()} />
                 </Text>
               </Group>
             </List.Item>
@@ -239,7 +239,10 @@ export default function AddEditWithdraw() {
                 name='bankAccountId'
                 value={innerProps?.bankAccount?.accountName || innerProps?.data?.bankAccount?.accountName}
                 label='الحساب'
-                onChange={(e) => onChange(e)}
+                onChange={(e) => {
+                  onChange(e)
+                  // calcBalanceAfter()
+                }}
                 disabled={innerProps?.show || innerProps?.bankAccount || innerProps.status == 'edit'}
               />
             </Grid.Col>
@@ -459,7 +462,10 @@ export default function AddEditWithdraw() {
               name='note'
               value={form.note}
               label='ملحوظة'
-              onChange={(e) => onChange(e)}
+              onChange={(e) => {
+                onChange(e)
+                calcBalanceAfter()
+              }}
               disabled={innerProps?.show}
             />
           </Grid.Col>
@@ -482,7 +488,7 @@ export default function AddEditWithdraw() {
                   رصيد بعد
                 </Text>
                 <Text fw={'bold'} color='red'>
-                  <NumberFormatter thousandSeparator value={calcBalancAfter()} />
+                  <NumberFormatter thousandSeparator value={calcBalanceAfter()} />
                 </Text>
               </Group>
             </List.Item>
