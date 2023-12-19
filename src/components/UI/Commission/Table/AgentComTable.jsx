@@ -113,8 +113,6 @@ export default function AgentCommissisonTable({ data }) {
 
 
 
-  console.log(data)
-
 
 
 

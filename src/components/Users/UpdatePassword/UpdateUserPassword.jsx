@@ -52,6 +52,7 @@ export default function UpdateUserPassword({ innerProps }) {
     <>
       <form onSubmit={onSubmit}>
         <PasswordInput
+          mt={15}
           type='password'
           name='password'
           placeholder={'ادخل الرقم السري الخاص بالادمن'}
