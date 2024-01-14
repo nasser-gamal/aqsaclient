@@ -21,8 +21,8 @@ export default function Index() {
   const [features, setFeatures] = useState({
     page: '',
     limit: '',
-    'createdAt[gte]': getCurrentDateTime(),
-    'createdAt[lte]': getTomorrowDateTime()
+    'date[gte]': getCurrentDateTime(),
+    'date[lte]': getTomorrowDateTime()
   })
 
 

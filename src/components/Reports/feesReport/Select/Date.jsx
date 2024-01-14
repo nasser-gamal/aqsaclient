@@ -18,8 +18,8 @@ export default function DaySelect({ onClick, setSkip, features, setFeatures }) {
           <TextInput m={'10 0'}
             type={'date'}
             label='من'
-            name='createdAt[gte]'
-            value={features["createdAt[gte]"]}
+            name='date[gte]'
+            value={features["date[gte]"]}
             onChange={(e) => onChange(e)}
           />
         </Grid.Col>
@@ -27,8 +27,8 @@ export default function DaySelect({ onClick, setSkip, features, setFeatures }) {
           <TextInput m={'10 0'}
             type={'date'}
             label='إلي'
-            name='createdAt[lte]'
-            value={features["createdAt[lte]"]}
+            name='date[lte]'
+            value={features["date[lte]"]}
             onChange={(e) => onChange(e)}
           />
         </Grid.Col>
